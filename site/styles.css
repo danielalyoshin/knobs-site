@@ -169,7 +169,8 @@ b, strong { font-weight: 600; color: var(--text); }
   vertical-align: 0.2em;
   white-space: nowrap;
 }
-.tag[hidden] { display: none; }
+.tag[hidden],
+.btn[hidden] { display: none; }
 .tag-preview { color: var(--warn); border-color: currentColor; }
 
 .copy {
@@ -449,9 +450,10 @@ b, strong { font-weight: 600; color: var(--text); }
   color: var(--primary-text);
 }
 
-/* Release states. Only the active one is in layout. While GitHub hasn't
-   answered, the none state (today's live state) is laid out invisibly
-   under the loading state, so the usual answer arrives without a shift. */
+/* Release states. Every state is laid out in the same cell and only the
+   active one shows, so the panel keeps the height of the tallest state
+   whatever GitHub answers. Without JavaScript the state never changes,
+   so only the static one takes room. */
 .rstack {
   display: grid;
   margin-top: 16px;
@@ -459,14 +461,10 @@ b, strong { font-weight: 600; color: var(--text); }
 .rstack > .rs {
   grid-area: 1 / 1;
   min-width: 0;
-  display: none;
-}
-.rstack > .rs.is-active { display: block; }
-.js:not([data-release-state]) .rstack > .rs[data-when="none"],
-.js[data-release-state="loading"] .rstack > .rs[data-when="none"] {
-  display: block;
   visibility: hidden;
 }
+.rstack > .rs.is-active { visibility: visible; }
+.no-js .rstack > .rs:not(.is-active) { display: none; }
 [data-release-state="ready"] .rstack > .rs.is-active,
 [data-release-state="none"] .rstack > .rs.is-active,
 [data-release-state="error"] .rstack > .rs.is-active {
@@ -955,6 +953,8 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 /* A hash wraps in even rows of 32 (16 on phones), easier to compare by eye. */
 .codeline .hash-value { max-width: 32.5ch; }
+/* In the command the hash runs on from "-eq", as a terminal would wrap it. */
+.codeline .cmd-hash { word-break: break-all; }
 .hash-help {
   margin: 12px 0 8px;
   color: var(--text-3);

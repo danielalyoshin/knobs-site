@@ -132,12 +132,23 @@
       hash.remove();
       return node;
     }
-    var cmd = "Get-FileHash .\\" + f.name + " -Algorithm SHA256";
-    // Same text, but a wrap never splits "-Algorithm" from its dash.
+    // With the hash, PowerShell prints True or False; -eq ignores case, so
+    // its capitals match GitHub's lower case. The file name is escaped for
+    // the double quotes, though GitHub already strips odd characters.
+    var path = "\"$HOME\\Downloads\\" + f.name.replace(/[`$"\u201c\u201d\u201e]/g, "`$&") + "\"";
+    var cmd = "(Get-FileHash " + path + " -Algorithm SHA256).Hash";
+    // Same text, but a wrap never splits an option from its dash.
     var cmdEl = k("cmd");
-    cmdEl.appendChild(el("span", "nowrap", "Get-FileHash"));
-    cmdEl.appendChild(doc.createTextNode(" .\\" + f.name + " "));
-    cmdEl.appendChild(el("span", "nowrap", "-Algorithm SHA256"));
+    cmdEl.appendChild(el("span", "nowrap", "(Get-FileHash"));
+    cmdEl.appendChild(doc.createTextNode(" " + path + " "));
+    cmdEl.appendChild(el("span", "nowrap", "-Algorithm SHA256).Hash"));
+    if (f.sha256) {
+      cmd += " -eq '" + f.sha256 + "'";
+      cmdEl.appendChild(doc.createTextNode(" "));
+      cmdEl.appendChild(el("span", "nowrap", "-eq"));
+      cmdEl.appendChild(doc.createTextNode(" "));
+      cmdEl.appendChild(el("span", "cmd-hash", "'" + f.sha256 + "'"));
+    }
     k("copy-cmd").setAttribute("data-copy", cmd);
     k("copy-cmd").setAttribute("aria-label", "Copy the PowerShell command for " + f.name);
     if (f.sha256) {
@@ -149,8 +160,8 @@
       var help = node.querySelector(".hash-help");
       help.style.marginTop = "0";
       help.textContent = rel.checksums
-        ? "GitHub lists no SHA-256 for this file; the checksums file has it. To check the file, run this in PowerShell, in the folder you saved it to:"
-        : "This release lists no SHA-256 for this file. To see its hash, run this in PowerShell, in the folder you saved it to:";
+        ? "GitHub lists no SHA-256 for this file; the checksums file has it. Run this in PowerShell and compare the hash it prints:"
+        : "This release lists no SHA-256 for this file. Run this in PowerShell to see its hash:";
     }
     return node;
   }
@@ -188,8 +199,10 @@
       ? "GitHub limits how often this page can check, and the limit was reached. The releases page works now."
       : "GitHub couldn’t be reached.";
     $$('[data-error="reason"]').forEach(function (n) { n.textContent = msg; });
-    // The rate-limit message already points to the releases page.
+    // The rate-limit message already points to the releases page, and asking
+    // again can't work until the limit resets, so there's no "Try again".
     $$('[data-error="after"]').forEach(function (n) { n.hidden = limited; });
+    $$("[data-retry]").forEach(function (n) { n.hidden = limited; });
   }
 
   var retryFrom = null;

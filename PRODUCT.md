@@ -43,7 +43,7 @@ For the site: every download is a file from the project's own GitHub Releases, l
 
 ## Operating Context
 
-- Release data comes live from GitHub's REST API (`GET /repos/danielalyoshin/knobs/releases/latest`), unauthenticated, in the visitor's browser. That allows 60 requests an hour per IP address. With no release, the endpoint returns 404.
+- Release data comes live from GitHub's REST API (`GET /repos/danielalyoshin/knobs/releases?per_page=10`), unauthenticated, in the visitor's browser. That allows 60 requests an hour per IP address. With no release, the list is empty; the page asks `/releases/latest`, which answers 404 when there's no full release, only when ten pre-releases fill the list.
 - Downloads link to `github.com/danielalyoshin/knobs/releases/download/…`. The site never copies or proxies a binary.
 - **As of 2026-10-06 there is no release.** The knobs README says to build from source until there is one. The site needs a truthful no-release state, and a fallback to the GitHub Releases page when the API fails or is rate-limited.
 - What knobs needs to run, which a visitor must know before downloading: Windows 64-bit, OBS Studio 32.2.x (tested on 32.2.2), and a virtual cable such as VB-Cable.

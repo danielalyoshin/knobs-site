@@ -7,8 +7,9 @@
  *
  * r.state is one of:
  *   "ready"  a release exists; r.release holds it
- *   "none"   no published release yet (GitHub answers 404)
+ *   "none"   no published release yet (GitHub lists none)
  *   "error"  GitHub couldn't be reached, or the rate limit was hit
+ *            (r.reason is "rate-limited" then)
  *
  * Add ?preview=ready|none|error|loading to the page URL to see each state
  * with made-up data. r.synthetic is true then, and the page must say so.
@@ -21,8 +22,14 @@
   var REPO = "danielalyoshin/knobs";
   var API = "https://api.github.com/repos/" + REPO;
   var REPO_URL = "https://github.com/" + REPO;
-  var CACHE_KEY = "knobs-release-v1";
-  var CACHE_MS = 10 * 60 * 1000;
+  var CACHE_KEY = "knobs-release-v2";
+  // How long this tab reuses an answer. A release is kept for 10 minutes;
+  // "no release" for one, so the first release shows soon after it's out.
+  var CACHE_MS = { ready: 10 * 60 * 1000, none: 60 * 1000 };
+  // After the rate limit is hit, the error is kept until GitHub says the
+  // limit resets, within these bounds, so a reload doesn't ask in vain.
+  var LIMIT_MS = { fallback: 5 * 60 * 1000, min: 30 * 1000, max: 15 * 60 * 1000 };
+  var PAGE = 10;
   var TIMEOUT_MS = 8000;
 
   /*
@@ -66,8 +73,9 @@
 
   function sha256Of(asset) {
     // GitHub reports a digest for each file uploaded since mid-2025: "sha256:<hex>".
+    // Only 64 hex digits pass: the hash goes into a command visitors paste.
     var d = asset && asset.digest;
-    if (typeof d === "string" && d.indexOf("sha256:") === 0) return d.slice(7);
+    if (typeof d === "string" && /^sha256:[0-9a-f]{64}$/i.test(d)) return d.slice(7).toLowerCase();
     return null;
   }
 
@@ -133,13 +141,16 @@
   function readCache() {
     try {
       var c = JSON.parse(sessionStorage.getItem(CACHE_KEY) || "null");
-      if (c && Date.now() - c.at < CACHE_MS) return c.result;
+      var now = Date.now();
+      if (c && now >= c.at && now < c.until) return c.result;
     } catch (e) { /* storage blocked or empty */ }
     return null;
   }
 
-  function writeCache(result) {
-    try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), result: result })); } catch (e) {}
+  function writeCache(result, ms) {
+    if (!ms) return;
+    var now = Date.now();
+    try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ at: now, until: now + ms, result: result })); } catch (e) {}
   }
 
   function getJSON(url) {
@@ -157,21 +168,46 @@
     });
   }
 
+  // GitHub answers 403 or 429 when the rate limit is hit, and says when to ask again.
+  function failure(res) {
+    if (res.status !== 403 && res.status !== 429) return new Error("GitHub answered " + res.status);
+    var after = Number(res.headers.get("retry-after"));
+    var reset = Number(res.headers.get("x-ratelimit-reset"));
+    var ms = after > 0 ? after * 1000 : reset > 0 ? reset * 1000 - Date.now() : LIMIT_MS.fallback;
+    var err = new Error("rate-limited");
+    err.waitMs = Math.min(LIMIT_MS.max, Math.max(LIMIT_MS.min, ms));
+    return err;
+  }
+
+  /*
+   * The latest release is the newest full release, or the newest pre-release
+   * when there's no full one. The releases list answers 200 even when it's
+   * empty, so a visitor's console shows no 404 while there's no release, and
+   * one request usually settles it. (A release marked "latest" by hand on
+   * GitHub doesn't count; the newest full release wins.)
+   */
   function fetchLive() {
+    return getJSON(API + "/releases?per_page=" + PAGE).then(function (res) {
+      if (!res.ok) throw failure(res);
+      return res.json().then(function (list) {
+        if (!Array.isArray(list)) throw new Error("GitHub sent something unexpected");
+        var all = list.filter(function (x) { return x && !x.draft; }).sort(function (a, b) {
+          return (Date.parse(b.created_at) || 0) - (Date.parse(a.created_at) || 0);
+        });
+        var full = all.filter(function (x) { return !x.prerelease; })[0];
+        if (full) return { state: "ready", release: normalize(full) };
+        // A full page of pre-releases could hide an older full release.
+        if (list.length >= PAGE) return fetchLatest(all[0]);
+        return all[0] ? { state: "ready", release: normalize(all[0]) } : { state: "none" };
+      });
+    });
+  }
+
+  function fetchLatest(newestPre) {
     return getJSON(API + "/releases/latest").then(function (res) {
       if (res.ok) return res.json().then(function (j) { return { state: "ready", release: normalize(j) }; });
-      if (res.status === 404) {
-        // No full release. A pre-release doesn't count as "latest", so look for one.
-        return getJSON(API + "/releases?per_page=5").then(function (r2) {
-          if (!r2.ok) throw new Error("GitHub answered " + r2.status);
-          return r2.json().then(function (list) {
-            var pre = (list || []).filter(function (x) { return !x.draft; })[0];
-            return pre ? { state: "ready", release: normalize(pre) } : { state: "none" };
-          });
-        });
-      }
-      var limited = res.status === 403 || res.status === 429;
-      throw new Error(limited ? "rate-limited" : "GitHub answered " + res.status);
+      if (res.status === 404) return newestPre ? { state: "ready", release: normalize(newestPre) } : { state: "none" };
+      throw failure(res);
     });
   }
 
@@ -214,10 +250,13 @@
     var cached = readCache();
     if (cached) return Promise.resolve(cached);
     return fetchLive().then(function (result) {
-      writeCache(result);
+      writeCache(result, CACHE_MS[result.state]);
       return result;
     }, function (err) {
-      return { state: "error", reason: String(err && err.message || err) };
+      var result = { state: "error", reason: String(err && err.message || err) };
+      // Other errors aren't kept: "Try again" may work a moment later.
+      writeCache(result, err && err.waitMs);
+      return result;
     });
   }
 
