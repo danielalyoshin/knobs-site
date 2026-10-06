@@ -32,14 +32,6 @@
   var PAGE = 10;
   var TIMEOUT_MS = 8000;
 
-  /*
-   * Releases whose binaries are code-signed, by tag, with the publisher name
-   * Windows shows. Signing can't be read from the API, so the owner adds each
-   * signed release here. Until a tag is listed, the page treats it as unsigned.
-   * Example: "v0.1.0": "Daniel Alyoshin"
-   */
-  var SIGNED = {};
-
   var links = {
     repo: REPO_URL,
     releases: REPO_URL + "/releases",
@@ -133,8 +125,7 @@
       installer: files.installer,
       portable: files.portable,
       checksums: files.checksums,
-      other: files.other,
-      signedBy: SIGNED[raw.tag_name] || null
+      other: files.other
     };
   }
 

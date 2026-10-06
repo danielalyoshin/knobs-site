@@ -31,7 +31,7 @@ Their job on this site: decide the download is genuine, get the right file for t
 
 ## Product Purpose
 
-The official place to download knobs's prebuilt Windows binaries. It points to the files on the knobs repository's GitHub Releases, says what each one is, and gives a careful user what they need to trust it: the version, the date, the checksum, the signature, the license and the source.
+The official place to download knobs's prebuilt Windows binaries. It points to the files on the knobs repository's GitHub Releases, says what each one is, and gives a careful user what they need to trust it: the version, the date, the checksum, the license and the source.
 
 Success: a visitor gets the current file in one or two clicks, can check that it's the real one, and never wonders whether they're on a mirror or a download trap.
 
@@ -51,9 +51,9 @@ For the site: every download is a file from the project's own GitHub Releases, l
 
 ## Capabilities and Constraints
 
-- Planned release contents (confirmed 2026-10-06): an installer (`.exe` or `.msi`, not decided), a portable `.zip`, SHA-256 checksums, and binaries code-signed with Authenticode.
+- Planned release contents (confirmed 2026-10-06): an installer (`.exe` or `.msi`, not decided), a portable `.zip` and SHA-256 checksums.
 - None of these exist yet, and asset file names aren't decided. The page has to find each kind of file in a release rather than expect exact names, and show only what the release actually holds.
-- Until a release is actually signed, the site must not say it is. If a release is unsigned, say what Windows SmartScreen will show.
+- Every release will be code-signed (owner, 2026-10-06), so the site says nothing about signing or SmartScreen: no signing status, no signer and no warning to get past.
 - License: GPL-2.0-or-later. knobs ships no OBS binaries; it runs the OBS the user installed.
 - Terms, from the app: mic, filter chain, virtual cable (or cable), OBS profile, scene collection, monitoring device. For downloads: release, installer, portable zip, checksum.
 - Open: the custom domain, and whether the site uses any analytics.
@@ -82,6 +82,6 @@ From the knobs repository's PRODUCT.md and `assets/README.md`, which stay the au
 
 1. **The download is the page.** The current file for a Windows PC is the first thing a visitor can act on.
 2. **Every file from GitHub.** Downloads go to the project's GitHub Releases. Checksums, release notes and the source are one click away.
-3. **Only what's true.** Version, date, size, checksum and signature come from the actual release. When there's no release, or GitHub can't be reached, say so and link to GitHub.
+3. **Only what's true.** Version, date, size and checksum come from the actual release. When there's no release, or GitHub can't be reached, say so and link to GitHub.
 4. **Requirements before the download.** Windows 64-bit, OBS 32.2.x and a virtual cable, stated where the download is, so nobody gets a file that won't work for them.
 5. **Plain like the README.** Nothing a cautious visitor could read as a download trap: no hype, no urgency, no surprise prompts.

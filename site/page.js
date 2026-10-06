@@ -106,13 +106,9 @@
     } else {
       zip.hidden = true;
     }
-    // Until the owner lists a tag as signed, the panel says it isn't.
-    $('[data-hero="unsigned"]').hidden = !!rel.signedBy;
-    $('[data-hero="signed"]').hidden = !rel.signedBy;
-    setText($('[data-hero="signer"]'), rel.signedBy || "");
   }
 
-  function fileRow(f, rel, isPrimary) {
+  function fileRow(f, rel, isPrimary, recommend) {
     var tpl = $("#tpl-file");
     var node = tpl.content.firstElementChild.cloneNode(true);
     function k(name) { return node.querySelector('[data-k="' + name + '"]'); }
@@ -127,7 +123,7 @@
     k("sr").textContent = " " + f.name;
     if (isPrimary) {
       node.classList.add("is-primary");
-      k("tag").hidden = false;
+      k("tag").hidden = !recommend;
       link.classList.remove("btn-secondary");
       link.classList.add("btn-primary");
     }
@@ -185,19 +181,11 @@
     var list = $('[data-r="files"]');
     list.textContent = "";
     var primary = rel.installer || rel.portable;
-    [rel.installer, rel.portable].concat(rel.other || [], [rel.checksums]).forEach(function (f) {
-      if (f) list.appendChild(fileRow(f, rel, f === primary));
+    var apps = [rel.installer, rel.portable].concat(rel.other || []).filter(Boolean);
+    // "Recommended" only means something beside another copy of knobs.
+    apps.concat([rel.checksums]).forEach(function (f) {
+      if (f) list.appendChild(fileRow(f, rel, f === primary, apps.length > 1));
     });
-
-    var sign = $('[data-r="signing-text"]');
-    if (rel.signedBy) {
-      sign.textContent = "";
-      sign.appendChild(doc.createTextNode("The files are signed by "));
-      sign.appendChild(el("b", "", rel.signedBy));
-      sign.appendChild(doc.createTextNode(". To see the signature, right-click a file and choose "));
-      sign.appendChild(el("b", "ui", "Properties › Digital Signatures"));
-      sign.appendChild(doc.createTextNode("."));
-    }
   }
 
   function renderError(reason) {
