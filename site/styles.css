@@ -359,6 +359,7 @@ b, strong { font-weight: 600; color: var(--text); }
   border-bottom: 0;
 }
 .path-skip a { color: var(--text); }
+.path-skip .mono { font-size: 1em; }
 
 .path-steps {
   display: grid;
@@ -520,6 +521,16 @@ b, strong { font-weight: 600; color: var(--text); }
 }
 .dest .icon { flex: none; margin: 3px 0 0; }
 .dest .mono { color: var(--text-2); font-size: 1em; }
+
+/* The OBS version and signing status, for visitors who skip to step 3 */
+.rs-fit {
+  margin-top: 4px;
+  color: var(--text-3);
+  font-size: var(--text-xs);
+  line-height: 1.45;
+}
+.rs-fit .mono { color: var(--text-2); font-size: 1em; }
+.rs-fit a { color: var(--text); }
 
 .rs-meta {
   display: flex;

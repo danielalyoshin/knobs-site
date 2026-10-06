@@ -89,13 +89,13 @@
       <div class="path">
         <h2 class="visually-hidden">Setup at a glance</h2>
         <p class="path-skip">
-          <span class="path-skip-text">Already have OBS, a tuned mic and a cable? <a href="#step-3">You only need step 3</a>.</span>
+          <span class="path-skip-text">Already have OBS <span class="mono">32.2.x</span>, a tuned mic and a cable? <a href="#step-3">You only need step 3</a>.</span>
         </p>
         <ol class="path-steps">
           <li class="pstep">
             <span class="node" aria-hidden="true">1</span>
             <h3><a href="#step-1"><span class="visually-hidden">Step 1: </span>Install OBS and a virtual cable</a></h3>
-            <p>Windows 64-bit, OBS Studio 32.2.x and a cable such as VB-Cable.</p>
+            <p>Windows 64-bit, OBS Studio <span class="mono">32.2.x</span> and a cable such as VB-Cable.</p>
             <ul class="pstep-links">
               <li><a href="https://obsproject.com/download">OBS Studio<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
               <li><a href="https://vb-audio.com/Cable/">VB-Cable<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
@@ -111,7 +111,7 @@
           </li>
           <li class="pstep pstep-station">
             <span class="node" aria-hidden="true">3</span>
-            <h3><a href="#step-3"><span class="visually-hidden">Step 3: </span>Download knobs and start it</a></h3>
+            <h3><a href="#step-3"><span class="visually-hidden">Step 3: </span>Get knobs running</a></h3>
 
             <div class="rstack" data-release="stack">
               <div class="rs is-active" data-when="static">
@@ -137,6 +137,13 @@
                 <p class="dest">
                   <svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>
                   <span><span class="dest-from">From </span><span class="mono">github.com/danielalyoshin/knobs</span></span>
+                </p>
+                <!-- What an OBS user skipping steps 1 and 2 still needs to know. renderHero picks the signing line. -->
+                <p class="rs-fit">
+                  <span class="nowrap">Needs OBS <span class="mono">32.2.x</span></span>
+                  <span class="sep" aria-hidden="true">·</span>
+                  <span data-hero="unsigned">Not code-signed yet, so <span class="nowrap">Windows may warn.</span> <a class="nowrap" href="#signing">What to do<span class="visually-hidden"> if Windows warns</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-down"/></svg></a></span>
+                  <span data-hero="signed" hidden>Signed by <span data-hero="signer"></span></span>
                 </p>
                 <p class="rs-meta">
                   <span class="tag" data-hero="pre" hidden>Pre-release</span>
@@ -299,7 +306,7 @@
           <div class="step-head">
             <span class="node" aria-hidden="true">3</span>
             <div>
-              <h3><span class="visually-hidden">Step 3: </span>Download knobs and start it</h3>
+              <h3><span class="visually-hidden">Step 3: </span>Get knobs running</h3>
               <p class="step-sum">From the project’s GitHub Releases, with a SHA-256 for each file.</p>
             </div>
           </div>
@@ -338,7 +345,7 @@
                   <span>Every file downloads from <span class="mono" data-r="host">github.com/danielalyoshin/knobs/releases</span>. Each one’s SHA-256 is under it, with the PowerShell command to check it.</span>
                 </p>
 
-                <div class="signing" data-r="signing">
+                <div class="signing" id="signing" data-r="signing">
                   <h4 class="sub">Code signing</h4>
                   <p data-r="signing-text">knobs isn’t code-signed yet, so Windows SmartScreen may show “Windows protected your PC” when you open it. After checking the checksum, choose <b class="ui">More info</b>, then <b class="ui">Run anyway</b>.</p>
                 </div>

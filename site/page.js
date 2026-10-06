@@ -101,6 +101,10 @@
     } else {
       zip.hidden = true;
     }
+    // Until the owner lists a tag as signed, the panel says it isn't.
+    $('[data-hero="unsigned"]').hidden = !!rel.signedBy;
+    $('[data-hero="signed"]').hidden = !rel.signedBy;
+    setText($('[data-hero="signer"]'), rel.signedBy || "");
   }
 
   function fileRow(f, rel, isPrimary) {

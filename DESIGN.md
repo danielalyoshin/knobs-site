@@ -400,7 +400,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - It stacks every release state in one grid cell so the panel never changes size between states.
 - **Static / no JS:** "From GitHub Releases", with "Releases on GitHub" (primary) and "Build from source" (secondary).
 - **Loading:** the static text reads "Checking GitHub for the latest release…"; the none state is laid out invisibly beneath so the usual answer lands without a shift.
-- **Ready:** the download button, the github.com destination in mono under it, the date with a "Pre-release" tag when it applies, release notes, then a links row (portable zip with size, checksums, all releases).
+- **Ready:** the download button, the github.com destination in mono under it, then a label-size line for visitors who skip steps 1 and 2: "Needs OBS 32.2.x", a dot, and the signing status ("Not code-signed yet, so Windows may warn. What to do", jumping to Code signing, or "Signed by <name>" once the tag is listed as signed); then the date with a "Pre-release" tag when it applies, release notes, then a links row (portable zip with size, checksums, all releases).
 - **None:** "No release yet", "Build from source" (primary) and "Watch for releases" (secondary), and a hint on how to watch on GitHub.
 - **Error:** "Couldn't check for a release", the reason, "Releases on GitHub" (primary) and "Try again" (secondary).
 - The arriving state settles in (opacity and a 4px rise, 320ms). Non-Windows visitors see a quiet label-size note matched to the state.
