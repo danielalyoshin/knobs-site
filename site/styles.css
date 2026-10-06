@@ -19,7 +19,8 @@
 
   --path-cols: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
   --path-gap: 32px;
-  --node: 32px;
+  /* 32px, growing with the visitor's text size so the numeral stays inside. */
+  --node: max(32px, 2rem);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -99,10 +100,13 @@ b, strong { font-weight: 600; color: var(--text); }
   padding-inline: var(--gutter);
 }
 
+/* Two skip links, to the content and to the download (#step-3). Each waits
+   above the top edge by its own height plus its offset, so it stays out of
+   sight however large the visitor's text is. */
 .skip-link {
   position: absolute;
   left: 12px;
-  top: -64px;
+  top: 12px;
   z-index: 10;
   padding: 8px 14px;
   border-radius: var(--radius);
@@ -110,8 +114,9 @@ b, strong { font-weight: 600; color: var(--text); }
   color: var(--primary-text);
   font-weight: 600;
   text-decoration: none;
+  transform: translateY(calc(-100% - 16px));
 }
-.skip-link:focus { top: 12px; }
+.skip-link:focus { transform: none; }
 
 .if-js { display: none; }
 .js .if-js { display: inline; }
@@ -158,7 +163,7 @@ b, strong { font-weight: 600; color: var(--text); }
 .tag {
   display: inline-flex;
   align-items: center;
-  height: 22px;
+  min-height: 22px;
   margin-left: 10px;
   padding: 0 8px;
   border: 1px solid var(--line-strong);
@@ -180,7 +185,7 @@ b, strong { font-weight: 600; color: var(--text); }
   justify-content: center;
   gap: 6px;
   min-width: 5.5rem;
-  height: 30px;
+  min-height: 30px;
   padding: 0 10px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
@@ -232,7 +237,7 @@ b, strong { font-weight: 600; color: var(--text); }
   display: flex;
   align-items: center;
   gap: 24px;
-  height: 64px;
+  min-height: 64px;
 }
 .brand {
   display: block;
@@ -265,7 +270,7 @@ b, strong { font-weight: 600; color: var(--text); }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 34px;
+  min-height: 34px;
   padding: 0 12px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
@@ -315,8 +320,17 @@ b, strong { font-weight: 600; color: var(--text); }
   stroke-width: clamp(0px, (100cqw - var(--end) + 1px) * 1000, 1px);
   vector-effect: non-scaling-stroke;
 }
+/* Forced colours drop fills, so the inked nodes (step 3 on the path, and
+   each setup step as it's reached) keep theirs in the visitor's own colours. */
 @media (forced-colors: active) {
   .voice { display: none; }
+  .pstep-station > .node,
+  .step.is-reached .node {
+    forced-color-adjust: none;
+    border-color: CanvasText;
+    background: CanvasText;
+    color: Canvas;
+  }
 }
 
 .pitch {
@@ -355,13 +369,13 @@ b, strong { font-weight: 600; color: var(--text); }
 .not-windows .os-note { display: block; }
 .rs-body + .os-note { margin-top: 8px; }
 .btn-download + .os-note { margin-top: 10px; }
-@media (max-width: 1099px) {
+@media (max-width: 68.6875em) {
   .not-windows .os-note + .dest { margin-top: 6px; }
 }
 /* On the horizontal path it sits just under the panel instead. It's placed
    from its state, which fills the panel's content box, because a settling
    state's transform would otherwise move it during the animation. */
-@media (min-width: 1100px) {
+@media (min-width: 68.75em) {
   .rs { position: relative; }
   .rs > .os-note {
     position: absolute;
@@ -535,7 +549,9 @@ b, strong { font-weight: 600; color: var(--text); }
 
 /* "Build from source", with what it needs on a second line, like the
    download button's sub-line. */
-.btn-build { padding-block: 8px; }
+/* It may wrap on the narrowest screens, where its second line is wider than
+   the panel. */
+.btn-build { padding-block: 8px; white-space: normal; }
 .btn-build-text { display: grid; gap: 2px; text-align: left; }
 .btn-build-cost {
   color: var(--text-2);
@@ -658,6 +674,7 @@ h3, h4 { color: var(--text); }
 .step:last-child { padding-bottom: 0; }
 
 /* Vertical rail and its ink */
+/* Drawn as borders, not fills, so forced colours keep them. */
 .step::before,
 .step::after {
   content: "";
@@ -665,11 +682,10 @@ h3, h4 { color: var(--text); }
   top: 48px;
   bottom: 8px;
   left: 19.5px;
-  width: 1px;
+  border-left: 1px solid var(--line-strong);
 }
-.step::before { background: var(--line-strong); }
 .step::after {
-  background: var(--text);
+  border-left-color: var(--text);
   transform: scaleY(0);
   transform-origin: top;
   transition: transform var(--t-struct) var(--ease);
@@ -763,11 +779,15 @@ h3, h4 { color: var(--text); }
   transition: background-color var(--t-fast) var(--ease);
 }
 .get:hover { background: var(--bg-subtle); }
+/* The list clips to its corners, so the ring sits inside the row. */
+.get:focus-visible { outline-offset: -2px; border-radius: var(--radius-lg); }
 .get-name { font-weight: 600; }
 .get-name .mono { margin-left: 4px; color: var(--text-2); font-weight: 400; }
 .get-host { color: var(--text-3); white-space: nowrap; }
+/* A note under a row sits 6px below its text, outside the link, so the
+   link's hover fill and focus ring end above it. */
+.get-with-note { padding-bottom: 6px; }
 .get-note {
-  margin-top: -8px;
   padding: 0 18px 14px;
   color: var(--text-3);
   font-size: var(--text-sm);
@@ -1013,7 +1033,8 @@ details[open] > summary .chev { transform: rotate(90deg); }
   line-height: 1.5;
 }
 .files-src .icon { margin: 2px 0 0; }
-.files-src .mono { color: var(--text-2); font-size: 1em; }
+/* Whole on its own line where it fits; broken only on the narrowest screens. */
+.files-src .mono { color: var(--text-2); font-size: 1em; overflow-wrap: anywhere; }
 .signing .sub { margin-top: 32px; }
 
 .tip {
@@ -1223,7 +1244,20 @@ details[open] > summary .chev { transform: rotate(90deg); }
 
 /* ---------- Responsive ---------- */
 
-@media (max-width: 1099px) {
+/* Breakpoints are in em, so they follow the text size set in the browser:
+   at the default 16px they fall at 1100, 1024, 900, 720, 640, 480 and
+   360px, and with larger text the page takes the layout of a narrower
+   window instead of squeezing its columns. */
+
+/* Short desktop windows, such as a 1080p laptop at 150% scaling (about
+   1280x610), give back some air above the pitch and the path, so every
+   state's main action stays in the first screen. */
+@media (min-width: 68.75em) and (max-height: 42.5em) {
+  .intro { padding-top: 40px; }
+  .path { margin-top: 40px; }
+}
+
+@media (max-width: 68.6875em) {
   .pitch { display: block; }
   .pitch-side { max-width: var(--measure); margin-top: 20px; padding-bottom: 0; }
 
@@ -1274,7 +1308,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .pstep-station h3 { margin-top: 4px; }
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 63.9375em) {
   .section-head { display: block; }
   .section-head p { margin-top: 12px; }
 
@@ -1295,7 +1329,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   }
 }
 
-@media (max-width: 899px) {
+@media (max-width: 56.1875em) {
   .signal-path { grid-template-columns: minmax(0, 1fr); gap: 32px; max-width: 28rem; }
   .sp:not(:last-child)::after {
     top: calc(100% + 1px);
@@ -1313,7 +1347,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .limit-list { grid-template-columns: minmax(0, 1fr); max-width: var(--measure); }
 }
 
-@media (max-width: 719px) {
+@media (max-width: 44.9375em) {
   /* The section links can't share the header row any more, so they take a
      row of their own under it, flush with the gutter. On the narrowest
      phones the row scrolls sideways. */
@@ -1343,6 +1377,8 @@ details[open] > summary .chev { transform: rotate(90deg); }
     padding: 0 10px;
     white-space: nowrap;
   }
+  /* The row scrolls, so it clips: the ring sits inside the link. */
+  .site-nav a:focus-visible { outline-offset: -2px; }
 
   .facts { grid-template-columns: minmax(0, 1fr); }
   .facts > div,
@@ -1368,7 +1404,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .footer-nav { gap: 48px; }
 }
 
-@media (max-width: 639px) {
+@media (max-width: 39.9375em) {
   .site-header-inner { grid-template-rows: 56px auto; }
   .brand img { width: 109px; height: 32px; }
 
@@ -1426,13 +1462,15 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .code .copy { top: auto; bottom: 10px; }
 }
 
-@media (max-width: 359px) {
+@media (max-width: 22.4375em) {
   /* All four section links still fit, so none scrolls out of sight. */
   .site-nav { padding: 0 calc(var(--gutter) - 6px); }
   .site-nav a { padding: 0 6px; font-size: var(--text-xs); }
+  /* A hash row and its copy button no longer fit side by side. */
+  .codeline { flex-wrap: wrap; }
 }
 
-@media (max-width: 479px) {
+@media (max-width: 29.9375em) {
   .dest-from { display: none; }
   .codeline .hash-value { max-width: 16.5ch; }
   /* The size takes its own line under the label, without the dot. */
@@ -1448,7 +1486,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
    larger invisible hit area instead. */
 @media (pointer: coarse) {
   .btn { min-height: 44px; }
-  .copy { height: 44px; }
+  .copy { min-height: 44px; }
   .codeline code { padding-top: 12px; }
 
   .site-nav a { display: flex; align-items: center; min-height: 44px; }
@@ -1480,17 +1518,17 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .footer-nav li + li { margin-top: 0; }
   .footer-nav a { display: flex; align-items: center; min-height: 44px; }
 }
-@media (pointer: coarse) and (min-width: 640px) {
+@media (pointer: coarse) and (min-width: 40em) {
   .rs-meta { margin-top: 3px; }
   .rs-links { row-gap: 0; margin-top: 0; }
   .rs-meta a,
   .rs-links a { display: inline-flex; align-items: center; min-height: 44px; }
 }
-@media (pointer: coarse) and (max-width: 639px) {
+@media (pointer: coarse) and (max-width: 39.9375em) {
   .pstep-links { margin-top: -5px; }
   .code pre { padding-bottom: 66px; }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 100em) {
   :root { --path-gap: 40px; }
 }

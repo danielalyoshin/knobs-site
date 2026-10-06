@@ -357,8 +357,11 @@ Spacing is a loose 4px rhythm: 4 and 8 for tight inline gaps, 12 to 16 between r
 - **Below 720px:** the section links leave the header row for a row of their own under it, 44px tall and flush with the gutter (13px with tighter padding below 360px, so all four always fit); facts and measurements go to one column; file rows stack with the download button under the file.
 - **Below 640px:** the header's top row drops to 56px and the lockup to 32px; the first screen's top padding drops to 28px and path step descriptions hide, so the download stays inside the first screen; the ready state's links become a ruled list of 44px rows; the setup rail hides and steps are divided by hairlines, and a ruled list that ends a step or a section drops its closing rule so it never sits just above a divider.
 - **Below 480px:** the download button's size moves to its own line.
+- **Below 360px:** each copy button drops under its hash or command, and "Build from source" may wrap. Nothing scrolls sideways at 320px (400% zoom on a 1280px window).
 
-**The Download in the First Screen Rule.** At every width, step 3's primary action is visible without scrolling. When space runs short, cut the descriptions of the other steps, never the station. At 390x844 the download button ends at 679px and every other state's primary action by 806px.
+**The Text Size Rule.** Breakpoints are set in em, so the widths above are at the browser's default 16px text. A visitor who raises the browser's text size gets the layout of a narrower window, never squeezed columns: at 200% text a 1440px window takes the 720px layout. Controls that hold text grow with it (min-height, never a fixed height), and the path's nodes are `max(32px, 2rem)`.
+
+**The Download in the First Screen Rule.** At every width, step 3's primary action is visible without scrolling. When space runs short, cut the descriptions of the other steps, never the station. At 390x844 the download button ends at 679px and every other state's primary action by 806px. On short desktop windows (1100px wide or more and 680px tall or less, such as a 1080p laptop at 150% scaling, about 1280x610) the first screen's top padding and the path's top margin drop to 40px, so every state's primary action ends by 554px.
 
 **The Thumb Rule.** On a touch screen (`pointer: coarse`) every target is at least 44px tall: buttons, copy buttons, nav links, the SHA-256 summary, footer links and every link that stands on its own line. Those grow in the flow, with negative margins that keep their text where it was. A link inside a sentence keeps its line and gets a 44px invisible hit area instead. Mouse layouts keep their density.
 
@@ -398,6 +401,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - **Path (first screen):** four round nodes (32px, Plex Sans 600 numerals) on a 1px Hairline Strong rail. Idle nodes are hollow with Graphite 2 numerals. Step 3's node is inked.
 - **Setup (full steps):** 40px nodes, sticky at 32px from the top beside each step's head on desktop, on a vertical rail. As a step reaches the reading line (45% of the viewport height), its node fills with ink and the rail segment above the next step draws in from the top (320ms).
 - **Bracket:** a 1px open bracket over steps 1 and 2, ticks down to the rail, with a label-size line telling experienced users they only need step 3.
+- **Forced colours:** the rails are drawn as borders, so they survive, and inked nodes fill with the visitor's own text colour (`CanvasText`, numeral in `Canvas`).
 
 ### Station (signature)
 - The one bordered panel on the first screen: Surface fill, Hairline Strong border, 12px radius, the lift, 24px padding. Its node breaks the top border.
@@ -436,9 +440,10 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - **Notice:** the full download section's container, styled as the station (12px radius, lift, 24px padding) with its head at the Title Large Phone size (Plex Sans 600, 1.25rem).
 - **Disclosure:** a Surface box with a strong hairline and 12px radius; the summary row is 600 with a chevron, hover fills Paper Subtle, and the body opens with the settle motion (160ms).
 - **Code block:** a Sunken well with a Hairline border, 8px radius, Label-size mono at line height 1.6, a copy button top right (bottom right on phones).
-- **Copy button:** 30px tall (44px on touch), 6px radius, outlined, Graphite 2 text. On success it turns Signal Green and swaps its icon to a check for 1.8 seconds; when the clipboard is blocked it selects the text and reads "Press Ctrl+C".
+- **Copy button:** 30px tall (44px on touch), 6px radius, outlined, Graphite 2 text. On success it turns Signal Green and swaps its icon to a check for 1.8 seconds; when the clipboard is blocked it selects the text, reads "Press Ctrl+C", and says so to screen readers. Each SHA-256 summary names its file to screen readers ("SHA-256 of knobs-0.1.0-setup-x64.exe").
 
 ### Navigation
+- **Skip links:** "Skip to content" (`#main`) and "Skip to download" (`#step-3`), the first two Tab stops, each shown at the top left only while focused (an ink pill, 600). After "Skip to download", Tab reaches the state's main action in two to four stops.
 - **Header:** 64px on Paper Subtle with a hairline under it; the lockup at 36px tall on the left; section links (UI Small, Graphite 2, 6px-radius hover fill on Surface Sunken) and the "Source" link on the right. Below 720px the section links take a 44px row of their own under the lockup and "Source", so every section stays one tap away on a phone.
 - **Footer:** Paper Subtle; the lockup at 32px with a one-line description, two link columns grouped by destination ("On GitHub", every link with the external arrow; "On this page", the in-page jumps), then a hairline and the license and independence lines at Label size.
 
@@ -453,7 +458,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - **Do** set anything copyable or comparable (versions, file names, file sizes, hashes, commands) in Plex Mono, and line numbers up with tabular figures.
 - **Do** cap text with the `--measure` token (52ch), never in rem.
 - **Do** mark every link that leaves the site with the 12px external arrow.
-- **Do** keep every release state the same size, and let state changes settle with opacity and a 4px rise on `cubic-bezier(0.2, 0, 0, 1)`: 160ms for feedback, 320ms for structure. Reduced motion makes every change instant.
+- **Do** keep every release state the same size, and let state changes settle with opacity and a 4px rise on `cubic-bezier(0.2, 0, 0, 1)`: 160ms for feedback, 320ms for structure. Reduced motion makes every change instant: no animation or transition at all, never a 0.01ms duration, which would hold a newly shown state hidden (and unable to take focus) until the next frame.
 - **Do** give every new colour role both a light and a `-dark` value.
 - **Do** say plainly that knobs isn't affiliated with or endorsed by the OBS Project, in the footer of any page.
 - **Do** keep the lockup at 32px tall or more, swapped by colour scheme, with clear space at least the pointer's length.

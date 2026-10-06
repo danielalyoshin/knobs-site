@@ -195,11 +195,14 @@ a { color: inherit; }
   border: 0;
 }
 
+/* Reduced motion makes every change instant. Not a 0.01ms duration: that
+   gives every element a transition on every property, visibility included,
+   so a release state shown by script stays hidden, and can't take focus,
+   until the next frame. Nothing here waits for an animation to end. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation: none !important;
+    transition: none !important;
     scroll-behavior: auto !important;
   }
 }

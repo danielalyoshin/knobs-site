@@ -61,8 +61,10 @@
     node.appendChild(doc.createTextNode(" "));
     var size = doc.createElement("span");
     size.className = "nowrap sub-size";
+    // Hidden from screen readers, like every other separator.
     var dot = doc.createElement("span");
     dot.className = "sub-dot";
+    dot.setAttribute("aria-hidden", "true");
     dot.textContent = "· ";
     size.appendChild(dot);
     size.appendChild(doc.createTextNode(sizeOf(f)));
@@ -135,6 +137,8 @@
       hash.remove();
       return node;
     }
+    // Every row's summary reads "SHA-256"; out of context, say whose.
+    k("hash-of").textContent = " of " + f.name;
     // With the hash, PowerShell prints True or False; -eq ignores case, so
     // its capitals match GitHub's lower case. The file name is escaped for
     // the double quotes, though GitHub already strips odd characters.
@@ -228,9 +232,13 @@
       announce("Couldn’t check GitHub for a release. The releases page link still works.");
     }
 
-    // A retry hid the button that had focus; put focus back in the same place.
-    if (retryFrom && (doc.activeElement === doc.body || !doc.activeElement)) {
-      var target = $(".is-active a, :not([hidden]) > .notice a", retryFrom);
+    // A retry hid the button that had focus. Chrome may still report the
+    // now inert button as focused, so check for that too, then move focus
+    // to the new state's main action.
+    var a = doc.activeElement;
+    if (retryFrom && (!a || a === doc.body || a.closest("[inert], [hidden]"))) {
+      var target = $(".is-active .btn-primary, .dl-state:not([hidden]) .btn-primary", retryFrom) ||
+        $(".is-active a, .dl-state:not([hidden]) a", retryFrom);
       if (target) target.focus();
     }
     retryFrom = null;
@@ -297,6 +305,8 @@
       }, function () {
         selectContents(source);
         flash(btn, "Press Ctrl+C", false);
+        // The button's aria-label hides its new text, so say it.
+        announce("Couldn’t copy. The text is selected, so press Ctrl+C to copy it.");
       });
       return;
     }
