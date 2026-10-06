@@ -89,7 +89,7 @@
       <div class="path">
         <h2 class="visually-hidden">Setup at a glance</h2>
         <p class="path-skip">
-          <span class="path-skip-text">Already have OBS <span class="mono">32.2.x</span>, a tuned mic and a cable? <a href="#step-3">You only need step 3</a>.</span>
+          <span class="path-skip-text">Already have OBS <span class="mono">32.2.x</span>, a tuned mic and a cable? <a class="nowrap" href="#step-3">You only need step 3</a>.</span>
         </p>
         <ol class="path-steps">
           <li class="pstep">
@@ -120,6 +120,7 @@
                   <span class="if-js">Checking GitHub for the latest release…</span>
                   <span class="if-nojs">Releases, their files and checksums are on GitHub.</span>
                 </p>
+                <p class="os-note">knobs is for a <span class="nowrap">Windows 64-bit PC.</span> It doesn’t run on phones or macOS.</p>
                 <div class="actions">
                   <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
                   <a class="btn btn-secondary btn-build" href="#build" data-open="build">
@@ -137,6 +138,8 @@
                     <span class="btn-download-sub" data-hero="sub">Installer for Windows x64</span>
                   </span>
                 </a>
+                <!-- For visitors not on Windows, before the click. renderHero names the file. -->
+                <p class="os-note"><span data-hero="os-file">This is the installer</span> for a <span class="nowrap">Windows 64-bit PC.</span> knobs doesn’t run on phones or macOS.</p>
                 <p class="dest">
                   <svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>
                   <span><span class="dest-from">From </span><span class="mono">github.com/danielalyoshin/knobs</span></span>
@@ -155,7 +158,7 @@
                   <a data-hero="notes" href="https://github.com/danielalyoshin/knobs/releases/latest">Release notes<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
                 </p>
                 <p class="rs-links">
-                  <a data-hero="portable" href="https://github.com/danielalyoshin/knobs/releases/latest" hidden>Portable zip</a>
+                  <a data-hero="portable" href="https://github.com/danielalyoshin/knobs/releases/latest" hidden><span data-hero="portable-label">Portable zip</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-download"/></svg></a>
                   <a href="#files">Checksums<svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-down"/></svg></a>
                   <a href="https://github.com/danielalyoshin/knobs/releases">All releases<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
                 </p>
@@ -164,6 +167,7 @@
               <div class="rs" data-when="none" inert>
                 <p class="rs-head">No release yet</p>
                 <p class="rs-body">An installer and a portable zip come next. knobs works end to end and has been tested on real hardware.</p>
+                <p class="os-note">Both will be for a <span class="nowrap">Windows 64-bit PC.</span> knobs doesn’t run on phones or macOS.</p>
                 <div class="actions">
                   <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs">
                     <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Watch for releases
@@ -179,19 +183,13 @@
               <div class="rs" data-when="error" inert>
                 <p class="rs-head">Couldn’t check for a release</p>
                 <p class="rs-body"><span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files.</span></p>
+                <p class="os-note">The files there are for a <span class="nowrap">Windows 64-bit PC.</span> knobs doesn’t run on phones or macOS.</p>
                 <div class="actions">
                   <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
                   <button class="btn btn-secondary" type="button" data-retry>Try again</button>
                 </div>
               </div>
             </div>
-
-            <p class="os-note" data-release="stack">
-              <span class="is-active" data-when="static">knobs runs on Windows 64-bit.</span>
-              <span data-when="ready">knobs runs on Windows 64-bit. You can still download it here for your PC.</span>
-              <span data-when="none">knobs runs on Windows 64-bit, so build and run it on a Windows PC.</span>
-              <span data-when="error">knobs runs on Windows 64-bit. The releases page has the files for your Windows PC.</span>
-            </p>
           </li>
           <li class="pstep">
             <span class="node" aria-hidden="true">4</span>

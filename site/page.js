@@ -79,6 +79,9 @@
   function renderHero(rel) {
     var primary = rel.installer || rel.portable;
     var link = $('[data-hero="link"]');
+    // The non-Windows note under the button names what the button gets.
+    setText($('[data-hero="os-file"]'),
+      rel.installer ? "This is the installer" : rel.portable ? "This is the portable zip" : "Its files are");
     if (primary) {
       link.href = primary.url;
       setText($('[data-hero="label"]'), "Download knobs " + rel.version);
@@ -96,7 +99,7 @@
     var zip = $('[data-hero="portable"]');
     if (rel.installer && rel.portable) {
       zip.href = rel.portable.url;
-      zip.textContent = "Portable zip, " + sizeOf(rel.portable);
+      setText($('[data-hero="portable-label"]'), "Portable zip" + (rel.portable.sizeLabel ? ", " + sizeOf(rel.portable) : ""));
       zip.hidden = false;
     } else {
       zip.hidden = true;

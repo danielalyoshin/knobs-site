@@ -349,15 +349,17 @@ Content sections use a two-column head: a 20rem head column and the body, 64px a
 Spacing is a loose 4px rhythm: 4 and 8 for tight inline gaps, 12 to 16 between related lines, 20 to 24 inside panels, 40 to 72 between blocks.
 
 **Responsive behaviour.**
-- **1100px and up:** the path is horizontal, with the bracket ("You only need step 3") spanning steps 1 and 2 above the rail, and the non-Windows note on one line under the station.
+- **1100px and up:** the path is horizontal, with the bracket ("You only need step 3") spanning steps 1 and 2 above the rail, and the non-Windows note in two balanced lines just under the station.
 - **Below 1100px:** the pitch stacks, with the lede at the measure; the path turns vertical, one rail down the left of the nodes, capped at 40rem; the station indents to the step text and its node sits on the rail; the bracket becomes a plain line above the steps.
 - **Below 1024px:** section heads stack; the setup steps drop their sticky heads and the node sits in a 56px left margin; measurements go to two columns.
-- **Below 900px:** the section nav hides and the "Source" link takes its place on the right; the signal path stacks vertically with downward arrows; the limits list goes to one column.
-- **Below 720px:** facts and measurements go to one column; file rows stack with the download button under the file.
-- **Below 640px:** the header drops to 56px and the lockup to 32px; path step descriptions hide so the download stays inside the first screen; the setup rail hides and steps are divided by hairlines.
+- **Below 900px:** the signal path stacks vertically with downward arrows; the limits list goes to one column.
+- **Below 720px:** the section links leave the header row for a row of their own under it, 44px tall and flush with the gutter (13px with tighter padding below 360px, so all four always fit); facts and measurements go to one column; file rows stack with the download button under the file.
+- **Below 640px:** the header's top row drops to 56px and the lockup to 32px; the first screen's top padding drops to 28px and path step descriptions hide, so the download stays inside the first screen; the ready state's links become a ruled list of 44px rows; the setup rail hides and steps are divided by hairlines, and a ruled list that ends a step or a section drops its closing rule so it never sits just above a divider.
 - **Below 480px:** the download button's size moves to its own line.
 
-**The Download in the First Screen Rule.** At every width, step 3's primary action is visible without scrolling. When space runs short, cut the descriptions of the other steps, never the station.
+**The Download in the First Screen Rule.** At every width, step 3's primary action is visible without scrolling. When space runs short, cut the descriptions of the other steps, never the station. At 390x844 the download button ends at 679px and every other state's primary action by 806px.
+
+**The Thumb Rule.** On a touch screen (`pointer: coarse`) every target is at least 44px tall: buttons, copy buttons, nav links, the SHA-256 summary, footer links and every link that stands on its own line. Those grow in the flow, with negative margins that keep their text where it was. A link inside a sentence keeps its line and gets a 44px invisible hit area instead. Mouse layouts keep their density.
 
 ## Elevation & Depth
 
@@ -401,10 +403,11 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - It lays out every release state in one grid cell and shows only the active one, so the panel keeps the height of the tallest state (today the none state) and never changes size between states. Without JavaScript only the static state takes room.
 - **Static / no JS:** "From GitHub Releases", with "Releases on GitHub" (primary) and "Build from source" (secondary). Without JavaScript the line reads "Releases, their files and checksums are on GitHub.", which claims no release.
 - **Loading:** the static text reads "Checking GitHub for the latest release…", at the same panel height as every answer.
-- **Ready:** the download button, the github.com destination in mono under it, then a label-size line for visitors who skip steps 1 and 2: "Needs OBS 32.2.x", a dot, and the signing status ("Not code-signed yet, so Windows may warn. What to do", jumping to Code signing, or "Signed by <name>" once the tag is listed as signed); then the date with a "Pre-release" tag when it applies, release notes, then a links row (portable zip with size, checksums, all releases).
+- **Ready:** the download button, the github.com destination in mono under it, then a label-size line for visitors who skip steps 1 and 2: "Needs OBS 32.2.x", a dot, and the signing status ("Not code-signed yet, so Windows may warn. What to do", jumping to Code signing, or "Signed by <name>" once the tag is listed as signed); then the date with a "Pre-release" tag when it applies, release notes, then a links row (portable zip with size and the download icon, checksums, all releases). Below 640px the date and release notes become the first row of a ruled list, and the three links its other rows, label left and icon right.
 - **None:** "No release yet", "Watch for releases" (primary) and "Build from source" (secondary), then a label-size hint: "With a GitHub account: Watch › Custom › Releases. Without one, add the releases feed to a feed reader.", the feed linking to `releases.atom`.
-- **Error:** "Couldn't check for a release", the reason, "Releases on GitHub" (primary) and "Try again" (secondary). When GitHub's rate limit was hit, "Try again" is left out, since asking again can't work until the limit resets, and the page keeps that answer until then (between 30 seconds and 15 minutes) so a reload doesn't ask again.
-- The arriving state settles in (opacity and a 4px rise, 320ms). Non-Windows visitors see a quiet label-size note matched to the state.
+- **Error:** "Couldn't check for a release", the reason, "Releases on GitHub" (primary) and "Try again" (secondary). When GitHub's rate limit was hit, "Try again" is left out, since asking again can't work until the limit resets, and the page keeps that answer until then (between 30 seconds and 15 minutes) so a reload doesn’t ask again.
+- The arriving state settles in (opacity and a 4px rise, 320ms).
+- **Not on Windows:** each state carries a quiet label-size note (Graphite 3, balanced lines, "Windows 64-bit PC." never split), before its first action and never moving it. In ready it sits directly under the download button, above the github.com line: "This is the installer for a Windows 64-bit PC. knobs doesn’t run on phones or macOS." ("the portable zip" or "Its files are" when the button gets something else). None: "Both will be for a Windows 64-bit PC." Error: "The files there are for a Windows 64-bit PC." Loading: "knobs is for a Windows 64-bit PC. It doesn’t run on phones or macOS." On the horizontal path (1100px and up) the note sits just under the panel instead.
 
 ### File Rows
 - A Surface list with a strong hairline border, 12px radius and the lift; rows separated by hairlines, 18px by 22px padding.
@@ -422,10 +425,10 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - **Notice:** the full download section's container, styled as the station (12px radius, lift, 24px padding) with its head at the Title Large Phone size (Plex Sans 600, 1.25rem).
 - **Disclosure:** a Surface box with a strong hairline and 12px radius; the summary row is 600 with a chevron, hover fills Paper Subtle, and the body opens with the settle motion (160ms).
 - **Code block:** a Sunken well with a Hairline border, 8px radius, Label-size mono at line height 1.6, a copy button top right (bottom right on phones).
-- **Copy button:** 30px tall, 6px radius, outlined, Graphite 2 text. On success it turns Signal Green and swaps its icon to a check for 1.8 seconds; when the clipboard is blocked it selects the text and reads "Press Ctrl+C".
+- **Copy button:** 30px tall (44px on touch), 6px radius, outlined, Graphite 2 text. On success it turns Signal Green and swaps its icon to a check for 1.8 seconds; when the clipboard is blocked it selects the text and reads "Press Ctrl+C".
 
 ### Navigation
-- **Header:** 64px on Paper Subtle with a hairline under it; the lockup at 36px tall on the left; section links (UI Small, Graphite 2, 6px-radius hover fill on Surface Sunken) and the "Source" link on the right.
+- **Header:** 64px on Paper Subtle with a hairline under it; the lockup at 36px tall on the left; section links (UI Small, Graphite 2, 6px-radius hover fill on Surface Sunken) and the "Source" link on the right. Below 720px the section links take a 44px row of their own under the lockup and "Source", so every section stays one tap away on a phone.
 - **Footer:** Paper Subtle; the lockup at 32px with a one-line description, two link columns grouped by destination ("On GitHub", every link with the external arrow; "On this page", the in-page jumps), then a hairline and the license and independence lines at Label size.
 
 ### Preview Strip
@@ -449,7 +452,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - **Don't** add gradients, glass or blur to the page. The knob mark's own shading belongs to the logo and is not a pattern to reuse.
 - **Don't** use any shadow larger than the one-pixel lift, and don't use hard offset shadows.
 - **Don't** put icons in coloured tiles or circles; icons are bare 16px strokes beside text.
-- **Don't** add imagery the project doesn't have: no invented screenshots, illustrations or stock art.
+- **Don't** add imagery the project doesn’t have: no invented screenshots, illustrations or stock art.
 - **Don't** load anything from a third party. Fonts, icons and logos are served from the site; the GitHub releases API is the only outside request.
 - **Don't** set any page text in Sora or ship its font file; Sora lives only in the outlined logo. Don't add uppercase tracked labels above headings.
 - **Don't** animate content in on scroll; only the setup rail responds to scrolling.
