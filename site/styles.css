@@ -747,13 +747,12 @@ h3, h4 { color: var(--text); }
 .aside { color: var(--text-3); font-size: 0.9375rem; }
 .step-body > .aside { margin-top: 18px; }
 
-.plain {
-  margin: 10px 0 0;
-  padding-left: 1.25em;
-  list-style: disc;
-}
-.plain li + li { margin-top: 6px; }
-.plain li::marker, .numbered li::marker { color: var(--text-3); }
+/* A link on to the README, under the part of the page it continues. */
+.more { margin-top: 24px; font-size: 0.9375rem; }
+.more a { color: var(--text); }
+.step-body > .more { margin-top: 16px; }
+
+.numbered li::marker { color: var(--text-3); }
 .numbered {
   margin: 12px 0 0;
   padding-left: 1.5em;
@@ -797,18 +796,6 @@ h3, h4 { color: var(--text); }
   color: var(--text-3);
   font-size: var(--text-sm);
 }
-
-.reqs { margin: 0; border-top: 1px solid var(--line); }
-.reqs > div {
-  display: grid;
-  grid-template-columns: 9rem minmax(0, 1fr);
-  gap: 16px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 0.9375rem;
-}
-.reqs dt { color: var(--text); font-weight: 600; }
-.reqs dd { margin: 0; }
 
 /* Disclosures */
 .disclosure {
@@ -867,9 +854,6 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 .table thead td { border-bottom-color: var(--line-strong); }
 .table tbody th { color: var(--text); font-weight: 600; }
-.filters { margin-top: 4px; }
-.filters tbody th { white-space: nowrap; }
-.filters tbody th a { color: var(--text); }
 
 /* Step 3: the full download */
 .needs {
@@ -1187,25 +1171,6 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 .footprint tbody td:nth-child(2) { color: var(--text); font-weight: 600; }
 
-/* ---------- Known limits ---------- */
-
-.limit-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: var(--col-gap);
-  margin: 0;
-  border-top: 1px solid var(--line);
-}
-.limit-list > div {
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
-  color: var(--text-2);
-}
-.limit-list dt { display: inline; margin-right: 0.3em; color: var(--text); font-weight: 600; }
-.limit-list dd { display: inline; margin: 0; }
-.limits-more { margin-top: 24px; font-size: 0.9375rem; }
-.limits-more a { color: var(--text); }
-
 /* ---------- Footer ---------- */
 
 .site-footer {
@@ -1349,7 +1314,6 @@ details[open] > summary .chev { transform: rotate(90deg); }
     left: 24.5px;
     transform: rotate(135deg);
   }
-  .limit-list { grid-template-columns: minmax(0, 1fr); max-width: var(--measure); }
 }
 
 @media (max-width: 44.9375em) {
@@ -1404,7 +1368,6 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .file { grid-template-columns: minmax(0, 1fr); padding: 16px; }
   .file-dl { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 12px; }
   .release-version { font-size: 1.625rem; }
-  .reqs > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
   .disclosure-body { padding: 4px 16px 16px; }
   .footer-nav { gap: 48px; }
 }
@@ -1456,21 +1419,13 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .step .node { position: relative; }
   .step-head h3 { font-size: 1.25rem; padding-top: 7px; }
   .step + .step { padding-top: 40px; border-top: 1px solid var(--line); }
-  /* A ruled list that ends a step or a section would close with a rule of
-     its own just above the divider; the divider closes it instead. */
-  .step-body > .reqs:last-child > div:last-child,
-  .facts > div:last-child { border-bottom: 0; }
 
-  .filters tbody th { white-space: normal; }
   .table th, .table td { padding-right: 12px; }
   .code pre { padding-right: 16px; padding-bottom: 52px; }
   .code .copy { top: auto; bottom: 10px; }
 }
 
 @media (max-width: 22.4375em) {
-  /* All four section links still fit, so none scrolls out of sight. */
-  .site-nav { padding: 0 calc(var(--gutter) - 6px); }
-  .site-nav a { padding: 0 6px; font-size: var(--text-xs); }
   /* A hash row and its copy button no longer fit side by side. */
   .codeline { flex-wrap: wrap; }
 }
@@ -1501,18 +1456,21 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .path-skip a,
   .rs-hint a,
   .notice-foot a,
+  .needs a,
   .footer-legal a { position: relative; }
   .path-skip a::after,
   .rs-hint a::after,
   .notice-foot a::after,
+  .needs a::after,
   .footer-legal a::after { content: ""; position: absolute; inset: -12px -4px; }
 
   .pstep-links { row-gap: 0; margin-top: -1px; margin-bottom: -13px; }
   .pstep-links a,
   .release-links a,
-  .limits-more a { display: inline-flex; align-items: center; min-height: 44px; }
+  .more a { display: inline-flex; align-items: center; min-height: 44px; }
   .release-links { row-gap: 0; margin-bottom: -11px; }
-  .limits-more { margin-top: 11px; }
+  .more { margin-top: 14px; }
+  .step-body > .more { margin-top: 6px; }
 
   .hash { margin-top: 0; }
   .hash > summary { min-height: 44px; padding-right: 12px; }

@@ -65,7 +65,6 @@
         <li><a href="#setup">Setup</a></li>
         <li><a href="#how">How it works</a></li>
         <li><a href="#measured">Measured</a></li>
-        <li><a href="#limits">Known limits</a></li>
       </ul>
     </nav>
     <a class="source-link" href="https://github.com/danielalyoshin/knobs">
@@ -241,27 +240,21 @@
 
             <ul class="gets">
               <li>
-                <a class="get" href="https://obsproject.com/download">
+                <a class="get get-with-note" href="https://obsproject.com/download">
                   <span class="get-name">OBS Studio <span class="mono">32.2.x</span></span>
                   <span class="get-host mono">obsproject.com<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></span>
                 </a>
+                <p class="get-note">Tested on <span class="mono">32.2.2</span>. For a Steam or portable OBS, you choose its folder. Support for <span class="mono">33.0</span> follows its release.</p>
               </li>
               <li>
                 <a class="get get-with-note" href="https://vb-audio.com/Cable/">
                   <span class="get-name">VB-Cable</span>
                   <span class="get-host mono">vb-audio.com<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></span>
                 </a>
-                <p class="get-note">Restart Windows after installing it.</p>
+                <p class="get-note">Restart Windows after installing it. knobs also recognizes VoiceMeeter, Hi-Fi Cable and Virtual Audio Cable.</p>
               </li>
             </ul>
-
-            <h4 class="sub">What knobs needs</h4>
-            <dl class="reqs">
-              <div><dt>Windows</dt><dd>64-bit</dd></div>
-              <div><dt>OBS Studio</dt><dd><span class="mono">32.2.x</span>, tested on <span class="mono">32.2.2</span>. knobs finds an install from OBS’s installer by itself; for a Steam or portable OBS, you choose its folder. Support for <span class="mono">33.0</span> follows its release.</dd></div>
-              <div><dt>Virtual cable</dt><dd><a href="https://vb-audio.com/Cable/">VB-Cable</a>, or another one: knobs recognizes VB-Audio’s cables (VB-Cable, VoiceMeeter, Hi-Fi Cable) and Virtual Audio Cable.</dd></div>
-              <div><dt>Mic filters</dt><dd>OBS’s built-in audio filters: Noise Suppression (RNNoise or Speex), Noise Gate, Expander, Upward Compressor, Compressor, Limiter, Gain, 3-Band Equalizer and Invert Polarity. <a href="#limits">Known limits</a> has the exceptions.</dd></div>
-            </dl>
+            <p class="more"><a href="https://github.com/danielalyoshin/knobs#requirements">Requirements in the README<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
           </div>
         </li>
 
@@ -275,7 +268,7 @@
             </div>
           </div>
           <div class="step-body">
-            <p><strong>If your mic is already set up in OBS,</strong> there’s nothing to do here. knobs uses the mic and filters in OBS’s active profile and scene collection, and if OBS monitors the mic to a cable, knobs sends to the same cable.</p>
+            <p>knobs uses the mic and filters in OBS’s active profile and scene collection, and if OBS monitors the mic to a cable, knobs sends to the same cable.</p>
 
             <details class="disclosure" id="new-to-obs">
               <summary>
@@ -289,34 +282,10 @@
                   <li>In <b class="ui">Settings › Audio</b>, set <b class="ui">Mic/Auxiliary Audio</b> to your mic, if it isn’t already.</li>
                   <li>In the <b class="ui">Audio Mixer</b>, click <b class="ui">Mic/Aux</b> and choose <b class="ui">Filters</b>.</li>
                   <li>Under <b class="ui">Audio Filters</b>, click <b class="ui">+</b> and add filters as needed. They run from the top of the list down.</li>
-                  <li>Click each filter and adjust it by ear, starting from OBS’s defaults.</li>
+                  <li>Click each filter and adjust it by ear, starting from OBS’s defaults. OBS’s <a href="https://obsproject.com/kb/filters-guide">Filters Guide</a> explains each one.</li>
                   <li>Close OBS. knobs reads your filters when OBS closes.</li>
                 </ol>
                 <p class="aside">To hear the filters while you adjust them, choose headphones as the <b class="ui">Monitoring Device</b> in <b class="ui">Settings › Audio</b>, then set the mic’s <b class="ui">Audio Monitoring</b> to <b class="ui">Monitor Only (mute output)</b> in <b class="ui">Edit › Advanced Audio Properties</b>.</p>
-              </div>
-            </details>
-
-            <details class="disclosure">
-              <summary>
-                <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
-                <span>What each audio filter does</span>
-              </summary>
-              <div class="disclosure-body">
-                <table class="table filters">
-                  <thead><tr><th scope="col">Filter</th><th scope="col">What it does</th></tr></thead>
-                  <tbody>
-                    <tr><th scope="row"><a href="https://obsproject.com/kb/noise-suppression-filter">Noise Suppression</a></th><td>Reduces steady background noise, such as a fan or hiss. RNNoise sounds better and uses more CPU than Speex.</td></tr>
-                    <tr><th scope="row"><a href="https://obsproject.com/kb/noise-gate-filter">Noise Gate</a></th><td>Silences the mic while its level is below a threshold, such as between words.</td></tr>
-                    <tr><th scope="row"><a href="https://obsproject.com/kb/expander-filter">Expander</a></th><td>Turns quiet sounds down, more gently than a gate.</td></tr>
-                    <tr><th scope="row">Upward Compressor</th><td>Turns quiet sounds up.</td></tr>
-                    <tr><th scope="row"><a href="https://obsproject.com/kb/compressor-filter">Compressor</a></th><td>Turns loud sounds down past a threshold, so the level stays more even.</td></tr>
-                    <tr><th scope="row"><a href="https://obsproject.com/kb/limiter-filter">Limiter</a></th><td>Keeps the level from going over a threshold.</td></tr>
-                    <tr><th scope="row"><a href="https://obsproject.com/kb/gain-filter">Gain</a></th><td>Turns the level up or down.</td></tr>
-                    <tr><th scope="row">3-Band Equalizer</th><td>Turns the low, mid and high frequencies up or down.</td></tr>
-                    <tr><th scope="row"><a href="https://obsproject.com/kb/invert-polarity-filter">Invert Polarity</a></th><td>Flips the waveform upside down.</td></tr>
-                  </tbody>
-                </table>
-                <p class="aside">OBS’s <a href="https://obsproject.com/kb/filters-guide">Filters Guide</a> has more on each.</p>
               </div>
             </details>
           </div>
@@ -332,7 +301,7 @@
             </div>
           </div>
           <div class="step-body">
-            <p class="needs"><b>Needs</b> Windows 64-bit, OBS Studio <span class="mono">32.2.x</span> (tested on <span class="mono">32.2.2</span>) and a virtual cable such as <a href="https://vb-audio.com/Cable/">VB-Cable</a>.</p>
+            <p class="needs"><b>Needs</b> Windows 64-bit, OBS Studio <span class="mono">32.2.x</span> and a virtual cable such as <a href="https://vb-audio.com/Cable/">VB-Cable</a>. knobs runs OBS’s built-in audio filters, not VST filters or NVIDIA noise removal. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#known-limits">Known limits<span class="visually-hidden"> in the README</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
 
             <div class="dl" data-release="swap">
               <!-- Before GitHub answers, and without JavaScript -->
@@ -419,14 +388,9 @@ cmake --build --preset release</code></pre>
             </details>
 
             <h4 class="sub">Start knobs</h4>
-            <p>Its first run checks what it found in OBS and asks only what it needs to:</p>
-            <ul class="plain">
-              <li><strong>Which mic</strong>, if OBS has several.</li>
-              <li><strong>Which cable</strong>, if OBS doesn’t monitor the mic to one. With no cable installed, it links to VB-Cable and waits for one.</li>
-              <li><strong>Filters it can’t run</strong>, if there are any. <a href="#limits">Known limits</a> lists them.</li>
-            </ul>
-            <p>If you choose <b class="ui">I’m new to OBS</b>, it shows the steps above instead, and carries on by itself when you close OBS. The last page shows your chain, with <b class="ui">Start with Windows</b> checked.</p>
+            <p>Its first run checks what it found in OBS and asks only what it needs to, such as which mic to use when OBS has several.</p>
             <p class="aside">knobs then lives in the tray. Windows 11 hides new tray icons, so click <kbd>^</kbd> (<b class="ui">Show hidden icons</b>) on the taskbar to find the knob.</p>
+            <p class="more"><a href="https://github.com/danielalyoshin/knobs#using-knobs">Using knobs in the README<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
           </div>
         </li>
 
@@ -484,14 +448,6 @@ cmake --build --preset release</code></pre>
 
       <dl class="facts">
         <div>
-          <dt>OBS’s own filter code</dt>
-          <dd>knobs ships no audio processing of its own. It loads OBS’s <code>obs.dll</code>, <code>win-wasapi</code> and <code>obs-filters</code> from a private copy of your OBS install, so its output is <span class="nowrap">bit-identical</span> to OBS’s.</dd>
-        </div>
-        <div>
-          <dt>Out of OBS’s way</dt>
-          <dd>knobs pauses while OBS is open, so the cable never gets your mic twice. When OBS closes, knobs reads its settings again and runs whatever you changed.</dd>
-        </div>
-        <div>
           <dt>In the tray, from sign-in</dt>
           <dd>knobs starts with Windows and lives in the tray. In testing, the mic was on the cable 9.5&nbsp;s after signing in, with nothing clicked. A notification says when something needs you.</dd>
         </div>
@@ -500,6 +456,7 @@ cmake --build --preset release</code></pre>
           <dd>knobs never writes to OBS’s settings or its install. The install stays unlocked, so a running knobs never blocks an OBS update.</dd>
         </div>
       </dl>
+      <p class="more"><a href="https://github.com/danielalyoshin/knobs#how-it-works">How it works in the README<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
     </div>
   </section>
 
@@ -546,27 +503,6 @@ cmake --build --preset release</code></pre>
           <p class="footnote">Measured on one PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and VB-Cable. <a href="https://github.com/danielalyoshin/knobs/blob/main/plan.md#m3-test-on-real-hardware-obs-3222">plan.md</a> has the method.</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Known limits -->
-  <section class="section limits" id="limits" aria-labelledby="limits-title">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 id="limits-title">Known limits</h2>
-        <p>Check these before you download, so knobs does what you expect.</p>
-      </div>
-      <dl class="limit-list">
-        <div><dt>One mic.</dt><dd>With several mics in OBS, knobs runs the one you choose.</dd></div>
-        <div><dt>No VST filters.</dt><dd>knobs leaves them out of the chain and warns you.</dd></div>
-        <div><dt>No NVIDIA noise removal.</dt><dd>It’s in a separate OBS module, <code>nv-filters</code>, which knobs doesn’t load. The filter passes audio through unchanged, with a warning.</dd></div>
-        <div><dt>No sidechain.</dt><dd>knobs runs no other sources, so it runs the compressor as OBS does while the sidechain is silent, and warns you.</dd></div>
-        <div><dt>Mute and push-to-talk don’t silence the cable.</dt><dd>OBS’s monitoring ignores them too. The first run says so.</dd></div>
-        <div><dt>The cable is quiet while OBS is open,</dt><dd>unless OBS monitors your mic to it. Turn off <b class="ui">Pause while OBS is open</b> to keep knobs running then.</dd></div>
-        <div><dt>A new sample rate or channel layout in OBS restarts knobs,</dt><dd>as it restarts OBS, with a moment of silence.</dd></div>
-        <div><dt>Windows only, and OBS 32.2.x only,</dt><dd>for now.</dd></div>
-      </dl>
-      <p class="limits-more"><a href="https://github.com/danielalyoshin/knobs#known-limits">Known limits in the README<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
     </div>
   </section>
 </main>

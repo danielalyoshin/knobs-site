@@ -337,7 +337,7 @@ A cool, near-monochrome palette drawn from the knob's graphite, with black ink a
 
 **The Copyable Is Mono Rule.** If a visitor could compare it, paste it or type it (a version, a file name, a file size, a checksum, a command, a host), it is set in Plex Mono with ligatures off. Numbers that line up use tabular figures: Plex Sans's default figures are already tabular (every digit is 0.6em wide), and `tabular-nums` stays declared for the fallback faces. A SHA-256 wraps in even rows of 32 characters (16 on phones), so it can be compared in chunks.
 
-**The Measure Rule.** Every text cap is the `--measure` token, 52ch: step bodies, section intros, the stacked lede, fact and measurement text, the one-column limits list and the station's state text. In Plex Sans 1ch is the width of "0" (0.6em) while an average character is about 0.45em, so 52ch sets lines of about 66 to 72 characters at any text size. Never cap text in rem, and never read "68ch" as 68 characters.
+**The Measure Rule.** Every text cap is the `--measure` token, 52ch: step bodies, section intros, the stacked lede, fact and measurement text, and the station's state text. In Plex Sans 1ch is the width of "0" (0.6em) while an average character is about 0.45em, so 52ch sets lines of about 66 to 72 characters at any text size. Never cap text in rem, and never read "68ch" as 68 characters.
 
 **The No Small Caps Rule.** Labels and table headers are small sentence-case text in Graphite 3. There are no uppercase tracked labels above headings.
 
@@ -353,9 +353,9 @@ Spacing is a loose 4px rhythm: 4 and 8 for tight inline gaps, 12 to 16 between r
 - **1100px and up:** the path is horizontal, with the bracket ("You only need step 3") spanning steps 1 and 2 above the rail, and the non-Windows note in two balanced lines just under the station.
 - **Below 1100px:** the pitch stacks, with the lede at the measure; the path turns vertical, one rail down the left of the nodes, capped at 40rem; the station indents to the step text and its node sits on the rail; the bracket becomes a plain line above the steps.
 - **Below 1024px:** section heads stack; the setup steps drop their sticky heads and the node sits in a 56px left margin; measurements go to two columns.
-- **Below 900px:** the signal path stacks vertically with downward arrows; the limits list goes to one column.
-- **Below 720px:** the section links leave the header row for a row of their own under it, 44px tall and flush with the gutter (13px with tighter padding below 360px, so all four always fit); facts and measurements go to one column; file rows stack with the download button under the file.
-- **Below 640px:** the header's top row drops to 56px and the lockup to 32px; the first screen's top padding drops to 28px and path step descriptions hide, so the download stays inside the first screen; the ready state's links become a ruled list of 44px rows; the setup rail hides and steps are divided by hairlines, and a ruled list that ends a step or a section drops its closing rule so it never sits just above a divider.
+- **Below 900px:** the signal path stacks vertically with downward arrows.
+- **Below 720px:** the section links leave the header row for a row of their own under it, 44px tall and flush with the gutter (all three fit at 320px); facts and measurements go to one column; file rows stack with the download button under the file.
+- **Below 640px:** the header's top row drops to 56px and the lockup to 32px; the first screen's top padding drops to 28px and path step descriptions hide, so the download stays inside the first screen; the ready state's links become a ruled list of 44px rows; the setup rail hides and steps are divided by hairlines.
 - **Below 480px:** the download button's size moves to its own line.
 - **Below 360px:** each copy button drops under its hash or command, and "Build from source" may wrap. Nothing scrolls sideways at 320px (400% zoom on a 1280px window).
 
@@ -397,6 +397,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - Underlined at 1px with a 0.22em offset; the underline sits in Hairline Strong at rest and takes the text colour on hover.
 - Links that leave the site carry the 12px external arrow after the text; in-page jumps use the down arrow. A visitor can tell from the icon where a link goes.
 - The header "Source" link is a small outlined button with the GitHub mark, 34px tall.
+- **README links:** where the knobs README says more than the page, the step or section ends with one standalone link in ink at Body Small, "… in the README" with the external arrow: Requirements (step 1), Using knobs (step 3) and How it works. The page states what a visitor needs to decide and links the rest, rather than copying the README. Known limits has no section: the two that change a decision (VST filters, NVIDIA noise removal) sit in the full step 3 "Needs" line, which links the README's list inline.
 
 ### Step Rail and Nodes (signature)
 - **Path (first screen):** four round nodes (32px, Plex Sans 600 numerals) on a 1px Hairline Strong rail. Idle nodes are hollow with Graphite 2 numerals. Step 3's node is inked.
@@ -434,7 +435,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 
 ### Ruled Tables
 - No outer border, no fills, no zebra. Rows ruled with Hairline; the header rule in Hairline Strong. Headers in Label size, weight 500, Graphite 3. Row headers in ink 600. Numbers right-aligned in tabular figures.
-- Fact grids and the requirements list follow the same ruled language: hairline top and bottom, a hairline between columns.
+- Fact grids follow the same ruled language: hairline top and bottom, a hairline between columns.
 
 ### Notes and Containers
 - **Needs:** a Paper Subtle well, 8px radius, no border, Body Small, a bold "Needs" lead.
