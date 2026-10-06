@@ -382,6 +382,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - **Primary:** ink fill, on-ink text. Hover lightens to Ink Lifted.
 - **Secondary:** surface fill, strong hairline border, ink text. Hover darkens the border to Graphite 3 and fills Paper Subtle.
 - **Download (signature):** a full-width primary button, 60px tall, with a 20px download icon and two lines: "Download knobs" (600, 16px) and a sub-line at the label size, 78% opacity, with tabular figures ("Installer for Windows x64 · 4.5 MB").
+- **Build from source:** a secondary button with the 16px down arrow and two lines: "Build from source", then "(Visual Studio 2022 and CMake)" at the label size in Graphite 2, so the cost is read before the click. Every one of them jumps to the "Build it from source" panel in the full step 3 (`#build`), which opens on arrival.
 - **Active:** every button presses down 1px. Transitions run 160ms on the standard curve.
 - **Focus:** a 2px ink outline, 2px offset, 4px radius, everywhere on the page.
 
@@ -398,10 +399,10 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 ### Station (signature)
 - The one bordered panel on the first screen: Surface fill, Hairline Strong border, 12px radius, the lift, 24px padding. Its node breaks the top border.
 - It stacks every release state in one grid cell so the panel never changes size between states.
-- **Static / no JS:** "From GitHub Releases", with "Releases on GitHub" (primary) and "Build from source" (secondary).
+- **Static / no JS:** "From GitHub Releases", with "Releases on GitHub" (primary) and "Build from source" (secondary). Without JavaScript the line reads "Releases, their files and checksums are on GitHub.", which claims no release.
 - **Loading:** the static text reads "Checking GitHub for the latest release…"; the none state is laid out invisibly beneath so the usual answer lands without a shift.
 - **Ready:** the download button, the github.com destination in mono under it, then a label-size line for visitors who skip steps 1 and 2: "Needs OBS 32.2.x", a dot, and the signing status ("Not code-signed yet, so Windows may warn. What to do", jumping to Code signing, or "Signed by <name>" once the tag is listed as signed); then the date with a "Pre-release" tag when it applies, release notes, then a links row (portable zip with size, checksums, all releases).
-- **None:** "No release yet", "Build from source" (primary) and "Watch for releases" (secondary), and a hint on how to watch on GitHub.
+- **None:** "No release yet", "Watch for releases" (primary) and "Build from source" (secondary), then a label-size hint: "With a GitHub account: Watch › Custom › Releases. Without one, add the releases feed to a feed reader.", the feed linking to `releases.atom`.
 - **Error:** "Couldn't check for a release", the reason, "Releases on GitHub" (primary) and "Try again" (secondary).
 - The arriving state settles in (opacity and a 4px rise, 320ms). Non-Windows visitors see a quiet label-size note matched to the state.
 
@@ -425,7 +426,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 
 ### Navigation
 - **Header:** 64px on Paper Subtle with a hairline under it; the lockup at 36px tall on the left; section links (UI Small, Graphite 2, 6px-radius hover fill on Surface Sunken) and the "Source" link on the right.
-- **Footer:** Paper Subtle; the lockup at 32px with a one-line description, two link columns, then a hairline and the license and independence lines at Label size.
+- **Footer:** Paper Subtle; the lockup at 32px with a one-line description, two link columns grouped by destination ("On GitHub", every link with the external arrow; "On this page", the in-page jumps), then a hairline and the license and independence lines at Label size.
 
 ### Preview Strip
 - A thin full-width band above the header (Paper ground, hairline below, Label size) with an amber info icon: "Preview. This release data is made up." It appears only when made-up release data is shown, which the page allows only on a local development host. Nothing else on the page uses amber.

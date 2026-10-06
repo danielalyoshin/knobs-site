@@ -118,11 +118,14 @@
                 <p class="rs-head">From GitHub Releases</p>
                 <p class="rs-body">
                   <span class="if-js">Checking GitHub for the latest release…</span>
-                  <span class="if-nojs">The latest release, its files and their checksums are on GitHub.</span>
+                  <span class="if-nojs">Releases, their files and checksums are on GitHub.</span>
                 </p>
                 <div class="actions">
                   <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
-                  <a class="btn btn-secondary" href="https://github.com/danielalyoshin/knobs#building">Build from source</a>
+                  <a class="btn btn-secondary btn-build" href="#build" data-open="build">
+                    <svg class="icon" aria-hidden="true"><use href="#i-arrow-down"/></svg>
+                    <span class="btn-build-text"><span>Build from source</span> <span class="btn-build-cost">(Visual Studio 2022 and CMake)</span></span>
+                  </a>
                 </div>
               </div>
 
@@ -162,17 +165,20 @@
                 <p class="rs-head">No release yet</p>
                 <p class="rs-body">An installer and a portable zip come next. knobs works end to end and has been tested on real hardware.</p>
                 <div class="actions">
-                  <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs#building">Build from source</a>
-                  <a class="btn btn-secondary" href="https://github.com/danielalyoshin/knobs">
+                  <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs">
                     <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Watch for releases
                   </a>
+                  <a class="btn btn-secondary btn-build" href="#build" data-open="build">
+                    <svg class="icon" aria-hidden="true"><use href="#i-arrow-down"/></svg>
+                    <span class="btn-build-text"><span>Build from source</span> <span class="btn-build-cost">(Visual Studio 2022 and CMake)</span></span>
+                  </a>
                 </div>
-                <p class="rs-hint">On GitHub: Watch › Custom › Releases.</p>
+                <p class="rs-hint">With a GitHub account: Watch › Custom › Releases. Without one, add the <a class="nowrap" href="https://github.com/danielalyoshin/knobs/releases.atom">releases feed<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a> to a feed reader.</p>
               </div>
 
               <div class="rs" data-when="error" inert>
                 <p class="rs-head">Couldn’t check for a release</p>
-                <p class="rs-body"><span data-error="reason">GitHub couldn’t be reached.</span> The releases page always has the files.</p>
+                <p class="rs-body"><span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files.</span></p>
                 <div class="actions">
                   <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
                   <button class="btn btn-secondary" type="button" data-retry>Try again</button>
@@ -317,11 +323,10 @@
               <!-- Before GitHub answers, and without JavaScript -->
               <div class="dl-state dl-static" data-when="static">
                 <div class="notice">
-                  <p class="notice-head"><span class="if-js">Checking GitHub for the latest release…</span><span class="if-nojs">The latest release is on GitHub</span></p>
-                  <p>Its files and their checksums are listed on the releases page. Until there’s a release, you can build knobs from source.</p>
+                  <p class="notice-head"><span class="if-js">Checking GitHub for the latest release…</span><span class="if-nojs">Releases are on GitHub</span></p>
+                  <p>The releases page lists each file with its checksum. Until there’s a release, you can build knobs from source.</p>
                   <div class="actions">
                     <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
-                    <a class="btn btn-secondary" href="https://github.com/danielalyoshin/knobs#building">Build from source</a>
                   </div>
                 </div>
               </div>
@@ -357,40 +362,19 @@
                   <p class="notice-head">No release yet</p>
                   <p>An installer and a portable zip come next. knobs works end to end and has been tested on real hardware with OBS <span class="mono">32.2.2</span>, an Audient iD4, VB-Cable and Discord.</p>
                   <div class="actions">
-                    <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs#building">Build from source</a>
-                    <a class="btn btn-secondary" href="https://github.com/danielalyoshin/knobs">
+                    <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs">
                       <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Watch for releases
                     </a>
                   </div>
-                  <p class="notice-foot">To hear about the first release, open the repository on GitHub and choose <b class="ui">Watch › Custom › Releases</b>.</p>
+                  <p class="notice-foot">With a GitHub account: <b class="ui">Watch › Custom › Releases</b>. Without one, add the <a class="nowrap" href="https://github.com/danielalyoshin/knobs/releases.atom">releases feed<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a> to a feed reader.</p>
                 </div>
-
-                <details class="disclosure">
-                  <summary>
-                    <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
-                    <span>Build it from source</span>
-                  </summary>
-                  <div class="disclosure-body">
-                    <p>You need Visual Studio 2022 or newer with the <b class="ui">Desktop development with C++</b> workload, and CMake 3.25 or newer. From a Developer PowerShell for VS:</p>
-                    <div class="code">
-                      <pre id="build-cmds"><code>git clone https://github.com/danielalyoshin/knobs.git
-cd knobs
-cmake --preset x64
-cmake --build --preset release</code></pre>
-                      <button class="copy" type="button" data-copy-from="#build-cmds" aria-label="Copy the build commands">
-                        <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
-                      </button>
-                    </div>
-                    <p>Then run <code>build\x64\Release\knobs.exe</code>. <a href="https://github.com/danielalyoshin/knobs#building">The README</a> has the full instructions and the tests.</p>
-                  </div>
-                </details>
               </div>
 
               <!-- GitHub couldn't be reached -->
               <div class="dl-state dl-error" data-when="error" hidden>
                 <div class="notice">
                   <p class="notice-head">Couldn’t check for a release</p>
-                  <p><span data-error="reason">GitHub couldn’t be reached.</span> The releases page always has the files and their checksums.</p>
+                  <p><span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files and their checksums.</span></p>
                   <div class="actions">
                     <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
                     <button class="btn btn-secondary" type="button" data-retry>Try again</button>
@@ -398,6 +382,27 @@ cmake --build --preset release</code></pre>
                 </div>
               </div>
             </div>
+
+            <!-- Outside the states, so every "Build from source" button can reach it. Hidden once a release exists. -->
+            <details class="disclosure dl-build" id="build">
+              <summary>
+                <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+                <span>Build it from source</span>
+              </summary>
+              <div class="disclosure-body">
+                <p>You need Visual Studio 2022 or newer with the <b class="ui">Desktop development with C++</b> workload, and CMake 3.25 or newer. From a Developer PowerShell for VS:</p>
+                <div class="code">
+                  <pre id="build-cmds"><code>git clone https://github.com/danielalyoshin/knobs.git
+cd knobs
+cmake --preset x64
+cmake --build --preset release</code></pre>
+                  <button class="copy" type="button" data-copy-from="#build-cmds" aria-label="Copy the build commands">
+                    <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
+                  </button>
+                </div>
+                <p>Then run <code>build\x64\Release\knobs.exe</code>. <a href="https://github.com/danielalyoshin/knobs#building">The README</a> has the full instructions and the tests.</p>
+              </div>
+            </details>
 
             <h4 class="sub">Start knobs</h4>
             <p>Its first run checks what it found in OBS and asks only what it needs to:</p>
@@ -562,20 +567,20 @@ cmake --build --preset release</code></pre>
         </picture>
         <p>Your OBS mic chain, without OBS.</p>
       </div>
-      <nav class="footer-nav" aria-label="Project links">
+      <nav class="footer-nav" aria-label="More links">
         <div>
-          <h2 class="footer-h">Project</h2>
+          <h2 class="footer-h">On GitHub</h2>
           <ul>
-            <li><a href="https://github.com/danielalyoshin/knobs">Source code</a></li>
-            <li><a href="https://github.com/danielalyoshin/knobs/releases">Releases</a></li>
-            <li><a href="https://github.com/danielalyoshin/knobs/issues">Issues</a></li>
-            <li><a href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">License</a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs">Source code<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs/releases">Releases<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs/issues">Issues<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">License<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs-site">Source of this site<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
           </ul>
         </div>
         <div>
-          <h2 class="footer-h">This site</h2>
+          <h2 class="footer-h">On this page</h2>
           <ul>
-            <li><a href="https://github.com/danielalyoshin/knobs-site">Source of this site</a></li>
             <li><a href="#setup">Setup</a></li>
             <li><a href="#step-3">Download</a></li>
           </ul>

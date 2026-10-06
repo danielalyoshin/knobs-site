@@ -183,10 +183,13 @@
   }
 
   function renderError(reason) {
-    var msg = reason === "rate-limited"
-      ? "GitHub rate-limited this page for now."
+    var limited = reason === "rate-limited";
+    var msg = limited
+      ? "GitHub limits how often this page can check, and the limit was reached. The releases page works now."
       : "GitHub couldn’t be reached.";
     $$('[data-error="reason"]').forEach(function (n) { n.textContent = msg; });
+    // The rate-limit message already points to the releases page.
+    $$('[data-error="after"]').forEach(function (n) { n.hidden = limited; });
   }
 
   var retryFrom = null;

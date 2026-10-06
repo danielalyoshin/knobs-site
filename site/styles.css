@@ -151,6 +151,7 @@ b, strong { font-weight: 600; color: var(--text); }
 .actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
 }
 
@@ -490,6 +491,17 @@ b, strong { font-weight: 600; color: var(--text); }
   font-size: var(--text-xs);
   line-height: 1.45;
 }
+.rs-hint a { color: var(--text); }
+
+/* "Build from source", with what it needs on a second line, like the
+   download button's sub-line. */
+.btn-build { padding-block: 8px; }
+.btn-build-text { display: grid; gap: 2px; text-align: left; }
+.btn-build-cost {
+  color: var(--text-2);
+  font-size: var(--text-xs);
+  font-weight: 400;
+}
 
 .btn-download {
   justify-content: flex-start;
@@ -821,8 +833,10 @@ details[open] > summary .chev { transform: rotate(90deg); }
 .notice > p:not(.notice-head) { margin-top: 8px; }
 .notice .actions { margin-top: 20px; }
 .notice-foot { color: var(--text-3); font-size: var(--text-sm); }
+.notice-foot a { color: var(--text); }
 .notice > .notice-foot { margin-top: 14px; }
-.dl-none .disclosure { margin-top: 12px; }
+.dl-build { margin-top: 12px; }
+[data-release-state="ready"] .dl-build { display: none; }
 
 .code {
   position: relative;
