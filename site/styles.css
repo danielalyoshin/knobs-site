@@ -12,6 +12,11 @@
 
   --lift: 0 1px 2px rgb(23 24 27 / 0.07);
 
+  /* Reading measure for every text cap. In Plex Sans 1ch (the "0") is
+     0.6em and an average character about 0.45em, so 52ch sets lines of
+     about 66 to 72 characters at any text size. */
+  --measure: 52ch;
+
   --path-cols: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
   --path-gap: 32px;
   --node: 32px;
@@ -288,8 +293,8 @@ b, strong { font-weight: 600; color: var(--text); }
   grid-column: 1 / span 8;
   font-size: clamp(2rem, 1.1rem + 3.4vw, 4rem);
   font-weight: 600;
-  line-height: 1.04;
-  letter-spacing: -0.038em;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
 }
 .nowrap { white-space: nowrap; }
 .pitch-side {
@@ -396,7 +401,7 @@ b, strong { font-weight: 600; color: var(--text); }
   border-radius: 50%;
   background: var(--bg-subtle);
   color: var(--text-2);
-  font: 600 0.875rem/1 var(--font-display);
+  font: 600 0.875rem/1 var(--font-sans);
   font-variant-numeric: tabular-nums;
 }
 
@@ -405,7 +410,7 @@ b, strong { font-weight: 600; color: var(--text); }
   font-size: 1.1875rem;
   font-weight: 600;
   line-height: 1.3;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.008em;
 }
 .pstep h3 a { text-decoration: none; }
 .pstep h3 a:hover { text-decoration: underline; text-decoration-color: var(--line-strong); }
@@ -467,10 +472,11 @@ b, strong { font-weight: 600; color: var(--text); }
 }
 
 .rs-head {
-  font: 600 1.125rem/1.3 var(--font-display);
-  letter-spacing: -0.015em;
+  font: 600 1.125rem/1.3 var(--font-sans);
+  letter-spacing: -0.006em;
 }
 .rs-body {
+  max-width: var(--measure);
   margin-top: 6px;
   color: var(--text-2);
   font-size: 0.9375rem;
@@ -555,10 +561,10 @@ b, strong { font-weight: 600; color: var(--text); }
 .section-head h2 {
   font-size: clamp(1.75rem, 1.35rem + 1.3vw, 2.375rem);
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.018em;
 }
 .section-head p {
-  max-width: 44rem;
+  max-width: var(--measure);
   color: var(--text-2);
   font-size: 1.0625rem;
 }
@@ -569,7 +575,7 @@ h3, h4 { color: var(--text); }
   margin: 40px 0 12px;
   font-size: 1.125rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.006em;
 }
 
 /* ---------- Setup steps ---------- */
@@ -635,7 +641,7 @@ h3, h4 { color: var(--text); }
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 1.25;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.014em;
 }
 .step-sum {
   margin-top: 8px;
@@ -646,7 +652,7 @@ h3, h4 { color: var(--text); }
 
 .step-body {
   min-width: 0;
-  max-width: 46rem;
+  max-width: var(--measure);
   padding-top: 6px;
   color: var(--text-2);
 }
@@ -798,8 +804,8 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 .notice-head {
   color: var(--text);
-  font: 600 1.25rem/1.3 var(--font-display);
-  letter-spacing: -0.02em;
+  font: 600 1.25rem/1.3 var(--font-sans);
+  letter-spacing: -0.01em;
 }
 .notice > p:not(.notice-head) { margin-top: 8px; }
 .notice .actions { margin-top: 20px; }
@@ -837,7 +843,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   color: var(--text);
   font-size: 2rem;
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .release-version .mono { font-size: 1em; font-weight: 500; }
 .release-date { margin-top: 6px; color: var(--text-3); font-size: 0.9375rem; }
@@ -878,6 +884,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   font-variant-numeric: tabular-nums;
 }
 .file-meta .mono { color: var(--text-2); overflow-wrap: anywhere; }
+.file-meta .file-size { color: var(--text-3); white-space: nowrap; }
 .file-dl { grid-column: 2; grid-row: 1; }
 
 .hash {
@@ -921,6 +928,8 @@ details[open] > summary .chev { transform: rotate(90deg); }
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
+/* A hash wraps in even rows of 32 (16 on phones), easier to compare by eye. */
+.codeline .hash-value { max-width: 32.5ch; }
 .hash-help {
   margin: 12px 0 8px;
   color: var(--text-3);
@@ -1020,10 +1029,10 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 .facts dt {
   color: var(--text);
-  font: 600 1.1875rem/1.3 var(--font-display);
-  letter-spacing: -0.015em;
+  font: 600 1.1875rem/1.3 var(--font-sans);
+  letter-spacing: -0.008em;
 }
-.facts dd { max-width: 34rem; margin: 8px 0 0; color: var(--text-2); }
+.facts dd { max-width: var(--measure); margin: 8px 0 0; color: var(--text-2); }
 
 /* ---------- Measured ---------- */
 
@@ -1042,16 +1051,16 @@ details[open] > summary .chev { transform: rotate(90deg); }
 .measure h3 {
   font-size: 1.1875rem;
   font-weight: 600;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.008em;
 }
-.measure p { font-size: 0.9375rem; }
+.measure p { max-width: var(--measure); font-size: 0.9375rem; }
 .measure > p + p, .measure > .table + p { margin-top: 12px; }
 .measure h3 + p { margin-top: 10px; }
 .measure .measure-figure {
   margin: 16px 0 14px;
   color: var(--text);
-  font: 600 2rem/1.1 var(--font-display);
-  letter-spacing: -0.035em;
+  font: 600 2rem/1.1 var(--font-sans);
+  letter-spacing: -0.02em;
 }
 .delay { margin: 14px 0 14px; }
 .delay > div {
@@ -1066,8 +1075,8 @@ details[open] > summary .chev { transform: rotate(90deg); }
 .delay dd { margin: 0; color: var(--text-3); font-size: 0.9375rem; }
 .delay .num {
   color: var(--text);
-  font: 600 1.75rem/1.2 var(--font-display);
-  letter-spacing: -0.03em;
+  font: 600 1.75rem/1.2 var(--font-sans);
+  letter-spacing: -0.018em;
   font-variant-numeric: tabular-nums;
 }
 .footnote,
@@ -1149,7 +1158,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
 
 @media (max-width: 1099px) {
   .pitch { display: block; }
-  .pitch-side { max-width: 40rem; margin-top: 20px; padding-bottom: 0; }
+  .pitch-side { max-width: var(--measure); margin-top: 20px; padding-bottom: 0; }
 
   /* The path turns vertical: one rail down the nodes */
   .path-skip { display: block; margin-bottom: 20px; }
@@ -1238,7 +1247,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
     left: 24.5px;
     transform: rotate(135deg);
   }
-  .limit-list { grid-template-columns: minmax(0, 1fr); }
+  .limit-list { grid-template-columns: minmax(0, 1fr); max-width: var(--measure); }
 }
 
 @media (max-width: 719px) {
@@ -1295,6 +1304,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
 
 @media (max-width: 479px) {
   .dest-from { display: none; }
+  .codeline .hash-value { max-width: 16.5ch; }
   /* The size takes its own line under the label, without the dot. */
   .btn-download-sub .sub-size { display: block; }
   .btn-download-sub .sub-dot { display: none; }

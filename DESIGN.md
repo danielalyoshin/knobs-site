@@ -32,98 +32,98 @@ colors:
   brand-red-dark: "#e5484d"
 typography:
   display:
-    fontFamily: "Sora, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "clamp(2rem, 1.1rem + 3.4vw, 4rem)"
     fontWeight: 600
-    lineHeight: 1.04
-    letterSpacing: "-0.038em"
+    lineHeight: 1.06
+    letterSpacing: "-0.025em"
   headline:
-    fontFamily: "Sora, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "clamp(1.75rem, 1.35rem + 1.3vw, 2.375rem)"
     fontWeight: 600
     lineHeight: 1.2
-    letterSpacing: "-0.03em"
+    letterSpacing: "-0.018em"
   title-lg:
-    fontFamily: "Sora, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "1.5rem"
     fontWeight: 600
     lineHeight: 1.25
-    letterSpacing: "-0.025em"
+    letterSpacing: "-0.014em"
   title-lg-phone:
-    fontFamily: "Sora, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "1.25rem"
     fontWeight: 600
     lineHeight: 1.25
-    letterSpacing: "-0.025em"
+    letterSpacing: "-0.014em"
   title:
-    fontFamily: "Sora, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "1.1875rem"
     fontWeight: 600
     lineHeight: 1.3
-    letterSpacing: "-0.015em"
+    letterSpacing: "-0.008em"
   title-sm:
-    fontFamily: "Sora, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "1.125rem"
     fontWeight: 600
     lineHeight: 1.3
-    letterSpacing: "-0.015em"
+    letterSpacing: "-0.006em"
   figure:
-    fontFamily: "Sora, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "2rem"
     fontWeight: 600
     lineHeight: 1.1
-    letterSpacing: "-0.035em"
+    letterSpacing: "-0.02em"
     fontFeature: "tnum"
   version:
-    fontFamily: "ui-monospace, Cascadia Mono, Cascadia Code, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
+    fontFamily: "IBM Plex Mono, ui-monospace, Cascadia Mono, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
     fontSize: "2rem"
     fontWeight: 500
     lineHeight: 1.1
-    letterSpacing: "-0.02em"
+    letterSpacing: "-0.01em"
   version-phone:
-    fontFamily: "ui-monospace, Cascadia Mono, Cascadia Code, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
+    fontFamily: "IBM Plex Mono, ui-monospace, Cascadia Mono, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
     fontSize: "1.625rem"
     fontWeight: 500
     lineHeight: 1.1
-    letterSpacing: "-0.02em"
+    letterSpacing: "-0.01em"
   numeral:
-    fontFamily: "Sora, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 600
     lineHeight: 1
     fontFeature: "tnum"
   lede:
-    fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "1.0625rem"
     fontWeight: 400
     lineHeight: 1.55
   body:
-    fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.55
   body-sm:
-    fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.9375rem"
     fontWeight: 400
     lineHeight: 1.5
   ui-sm:
-    fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 400
     lineHeight: 1.55
   label:
-    fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.8125rem"
     fontWeight: 400
     lineHeight: 1.45
   button:
-    fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.9375rem"
     fontWeight: 500
     lineHeight: 1.2
   mono:
-    fontFamily: "ui-monospace, Cascadia Mono, Cascadia Code, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
+    fontFamily: "IBM Plex Mono, ui-monospace, Cascadia Mono, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
     fontSize: "0.875em"
     fontWeight: 400
     fontFeature: "liga 0"
@@ -137,6 +137,7 @@ rounded:
 spacing:
   gutter: "clamp(16px, 4vw, 40px)"
   content: "72rem"
+  measure: "52ch"
   head-col: "20rem"
   col-gap: "64px"
   path-gap: "32px"
@@ -265,11 +266,11 @@ Motion settles and never performs. Feedback answers in 160ms, structure settles 
 
 **Key Characteristics:**
 - Restrained palette: cool graphite neutrals, ink as the only action colour, brand red only inside the logo.
-- Sora for headings, numerals and figures; the visitor's own system face for prose; system mono for anything copyable.
+- IBM Plex Sans for every word on the page, from the pitch to the footnotes; IBM Plex Mono for anything copyable; Sora only inside the outlined logo.
 - 1px hairlines carry structure; one tight lift is the only shadow.
 - A step rail with round numbered nodes, and a single "station" panel for the download.
 - Light and dark follow the visitor's system setting, with a token pair for every role.
-- Self-contained: the font, logo and icons are served from the site; the only outside request is the GitHub releases API.
+- Self-contained: the fonts, logo and icons are served from the site; the only outside request is the GitHub releases API.
 
 ## Colors
 
@@ -306,32 +307,36 @@ A cool, near-monochrome palette drawn from the knob's graphite, with black ink a
 
 ## Typography
 
-**Display Font:** Sora, self-hosted variable (weights 100 to 800), falling back to the system sans
-**Body Font:** the visitor's system face (Segoe UI on Windows), via `system-ui`
-**Label/Mono Font:** the system monospace (Cascadia Mono on Windows), via `ui-monospace`
+**Display Font:** IBM Plex Sans at 600, self-hosted
+**Body Font:** IBM Plex Sans at 400 and 500, the same family
+**Label/Mono Font:** IBM Plex Mono at 400 and 500, self-hosted, falling back to the system monospace (Cascadia Mono on Windows)
 
-**Character:** Sora is the wordmark's face, so headings speak in the logo's voice: geometric, tightly tracked, semibold. Prose stays in the reader's own system face, which makes the page feel native to the PC it serves. Mono marks anything a visitor might compare or copy.
+**Character:** Plex Sans is plain and engineered, with the slightly squared, open forms of a well-made technical manual, which suits a page whose job is to be trusted. One family sets every role, so the hierarchy comes from size, weight and tone, never from a change of voice. Plex Mono is its companion on the same vertical metrics, so a version or a checksum sits on the line beside the prose without a jump. Sora stays in the wordmark alone, which keeps the lockup reading as the logo rather than as one more heading.
+
+**Files.** The Latin subsets exactly as the official IBM Plex release ships them (`@ibm/plex-sans` 1.1.0, `@ibm/plex-mono` 2.5.0, github.com/IBM/plex), five woff2 files in `site/fonts/` with the release's own unicode ranges and its SIL Open Font License beside them (`OFL-IBM-Plex.txt`). The page preloads only the three Plex Sans weights the first screen uses; Plex Mono loads when a mono line renders. Every face uses `font-display: swap`, and until Plex arrives the text sets in "IBM Plex Sans Fallback": Arial scaled to Plex's width and line metrics on this page's own text (400: size 100.14%; 600: Arial Bold at 96.6%), so the swap barely moves a line.
 
 ### Hierarchy
-- **Display** (600, fluid 2rem to 4rem, line height 1.04, tracking -0.038em): the single h1 pitch on the first screen, across two lines.
-- **Headline** (600, fluid 1.75rem to 2.375rem, tracking -0.03em): section titles, set in the left head column.
-- **Title Large** (600, 1.5rem): the full setup steps' titles beside their sticky nodes. **Title Large Phone** (600, 1.25rem) takes over at 639px and below, and also sets the full download notice's head.
-- **Title** (600, 1.1875rem, line height 1.3): path step titles, fact terms, measurement titles.
-- **Title Small** (600, 1.125rem): the release state head inside the station and sub-headings.
-- **Figure** (600, 2rem, tabular): measured figures; delay numbers use the same face at 1.75rem.
-- **Version** (mono 500, 2rem, line height 1.1, tracking -0.02em): the release version at the head of the full download section. **Version Phone** (1.625rem) takes over at 719px and below.
-- **Numeral** (Sora 600, 0.875rem, tabular): step node numbers; 1rem in the larger 40px setup nodes.
-- **Lede** (400, 1.0625rem, line height 1.55, Graphite 2): the pitch description and section intros, capped near 44rem.
-- **Body** (400, 1rem, line height 1.55; 1.6 in step bodies, capped at 46rem).
+- **Display** (600, fluid 2rem to 4rem, line height 1.06, tracking -0.025em): the single h1 pitch on the first screen, across two lines.
+- **Headline** (600, fluid 1.75rem to 2.375rem, tracking -0.018em): section titles, set in the left head column.
+- **Title Large** (600, 1.5rem, tracking -0.014em): the full setup steps' titles beside their sticky nodes. **Title Large Phone** (600, 1.25rem) takes over at 639px and below, and also sets the full download notice's head.
+- **Title** (600, 1.1875rem, line height 1.3, tracking -0.008em): path step titles, fact terms, measurement titles.
+- **Title Small** (600, 1.125rem, tracking -0.006em): the release state head inside the station and sub-headings.
+- **Figure** (600, 2rem, tracking -0.02em, tabular): measured figures; delay numbers use the same face at 1.75rem.
+- **Version** (Plex Mono 500, 2rem, line height 1.1, tracking -0.01em): the release version at the head of the full download section. **Version Phone** (1.625rem) takes over at 719px and below.
+- **Numeral** (600, 0.875rem, tabular): step node numbers; 1rem in the larger 40px setup nodes.
+- **Lede** (400, 1.0625rem, line height 1.55, Graphite 2): the pitch description and section intros, capped at the measure.
+- **Body** (400, 1rem, line height 1.55; 1.6 in step bodies, which are capped at the measure).
 - **Body Small** (0.9375rem, line height 1.5): the workhorse for step text, tables, notes, disclosures and links rows.
 - **UI Small** (0.875rem): nav, link rows, file metadata.
 - **Label** (0.8125rem, line height 1.45, Graphite 3): hints, destinations, footnotes, table headers, hashes. Sentence case, no tracking.
-- **Mono** (0.875em of its context, ligatures off): versions, file names, sizes in context, hashes, commands, the github.com destination.
+- **Mono** (Plex Mono, 0.875em of its context, ligatures off): versions, file names, file sizes in the file rows, hashes, commands, hosts, the github.com destination.
 
 ### Named Rules
-**The Wordmark Face Rule.** Sora is for headings, step numerals and figures only. Prose, buttons, labels and the footer headings are in the system face.
+**The Wordmark Face Rule.** Sora is the wordmark's face and lives only in the logo files, as outlined paths. The page never loads it and never sets text in it. Every heading, numeral, figure, line of prose, button and label is IBM Plex Sans; everything copyable is IBM Plex Mono.
 
-**The Copyable Is Mono Rule.** If a visitor could compare it, paste it or type it (a version, a file name, a checksum, a command, a host), it is set in mono with ligatures off. Numbers that line up use tabular figures.
+**The Copyable Is Mono Rule.** If a visitor could compare it, paste it or type it (a version, a file name, a file size, a checksum, a command, a host), it is set in Plex Mono with ligatures off. Numbers that line up use tabular figures: Plex Sans's default figures are already tabular (every digit is 0.6em wide), and `tabular-nums` stays declared for the fallback faces. A SHA-256 wraps in even rows of 32 characters (16 on phones), so it can be compared in chunks.
+
+**The Measure Rule.** Every text cap is the `--measure` token, 52ch: step bodies, section intros, the stacked lede, fact and measurement text, the one-column limits list and the station's state text. In Plex Sans 1ch is the width of "0" (0.6em) while an average character is about 0.45em, so 52ch sets lines of about 66 to 72 characters at any text size. Never cap text in rem, and never read "68ch" as 68 characters.
 
 **The No Small Caps Rule.** Labels and table headers are small sentence-case text in Graphite 3. There are no uppercase tracked labels above headings.
 
@@ -345,7 +350,7 @@ Spacing is a loose 4px rhythm: 4 and 8 for tight inline gaps, 12 to 16 between r
 
 **Responsive behaviour.**
 - **1100px and up:** the path is horizontal, with the bracket ("You only need step 3") spanning steps 1 and 2 above the rail, and the non-Windows note on one line under the station.
-- **Below 1100px:** the pitch stacks; the path turns vertical, one rail down the left of the nodes, capped at 40rem; the station indents to the step text and its node sits on the rail; the bracket becomes a plain line above the steps.
+- **Below 1100px:** the pitch stacks, with the lede at the measure; the path turns vertical, one rail down the left of the nodes, capped at 40rem; the station indents to the step text and its node sits on the rail; the bracket becomes a plain line above the steps.
 - **Below 1024px:** section heads stack; the setup steps drop their sticky heads and the node sits in a 56px left margin; measurements go to two columns.
 - **Below 900px:** the section nav hides and the "Source" link takes its place on the right; the signal path stacks vertically with downward arrows; the limits list goes to one column.
 - **Below 720px:** facts and measurements go to one column; file rows stack with the download button under the file.
@@ -373,7 +378,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 ## Components
 
 ### Buttons
-- **Shape:** gently rounded (8px), 40px tall, 16px side padding, system face 500 at 15px, an optional 16px icon 8px from the label.
+- **Shape:** gently rounded (8px), 40px tall, 16px side padding, Plex Sans 500 at 15px, an optional 16px icon 8px from the label.
 - **Primary:** ink fill, on-ink text. Hover lightens to Ink Lifted.
 - **Secondary:** surface fill, strong hairline border, ink text. Hover darkens the border to Graphite 3 and fills Paper Subtle.
 - **Download (signature):** a full-width primary button, 60px tall, with a 20px download icon and two lines: "Download knobs" (600, 16px) and a sub-line at the label size, 78% opacity, with tabular figures ("Installer for Windows x64 · 4.5 MB").
@@ -386,7 +391,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - The header "Source" link is a small outlined button with the GitHub mark, 34px tall.
 
 ### Step Rail and Nodes (signature)
-- **Path (first screen):** four round nodes (32px, Sora numerals) on a 1px Hairline Strong rail. Idle nodes are hollow with Graphite 2 numerals. Step 3's node is inked.
+- **Path (first screen):** four round nodes (32px, Plex Sans 600 numerals) on a 1px Hairline Strong rail. Idle nodes are hollow with Graphite 2 numerals. Step 3's node is inked.
 - **Setup (full steps):** 40px nodes, sticky at 32px from the top beside each step's head on desktop, on a vertical rail. As a step reaches the reading line (45% of the viewport height), its node fills with ink and the rail segment above the next step draws in from the top (320ms).
 - **Bracket:** a 1px open bracket over steps 1 and 2, ticks down to the rail, with a label-size line telling experienced users they only need step 3.
 
@@ -402,8 +407,8 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 
 ### File Rows
 - A Surface list with a strong hairline border, 12px radius and the lift; rows separated by hairlines, 18px by 22px padding.
-- Each row: the file kind in 600 with an optional "Recommended" tag, then the file name in mono and the size in tabular Graphite 3; a secondary "Download" button on the right.
-- **SHA-256, collapsed:** under each file, a small "SHA-256" summary with a chevron that turns 90 degrees on open. It opens to a Sunken panel (8px radius) with the full hash in mono, a copy button, and a one-line hint on checking it.
+- Each row: the file kind in 600 with an optional "Recommended" tag, then the file name (Graphite 2) and size (Graphite 3) in Plex Mono; a secondary "Download" button on the right.
+- **SHA-256, collapsed:** under each file, a small "SHA-256" summary with a chevron that turns 90 degrees on open. It opens to a Sunken panel (8px radius) with the full hash in Plex Mono in even rows of 32, a copy button, and a one-line hint on checking it. The PowerShell command under it keeps `-Algorithm SHA256` on one line when it wraps.
 - A label-size line under the list names its source on github.com.
 
 ### Ruled Tables
@@ -413,7 +418,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 ### Notes and Containers
 - **Needs:** a Paper Subtle well, 8px radius, no border, Body Small, a bold "Needs" lead.
 - **Tip:** a Paper Subtle box with a Hairline border, 12px radius, a 600 head line.
-- **Notice:** the full download section's container, styled as the station (12px radius, lift, 24px padding) with its head at the Title Large Phone size (1.25rem Sora).
+- **Notice:** the full download section's container, styled as the station (12px radius, lift, 24px padding) with its head at the Title Large Phone size (Plex Sans 600, 1.25rem).
 - **Disclosure:** a Surface box with a strong hairline and 12px radius; the summary row is 600 with a chevron, hover fills Paper Subtle, and the body opens with the settle motion (160ms).
 - **Code block:** a Sunken well with a Hairline border, 8px radius, Label-size mono at line height 1.6, a copy button top right (bottom right on phones).
 - **Copy button:** 30px tall, 6px radius, outlined, Graphite 2 text. On success it turns Signal Green and swaps its icon to a check for 1.8 seconds; when the clipboard is blocked it selects the text and reads "Press Ctrl+C".
@@ -430,7 +435,8 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 ### Do:
 - **Do** put the download inside the bordered station as step 3 of the path, with the destination on github.com shown under the button.
 - **Do** use ink for every primary action and the surface-plus-hairline style for every secondary one.
-- **Do** set anything copyable or comparable (versions, file names, sizes in context, hashes, commands) in system mono, and line numbers up with tabular figures.
+- **Do** set anything copyable or comparable (versions, file names, file sizes, hashes, commands) in Plex Mono, and line numbers up with tabular figures.
+- **Do** cap text with the `--measure` token (52ch), never in rem.
 - **Do** mark every link that leaves the site with the 12px external arrow.
 - **Do** keep every release state the same size, and let state changes settle with opacity and a 4px rise on `cubic-bezier(0.2, 0, 0, 1)`: 160ms for feedback, 320ms for structure. Reduced motion makes every change instant.
 - **Do** give every new colour role both a light and a `-dark` value.
@@ -444,6 +450,6 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - **Don't** put icons in coloured tiles or circles; icons are bare 16px strokes beside text.
 - **Don't** add imagery the project doesn't have: no invented screenshots, illustrations or stock art.
 - **Don't** load anything from a third party. Fonts, icons and logos are served from the site; the GitHub releases API is the only outside request.
-- **Don't** set prose, buttons or labels in Sora, and don't add uppercase tracked labels above headings.
+- **Don't** set any page text in Sora or ship its font file; Sora lives only in the outlined logo. Don't add uppercase tracked labels above headings.
 - **Don't** animate content in on scroll; only the setup rail responds to scrolling.
 - **Don't** show the name as anything but lowercase "knobs", even at the start of a sentence or in a heading.

@@ -129,7 +129,11 @@
       return node;
     }
     var cmd = "Get-FileHash .\\" + f.name + " -Algorithm SHA256";
-    k("cmd").textContent = cmd;
+    // Same text, but a wrap never splits "-Algorithm" from its dash.
+    var cmdEl = k("cmd");
+    cmdEl.appendChild(el("span", "nowrap", "Get-FileHash"));
+    cmdEl.appendChild(doc.createTextNode(" .\\" + f.name + " "));
+    cmdEl.appendChild(el("span", "nowrap", "-Algorithm SHA256"));
     k("copy-cmd").setAttribute("data-copy", cmd);
     k("copy-cmd").setAttribute("aria-label", "Copy the PowerShell command for " + f.name);
     if (f.sha256) {
