@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>knobs · Your OBS mic chain, without OBS</title>
+<meta name="description" content="knobs is a Windows tray app that runs the mic filter chain you tuned in OBS Studio and sends it to a virtual audio cable. Every download comes from the project's GitHub Releases, with its SHA-256.">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1012" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="brand/favicon.ico" sizes="any">
+<link rel="icon" href="brand/knobs-app-icon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/sora-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles.css">
+<script>
+  (function (d, n, l) {
+    var h = d.documentElement, c = h.className.replace("no-js", "js");
+    if (/[?&]preview=/.test(l.search) && /^(localhost|127\.0\.0\.1|\[::1\]|)$/.test(l.hostname)) c += " is-preview";
+    var u = n.userAgentData, ua = n.userAgent || "", win;
+    if (u && u.platform) win = u.platform === "Windows" && !u.mobile;
+    else win = /Windows NT/.test(ua) && !/Windows Phone|Mobile/.test(ua);
+    if (!win) c += " not-windows";
+    h.className = c;
+  })(document, navigator, location);
+</script>
+<script src="release.js" defer></script>
+<script src="page.js" defer></script>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-download" viewBox="0 0 16 16"><path d="M8 2.25v7.5M4.75 6.75 8 10l3.25-3.25M2.75 11v1.5c0 .55.45 1 1 1h8.5c.55 0 1-.45 1-1V11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-external" viewBox="0 0 16 16"><path d="M6.25 3.75h6v6M12 4 4 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5.75" y="5.75" width="7.5" height="7.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.25 3.5v-.25a.75.75 0 0 0-.75-.75H3.25a.75.75 0 0 0-.75.75V9.5c0 .41.34.75.75.75h.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 16 16"><path d="m3.25 8.5 3 3 6.5-7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 16 16"><path d="m6 3.75 4.25 4.25L6 12.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M2.75 8h10.5M9 3.75 13.25 8 9 12.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 16 16"><path d="M8 2.75v10.5M3.75 9 8 13.25 12.25 9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-info" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7.25v3.75" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="5" r=".9" fill="currentColor"/></symbol>
+  <symbol id="i-github" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.01 8.01 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A8 8 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol>
+</svg>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="preview-strip" role="note">
+  <div class="wrap preview-strip-inner">
+    <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+    <p><strong>Preview.</strong> This release data is made up. The version, files and checksums are not real.</p>
+    <a href="./">See the live page</a>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a class="brand" href="./">
+      <picture>
+        <source srcset="brand/knobs-lockup-horizontal-light.svg" media="(prefers-color-scheme: dark)">
+        <img src="brand/knobs-lockup-horizontal-dark.svg" alt="knobs" width="122" height="36">
+      </picture>
+    </a>
+    <nav class="site-nav" aria-label="Sections">
+      <ul>
+        <li><a href="#setup">Setup</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#measured">Measured</a></li>
+        <li><a href="#limits">Known limits</a></li>
+      </ul>
+    </nav>
+    <a class="source-link" href="https://github.com/danielalyoshin/knobs">
+      <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>
+      <span>Source<span class="visually-hidden"> code on GitHub</span></span>
+    </a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- First screen: the pitch, and the whole path with the download as its third step -->
+  <section class="intro" aria-labelledby="pitch">
+    <div class="wrap">
+      <div class="pitch">
+        <h1 id="pitch">Your OBS mic chain, <span class="nowrap">without OBS.</span></h1>
+        <div class="pitch-side">
+          <p class="lede">A Windows tray app that runs the mic filter chain you tuned in OBS Studio and sends it to a virtual audio cable. Discord, Zoom and games get the same processed mic while OBS stays closed.</p>
+        </div>
+      </div>
+
+      <div class="path">
+        <h2 class="visually-hidden">Setup at a glance</h2>
+        <p class="path-skip">
+          <span class="path-skip-text">Already have OBS, a tuned mic and a cable? <a href="#step-3">You only need step 3</a>.</span>
+        </p>
+        <ol class="path-steps">
+          <li class="pstep">
+            <span class="node" aria-hidden="true">1</span>
+            <h3><a href="#step-1"><span class="visually-hidden">Step 1: </span>Install OBS and a virtual cable</a></h3>
+            <p>Windows 64-bit, OBS Studio 32.2.x and a cable such as VB-Cable.</p>
+            <ul class="pstep-links">
+              <li><a href="https://obsproject.com/download">OBS Studio<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
+              <li><a href="https://vb-audio.com/Cable/">VB-Cable<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
+            </ul>
+          </li>
+          <li class="pstep">
+            <span class="node" aria-hidden="true">2</span>
+            <h3><a href="#step-2"><span class="visually-hidden">Step 2: </span>Tune your mic in OBS</a></h3>
+            <p>Add filters to your mic, then close OBS. knobs reads them from OBS’s settings.</p>
+            <ul class="pstep-links">
+              <li><a href="#new-to-obs" data-open="new-to-obs">New to OBS?</a></li>
+            </ul>
+          </li>
+          <li class="pstep pstep-station">
+            <span class="node" aria-hidden="true">3</span>
+            <h3><a href="#step-3"><span class="visually-hidden">Step 3: </span>Download knobs and start it</a></h3>
+
+            <div class="rstack" data-release="stack">
+              <div class="rs is-active" data-when="static">
+                <p class="rs-head">From GitHub Releases</p>
+                <p class="rs-body">
+                  <span class="if-js">Checking GitHub for the latest release…</span>
+                  <span class="if-nojs">The latest release, its files and their checksums are on GitHub.</span>
+                </p>
+                <div class="actions">
+                  <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
+                  <a class="btn btn-secondary" href="https://github.com/danielalyoshin/knobs#building">Build from source</a>
+                </div>
+              </div>
+
+              <div class="rs" data-when="ready" inert>
+                <a class="btn btn-primary btn-download" data-hero="link" href="https://github.com/danielalyoshin/knobs/releases/latest">
+                  <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
+                  <span class="btn-download-text">
+                    <span class="btn-download-label" data-hero="label">Download knobs</span>
+                    <span class="btn-download-sub" data-hero="sub">Installer for Windows x64</span>
+                  </span>
+                </a>
+                <p class="dest">
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>
+                  <span><span class="dest-from">From </span><span class="mono">github.com/danielalyoshin/knobs</span></span>
+                </p>
+                <p class="rs-meta">
+                  <span class="tag" data-hero="pre" hidden>Pre-release</span>
+                  <time data-hero="date"></time>
+                  <span class="sep" aria-hidden="true">·</span>
+                  <a data-hero="notes" href="https://github.com/danielalyoshin/knobs/releases/latest">Release notes<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
+                </p>
+                <p class="rs-links">
+                  <a data-hero="portable" href="https://github.com/danielalyoshin/knobs/releases/latest" hidden>Portable zip</a>
+                  <a href="#files">Checksums<svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-down"/></svg></a>
+                  <a href="https://github.com/danielalyoshin/knobs/releases">All releases<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
+                </p>
+              </div>
+
+              <div class="rs" data-when="none" inert>
+                <p class="rs-head">No release yet</p>
+                <p class="rs-body">An installer and a portable zip come next. knobs works end to end and has been tested on real hardware.</p>
+                <div class="actions">
+                  <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs#building">Build from source</a>
+                  <a class="btn btn-secondary" href="https://github.com/danielalyoshin/knobs">
+                    <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Watch for releases
+                  </a>
+                </div>
+                <p class="rs-hint">On GitHub: Watch › Custom › Releases.</p>
+              </div>
+
+              <div class="rs" data-when="error" inert>
+                <p class="rs-head">Couldn’t check for a release</p>
+                <p class="rs-body"><span data-error="reason">GitHub couldn’t be reached.</span> The releases page always has the files.</p>
+                <div class="actions">
+                  <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
+                  <button class="btn btn-secondary" type="button" data-retry>Try again</button>
+                </div>
+              </div>
+            </div>
+
+            <p class="os-note" data-release="stack">
+              <span class="is-active" data-when="static">knobs runs on Windows 64-bit.</span>
+              <span data-when="ready">knobs runs on Windows 64-bit. You can still download it here for your PC.</span>
+              <span data-when="none">knobs runs on Windows 64-bit, so build and run it on a Windows PC.</span>
+              <span data-when="error">knobs runs on Windows 64-bit. The releases page has the files for your Windows PC.</span>
+            </p>
+          </li>
+          <li class="pstep">
+            <span class="node" aria-hidden="true">4</span>
+            <h3><a href="#step-4"><span class="visually-hidden">Step 4: </span>Choose the cable in your apps</a></h3>
+            <p>In Discord, Zoom and games, choose the cable as your mic. For VB-Cable, that’s <b class="ui">CABLE&nbsp;Output</b>.</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- The four steps in full -->
+  <section class="section setup" id="setup" aria-labelledby="setup-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="setup-title">Setup</h2>
+        <p>From nothing to a processed mic in Discord, in four steps. Follow them in order, or skip what you already have.</p>
+      </div>
+
+      <ol class="steps">
+        <!-- Step 1 -->
+        <li class="step" id="step-1">
+          <div class="step-head">
+            <span class="node" aria-hidden="true">1</span>
+            <div>
+              <h3><span class="visually-hidden">Step 1: </span>Install OBS and a virtual cable</h3>
+              <p class="step-sum">OBS Studio 32.2.x and a virtual cable, on Windows 64-bit.</p>
+            </div>
+          </div>
+          <div class="step-body">
+            <p>knobs reads the mic and filters from your OBS settings, so OBS has to be installed and the mic tuned in it. It sends the result to a virtual cable, which other apps use as a mic.</p>
+
+            <ul class="gets">
+              <li>
+                <a class="get" href="https://obsproject.com/download">
+                  <span class="get-name">OBS Studio <span class="mono">32.2.x</span></span>
+                  <span class="get-host mono">obsproject.com<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></span>
+                </a>
+              </li>
+              <li>
+                <a class="get" href="https://vb-audio.com/Cable/">
+                  <span class="get-name">VB-Cable</span>
+                  <span class="get-host mono">vb-audio.com<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></span>
+                </a>
+                <p class="get-note">Restart Windows after installing it.</p>
+              </li>
+            </ul>
+
+            <h4 class="sub">What knobs needs</h4>
+            <dl class="reqs">
+              <div><dt>Windows</dt><dd>64-bit</dd></div>
+              <div><dt>OBS Studio</dt><dd><span class="mono">32.2.x</span>, tested on <span class="mono">32.2.2</span>. knobs finds an install from OBS’s installer by itself; for a Steam or portable OBS, you choose its folder. Support for <span class="mono">33.0</span> follows its release.</dd></div>
+              <div><dt>Virtual cable</dt><dd><a href="https://vb-audio.com/Cable/">VB-Cable</a>, or another one: knobs recognizes VB-Audio’s cables (VB-Cable, VoiceMeeter, Hi-Fi Cable) and Virtual Audio Cable.</dd></div>
+              <div><dt>Mic filters</dt><dd>OBS’s built-in audio filters: Noise Suppression (RNNoise or Speex), Noise Gate, Expander, Upward Compressor, Compressor, Limiter, Gain, 3-Band Equalizer and Invert Polarity. <a href="#limits">Known limits</a> has the exceptions.</dd></div>
+            </dl>
+          </div>
+        </li>
+
+        <!-- Step 2 -->
+        <li class="step" id="step-2">
+          <div class="step-head">
+            <span class="node" aria-hidden="true">2</span>
+            <div>
+              <h3><span class="visually-hidden">Step 2: </span>Tune your mic in OBS</h3>
+              <p class="step-sum">Add filters to your mic in OBS. If it’s already tuned, there’s nothing to do.</p>
+            </div>
+          </div>
+          <div class="step-body">
+            <p><strong>If your mic is already set up in OBS,</strong> there’s nothing to do here. knobs uses the mic and filters in OBS’s active profile and scene collection, and if OBS monitors the mic to a cable, knobs sends to the same cable.</p>
+
+            <details class="disclosure" id="new-to-obs">
+              <summary>
+                <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+                <span>New to OBS? Set up the mic in six steps</span>
+              </summary>
+              <div class="disclosure-body">
+                <p>You only need the mic, not a scene, a stream or a recording.</p>
+                <ol class="numbered">
+                  <li>Open OBS.</li>
+                  <li>In <b class="ui">Settings › Audio</b>, set <b class="ui">Mic/Auxiliary Audio</b> to your mic, if it isn’t already.</li>
+                  <li>In the <b class="ui">Audio Mixer</b>, click <b class="ui">Mic/Aux</b> and choose <b class="ui">Filters</b>.</li>
+                  <li>Under <b class="ui">Audio Filters</b>, click <b class="ui">+</b> and add filters as needed. They run from the top of the list down.</li>
+                  <li>Click each filter and adjust it by ear, starting from OBS’s defaults.</li>
+                  <li>Close OBS. knobs reads your filters when OBS closes.</li>
+                </ol>
+                <p class="aside">To hear the filters while you adjust them, choose headphones as the <b class="ui">Monitoring Device</b> in <b class="ui">Settings › Audio</b>, then set the mic’s <b class="ui">Audio Monitoring</b> to <b class="ui">Monitor Only (mute output)</b> in <b class="ui">Edit › Advanced Audio Properties</b>.</p>
+              </div>
+            </details>
+
+            <details class="disclosure">
+              <summary>
+                <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+                <span>What each audio filter does</span>
+              </summary>
+              <div class="disclosure-body">
+                <table class="table filters">
+                  <thead><tr><th scope="col">Filter</th><th scope="col">What it does</th></tr></thead>
+                  <tbody>
+                    <tr><th scope="row"><a href="https://obsproject.com/kb/noise-suppression-filter">Noise Suppression</a></th><td>Reduces steady background noise, such as a fan or hiss. RNNoise sounds better and uses more CPU than Speex.</td></tr>
+                    <tr><th scope="row"><a href="https://obsproject.com/kb/noise-gate-filter">Noise Gate</a></th><td>Silences the mic while its level is below a threshold, such as between words.</td></tr>
+                    <tr><th scope="row"><a href="https://obsproject.com/kb/expander-filter">Expander</a></th><td>Turns quiet sounds down, more gently than a gate.</td></tr>
+                    <tr><th scope="row">Upward Compressor</th><td>Turns quiet sounds up.</td></tr>
+                    <tr><th scope="row"><a href="https://obsproject.com/kb/compressor-filter">Compressor</a></th><td>Turns loud sounds down past a threshold, so the level stays more even.</td></tr>
+                    <tr><th scope="row"><a href="https://obsproject.com/kb/limiter-filter">Limiter</a></th><td>Keeps the level from going over a threshold.</td></tr>
+                    <tr><th scope="row"><a href="https://obsproject.com/kb/gain-filter">Gain</a></th><td>Turns the level up or down.</td></tr>
+                    <tr><th scope="row">3-Band Equalizer</th><td>Turns the low, mid and high frequencies up or down.</td></tr>
+                    <tr><th scope="row"><a href="https://obsproject.com/kb/invert-polarity-filter">Invert Polarity</a></th><td>Flips the waveform upside down.</td></tr>
+                  </tbody>
+                </table>
+                <p class="aside">OBS’s <a href="https://obsproject.com/kb/filters-guide">Filters Guide</a> has more on each.</p>
+              </div>
+            </details>
+          </div>
+        </li>
+
+        <!-- Step 3: the download -->
+        <li class="step step-download" id="step-3">
+          <div class="step-head">
+            <span class="node" aria-hidden="true">3</span>
+            <div>
+              <h3><span class="visually-hidden">Step 3: </span>Download knobs and start it</h3>
+              <p class="step-sum">From the project’s GitHub Releases, with a SHA-256 for each file.</p>
+            </div>
+          </div>
+          <div class="step-body">
+            <p class="needs"><b>Needs</b> Windows 64-bit, OBS Studio <span class="mono">32.2.x</span> (tested on <span class="mono">32.2.2</span>) and a virtual cable such as <a href="https://vb-audio.com/Cable/">VB-Cable</a>.</p>
+
+            <div class="dl" data-release="swap">
+              <!-- Before GitHub answers, and without JavaScript -->
+              <div class="dl-state dl-static" data-when="static">
+                <div class="notice">
+                  <p class="notice-head"><span class="if-js">Checking GitHub for the latest release…</span><span class="if-nojs">The latest release is on GitHub</span></p>
+                  <p>Its files and their checksums are listed on the releases page. Until there’s a release, you can build knobs from source.</p>
+                  <div class="actions">
+                    <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
+                    <a class="btn btn-secondary" href="https://github.com/danielalyoshin/knobs#building">Build from source</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- A release exists -->
+              <div class="dl-state dl-ready" data-when="ready" hidden>
+                <div class="release-head">
+                  <div class="release-id">
+                    <p class="release-version"><span class="visually-hidden">Version </span><span class="mono" data-r="version"></span><span class="tag" data-r="pre" hidden>Pre-release</span><span class="tag tag-preview" data-r="preview" hidden>Preview data</span></p>
+                    <p class="release-date">Released <time data-r="date"></time></p>
+                  </div>
+                  <p class="release-links">
+                    <a data-r="notes" href="https://github.com/danielalyoshin/knobs/releases/latest">Release notes<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
+                    <a href="https://github.com/danielalyoshin/knobs/releases">All releases<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
+                  </p>
+                </div>
+
+                <ul class="files" id="files" data-r="files"></ul>
+                <p class="files-src">
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>
+                  <span>Every file downloads from <span class="mono" data-r="host">github.com/danielalyoshin/knobs/releases</span>. Each one’s SHA-256 is under it, with the PowerShell command to check it.</span>
+                </p>
+
+                <div class="signing" data-r="signing">
+                  <h4 class="sub">Code signing</h4>
+                  <p data-r="signing-text">knobs isn’t code-signed yet, so Windows SmartScreen may show “Windows protected your PC” when you open it. After checking the checksum, choose <b class="ui">More info</b>, then <b class="ui">Run anyway</b>.</p>
+                </div>
+              </div>
+
+              <!-- No release yet (today) -->
+              <div class="dl-state dl-none" data-when="none" hidden>
+                <div class="notice">
+                  <p class="notice-head">No release yet</p>
+                  <p>An installer and a portable zip come next. knobs works end to end and has been tested on real hardware with OBS <span class="mono">32.2.2</span>, an Audient iD4, VB-Cable and Discord.</p>
+                  <div class="actions">
+                    <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs#building">Build from source</a>
+                    <a class="btn btn-secondary" href="https://github.com/danielalyoshin/knobs">
+                      <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Watch for releases
+                    </a>
+                  </div>
+                  <p class="notice-foot">To hear about the first release, open the repository on GitHub and choose <b class="ui">Watch › Custom › Releases</b>.</p>
+                </div>
+
+                <details class="disclosure">
+                  <summary>
+                    <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+                    <span>Build it from source</span>
+                  </summary>
+                  <div class="disclosure-body">
+                    <p>You need Visual Studio 2022 or newer with the <b class="ui">Desktop development with C++</b> workload, and CMake 3.25 or newer. From a Developer PowerShell for VS:</p>
+                    <div class="code">
+                      <pre id="build-cmds"><code>git clone https://github.com/danielalyoshin/knobs.git
+cd knobs
+cmake --preset x64
+cmake --build --preset release</code></pre>
+                      <button class="copy" type="button" data-copy-from="#build-cmds" aria-label="Copy the build commands">
+                        <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
+                      </button>
+                    </div>
+                    <p>Then run <code>build\x64\Release\knobs.exe</code>. <a href="https://github.com/danielalyoshin/knobs#building">The README</a> has the full instructions and the tests.</p>
+                  </div>
+                </details>
+              </div>
+
+              <!-- GitHub couldn't be reached -->
+              <div class="dl-state dl-error" data-when="error" hidden>
+                <div class="notice">
+                  <p class="notice-head">Couldn’t check for a release</p>
+                  <p><span data-error="reason">GitHub couldn’t be reached.</span> The releases page always has the files and their checksums.</p>
+                  <div class="actions">
+                    <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
+                    <button class="btn btn-secondary" type="button" data-retry>Try again</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="sub">Start knobs</h4>
+            <p>Its first run checks what it found in OBS and asks only what it needs to:</p>
+            <ul class="plain">
+              <li><strong>Which mic</strong>, if OBS has several.</li>
+              <li><strong>Which cable</strong>, if OBS doesn’t monitor the mic to one. With no cable installed, it links to VB-Cable and waits for one.</li>
+              <li><strong>Filters it can’t run</strong>, if there are any. <a href="#limits">Known limits</a> lists them.</li>
+            </ul>
+            <p>If you choose <b class="ui">I’m new to OBS</b>, it shows the steps above instead, and carries on by itself when you close OBS. The last page shows your chain, with <b class="ui">Start with Windows</b> checked.</p>
+            <p class="aside">knobs then lives in the tray. Windows 11 hides new tray icons, so click <kbd>^</kbd> (<b class="ui">Show hidden icons</b>) on the taskbar to find the knob.</p>
+          </div>
+        </li>
+
+        <!-- Step 4 -->
+        <li class="step" id="step-4">
+          <div class="step-head">
+            <span class="node" aria-hidden="true">4</span>
+            <div>
+              <h3><span class="visually-hidden">Step 4: </span>Choose the cable in your apps</h3>
+              <p class="step-sum">The cable’s recording side, as the mic in Discord, Zoom and games.</p>
+            </div>
+          </div>
+          <div class="step-body">
+            <p>In Discord, Zoom, your games and your browser, choose the cable’s recording side as your mic. For VB-Cable, that’s <b class="ui">CABLE Output</b>.</p>
+            <div class="tip">
+              <p class="tip-head">Turn off the app’s own processing</p>
+              <p>Apps can process your mic again on top of your chain. Discord, for one, has its own noise suppression, echo cancellation and automatic gain control in <b class="ui">Voice &amp; Video</b>. Turn them off to hear exactly what you tuned.</p>
+            </div>
+            <p class="aside"><strong>To change your sound later,</strong> open OBS, change the filters and close it. knobs pauses while OBS is open, runs the new chain when it closes, and says what changed in a notification.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Why and how -->
+  <section class="section how" id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="how-title">How it works</h2>
+        <p>If you tuned your mic in OBS and send it to a virtual cable, OBS has to stay open all day. Other tools, such as Equalizer APO, VoiceMeeter and NVIDIA Broadcast, have their own DSP, so a chain tuned in OBS can’t match exactly. knobs runs OBS’s own filter code, from your OBS install, with your OBS settings. Nothing else touches the audio.</p>
+      </div>
+
+      <figure class="signal">
+        <ol class="signal-path">
+          <li class="sp">
+            <span class="sp-name">Your mic</span>
+            <span class="sp-note">The mic in your OBS profile</span>
+          </li>
+          <li class="sp sp-knobs">
+            <span class="sp-name">OBS’s filters, run by knobs</span>
+            <span class="sp-note">Your chain, in order, with your settings</span>
+          </li>
+          <li class="sp">
+            <span class="sp-name">Virtual cable</span>
+            <span class="sp-note">VB-Cable, or another one</span>
+          </li>
+          <li class="sp">
+            <span class="sp-name">Discord, Zoom, games</span>
+            <span class="sp-note">Their mic is <b class="ui">CABLE Output</b></span>
+          </li>
+        </ol>
+        <figcaption>The signal path. There’s no video, no window and no OBS process.</figcaption>
+      </figure>
+
+      <dl class="facts">
+        <div>
+          <dt>OBS’s own filter code</dt>
+          <dd>knobs ships no DSP of its own. It loads OBS’s <code>obs.dll</code>, <code>win-wasapi</code> and <code>obs-filters</code> from a private copy of your OBS install, so its output is <span class="nowrap">bit-identical</span> to OBS’s.</dd>
+        </div>
+        <div>
+          <dt>Out of OBS’s way</dt>
+          <dd>knobs pauses while OBS is open, so the cable never gets your mic twice. When OBS closes, knobs reads its settings again and runs whatever you changed.</dd>
+        </div>
+        <div>
+          <dt>In the tray, from sign-in</dt>
+          <dd>knobs starts with Windows and lives in the tray. In testing, the mic was on the cable 9.5&nbsp;s after signing in, with nothing clicked. A notification says when something needs you.</dd>
+        </div>
+        <div>
+          <dt>Read-only on OBS</dt>
+          <dd>knobs never writes to OBS’s settings or its install. The install stays unlocked, so a running knobs never blocks an OBS update.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Measured against OBS -->
+  <section class="section measured" id="measured" aria-labelledby="measured-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="measured-title">Measured against OBS</h2>
+        <p>Same sound, same delay, and a fraction of the footprint.</p>
+      </div>
+
+      <div class="measures">
+        <div class="measure">
+          <h3>Same sound</h3>
+          <p class="measure-figure">Bit-identical</p>
+          <p>For the same input, knobs’s output is <span class="nowrap">bit-identical</span> to OBS’s: on test signals, on a chain of every audio filter in OBS’s <code>obs-filters</code>, and on a recording of real voice. <code>knobs-compare</code> checks this against OBS itself.</p>
+        </div>
+
+        <div class="measure">
+          <h3>Same delay</h3>
+          <dl class="delay">
+            <div><dt>knobs</dt><dd><span class="num">88.1</span> ms</dd></div>
+            <div><dt>OBS</dt><dd><span class="num">87.7</span> ms</dd></div>
+          </dl>
+          <p>From the mic to the cable, on the same cable input.</p>
+          <p class="footnote">Measured on one PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and VB-Cable.</p>
+        </div>
+
+        <div class="measure measure-wide">
+          <h3>A fraction of the footprint</h3>
+          <p>knobs running a four-filter chain (3-Band Equalizer, Expander, Compressor, Limiter), against OBS minimized on the same PC.</p>
+          <table class="table footprint">
+            <caption class="visually-hidden">knobs running a four-filter chain, against OBS minimized</caption>
+            <thead>
+              <tr><td></td><th scope="col">knobs, running</th><th scope="col">OBS, minimized</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">CPU, one core</th><td>0.72%</td><td>5.64%</td></tr>
+              <tr><th scope="row">Memory (working set)</th><td>36 MB</td><td>469 MB</td></tr>
+              <tr><th scope="row">Threads</th><td>7–9</td><td>90–98</td></tr>
+              <tr><th scope="row">GPU</th><td>None</td><td>0.05%</td></tr>
+            </tbody>
+          </table>
+          <p class="footnote">Measured on one PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and VB-Cable. <a href="https://github.com/danielalyoshin/knobs/blob/main/plan.md#m3-test-on-real-hardware-obs-3222">plan.md</a> has the method.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Known limits -->
+  <section class="section limits" id="limits" aria-labelledby="limits-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="limits-title">Known limits</h2>
+        <p>Check these before you download, so knobs does what you expect.</p>
+      </div>
+      <dl class="limit-list">
+        <div><dt>One mic.</dt><dd>With several mics in OBS, knobs runs the one you choose.</dd></div>
+        <div><dt>No VST filters.</dt><dd>knobs leaves them out of the chain and warns you.</dd></div>
+        <div><dt>No NVIDIA noise removal.</dt><dd>It’s in a separate OBS module, <code>nv-filters</code>, which knobs doesn’t load. The filter passes audio through unchanged, with a warning.</dd></div>
+        <div><dt>No sidechain.</dt><dd>knobs runs no other sources, so it runs the compressor as OBS does while the sidechain is silent, and warns you.</dd></div>
+        <div><dt>Mute and push-to-talk don’t silence the cable.</dt><dd>OBS’s monitoring ignores them too. The first run says so.</dd></div>
+        <div><dt>The cable is quiet while OBS is open,</dt><dd>unless OBS monitors your mic to it. Turn off <b class="ui">Pause while OBS is open</b> to keep knobs running then.</dd></div>
+        <div><dt>A new sample rate or channel layout in OBS restarts knobs,</dt><dd>as it restarts OBS, with a moment of silence.</dd></div>
+        <div><dt>Windows only, and OBS 32.2.x only,</dt><dd>for now.</dd></div>
+      </dl>
+      <p class="limits-more"><a href="https://github.com/danielalyoshin/knobs#known-limits">Known limits in the README<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-id">
+        <picture>
+          <source srcset="brand/knobs-lockup-horizontal-light.svg" media="(prefers-color-scheme: dark)">
+          <img src="brand/knobs-lockup-horizontal-dark.svg" alt="knobs" width="109" height="32" loading="lazy">
+        </picture>
+        <p>Your OBS mic chain, without OBS.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Project links">
+        <div>
+          <h2 class="footer-h">Project</h2>
+          <ul>
+            <li><a href="https://github.com/danielalyoshin/knobs">Source code</a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs/releases">Releases</a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs/issues">Issues</a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">License</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer-h">This site</h2>
+          <ul>
+            <li><a href="https://github.com/danielalyoshin/knobs-site">Source of this site</a></li>
+            <li><a href="#setup">Setup</a></li>
+            <li><a href="#step-3">Download</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-legal">
+      <p>knobs is licensed under <a href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">GPL-2.0-or-later</a>, the same as libobs. It ships no OBS binaries: it runs the OBS you installed.</p>
+      <p>knobs is an independent project. It isn’t affiliated with or endorsed by the OBS Project.</p>
+    </div>
+  </div>
+</footer>
+
+<p class="visually-hidden" id="release-status" role="status" aria-live="polite"></p>
+
+<template id="tpl-file">
+  <li class="file">
+    <div class="file-info">
+      <p class="file-title"><span data-k="title"></span><span class="tag" data-k="tag" hidden>Recommended</span></p>
+      <p class="file-meta"><span class="mono" data-k="name"></span><span class="sep" aria-hidden="true">·</span><span data-k="size"></span></p>
+    </div>
+    <a class="btn btn-secondary file-dl" data-k="link" href="https://github.com/danielalyoshin/knobs/releases">
+      <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg><span>Download</span><span class="visually-hidden" data-k="sr"></span>
+    </a>
+    <details class="hash" data-k="hash">
+      <summary>
+        <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+        <span>SHA-256</span>
+      </summary>
+      <div class="hash-body">
+        <div class="codeline">
+          <code class="hash-value" data-k="sha"></code>
+          <button class="copy" type="button" data-k="copy-sha">
+            <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
+          </button>
+        </div>
+        <p class="hash-help">To check it, run this in PowerShell, in the folder you saved the file to. The hash it prints, in capitals, should match.</p>
+        <div class="codeline">
+          <code data-k="cmd"></code>
+          <button class="copy" type="button" data-k="copy-cmd">
+            <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
+          </button>
+        </div>
+      </div>
+    </details>
+  </li>
+</template>
+</body>
+</html>

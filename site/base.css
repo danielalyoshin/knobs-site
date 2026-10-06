@@ -1,0 +1,144 @@
+/*
+ * Foundation for the knobs download page: brand tokens, faces and a small
+ * reset. Layout and components live in styles.css.
+ *
+ * Colour strategy: restrained. Cool graphite neutrals taken from the knob,
+ * ink for the primary action, and the brand red only in the logo. Never a
+ * field, a button fill or a large area.
+ */
+
+@font-face {
+  font-family: "Sora";
+  src: url("fonts/sora-latin-var.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+
+  /* Faces. Sora is the wordmark's face; use it for headings only.
+     Body text is the visitor's own system face (Segoe UI on Windows). */
+  --font-display: "Sora", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Light: brand ink on white, cool graphite greys. */
+  --bg: #ffffff;
+  --bg-subtle: #f5f6f8;
+  --surface: #ffffff;
+  --surface-sunken: #f0f1f4;
+  --line: #e2e4e8;
+  --line-strong: #cdd0d6;
+  --text: #17181b;
+  --text-2: #464950;
+  --text-3: #686c75;
+  --accent: #d63c42;
+  --primary-bg: #17181b;
+  --primary-bg-hover: #2b2d32;
+  --primary-text: #ffffff;
+  --ok: #1d7a4c;
+  --warn: #9a5a00;
+  --focus: #17181b;
+  --shadow: 0 1px 2px rgb(23 24 27 / 0.06), 0 4px 16px rgb(23 24 27 / 0.06);
+
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.25rem;
+  --text-4xl: 3rem;
+
+  --content: 72rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark: the knob's graphite, light ink #e8eaee, the dark-ground red. */
+    --bg: #0f1012;
+    --bg-subtle: #141518;
+    --surface: #17181b;
+    --surface-sunken: #121316;
+    --line: #26282d;
+    --line-strong: #363940;
+    --text: #e8eaee;
+    --text-2: #b0b4bc;
+    --text-3: #8b8f98;
+    --accent: #e5484d;
+    --primary-bg: #e8eaee;
+    --primary-bg-hover: #ffffff;
+    --primary-text: #17181b;
+    --ok: #4cc38a;
+    --warn: #f0a33c;
+    --focus: #e8eaee;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 16px rgb(0 0 0 / 0.3);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p { margin: 0; text-wrap: pretty; }
+
+img, svg { display: block; max-width: 100%; }
+
+code, kbd, samp, pre { font-family: var(--font-mono); font-size: 0.9em; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

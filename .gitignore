@@ -1,0 +1,10 @@
+# Local design and agent tooling. This repository is public; keep it to the site.
+.claude/
+.agents/
+.codex/
+.impeccable/
+
+.DS_Store
+
+# Draft layouts, compared locally. The chosen one moves into site/.
+drafts/
