@@ -90,7 +90,7 @@
       <div class="path">
         <h2 class="visually-hidden">Setup at a glance</h2>
         <p class="path-skip">
-          <span class="path-skip-text">Already have OBS <span class="mono">32.2.x</span>, a tuned mic and a cable? <a class="nowrap" href="#step-3">You only need step 3</a>.</span>
+          <span class="path-skip-text"><span class="path-skip-q">Already have OBS <span class="mono">32.2.x</span>, a tuned mic and a cable?</span> <a class="nowrap" href="#step-3">You only need step 3</a>.</span>
         </p>
         <ol class="path-steps">
           <li class="pstep">
@@ -123,7 +123,9 @@
                 </p>
                 <p class="os-note">knobs is for a <span class="nowrap">Windows 64-bit PC.</span> It doesn’t run on phones or macOS.</p>
                 <div class="actions">
-                  <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
+                  <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">
+                    <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
+                  </a>
                   <a class="btn btn-secondary btn-build" href="#build" data-open="build">
                     <svg class="icon" aria-hidden="true"><use href="#i-arrow-down"/></svg>
                     <span class="btn-build-text"><span>Build from source</span> <span class="btn-build-cost">(Visual Studio 2022 and CMake)</span></span>
@@ -160,7 +162,7 @@
                 </p>
                 <p class="rs-links">
                   <a data-hero="portable" href="https://github.com/danielalyoshin/knobs/releases/latest" hidden><span data-hero="portable-label">Portable zip</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-download"/></svg></a>
-                  <a href="#files">Checksums<svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-down"/></svg></a>
+                  <a href="#files" data-open="files">Checksums<svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-down"/></svg></a>
                   <a href="https://github.com/danielalyoshin/knobs/releases">All releases<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
                 </p>
               </div>
@@ -186,7 +188,9 @@
                 <p class="rs-body"><span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files.</span></p>
                 <p class="os-note">The files there are for a <span class="nowrap">Windows 64-bit PC.</span> knobs doesn’t run on phones or macOS.</p>
                 <div class="actions">
-                  <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
+                  <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">
+                    <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
+                  </a>
                   <button class="btn btn-secondary" type="button" data-retry>Try again</button>
                 </div>
               </div>
@@ -342,7 +346,9 @@
                   <p class="notice-head"><span class="if-js">Checking GitHub for the latest release…</span><span class="if-nojs">Releases are on GitHub</span></p>
                   <p>The releases page lists each file with its checksum. Until there’s a release, you can build knobs from source.</p>
                   <div class="actions">
-                    <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
+                    <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">
+                      <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
+                    </a>
                   </div>
                 </div>
               </div>
@@ -360,7 +366,7 @@
                   </p>
                 </div>
 
-                <ul class="files" id="files" data-r="files"></ul>
+                <ul class="files" id="files" data-r="files" data-open-all></ul>
                 <p class="files-src">
                   <svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>
                   <span>Every file downloads from <span class="mono" data-r="host">github.com/danielalyoshin/knobs/releases</span>. Each one’s SHA-256 is under it, with the PowerShell command to check it.</span>
@@ -392,7 +398,9 @@
                   <p class="notice-head">Couldn’t check for a release</p>
                   <p><span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files and their checksums.</span></p>
                   <div class="actions">
-                    <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">Releases on GitHub</a>
+                    <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">
+                      <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
+                    </a>
                     <button class="btn btn-secondary" type="button" data-retry>Try again</button>
                   </div>
                 </div>
@@ -459,7 +467,7 @@ cmake --build --preset release</code></pre>
     <div class="wrap">
       <div class="section-head">
         <h2 id="how-title">How it works</h2>
-        <p>If you tuned your mic in OBS and send it to a virtual cable, OBS has to stay open all day. Other tools, such as Equalizer APO, VoiceMeeter and NVIDIA Broadcast, have their own DSP, so a chain tuned in OBS can’t match exactly. knobs runs OBS’s own filter code, from your OBS install, with your OBS settings. Nothing else touches the audio.</p>
+        <p>If you tuned your mic in OBS and send it to a virtual cable, OBS has to stay open all day. Other tools, such as Equalizer APO, VoiceMeeter and NVIDIA Broadcast, process audio their own way, so a chain tuned in OBS can’t match exactly. knobs runs OBS’s own filter code, from your OBS install, with your OBS settings. Nothing else touches the audio.</p>
       </div>
 
       <figure class="signal">
@@ -487,7 +495,7 @@ cmake --build --preset release</code></pre>
       <dl class="facts">
         <div>
           <dt>OBS’s own filter code</dt>
-          <dd>knobs ships no DSP of its own. It loads OBS’s <code>obs.dll</code>, <code>win-wasapi</code> and <code>obs-filters</code> from a private copy of your OBS install, so its output is <span class="nowrap">bit-identical</span> to OBS’s.</dd>
+          <dd>knobs ships no audio processing of its own. It loads OBS’s <code>obs.dll</code>, <code>win-wasapi</code> and <code>obs-filters</code> from a private copy of your OBS install, so its output is <span class="nowrap">bit-identical</span> to OBS’s.</dd>
         </div>
         <div>
           <dt>Out of OBS’s way</dt>

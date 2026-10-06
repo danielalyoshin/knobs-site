@@ -222,6 +222,8 @@
       renderHero(r.release);
       renderDetail(r.release, !!r.synthetic);
       show("ready");
+      // A link to #files arrives before the file rows exist.
+      openFromHash();
       announce("Latest release: knobs " + r.release.version + ", " + r.release.dateLabel + ".");
     } else if (r.state === "none") {
       show("none");
@@ -319,17 +321,19 @@
     }
 
     var opener = t.closest("[data-open]");
-    if (opener) {
-      var d = doc.getElementById(opener.getAttribute("data-open"));
-      if (d && d.tagName === "DETAILS") d.open = true;
-    }
+    if (opener) openTarget(opener.getAttribute("data-open"));
   });
 
-  function openFromHash() {
-    var id = location.hash.slice(1);
-    var d = id && doc.getElementById(id);
-    if (d && d.tagName === "DETAILS") d.open = true;
+  // A disclosure opens; a list marked data-open-all opens every disclosure
+  // in it, so "Checksums" lands on each file's SHA-256, not on closed rows.
+  function openTarget(id) {
+    var t = id && doc.getElementById(id);
+    if (!t) return;
+    if (t.tagName === "DETAILS") t.open = true;
+    else if (t.hasAttribute("data-open-all")) $$("details", t).forEach(function (d) { d.open = true; });
   }
+
+  function openFromHash() { openTarget(location.hash.slice(1)); }
   window.addEventListener("hashchange", openFromHash);
   openFromHash();
 
