@@ -281,8 +281,42 @@ b, strong { font-weight: 600; color: var(--text); }
 /* ---------- Intro: pitch and the path ---------- */
 
 .intro {
+  position: relative;
   padding-block: clamp(36px, 5.5vw, 80px) clamp(56px, 7vw, 104px);
   background: var(--bg-subtle);
+}
+
+/* The page's one decoration: a spoken phrase traced as a 1px line whose
+   zero is the seam under the band, centred on the next section's rule.
+   It stays in the band's bottom padding, clear of the headline and the
+   download, and never moves. One unit is one pixel, so a narrower column
+   shows the phrase's start rather than squeezing it, and a stretch of
+   sound that would run past the column's edge (its --end) isn't drawn:
+   the line always stops in a pause, never cut off mid-word. */
+.voice {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.5px;
+  transform: translateY(50%);
+  container-type: inline-size;
+  pointer-events: none;
+}
+.voice-trace {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  aspect-ratio: 1152 / 30;
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-linejoin: round;
+}
+.voice-trace path {
+  stroke-width: clamp(0px, (100cqw - var(--end) + 1px) * 1000, 1px);
+  vector-effect: non-scaling-stroke;
+}
+@media (forced-colors: active) {
+  .voice { display: none; }
 }
 
 .pitch {

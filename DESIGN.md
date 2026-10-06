@@ -258,7 +258,7 @@ components:
 
 **Creative North Star: "The Setup Path, Set Straight"**
 
-The knobs site is the open-source download page done the way the best projects do it: white or graphite ground, cool greys taken from the knob, black ink for the one thing to press, and nothing on top. There is no concept, no theme and no decoration competing with the file. The finish bar is the download pages of Zed and Audacity: exact spacing, hairline structure, honest states, and every link visibly going where it says.
+The knobs site is the open-source download page done the way the best projects do it: white or graphite ground, cool greys taken from the knob, black ink for the one thing to press, and nothing on top. There is no concept and no theme, and the one decoration, a voice traced along the foot of the first screen, never competes with the file. The finish bar is the download pages of Zed and Audacity: exact spacing, hairline structure, honest states, and every link visibly going where it says.
 
 The page reads as a path. Setup is four numbered steps joined by a hairline rail, and the download is step 3, held in the one bordered panel on the page. Everything else is open typography on hairline rules: ruled tables, ruled fact grids, file rows with their checksums folded under them. Density is moderate and calm; sections breathe on large vertical padding, and inside a section the type does the work.
 
@@ -270,6 +270,7 @@ Motion settles and never performs. Feedback answers in 160ms, structure settles 
 - 1px hairlines carry structure; one tight lift is the only shadow.
 - A step rail with round numbered nodes, and a single "station" panel for the download.
 - Light and dark follow the visitor's system setting, with a token pair for every role.
+- One decoration: a static 1px trace of a spoken phrase along the seam under the first screen.
 - Self-contained: the fonts, logo and icons are served from the site; the only outside request is the GitHub releases API.
 
 ## Colors
@@ -287,7 +288,7 @@ A cool, near-monochrome palette drawn from the knob's graphite, with black ink a
 - **Surface** (`surface`, `surface-dark`): bordered containers: the station, file lists, disclosures, signal-path stages, secondary buttons, copy buttons.
 - **Surface Sunken** (`surface-sunken`, `surface-sunken-dark`): code blocks, the open SHA-256 panel, and the nav-link hover.
 - **Hairline** (`hairline`, `hairline-dark`): row dividers, section rules, table body rules.
-- **Hairline Strong** (`hairline-strong`, `hairline-strong-dark`): container borders, the step rail, idle node rings, table header rules, link underlines at rest.
+- **Hairline Strong** (`hairline-strong`, `hairline-strong-dark`): container borders, the step rail, idle node rings, table header rules, link underlines at rest, and the voice trace.
 - **Graphite 2** (`graphite-2`, `graphite-2-dark`): secondary prose: the lede, step descriptions, section intros, nav links.
 - **Graphite 3** (`graphite-3`, `graphite-3-dark`): tertiary text: hints, footnotes, file metadata, table headers, separators, the chevron.
 
@@ -375,7 +376,7 @@ The system is flat. Depth comes from tone (Paper Subtle bands, Surface panels, S
 
 Gently rounded rectangles on hairline borders. Containers that hold content (the station, file lists, disclosures, notes, signal stages) use the 12px radius; buttons, code blocks and the hash panel use 8px; the copy button and nav links 6px; small inline things (the focus ring, kbd keys, the hash summary) 4px. Step nodes are true circles; tags are pills. The external, download, copy, check, chevron, arrow, info and GitHub icons are 16px stroke glyphs (1.5px stroke, round caps), drawn inline from one sprite at 16px, or 12px beside link text.
 
-**The Hairline Structure Rule.** Structure is drawn with 1px lines: rails, row dividers, table rules, section rules, the bracket. A line never grows past 1px except the key cap's 2px bottom edge.
+**The Hairline Structure Rule.** Structure is drawn with 1px lines: rails, row dividers, table rules, section rules, the bracket. A line never grows past 1px except the key cap's 2px bottom edge. The voice trace is the one 1px line that isn't structure.
 
 ## Components
 
@@ -408,6 +409,16 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - **Error:** "Couldn't check for a release", the reason, "Releases on GitHub" (primary) and "Try again" (secondary). When GitHub's rate limit was hit, "Try again" is left out, since asking again can't work until the limit resets, and the page keeps that answer until then (between 30 seconds and 15 minutes) so a reload doesn’t ask again.
 - The arriving state settles in (opacity and a 4px rise, 320ms).
 - **Not on Windows:** each state carries a quiet label-size note (Graphite 3, balanced lines, "Windows 64-bit PC." never split), before its first action and never moving it. In ready it sits directly under the download button, above the github.com line: "This is the installer for a Windows 64-bit PC. knobs doesn’t run on phones or macOS." ("the portable zip" or "Its files are" when the button gets something else). None: "Both will be for a Windows 64-bit PC." Error: "The files there are for a Windows 64-bit PC." Loading: "knobs is for a Windows 64-bit PC. It doesn’t run on phones or macOS." On the horizontal path (1100px and up) the note sits just under the panel instead.
+
+### Voice Trace (decoration)
+- One spoken phrase, drawn as a single 1px line in Hairline Strong through the peak and trough of each 4px slice of the recording, 14px from the zero line at the loudest peak. It is the recording's own outline, generated from the WAV, never drawn by hand.
+- Its zero line is the seam under the first screen, centred on the next section's rule, so the trace reads as that rule picking up a voice. Quiet stretches aren't drawn, and the rule shows through them. It starts at the content's left edge.
+- It lives in the band's bottom padding and the top of the next section, never behind the headline or the download. At its tightest (1100px wide, with the non-Windows note under the panel) it clears the nearest text by about 14px. It is positioned out of the flow, so it never moves the download.
+- One unit is one pixel and it is never squeezed. A narrower column shows the start of the phrase, and a stretch of sound that would cross the column's edge isn't drawn (each path carries its right edge as `--end`, and its stroke width drops to 0 when the column is narrower), so the line always stops in a pause, never mid-word. Phones show the first three words.
+- No fill, gradient, glow or motion; the setup rail stays the only thing that moves. Inline SVG, `aria-hidden`, its stroke the Hairline Strong token so dark mode follows; hidden in forced colours.
+- **Placeholder recording.** The current trace is macOS `say` reading the headline. The voice recording from knobs's bit-identical tests replaces it; that recording needs real pauses (quiet below the floor, 0.6px at this scale), or the phrase draws as one stretch and narrow columns show none of it.
+
+**The One Decoration Rule.** The voice trace is the page's only decoration: a real recording's outline at 1px in Hairline Strong, static, at the seam under the first screen. Never a drawn, repeating or animated wave, never a second decoration, and never anything behind the headline or the download.
 
 ### File Rows
 - A Surface list with a strong hairline border, 12px radius and the lift; rows separated by hairlines, 18px by 22px padding.
@@ -453,6 +464,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - **Don't** use any shadow larger than the one-pixel lift, and don't use hard offset shadows.
 - **Don't** put icons in coloured tiles or circles; icons are bare 16px strokes beside text.
 - **Don't** add imagery the project doesn’t have: no invented screenshots, illustrations or stock art.
+- **Don't** add decoration beyond the voice trace: no background waves, patterns or textures, and no second trace.
 - **Don't** load anything from a third party. Fonts, icons and logos are served from the site; the GitHub releases API is the only outside request.
 - **Don't** set any page text in Sora or ship its font file; Sora lives only in the outlined logo. Don't add uppercase tracked labels above headings.
 - **Don't** animate content in on scroll; only the setup rail responds to scrolling.
