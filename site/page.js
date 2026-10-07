@@ -1,6 +1,7 @@
 /*
- * knobs download page: the release state in step 3, copy buttons,
- * and the setup rail. Needs release.js (window.knobsRelease).
+ * knobs download page: the release state in step 3, its file list, copy
+ * buttons, and the panels the path opens in place. Needs release.js
+ * (window.knobsRelease).
  */
 (function () {
   "use strict";
@@ -26,19 +27,11 @@
 
   function show(state) {
     root.setAttribute("data-release-state", state);
-    // The first-screen panel stacks every state in one cell, so its size never changes.
-    $$('[data-release="stack"]').forEach(function (stack) {
-      Array.prototype.forEach.call(stack.children, function (el) {
-        var on = el.getAttribute("data-when") === state;
-        el.classList.toggle("is-active", on);
-        if (on) el.removeAttribute("inert"); else el.setAttribute("inert", "");
-      });
-    });
-    // Step 3 in full swaps its states.
-    $$('[data-release="swap"]').forEach(function (box) {
-      Array.prototype.forEach.call(box.children, function (el) {
-        if (el.hasAttribute("data-when")) el.hidden = el.getAttribute("data-when") !== state;
-      });
+    // The panel stacks every state in one cell, so its size never changes.
+    $$('[data-release="stack"] > [data-when]').forEach(function (el) {
+      var on = el.getAttribute("data-when") === state;
+      el.classList.toggle("is-active", on);
+      if (on) el.removeAttribute("inert"); else el.setAttribute("inert", "");
     });
   }
 
@@ -115,26 +108,16 @@
 
     k("title").textContent = kindTitle(f);
     k("name").textContent = f.name;
+    k("link").href = f.url;
     if (f.sizeLabel) k("size").textContent = sizeOf(f);
-    else { k("size").remove(); node.querySelector(".file-meta .sep").remove(); }
+    else k("size-unit").remove();
+    if (isPrimary) k("tag").hidden = !recommend;
 
-    var link = k("link");
-    link.href = f.url;
-    k("sr").textContent = " " + f.name;
-    if (isPrimary) {
-      node.classList.add("is-primary");
-      k("tag").hidden = !recommend;
-      link.classList.remove("btn-secondary");
-      link.classList.add("btn-primary");
-    }
-
-    var hash = k("hash");
     if (f.kind === "checksums") {
-      hash.remove();
+      k("sha-item").remove();
+      k("cmd-item").remove();
       return node;
     }
-    // Every row's summary reads "SHA-256"; out of context, say whose.
-    k("hash-of").textContent = " of " + f.name;
     // With the hash, PowerShell prints True or False; -eq ignores case, so
     // its capitals match GitHub's lower case. The file name is escaped for
     // the double quotes, though GitHub already strips odd characters.
@@ -159,25 +142,15 @@
       k("copy-sha").setAttribute("data-copy", f.sha256);
       k("copy-sha").setAttribute("aria-label", "Copy the SHA-256 of " + f.name);
     } else {
-      k("sha").parentNode.remove();
-      var help = node.querySelector(".hash-help");
-      help.style.marginTop = "0";
-      help.textContent = rel.checksums
+      k("sha-item").remove();
+      k("cmd-help").textContent = rel.checksums
         ? "GitHub lists no SHA-256 for this file; the checksums file has it. Run this in PowerShell and compare the hash it prints:"
         : "This release lists no SHA-256 for this file. Run this in PowerShell to see its hash:";
     }
     return node;
   }
 
-  function renderDetail(rel, synthetic) {
-    setText($('[data-r="version"]'), rel.version);
-    $('[data-r="pre"]').hidden = !rel.prerelease;
-    $('[data-r="preview"]').hidden = !synthetic;
-    var time = $('[data-r="date"]');
-    time.textContent = rel.dateLabel;
-    time.setAttribute("datetime", String(rel.publishedAt || "").slice(0, 10));
-    $('[data-r="notes"]').href = rel.url;
-
+  function renderFiles(rel) {
     var list = $('[data-r="files"]');
     list.textContent = "";
     var primary = rel.installer || rel.portable;
@@ -208,10 +181,8 @@
 
     if (r.state === "ready" && r.release) {
       renderHero(r.release);
-      renderDetail(r.release, !!r.synthetic);
+      renderFiles(r.release);
       show("ready");
-      // A link to #files arrives before the file rows exist.
-      openFromHash();
       announce("Latest release: knobs " + r.release.version + ", " + r.release.dateLabel + ".");
     } else if (r.state === "none") {
       show("none");
@@ -227,8 +198,7 @@
     // to the new state's main action.
     var a = doc.activeElement;
     if (retryFrom && (!a || a === doc.body || a.closest("[inert], [hidden]"))) {
-      var target = $(".is-active .btn-primary, .dl-state:not([hidden]) .btn-primary", retryFrom) ||
-        $(".is-active a, .dl-state:not([hidden]) a", retryFrom);
+      var target = $(".is-active .btn-primary", retryFrom) || $(".is-active a", retryFrom);
       if (target) target.focus();
     }
     retryFrom = null;
@@ -286,7 +256,7 @@
     var btn = t.closest(".copy");
     if (btn) {
       var from = btn.getAttribute("data-copy-from");
-      var source = from ? $(from) : btn.parentNode.querySelector("code");
+      var source = from ? $(from) : (btn.closest(".check") || btn.parentNode).querySelector("code");
       var text = btn.getAttribute("data-copy") || (source ? source.textContent : "");
       if (!text) return;
       copyText(text).then(function () {
@@ -308,46 +278,58 @@
       return;
     }
 
+    // "Checksums": shows or hides the file list under the panel's links.
+    var toggle = t.closest("button[aria-controls]");
+    if (toggle) {
+      expand(toggle, toggle.getAttribute("aria-expanded") !== "true");
+      return;
+    }
+
     var opener = t.closest("[data-open]");
-    if (opener) openTarget(opener.getAttribute("data-open"));
+    if (opener) {
+      openTarget(opener.getAttribute("data-open"));
+      return;
+    }
+
+    // A panel under the path closed from its own summary takes no room, so
+    // focus goes back to the link or button that opens it.
+    var sum = t.closest(".path-more > details > summary");
+    if (sum && sum.parentNode.open) {
+      var id = sum.parentNode.id;
+      window.requestAnimationFrame(function () {
+        var back = $$("[data-open]").filter(function (n) {
+          return n.getAttribute("data-open") === id && !n.closest("[inert]") && n.getClientRects().length;
+        })[0];
+        if (back) back.focus();
+      });
+    }
   });
 
-  // A disclosure opens; a list marked data-open-all opens every disclosure
-  // in it, so "Checksums" lands on each file's SHA-256, not on closed rows.
+  function expand(btn, open) {
+    var t = doc.getElementById(btn.getAttribute("aria-controls"));
+    if (!t) return;
+    btn.setAttribute("aria-expanded", String(open));
+    t.hidden = !open;
+  }
+
+  // A disclosure opens; a list with a button that controls it opens with
+  // that button, so a link to #files lands on the open file list.
   function openTarget(id) {
     var t = id && doc.getElementById(id);
-    if (!t) return;
+    if (!t) return null;
     if (t.tagName === "DETAILS") t.open = true;
-    else if (t.hasAttribute("data-open-all")) $$("details", t).forEach(function (d) { d.open = true; });
-  }
-
-  function openFromHash() { openTarget(location.hash.slice(1)); }
-  window.addEventListener("hashchange", openFromHash);
-  openFromHash();
-
-  /* ---------- Setup rail: each step inks as it reaches the reading line ---------- */
-
-  var steps = $$(".step");
-  var queued = false;
-  function updateRail() {
-    queued = false;
-    var line = window.innerHeight * 0.45;
-    var current = -1;
-    for (var i = 0; i < steps.length; i++) {
-      if (steps[i].getBoundingClientRect().top <= line) current = i;
-    }
-    steps.forEach(function (s, i) {
-      s.classList.toggle("is-reached", i <= current);
-      s.classList.toggle("is-passed", i < current);
+    else $$("button[aria-controls]").forEach(function (b) {
+      if (b.getAttribute("aria-controls") === id) expand(b, true);
     });
+    return t;
   }
-  function queueRail() {
-    if (!queued) { queued = true; window.requestAnimationFrame(updateRail); }
-  }
-  if (steps.length) {
-    window.addEventListener("scroll", queueRail, { passive: true });
-    window.addEventListener("resize", queueRail);
-    updateRail();
+
+  window.addEventListener("hashchange", function () { openTarget(location.hash.slice(1)); });
+  // Arriving at #build or #new-to-obs: the panel took no room when the
+  // browser looked for it, so scroll to it once it's open.
+  var arrived = openTarget(location.hash.slice(1));
+  if (arrived && arrived.tagName === "DETAILS") {
+    window.requestAnimationFrame(function () { arrived.scrollIntoView(); });
   }
 
   load();
