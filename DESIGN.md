@@ -55,12 +55,11 @@ typography:
     fontWeight: 600
     lineHeight: 1.3
     letterSpacing: "-0.006em"
-  figure:
+  chart-value:
     fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
-    fontSize: "2rem"
+    fontSize: "0.9375rem"
     fontWeight: 600
-    lineHeight: 1.1
-    letterSpacing: "-0.02em"
+    lineHeight: 1.5
     fontFeature: "tnum"
   numeral:
     fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
@@ -118,6 +117,10 @@ spacing:
   col-gap: "64px"
   path-gap: "32px"
   node: "32px"
+  signal-gap: "40px"
+  signal-dot: "11px"
+  chart-bar: "10px"
+  chart-room: "5.25rem"
   section-y: "clamp(72px, 9vw, 128px)"
   station-pad: "24px"
 components:
@@ -165,6 +168,25 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.lg}"
     padding: "0 24px 24px"
+  signal-stage-knobs:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.lg}"
+    padding: "22px 20px 20px"
+  signal-chain:
+    backgroundColor: "{colors.paper-subtle}"
+    textColor: "{colors.ink}"
+    typography: "{typography.ui-sm}"
+    rounded: "{rounded.md}"
+    padding: "7px 12px 7px 32px"
+  chart-bar-knobs:
+    backgroundColor: "{colors.ink}"
+    rounded: "0 4px 4px 0"
+    height: "10px"
+  chart-bar-obs:
+    backgroundColor: "{colors.graphite-3}"
+    rounded: "0 4px 4px 0"
+    height: "10px"
   file-row:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.ink}"
@@ -224,7 +246,7 @@ The knobs site is the open-source download page done the way the best projects d
 
 The page reads as a path. Setup is the four numbered steps on the first screen, joined by a hairline rail, and the download is step 3, held in the one bordered panel on the page. What a step needs beyond its few lines opens in place rather than in a section further down: the release's files and checksums inside the panel, the OBS guide and the build steps under the path. Everything else is open typography on hairline rules: ruled tables and ruled fact grids. Density is moderate and calm; sections breathe on large vertical padding, and inside a section the type does the work.
 
-Motion settles and never performs. Feedback answers in 160ms, structure settles in 320ms, both on one curve, with opacity and a 4px rise only. Nothing moves on scroll.
+Motion settles and never performs. Feedback answers in 160ms, structure settles in 320ms, both on one curve, with opacity and a 4px rise only. Nothing moves on scroll except each measurement chart's one-time sweep (see Measurement Charts).
 
 **Key Characteristics:**
 - Restrained palette: cool graphite neutrals, ink as the only action colour, brand red only inside the logo.
@@ -247,12 +269,12 @@ A cool, near-monochrome palette drawn from the knob's graphite, with black ink a
 ### Neutral
 - **Paper** (`paper`, `paper-dark`): the page ground for the content sections.
 - **Paper Subtle** (`paper-subtle`, `paper-subtle-dark`): the header, the first screen with the path, the footer, and hover fills on summaries.
-- **Surface** (`surface`, `surface-dark`): bordered containers: the station, disclosures, signal-path stages, secondary buttons, copy buttons.
+- **Surface** (`surface`, `surface-dark`): bordered containers: the station, disclosures, the knobs stage in the signal path, secondary buttons, copy buttons.
 - **Surface Sunken** (`surface-sunken`, `surface-sunken-dark`): code blocks, the hash and command wells in the file list, and the nav-link hover.
 - **Hairline** (`hairline`, `hairline-dark`): row dividers, section rules, table body rules.
 - **Hairline Strong** (`hairline-strong`, `hairline-strong-dark`): container borders, the step rail, idle node rings, table header rules, link underlines at rest, and the voice trace.
 - **Graphite 2** (`graphite-2`, `graphite-2-dark`): secondary prose: the lede, step descriptions, section intros, nav links.
-- **Graphite 3** (`graphite-3`, `graphite-3-dark`): tertiary text: hints, footnotes, file metadata, table headers, separators, the chevron.
+- **Graphite 3** (`graphite-3`, `graphite-3-dark`): tertiary text: hints, footnotes, file metadata, table headers, separators, the chevron. Also the signal path's wire and OBS's bars in the measurement charts.
 
 ### Status
 - **Signal Green** (`signal-ok`, `signal-ok-dark`): only the "Copied" confirmation on copy buttons.
@@ -283,7 +305,7 @@ A cool, near-monochrome palette drawn from the knob's graphite, with black ink a
 - **Headline** (600, fluid 1.75rem to 2.375rem, tracking -0.018em): section titles, set in the left head column.
 - **Title** (600, 1.1875rem, line height 1.3, tracking -0.008em): path step titles, fact terms, measurement titles.
 - **Title Small** (600, 1.125rem, tracking -0.006em): the release state head inside the station.
-- **Figure** (600, 2rem, tracking -0.02em, tabular): measured figures; delay numbers use the same face at 1.75rem.
+- **Chart Value** (Body Small, tabular): the value at the tip of each bar, knobs's in ink 600 and OBS's in Graphite 2 400; the delay values' numbers at 1.0625rem 600.
 - **Numeral** (600, 0.875rem, tabular): step node numbers.
 - **Lede** (400, 1.0625rem, line height 1.55, Graphite 2): the pitch description and section intros, capped at the measure.
 - **Body** (400, 1rem, line height 1.55).
@@ -311,13 +333,13 @@ Spacing is a loose 4px rhythm: 4 and 8 for tight inline gaps, 12 to 16 between r
 
 **Responsive behaviour.**
 - **1024px and up:** the path is horizontal, with the bracket ("Start from step 3") over steps 1 and 2 above the rail, from node 1 to node 3, and the non-Windows note in two balanced lines just under the station. The panels under the path take the columns of steps 2 and 3.
-- **Below 1024px:** the pitch stacks, with the lede at the measure; the path turns vertical, one rail down the left of the nodes, capped at 40rem; the station indents to the step text and its node sits on the rail, and so do the panels under the path; the bracket becomes a plain line above the steps. Section heads stack; measurements go to two columns.
-- **Below 900px:** the signal path stacks vertically with downward arrows.
-- **Below 720px:** the section links leave the header row for a row of their own under it, 44px tall and flush with the gutter (both fit at 320px); facts and measurements go to one column.
+- **Below 1024px:** the pitch stacks, with the lede at the measure; the path turns vertical, one rail down the left of the nodes, capped at 40rem; the station indents to the step text and its node sits on the rail, and so do the panels under the path; the bracket becomes a plain line above the steps. Section heads stack; facts and measurements stack, the claim over its text or chart.
+- **Below 900px:** the signal path turns vertical: the wire runs down the left, the arrowheads point down and the knobs panel indents to the stage text (see Signal Path).
+- **Below 720px:** the section links leave the header row for a row of their own under it, 44px tall and flush with the gutter (both fit at 320px).
 - **Below 640px:** the header's top row drops to 56px and the lockup to 32px tall (128px wide); the first screen's top padding drops to 28px and path step descriptions hide, so the download stays inside the first screen; the station takes the active state's own height; the ready state's links, "Checksums" among them, become a ruled list of 44px rows, and the open file list continues it.
 - **Below 480px:** the download button's size moves to its own line, without its dot. It does the same wherever the station is narrower than 19.5em (a container query), which is the horizontal path's narrowest widths, from 1024px to about 1100px.
 - **Below 360px:** "Build from source" may wrap. Nothing scrolls sideways at 320px (400% zoom on a 1280px window).
-- **A narrow measurements column:** where the footprint table's column is narrower than 17.5em (a container query: a phone with the browser's text at 150% or more), each measurement becomes a labelled block (see Ruled Tables).
+- **Narrow charts** (container queries, in the chart's own em, so they follow the text size): below 34em each footprint measure's name goes over its bars (every phone); below 22em the delay scale labels only 0, 50 and 100 ms; below 20em each Same sound result goes under its input, and below 18em the delay's names go over its bars (a phone with the browser's text at 150% or more). See Measurement Charts.
 
 **The Text Size Rule.** Breakpoints are set in em, so the widths above are at the browser's default 16px text. A visitor who raises the browser's text size gets the layout of a narrower window, never squeezed columns: at 200% text a 1440px window takes the 720px layout. Controls that hold text grow with it (min-height, never a fixed height), and the path's nodes are `max(32px, 2rem)`.
 
@@ -341,7 +363,7 @@ The system is flat. Depth comes from tone (Paper Subtle bands, Surface panels, S
 
 ## Shapes
 
-Gently rounded rectangles on hairline borders. Containers that hold content (the station, disclosures, signal stages) use the 12px radius; buttons, code blocks and the hash and command wells use 8px; the copy button and nav links 6px; the focus ring 4px. Step nodes are true circles; tags are pills. The external, download, copy, check, chevron, arrow, info and GitHub icons are 16px stroke glyphs (1.5px stroke, round caps), drawn inline from one sprite at 16px, or 12px beside link text.
+Gently rounded rectangles on hairline borders. Containers that hold content (the station, disclosures, the knobs stage in the signal path) use the 12px radius; buttons, code blocks and the hash and command wells use 8px; the copy button and nav links 6px; the focus ring 4px. Step nodes are true circles; tags are pills. The external, download, copy, check, chevron, arrow, info and GitHub icons are 16px stroke glyphs (1.5px stroke, round caps), drawn inline from one sprite at 16px, or 12px beside link text.
 
 **The Hairline Structure Rule.** Structure is drawn with 1px lines: rails, row dividers, table rules, section rules, the bracket. A line never grows past 1px. The voice trace is the one 1px line that isn't structure.
 
@@ -403,8 +425,26 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 
 ### Ruled Tables
 - No outer border, no fills, no zebra. Rows ruled with Hairline; the header rule in Hairline Strong. Headers in Label size, weight 500, Graphite 3. Row headers in ink 600. Numbers right-aligned in tabular figures.
-- **Stacked:** where a table's column is too narrow for its columns (the footprint table below a 17.5em column), each row becomes a labelled block: the row header in ink 600, then one line per value, its column's name left (Label size, Graphite 3) and the value right. A Hairline Strong rule opens the list and a Hairline closes each block. The header row stays for screen readers, visually hidden, and the labels are hidden from them (`content: attr(data-label) / ""`). The table carries explicit table roles, so it stays a table to screen readers once its display changes.
-- Fact grids follow the same ruled language: hairline top and bottom, a hairline between columns.
+- **Stacked:** where a table's column is too narrow for its columns (the Same sound readout below a 20em column), each row becomes a block: the row header, then its value under it. A Hairline Strong rule opens the list and a Hairline closes each block. The header row stays for screen readers, visually hidden. The table carries explicit table roles, so it stays a table to screen readers once its display changes.
+- **Ruled rows:** How it works' facts and Measured's measurements sit on the section's own grid, the term or claim in the 20rem head column and its text or evidence in the body, 64px apart, each row between Hairlines (one above the first). Below 1024px each row stacks.
+
+### Signal Path
+- One 1px wire in Graphite 3 through the four stages: your mic, OBS's filters run by knobs, the virtual cable, and the apps. Each stage has an 11px node on the wire (a Graphite 3 ring on Paper) with its name (600) and its note (UI Small, Graphite 3) under it, and each stretch of wire ends in a 7px open arrowhead at the next stage. Full content width, columns 1 : 1.6 : 1 : 1, 40px apart.
+- **The knobs stage** is the one panel: Surface, an ink border, 12px radius, the lift, 22px 20px 20px padding. The wire meets its top border, which its inked node breaks 20px in, as the rail meets the station on the first screen.
+- **The chain:** inside it, the four-filter chain from the measurements (3-Band Equalizer, Expander, Compressor, Limiter, in the order the measurement names them), in a Paper Subtle list with a Hairline border, 8px radius and Hairline rows, UI Small in ink. A 1px Graphite 3 wire runs down its left with a 5px ink dot for each filter. The caption says it is the measured chain: "The signal path, shown with the four-filter chain measured below."
+- **Below 900px** the path turns vertical, at most 30rem wide: the wire runs down the left, each node level with its stage name's first line at any text size (0.7rem down), the arrowheads point down, and the knobs panel indents 28px to the stage text with its node on the wire, like the station on the vertical path.
+- No motion. In forced colours the inked node and the chain's dots take CanvasText.
+
+### Measurement Charts
+- Each measurement keeps a structure screen readers read as data, and CSS draws it: a table, or a list of terms. No hover layer: every value is printed beside its mark.
+- **Exact-match readout (Same sound):** a ruled table with one row per input the claim covers (test signals, a chain of every audio filter in `obs-filters`, a recording of real voice), each reading "Bit-identical" in ink 600 after a 1em check stroke, right-aligned, under the headers "Input" and "knobs against OBS". It restates the measured result and draws no waveform, count or percentage.
+- **Bars:** horizontal, on linear scales from zero. knobs is Ink and OBS Graphite 3, told apart by tone, never by hue, and always also by the legend or the row names, the fixed order (knobs first) and the value labels. Bars are 10px (12px for the delay), square at the baseline and 4px round at the data end, with the value 10px after the tip. Each bar's length is set inline as `--f`, its share of the scale, beside the printed value, and the scale leaves `5.25rem` at its end for the longest label, so a label never leaves the chart.
+- **Same delay:** knobs's and OBS's bars on one 0 to 100 ms scale, so 88.1 and 87.7 ms land together. Hairline gridlines every 25 ms (the zero line Hairline Strong), Label-size tick labels, and the names left of the bars (knobs in ink 600). A value label masks any gridline it crosses.
+- **A fraction of the footprint:** the table itself, set as four small charts. Its header row is the legend (14 by 10px bar-stub swatches); each body row is a measure, its name left (above on narrow charts) and knobs's bar over OBS's on a Hairline Strong baseline. Each measure has its own scale, from zero to OBS's value, and the caption says so. A range (threads, 7–9 and 90–98) draws its low end solid and the rest at 32% opacity. knobs's GPU, "None", is a bar of zero length, its label on the baseline.
+- **The one-PC note** is each chart's caption, at Label size under it, wherever the numbers appear.
+- **Validated:** the dataviz palette check passes Ink against Graphite 3 on separation (worst ΔE 32 light, 28.6 dark) and contrast (3:1 or more in both modes). Its lightness-band and chroma checks fail by design, because identity here is tone plus labels, not hue.
+- **The sweep (the only motion in these sections):** the first time a chart comes into view (its top past 85% of the window's height), one clip-path sweep draws its bars and their labels from zero in 720ms on the standard curve, at the same pace on every line. knobs's short bars are drawn almost at once while OBS's keep going, and the two delay bars land together; the scale, legend and names are there first. It runs once per chart and page view. Only charts still below the fold when the page loads wait for it; with reduced motion, without IntersectionObserver or JavaScript, and in print, the bars are simply there.
+- **Forced colours:** knobs's bars take CanvasText and OBS's GrayText.
 
 ### Notes and Containers
 - **Disclosure:** a Surface box with a strong hairline and 12px radius; the summary row is 600 with a chevron, hover fills Paper Subtle, and the body opens with the settle motion (160ms).
@@ -442,5 +482,5 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - **Don't** add decoration beyond the voice trace: no background waves, patterns or textures, and no second trace.
 - **Don't** load anything from a third party. Fonts, icons and logos are served from the site; the GitHub releases API is the only outside request.
 - **Don't** set any page text in Sora or ship its font file; Sora lives only in the outlined logo. Don't add uppercase tracked labels above headings.
-- **Don't** animate anything on scroll.
+- **Don't** animate anything on scroll beyond the measurement charts' one-time sweep.
 - **Don't** show the name as anything but lowercase "knobs", even at the start of a sentence or in a heading.
