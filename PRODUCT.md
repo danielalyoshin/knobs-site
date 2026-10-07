@@ -10,7 +10,7 @@ web
 
 Delegated (2026-10-06): plain HTML, CSS and a small vanilla JavaScript file, with no build step. The site is one download page whose only live data is the latest release, read in the browser, so a framework or generator would add upkeep without adding anything a visitor sees.
 
-Hosting is decided: GitHub Pages from this repository (`danielalyoshin/knobs-site`), on a custom domain. The domain isn't chosen yet. The app's source stays in `danielalyoshin/knobs`; the two repositories are separate.
+Hosting is decided: GitHub Pages from this repository (`danielalyoshin/knobs-site`), on the custom domain `getknobs.app` (owner, 2026-10-06). The domain isn't bought yet, so nothing in the repository points to it until it is. The app's source stays in `danielalyoshin/knobs`; the two repositories are separate.
 
 This repository is public, like the app's. Everything committed here can be read by anyone checking whether the site is genuine, including this file:
 
@@ -55,8 +55,9 @@ For the site: every download is a file from the project's own GitHub Releases, l
 - None of these exist yet, and asset file names aren't decided. The page has to find each kind of file in a release rather than expect exact names, and show only what the release actually holds.
 - Every release will be code-signed (owner, 2026-10-06), so the site says nothing about signing or SmartScreen: no signing status, no signer and no warning to get past.
 - License: GPL-2.0-or-later. knobs ships no OBS binaries; it runs the OBS the user installed.
+- This repository's license is decided (owner, 2026-10-06): GPL-2.0-or-later, matching the app, in `LICENSE`. Not covered: `site/fonts/`, which stays under the SIL Open Font License, and the knobs logo files in `site/brand/`. The scope note sits at the end of `LICENSE`, after the GPL text, because a note above it stops GitHub detecting the license.
 - Terms, from the app: mic, filter chain, virtual cable (or cable), OBS profile, scene collection, monitoring device. For downloads: release, installer, portable zip, checksum.
-- Open: the custom domain, and whether the site uses any analytics.
+- Open: whether the site uses any analytics.
 
 ## Brand Commitments
 
@@ -75,7 +76,7 @@ From the knobs repository's PRODUCT.md and `assets/README.md`, which stay the au
 - Output bit-identical to OBS's, on test signals, on a chain of every audio filter in `obs-filters`, and on a recording of real voice. `knobs-compare` checks this against OBS itself.
 - Mic to cable: 88.1 ms in knobs, 87.7 ms in OBS, on the same cable input.
 - A four-filter chain, knobs running against OBS minimized: 0.72% against 5.64% of one CPU core, 36 MB against 469 MB of memory, 7–9 against 90–98 threads, and no GPU against 0.05%. Measured on one PC (Core Ultra 7 265K, OBS 32.2.2, Audient iD4, VB-Cable); say so wherever the numbers appear.
-- The logo files, in `danielalyoshin/knobs` under `assets/`. Not yet copied into this repository.
+- The logo files, in `danielalyoshin/knobs` under `assets/`. The app icon and both lockups are copied unchanged into `site/brand/`, beside the site's favicon.
 - Not on hand, and not to be made up: a release, download or star counts, users, testimonials, and screenshots of the tray app.
 
 ## Product Principles
