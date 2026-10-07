@@ -102,7 +102,7 @@
           </li>
           <li class="pstep">
             <span class="node" aria-hidden="true">2</span>
-            <h3><span class="visually-hidden">Step 2: </span>Tune your mic in OBS</h3>
+            <h3><span class="visually-hidden">Step 2: </span>Tune <span class="nowrap">your mic</span> in OBS</h3>
             <p>Add filters to your mic, then close OBS. knobs reads them from OBS’s settings.</p>
             <ul class="pstep-links">
               <li><a href="#new-to-obs" data-open="new-to-obs">New to OBS?</a></li>
@@ -132,32 +132,37 @@
               </div>
 
               <div class="rs" data-when="ready" inert>
-                <a class="btn btn-primary btn-download" data-hero="link" href="https://github.com/danielalyoshin/knobs/releases/latest">
-                  <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
-                  <span class="btn-download-text">
-                    <span class="btn-download-label" data-hero="label">Download knobs</span>
-                    <span class="btn-download-sub" data-hero="sub">Installer for Windows x64</span>
-                  </span>
-                </a>
-                <!-- For visitors not on Windows, before the click. renderHero names the file. -->
-                <p class="os-note"><span data-hero="os-file">This is the installer</span> for a <span class="nowrap">Windows 64-bit PC.</span> knobs doesn’t run on phones or macOS.</p>
-                <p class="dest">
-                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>
-                  <span><span class="dest-from">From </span><span class="mono">github.com/<wbr>danielalyoshin/<wbr>knobs</span></span>
-                </p>
-                <!-- What an OBS user skipping steps 1 and 2 still needs to know. -->
-                <p class="rs-fit">Needs OBS <span class="mono">32.2.x</span>. knobs runs OBS’s built-in audio filters, not VST filters or NVIDIA noise removal. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#known-limits">Known limits<span class="visually-hidden"> in the README</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
-                <p class="rs-meta">
-                  <span class="tag" data-hero="pre" hidden>Pre-release</span>
-                  <time data-hero="date"></time>
-                  <span class="sep" aria-hidden="true">·</span>
-                  <a data-hero="notes" href="https://github.com/danielalyoshin/knobs/releases/latest">Release notes<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
-                </p>
-                <p class="rs-links">
-                  <a data-hero="portable" href="https://github.com/danielalyoshin/knobs/releases/latest" hidden><span data-hero="portable-label">Portable zip</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-download"/></svg></a>
-                  <button class="rs-toggle" type="button" aria-expanded="false" aria-controls="files">Checksums<svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chevron"/></svg></button>
-                  <a href="https://github.com/danielalyoshin/knobs/releases">All releases<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
-                </p>
+                <div class="rs-main">
+                  <a class="btn btn-primary btn-download" data-hero="link" href="https://github.com/danielalyoshin/knobs/releases/latest">
+                    <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
+                    <span class="btn-download-text">
+                      <span class="btn-download-label" data-hero="label">Download knobs</span>
+                      <span class="btn-download-sub" data-hero="sub">Installer for Windows x64</span>
+                    </span>
+                  </a>
+                  <!-- For visitors not on Windows, before the click. renderHero names the file. -->
+                  <p class="os-note"><span data-hero="os-file">This is the installer</span> for a <span class="nowrap">Windows 64-bit PC.</span> knobs doesn’t run on phones or macOS.</p>
+                  <p class="dest">
+                    <svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>
+                    <span><span class="dest-from">From </span><span class="mono">github.com/<wbr>danielalyoshin/<wbr>knobs</span></span>
+                  </p>
+                  <!-- What an OBS user skipping steps 1 and 2 still needs to know. -->
+                  <p class="rs-fit">Needs OBS <span class="mono">32.2.x</span>. knobs runs OBS’s <span class="nowrap">built-in</span> audio filters, not VST filters or NVIDIA noise removal. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#known-limits">Known limits<span class="visually-hidden"> in the README</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
+                  <!-- The release itself, at the foot of the panel. -->
+                  <div class="rs-foot">
+                    <p class="rs-meta">
+                      <span class="tag" data-hero="pre" hidden>Pre-release</span>
+                      <time data-hero="date"></time>
+                      <span class="sep" aria-hidden="true">·</span>
+                      <a data-hero="notes" href="https://github.com/danielalyoshin/knobs/releases/latest">Release notes<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
+                    </p>
+                    <p class="rs-links">
+                      <a data-hero="portable" href="https://github.com/danielalyoshin/knobs/releases/latest" hidden><span data-hero="portable-label">Portable zip</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-download"/></svg></a>
+                      <button class="rs-toggle" type="button" aria-expanded="false" aria-controls="files">Checksums<svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+                      <a href="https://github.com/danielalyoshin/knobs/releases">All releases<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
+                    </p>
+                  </div>
+                </div>
                 <!-- Every file in the release, with its SHA-256 and the PowerShell
                      check. "Checksums" opens it in place, and so does a link to #files. -->
                 <ul class="files" id="files" data-r="files" aria-label="Files in this release" hidden></ul>
@@ -188,6 +193,10 @@
                     <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
                   </a>
                   <button class="btn btn-secondary" type="button" data-retry>Try again</button>
+                  <a class="btn btn-secondary btn-build" href="#build" data-open="build">
+                    <svg class="icon" aria-hidden="true"><use href="#i-arrow-down"/></svg>
+                    <span class="btn-build-text"><span>Build from source</span> <span class="btn-build-cost">(Visual Studio 2022 and CMake)</span></span>
+                  </a>
                 </div>
               </div>
             </div>

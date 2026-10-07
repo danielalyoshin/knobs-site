@@ -140,10 +140,13 @@ b, strong { font-weight: 600; color: var(--text); }
 .btn-secondary:hover { border-color: var(--text-3); background: var(--bg-subtle); }
 .btn:active { transform: translateY(1px); }
 
+/* Buttons that share a row line up by their tops, so a primary beside the
+   two-line "Build from source" keeps its height and its label sits level
+   with "Build from source". */
 .actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
 }
 
@@ -332,11 +335,14 @@ b, strong { font-weight: 600; color: var(--text); }
   }
 }
 
+/* The lede's last line sits on the headline's last baseline (or at its
+   foot where a browser can't align last baselines). */
 .pitch {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: 32px;
   align-items: end;
+  align-items: last baseline;
 }
 .pitch h1 {
   grid-column: 1 / span 8;
@@ -350,10 +356,7 @@ b, strong { font-weight: 600; color: var(--text); }
    rather than running off the page. */
 .pitch-line { display: inline-block; }
 .nowrap { white-space: nowrap; }
-.pitch-side {
-  grid-column: 9 / span 4;
-  padding-bottom: 4px;
-}
+.pitch-side { grid-column: 9 / span 4; }
 .lede {
   color: var(--text-2);
   font-size: 1.0625rem;
@@ -380,7 +383,7 @@ b, strong { font-weight: 600; color: var(--text); }
    state's transform would otherwise move it during the animation. */
 @media (min-width: 64em) {
   .rs { position: relative; }
-  .rs > .os-note {
+  .rs .os-note {
     position: absolute;
     top: calc(100% + 24px + 1px + 12px);
     left: -24px;
@@ -482,6 +485,12 @@ b, strong { font-weight: 600; color: var(--text); }
   line-height: 1.3;
   letter-spacing: -0.008em;
 }
+/* On the horizontal path each open step's title takes two lines, as the
+   narrow columns set most of them anyway, so the three descriptions start
+   on one line. */
+@media (min-width: 64em) {
+  .pstep:not(.pstep-station) > h3 { max-width: 9em; }
+}
 .pstep > p {
   margin-top: 8px;
   color: var(--text-2);
@@ -538,10 +547,7 @@ b, strong { font-weight: 600; color: var(--text); }
   animation: settle var(--t-struct) var(--ease);
 }
 
-.rs-head {
-  font: 600 1.125rem/1.3 var(--font-sans);
-  letter-spacing: -0.006em;
-}
+.rs-head { font: 600 1rem/1.4 var(--font-sans); }
 .rs-body {
   max-width: var(--measure);
   margin-top: 6px;
@@ -580,7 +586,7 @@ b, strong { font-weight: 600; color: var(--text); }
   text-align: left;
 }
 .btn-download .icon { width: 20px; height: 20px; }
-.btn-download-text { display: grid; gap: 3px; min-width: 0; }
+.btn-download-text { display: grid; gap: 3px; min-width: 0; text-wrap: balance; }
 .btn-download-label { font-size: 1rem; font-weight: 600; }
 .btn-download-sub {
   font-size: var(--text-xs);
@@ -591,17 +597,19 @@ b, strong { font-weight: 600; color: var(--text); }
 /* Where the panel is too narrow for the description and the size on one
    line (the horizontal path's narrowest widths, about 1024 to 1100px), the
    size takes its own line without the dot, as on phones, rather than
-   wrapping with the dot at the start of the line. */
+   wrapping with the dot at the start of the line. The destination drops
+   its "From", as on phones, so it stays on one line. */
 @container (max-width: 19.5em) {
   .btn-download-sub .sub-size { display: block; }
   .btn-download-sub .sub-dot { display: none; }
+  .dest-from { display: none; }
 }
 
 .dest {
   display: flex;
   align-items: flex-start;
   gap: 6px;
-  margin-top: 10px;
+  margin-top: 8px;
   color: var(--text-3);
   font-size: var(--text-xs);
   line-height: 1.45;
@@ -613,7 +621,7 @@ b, strong { font-weight: 600; color: var(--text); }
    filters knobs runs, with the README's known limits. */
 .rs-fit {
   max-width: var(--measure);
-  margin-top: 4px;
+  margin-top: 6px;
   color: var(--text-3);
   font-size: var(--text-xs);
   line-height: 1.45;
@@ -621,12 +629,28 @@ b, strong { font-weight: 600; color: var(--text); }
 .rs-fit .mono { color: var(--text-2); font-size: 1em; }
 .rs-fit a { color: var(--text-2); }
 
+/* The ready state: the download and what it needs at the top of the panel,
+   the release's date and links at its foot. The panel keeps the tallest
+   state's height, so whatever room that leaves sits between the two, and
+   on the horizontal path, where that room is widest, a hairline opens the
+   foot. The file list is a second row of the panel's grid, so opening it
+   grows the panel under the foot and never moves "Checksums". */
+.rstack > .rs[data-when="ready"] {
+  grid-row: 1 / 3;
+  display: grid;
+  grid-template-rows: subgrid;
+}
+.rs-main { display: flex; flex-direction: column; min-width: 0; }
+.rs-foot { margin-top: auto; padding-top: 14px; }
+@media (min-width: 64em) {
+  .rs-fit { margin-bottom: 16px; }
+  .rs-foot { border-top: 1px solid var(--line); }
+}
 .rs-meta {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 8px;
-  margin-top: 14px;
   color: var(--text-2);
   font-size: var(--text-sm);
 }
@@ -636,7 +660,7 @@ b, strong { font-weight: 600; color: var(--text); }
 .rs-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 18px;
+  gap: 4px 16px;
   margin-top: 6px;
   font-size: var(--text-sm);
 }
@@ -809,6 +833,7 @@ h3 { color: var(--text); }
   transition: background-color var(--t-fast) var(--ease);
 }
 .disclosure > summary::-webkit-details-marker { display: none; }
+.disclosure > summary > span { text-wrap: balance; }
 .disclosure > summary:hover { background: var(--bg-subtle); }
 .disclosure[open] > summary { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
 .chev {
@@ -1427,8 +1452,8 @@ details[open] > summary .chev { transform: rotate(90deg); }
 /* ---------- Responsive ---------- */
 
 /* Breakpoints are in em, so they follow the text size set in the browser:
-   at the default 16px they fall at 1280, 1024, 900, 720, 640, 480 and
-   360px, and with larger text the page takes the layout of a narrower
+   at the default 16px they fall at 1280, 1024, 900, 720, 640, 520, 480
+   and 360px, and with larger text the page takes the layout of a narrower
    window instead of squeezing its columns. */
 
 /* Below 1280px four columns would set the lede in six lines of under 40
@@ -1520,6 +1545,12 @@ details[open] > summary .chev { transform: rotate(90deg); }
 
 }
 
+/* Where the question fits on a line, the bracket's line breaks after it
+   rather than inside it. */
+@media (min-width: 22.5em) and (max-width: 63.9375em) {
+  .path-skip-q { display: inline-block; }
+}
+
 /* A short window on the vertical path, such as 1000x800, cuts the other
    steps' descriptions as phones do, so every state's main action stays in
    the first screen. Their titles and links stay. */
@@ -1529,48 +1560,16 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 
 @media (max-width: 44.9375em) {
-  /* The section links can't share the header row any more, so they take a
-     row of their own under it, flush with the gutter. On the narrowest
-     phones the row scrolls sideways. */
-  .site-header-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-rows: 64px auto;
-    align-items: center;
-    gap: 0 16px;
-    height: auto;
-  }
-  .brand { justify-self: start; }
-  .source-link { grid-area: 1 / 2; }
-  .site-nav {
-    grid-area: 2 / 1 / 3 / -1;
-    margin: 0 calc(var(--gutter) * -1);
-    padding: 0 calc(var(--gutter) - 10px);
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .site-nav::-webkit-scrollbar { display: none; }
-  .site-nav ul { gap: 0; width: max-content; }
-  .site-nav a {
-    display: flex;
-    align-items: center;
-    min-height: 44px;
-    padding: 0 10px;
-    white-space: nowrap;
-  }
-  /* The row scrolls, so it clips: the ring sits inside the link. */
-  .site-nav a:focus-visible { outline-offset: -2px; }
-
   .disclosure-body { padding: 4px 16px 16px; }
   .footer-nav { gap: 48px; }
 }
 
 @media (max-width: 39.9375em) {
-  .site-header-inner { grid-template-rows: 56px auto; }
+  .site-header-inner { min-height: 56px; }
   .brand img { width: 128px; height: 32px; }
 
-  /* The section links' row makes the header taller, so the first screen
-     gives a little of its top space back. */
+  /* The first screen gives a little of its top space back, so the
+     download stays in it. */
   .intro { padding-top: 28px; }
   .lede { font-size: 1rem; }
   .path { margin-top: 28px; }
@@ -1589,13 +1588,11 @@ details[open] > summary .chev { transform: rotate(90deg); }
 
   /* The release's links become a ruled list of thumb-size rows, so they
      never wrap into a ragged block: the date with its notes, then the
-     other files and places. The panel's own border closes the list. */
-  .rs-meta {
-    flex-wrap: wrap;
-    min-height: 44px;
-    margin-top: 12px;
-    border-top: 1px solid var(--line);
-  }
+     other files and places. The panel's own border closes the list, and
+     the foot's own rule opens it. */
+  .rs-fit { margin-bottom: 12px; }
+  .rs-foot { padding-top: 0; border-top: 1px solid var(--line); }
+  .rs-meta { min-height: 44px; }
   .rs-meta .sep { display: none; }
   .rs-meta a { margin-left: auto; }
   .rs-links { display: block; margin-top: 0; }
@@ -1622,11 +1619,58 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .code .copy { justify-self: end; margin: 0 10px 10px; }
 }
 
+@media (max-width: 32.4375em) {
+  /* The section links can't share the header row any more, so they take a
+     row of their own under it, flush with the gutter. On the narrowest
+     phones the row scrolls sideways. */
+  .site-header-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: 56px auto;
+    align-items: center;
+    gap: 0 16px;
+    height: auto;
+  }
+  .brand { justify-self: start; }
+  .source-link { grid-area: 1 / 2; }
+  .site-nav {
+    grid-area: 2 / 1 / 3 / -1;
+    margin: 0 calc(var(--gutter) * -1);
+    padding: 0 calc(var(--gutter) - 10px);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar { display: none; }
+  .site-nav ul { gap: 0; width: max-content; }
+  .site-nav a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+  /* The row scrolls, so it clips: the ring sits inside the link. */
+  .site-nav a:focus-visible { outline-offset: -2px; }
+}
+
 @media (max-width: 29.9375em) {
   .dest-from { display: none; }
   /* The size takes its own line under the label, without the dot. */
   .btn-download-sub .sub-size { display: block; }
   .btn-download-sub .sub-dot { display: none; }
+}
+
+/* Below 360px the date and "Release notes" can't share a row, so each
+   takes a row of the ruled list. */
+@media (max-width: 22.4375em) {
+  .rs-meta { row-gap: 0; }
+  .rs-meta time { display: flex; align-items: center; min-height: 44px; }
+  .rs-meta a {
+    flex-basis: 100%;
+    justify-content: space-between;
+    margin-left: 0;
+    border-top: 1px solid var(--line);
+  }
 }
 
 /* ---------- Touch ---------- */
@@ -1665,7 +1709,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .footer-nav a { display: flex; align-items: center; min-height: 44px; }
 }
 @media (pointer: coarse) and (min-width: 40em) {
-  .rs-meta { margin-top: 3px; }
+  .rs-foot { padding-top: 3px; }
   .rs-links { row-gap: 0; margin-top: 0; }
   .rs-meta a,
   .rs-links a,
