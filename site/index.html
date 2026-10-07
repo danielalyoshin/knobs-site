@@ -95,7 +95,7 @@
           <li class="pstep">
             <span class="node" aria-hidden="true">1</span>
             <h3><a href="#step-1"><span class="visually-hidden">Step 1: </span>Install OBS and a virtual cable</a></h3>
-            <p>Windows 64-bit, OBS Studio <span class="mono">32.2.x</span> and a cable such as VB-Cable.</p>
+            <p>Windows 64-bit, OBS Studio <span class="mono">32.2.x</span> and a cable such as <span class="nowrap">VB-Cable</span>.</p>
             <ul class="pstep-links">
               <li><a href="https://obsproject.com/download">OBS Studio<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
               <li><a href="https://vb-audio.com/Cable/">VB-Cable<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
@@ -193,7 +193,7 @@
           <li class="pstep">
             <span class="node" aria-hidden="true">4</span>
             <h3><a href="#step-4"><span class="visually-hidden">Step 4: </span>Choose the cable in your apps</a></h3>
-            <p>In Discord, Zoom and games, choose the cable as your mic. For VB-Cable, that’s <b class="ui">CABLE&nbsp;Output</b>.</p>
+            <p>In Discord, Zoom and games, choose the cable as your mic. For <span class="nowrap">VB-Cable</span>, that’s <b class="ui">CABLE&nbsp;Output</b>.</p>
           </li>
         </ol>
       </div>
@@ -374,11 +374,15 @@
               </summary>
               <div class="disclosure-body">
                 <p>You need Visual Studio 2022 or newer with the <b class="ui">Desktop development with C++</b> workload, and CMake 3.25 or newer. From a Developer PowerShell for VS:</p>
+                <!-- One span per command. Each wraps only between its words and
+                     after the URL's slashes, never inside an option, and runs on
+                     under a hanging indent, so a wrapped line reads as one command.
+                     The copied text is the four plain lines. -->
                 <div class="code">
-                  <pre id="build-cmds"><code>git clone https://github.com/danielalyoshin/knobs.git
-cd knobs
-cmake --preset x64
-cmake --build --preset release</code></pre>
+                  <pre id="build-cmds"><code><span class="cmd"><span class="nowrap">git clone</span> <span class="nowrap">https://github.com/</span><wbr><span class="nowrap">danielalyoshin/</span><wbr><span class="nowrap">knobs.git</span></span>
+<span class="cmd">cd knobs</span>
+<span class="cmd">cmake <span class="nowrap">--preset x64</span></span>
+<span class="cmd">cmake <span class="nowrap">--build</span> <span class="nowrap">--preset release</span></span></code></pre>
                   <button class="copy" type="button" data-copy-from="#build-cmds" aria-label="Copy the build commands">
                     <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
                   </button>
@@ -488,16 +492,19 @@ cmake --build --preset release</code></pre>
         <div class="measure measure-wide">
           <h3>A fraction of the footprint</h3>
           <p>knobs running a four-filter chain (3-Band Equalizer, Expander, Compressor, Limiter), against OBS minimized on the same PC.</p>
-          <table class="table footprint">
+          <!-- The roles repeat the table's own, so it stays a table to screen
+               readers when a narrow column restyles its rows as blocks. -->
+          <table class="table footprint" role="table">
             <caption class="visually-hidden">knobs running a four-filter chain, against OBS minimized</caption>
-            <thead>
-              <tr><td></td><th scope="col">knobs, running</th><th scope="col">OBS, minimized</th></tr>
+            <thead role="rowgroup">
+              <tr role="row"><td role="cell"></td><th scope="col" role="columnheader">knobs, running</th><th scope="col" role="columnheader">OBS, minimized</th></tr>
             </thead>
-            <tbody>
-              <tr><th scope="row">CPU, one core</th><td>0.72%</td><td>5.64%</td></tr>
-              <tr><th scope="row">Memory (working set)</th><td>36 MB</td><td>469 MB</td></tr>
-              <tr><th scope="row">Threads</th><td>7–9</td><td>90–98</td></tr>
-              <tr><th scope="row">GPU</th><td>None</td><td>0.05%</td></tr>
+            <tbody role="rowgroup">
+              <!-- data-label names the column when a narrow column stacks each row into a block -->
+              <tr role="row"><th scope="row" role="rowheader">CPU, one core</th><td role="cell" data-label="knobs, running">0.72%</td><td role="cell" data-label="OBS, minimized">5.64%</td></tr>
+              <tr role="row"><th scope="row" role="rowheader">Memory (working set)</th><td role="cell" data-label="knobs, running">36 MB</td><td role="cell" data-label="OBS, minimized">469 MB</td></tr>
+              <tr role="row"><th scope="row" role="rowheader">Threads</th><td role="cell" data-label="knobs, running">7–9</td><td role="cell" data-label="OBS, minimized">90–98</td></tr>
+              <tr role="row"><th scope="row" role="rowheader">GPU</th><td role="cell" data-label="knobs, running">None</td><td role="cell" data-label="OBS, minimized">0.05%</td></tr>
             </tbody>
           </table>
           <p class="footnote">Measured on one PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and VB-Cable. <a href="https://github.com/danielalyoshin/knobs/blob/main/plan.md#m3-test-on-real-hardware-obs-3222">plan.md</a> has the method.</p>
