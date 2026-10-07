@@ -863,11 +863,23 @@ details[open] > summary .chev { transform: rotate(90deg); }
 
 /* ---------- How it works ---------- */
 
-.signal { margin: 0; }
+/* The signal path: one 1px wire through four stages, left to right (top
+   to bottom below 900px). Each stage has a node on the wire, and each
+   stretch of wire ends in an arrowhead at the next stage. knobs's stage is
+   the bordered panel: the wire meets its top border, which its inked node
+   breaks, as the rail meets the station on the first screen. */
+.signal {
+  --sp-gap: 40px;
+  --sp-dot: 11px;
+  --sp-row: 28px;
+  --wire: var(--text-3);
+  margin: 0;
+}
 .signal-path {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr);
-  gap: 48px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: var(--sp-gap);
+  align-items: start;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -877,139 +889,377 @@ details[open] > summary .chev { transform: rotate(90deg); }
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 16px 18px 18px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
+  padding-top: 28px;
 }
-.sp-name { color: var(--text); font-weight: 600; }
-.sp-note { color: var(--text-3); font-size: var(--text-sm); line-height: 1.4; }
-.sp-knobs {
-  border-color: var(--text);
-  box-shadow: var(--lift);
+.sp-name { color: var(--text); font-weight: 600; line-height: 1.4; }
+.sp-note { color: var(--text-3); font-size: var(--text-sm); line-height: 1.45; }
+.sp-node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--sp-dot);
+  height: var(--sp-dot);
+  border: 1px solid var(--wire);
+  border-radius: 50%;
+  background: var(--bg);
 }
-/* Arrows between stages */
+/* The wire to the next stage, and its arrowhead */
 .sp:not(:last-child)::after {
   content: "";
   position: absolute;
-  top: 50%;
-  left: calc(100% + 1px);
-  width: 46px;
-  border-top: 1px solid var(--text-3);
+  top: calc(var(--sp-dot) / 2 - 0.5px);
+  left: calc(var(--sp-dot) + 4px);
+  right: calc(var(--sp-gap) * -1 + 2px);
+  border-top: 1px solid var(--wire);
 }
 .sp:not(:last-child)::before {
   content: "";
   position: absolute;
-  top: calc(50% - 4px);
-  left: calc(100% + 39px);
-  width: 8px;
-  height: 8px;
-  border-top: 1px solid var(--text-3);
-  border-right: 1px solid var(--text-3);
+  top: calc(var(--sp-dot) / 2 - 3.5px);
+  right: calc(var(--sp-gap) * -1 + 3.5px);
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid var(--wire);
+  border-right: 1px solid var(--wire);
   transform: rotate(45deg);
 }
+
+/* knobs: the panel the signal runs through */
+.sp-knobs {
+  margin-top: calc(var(--sp-dot) / 2 - 0.5px);
+  padding: 22px 20px 20px;
+  border: 1px solid var(--text);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--lift);
+}
+.sp-knobs > .sp-node {
+  top: calc(var(--sp-dot) / -2 - 0.5px);
+  left: 19px;
+  border-color: var(--text);
+  background: var(--text);
+}
+/* Positioned from the panel's padding box, inside its 1px border */
+.sp-knobs:not(:last-child)::after {
+  top: -1px;
+  left: calc(100% + 1px);
+  right: calc(var(--sp-gap) * -1 + 1px);
+}
+.sp-knobs:not(:last-child)::before {
+  top: -4.5px;
+  right: calc(var(--sp-gap) * -1 + 2.5px);
+}
+
+/* The chain inside knobs, in order: a short wire down the list, one dot
+   for each filter the signal passes through. */
+.sp-chain {
+  margin: 16px 0 0;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-subtle);
+  list-style: none;
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+.sp-chain li {
+  position: relative;
+  padding: 7px 12px 7px 32px;
+  color: var(--text);
+}
+.sp-chain li + li { border-top: 1px solid var(--line); }
+.sp-chain li::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 2.5px);
+  left: 14px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text);
+}
+.sp-chain li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(50% + 2.5px);
+  left: 16px;
+  height: calc(100% - 4px);
+  border-left: 1px solid var(--wire);
+}
+
 .signal figcaption {
-  margin-top: 14px;
+  margin-top: 20px;
   color: var(--text-3);
   font-size: var(--text-xs);
 }
 
+/* The two facts, set on the section's own grid: term left, text right. */
 .facts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin: clamp(48px, 6vw, 72px) 0 0;
+  margin: clamp(56px, 6vw, 88px) 0 0;
   border-top: 1px solid var(--line);
 }
 .facts > div {
-  padding: 24px 40px 28px 0;
+  display: grid;
+  grid-template-columns: var(--head-col) minmax(0, 1fr);
+  column-gap: var(--col-gap);
+  align-items: baseline;
+  padding: 26px 0 28px;
   border-bottom: 1px solid var(--line);
-}
-.facts > div:nth-child(even) {
-  padding-left: 40px;
-  padding-right: 0;
-  border-left: 1px solid var(--line);
 }
 .facts dt {
   color: var(--text);
   font: 600 1.1875rem/1.3 var(--font-sans);
   letter-spacing: -0.008em;
 }
-.facts dd { max-width: var(--measure); margin: 8px 0 0; color: var(--text-2); }
+.facts dd { max-width: var(--measure); margin: 0; color: var(--text-2); }
+.how .more { margin-left: calc(var(--head-col) + var(--col-gap)); }
 
 /* ---------- Measured ---------- */
 
-.measures {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.5fr);
-  border-top: 1px solid var(--line);
-}
+/* Each measurement is a row on the section's grid: the claim left, its
+   evidence right. The evidence keeps a structure screen readers read as
+   data, and CSS draws it as a chart. */
+.measures { border-top: 1px solid var(--line); }
 .measure {
-  padding: 28px 36px 0;
-  border-left: 1px solid var(--line);
-  color: var(--text-2);
+  display: grid;
+  grid-template-columns: var(--head-col) minmax(0, 1fr);
+  column-gap: var(--col-gap);
+  padding-block: 40px 44px;
+  border-bottom: 1px solid var(--line);
 }
-.measure:first-child { padding-left: 0; border-left: 0; }
-.measure:last-child { padding-right: 0; }
+.measure:last-child { padding-bottom: 0; border-bottom: 0; }
 .measure h3 {
   font-size: 1.1875rem;
   font-weight: 600;
+  line-height: 1.3;
   letter-spacing: -0.008em;
 }
-.measure p { max-width: var(--measure); font-size: 0.9375rem; }
-.measure > p + p, .measure > .table + p { margin-top: 12px; }
-.measure h3 + p { margin-top: 10px; }
-.measure .measure-figure {
-  margin: 16px 0 14px;
-  color: var(--text);
-  font: 600 2rem/1.1 var(--font-sans);
-  letter-spacing: -0.02em;
+.measure-text p {
+  max-width: var(--measure);
+  margin-top: 10px;
+  color: var(--text-2);
+  font-size: 0.9375rem;
 }
-.delay { margin: 14px 0 14px; }
-.delay > div {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--line);
+.measure-fig {
+  min-width: 0;
+  margin: 0;
+  container-type: inline-size;
 }
-.delay > div:first-child { border-top: 1px solid var(--line); }
-.delay dt { color: var(--text-2); }
-.delay dd { margin: 0; color: var(--text-3); font-size: 0.9375rem; }
-.delay .num {
-  color: var(--text);
-  font: 600 1.75rem/1.2 var(--font-sans);
-  letter-spacing: -0.018em;
-  font-variant-numeric: tabular-nums;
-}
-.footnote,
-.measure .footnote {
+.footnote {
   color: var(--text-3);
   font-size: var(--text-xs);
   line-height: 1.5;
 }
-.footprint { margin-top: 16px; }
-.footprint th:not([scope="row"]), .footprint td {
-  padding-right: 0;
-  padding-left: 16px;
-  text-align: right;
+.measure-fig > .footnote { max-width: var(--measure); margin-top: 18px; }
+
+/* Same sound: the result for each input, read like a test report. */
+.match th, .match td { padding-block: 13px; }
+.match thead th { padding-top: 0; }
+.match thead th:last-child,
+.match td { padding-right: 0; text-align: right; white-space: nowrap; }
+.match tbody th { color: var(--text); font-weight: 400; }
+.match td { color: var(--text); font-weight: 600; }
+.match td .icon { width: 1em; height: 1em; margin-right: 0.5em; vertical-align: -0.15em; }
+
+/* Charts. Every bar's length is its value on a linear scale from zero:
+   --f, set beside the printed value, is its share of the scale's width.
+   Bars leave --room at the end of the scale for the longest label, in rem
+   so it grows with the visitor's text size. knobs is ink, OBS graphite. */
+.chart {
+  --bar: 10px;
+  --room: 5.25rem;
+  --key: 4.5rem;
+  --c-knobs: var(--text);
+  --c-obs: var(--text-3);
+}
+
+/* Same delay: two bars on one scale, 0 to 100 ms */
+.chart-delay { --bar: 12px; }
+.plot { position: relative; padding-bottom: 26px; }
+.ticks {
+  position: absolute;
+  top: -8px;
+  bottom: 0;
+  left: var(--key);
+  right: var(--room);
+  color: var(--text-3);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  white-space: nowrap;
+}
+.ticks span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--t) * 100%);
+  display: flex;
+  align-items: flex-end;
+  transform: translateX(-50%);
+}
+.ticks span:first-child { transform: none; }
+.ticks span::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 20px;
+  left: 50%;
+  border-left: 1px solid var(--line);
+}
+.ticks span:first-child::before { left: 0; border-left-color: var(--line-strong); }
+.bars {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+.bar-row {
+  display: grid;
+  grid-template-columns: var(--key) minmax(0, 1fr);
+  align-items: center;
+}
+.bar-row dt { padding-right: 12px; color: var(--text-2); font-size: 0.9375rem; }
+.bar-row dd {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+  margin: 0;
+}
+.bar-row dd::before {
+  content: "";
+  flex: none;
+  width: calc((100% - var(--room)) * var(--f));
+  height: var(--bar);
+  margin-right: 10px;
+  border-radius: 0 4px 4px 0;
+  background: var(--c-obs);
+}
+/* The label masks any gridline it crosses, on a narrow chart. */
+.val {
+  padding-right: 4px;
+  background: var(--bg);
+  color: var(--text-2);
+  font-size: 0.9375rem;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-.footprint tbody td:nth-child(2) { color: var(--text); font-weight: 600; }
+.val .num { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
+.bar-row.is-knobs dt,
+.bar-row.is-knobs .val { color: var(--text); font-weight: 600; }
+.bar-row.is-knobs dd::before { background: var(--c-knobs); }
 
-/* Where the table's column is narrower than its three columns need (a phone
-   with the browser's text at 150% or more), each measurement becomes a
-   labelled block: its name, then knobs and OBS on a ruled line each. The
-   header row stays for screen readers, and the labels are hidden from
-   them, since each cell already has its column header. */
-.measure-wide { container-type: inline-size; }
-@container (max-width: 17.5em) {
-  .footprint,
-  .footprint tbody,
-  .footprint tr,
-  .footprint th,
-  .footprint td { display: block; }
-  .footprint thead {
+/* A fraction of the footprint: the table, laid out as four small charts.
+   The header row is the legend; each body row is a measure, with knobs's
+   bar over OBS's on that measure's own scale. */
+.chart-footprint { --metric: 11.5rem; }
+.footprint {
+  display: block;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+.footprint thead,
+.footprint tbody { display: block; }
+.footprint thead tr {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  row-gap: 4px;
+  padding: 0 0 14px var(--metric);
+}
+.footprint thead td { padding: 0; margin-right: -20px; }
+.footprint thead th {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  color: var(--text-2);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  text-align: left;
+}
+.footprint thead th::before {
+  content: "";
+  flex: none;
+  width: 14px;
+  height: 10px;
+  border-radius: 0 4px 4px 0;
+  background: var(--c-obs);
+}
+.footprint thead th.is-knobs::before { background: var(--c-knobs); }
+.footprint tbody tr {
+  display: grid;
+  grid-template-columns: var(--metric) minmax(0, 1fr);
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.footprint tbody tr:last-child { border-bottom: 1px solid var(--line); }
+.footprint tbody th {
+  grid-row: 1 / span 2;
+  align-self: center;
+  padding: 0 16px 0 0;
+  color: var(--text);
+  font-weight: 600;
+  text-align: left;
+}
+.footprint tbody td {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0;
+  border-left: 1px solid var(--line-strong);
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.footprint tbody td::before,
+.footprint tbody td.is-range::after {
+  content: "";
+  flex: none;
+  order: -2;
+  width: calc((100% - var(--room)) * var(--f));
+  height: var(--bar);
+  margin-right: 10px;
+  border-radius: 0 4px 4px 0;
+  background: var(--c-obs);
+}
+.footprint tbody td.is-knobs { color: var(--text); font-weight: 600; }
+.footprint tbody td.is-knobs::before,
+.footprint tbody td.is-knobs::after { background: var(--c-knobs); }
+/* A range: its low end solid, the rest of it pale */
+.footprint tbody td.is-range::before { margin-right: 0; border-radius: 0; }
+.footprint tbody td.is-range::after {
+  order: -1;
+  width: calc((100% - var(--room)) * (var(--f2) - var(--f)));
+  opacity: 0.32;
+}
+
+/* A narrow chart puts each measure's name over its bars. */
+@container (max-width: 34em) {
+  .footprint thead tr { padding-left: 0; }
+  .footprint tbody tr { grid-template-columns: minmax(0, 1fr); padding: 14px 0 12px; }
+  .footprint tbody th { grid-row: auto; grid-column: 1; padding: 0 0 6px; }
+  .footprint tbody td { grid-column: 1; }
+}
+/* With large text, the delay chart does the same and keeps three ticks. */
+@container (max-width: 22em) {
+  .ticks span:nth-child(even) { color: transparent; }
+}
+@container (max-width: 18em) {
+  .plot { --key: 0px; }
+  .bar-row { grid-template-columns: minmax(0, 1fr); }
+  .bar-row dt { justify-self: start; padding: 4px 6px 0 0; background: var(--bg); }
+}
+/* With large text, each input's result goes under it. The header row stays
+   for screen readers. */
+@container (max-width: 20em) {
+  .match,
+  .match tbody,
+  .match tr,
+  .match th,
+  .match td { display: block; }
+  .match thead {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -1017,26 +1267,107 @@ details[open] > summary .chev { transform: rotate(90deg); }
     clip-path: inset(50%);
     white-space: nowrap;
   }
-  .footprint tbody { border-top: 1px solid var(--line-strong); }
-  .footprint tr { padding: 12px 0 10px; border-bottom: 1px solid var(--line); }
-  .footprint tbody th { padding: 0 0 4px; border: 0; }
-  .footprint tbody td {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
-    padding: 3px 0;
-    border: 0;
-    white-space: normal;
+  .match tbody { border-top: 1px solid var(--line-strong); }
+  .match tr { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .match th, .match td { padding: 0; border: 0; }
+  .match td { margin-top: 2px; text-align: left; }
+}
+
+/* Forced colours drop fills, so the bars keep theirs in the visitor's
+   own colours: text colour for knobs, the disabled-text colour for OBS. */
+@media (forced-colors: active) {
+  .chart { --c-knobs: CanvasText; --c-obs: GrayText; }
+  .bar-row dd::before,
+  .footprint thead th::before,
+  .footprint tbody td::before,
+  .footprint tbody td::after,
+  .sp-knobs > .sp-node,
+  .sp-chain li::before { forced-color-adjust: none; }
+  .sp-knobs > .sp-node,
+  .sp-chain li::before { background: CanvasText; }
+}
+
+/* Below 1024px the section heads stack, and so do these rows. */
+@media (max-width: 63.9375em) {
+  .facts > div { display: block; padding: 22px 0 24px; }
+  .facts dd { margin-top: 8px; }
+  .how .more { margin-left: 0; }
+
+  .measure { display: block; padding-block: 32px 36px; }
+  .measure-fig { margin-top: 24px; }
+}
+
+/* Below 900px the signal path runs down the left: the same nodes, wire
+   and arrowheads, turned, and the knobs panel indented to the text, its
+   node on the wire, like the station on the vertical path. */
+@media (max-width: 56.1875em) {
+  /* Each node is level with its stage name's first line, at any text size. */
+  .signal {
+    --sp-indent: 28px;
+    --sp-top: calc(0.7rem - var(--sp-dot) / 2);
+    --sp-knobs-top: calc(16px + 0.7rem - var(--sp-dot) / 2);
   }
-  .footprint tbody td::before {
-    content: attr(data-label);
-    content: attr(data-label) / "";
-    color: var(--text-3);
-    font-size: var(--text-xs);
-    font-weight: 400;
-    text-align: left;
+  .signal-path {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--sp-row);
+    max-width: 30rem;
   }
+  .sp { padding: 0 0 0 var(--sp-indent); }
+  .sp-node { top: var(--sp-top); }
+  .sp:not(:last-child)::after {
+    top: calc(var(--sp-top) + var(--sp-dot) + 4px);
+    bottom: calc((var(--sp-row) + var(--sp-next, var(--sp-top)) - 2px) * -1);
+    left: calc(var(--sp-dot) / 2 - 0.5px);
+    right: auto;
+    border-top: 0;
+    border-left: 1px solid var(--wire);
+  }
+  .sp:not(:last-child)::before {
+    top: auto;
+    bottom: calc((var(--sp-row) + var(--sp-next, var(--sp-top)) - 3.5px) * -1);
+    left: calc(var(--sp-dot) / 2 - 3.5px);
+    right: auto;
+    transform: rotate(135deg);
+  }
+  /* The next node down is the panel's, inside its border. */
+  .sp:first-child { --sp-next: calc(var(--sp-knobs-top) + 1px); }
+
+  .sp-knobs {
+    margin: 0 0 0 var(--sp-indent);
+    padding: 16px 18px 18px;
+  }
+  .sp-knobs > .sp-node {
+    top: var(--sp-knobs-top);
+    left: calc(var(--sp-indent) * -1 - 1px);
+  }
+  .sp-knobs:not(:last-child)::after {
+    top: calc(var(--sp-knobs-top) + var(--sp-dot) + 4px);
+    bottom: calc((var(--sp-row) + var(--sp-top) - 1px) * -1);
+    left: calc(var(--sp-indent) * -1 - 1px + var(--sp-dot) / 2 - 0.5px);
+  }
+  .sp-knobs:not(:last-child)::before {
+    top: auto;
+    bottom: calc((var(--sp-row) + var(--sp-top) - 2.5px) * -1);
+    left: calc(var(--sp-indent) * -1 - 1px + var(--sp-dot) / 2 - 3.5px);
+  }
+}
+
+/* The one motion in these sections. The first time a chart comes into
+   view, one sweep draws its bars from zero, at the same pace on every
+   line: knobs's short bars are drawn almost at once while OBS's keep
+   going, and the two delay bars land together. The scale and the names
+   are there first. page.js arms only charts still below the fold; without
+   script, with reduced motion and in print the bars are simply there. */
+.chart.is-armed .bar-row dd,
+.chart.is-armed .footprint tbody td { clip-path: inset(0 100% 0 0); }
+.chart.is-armed.is-swept .bar-row dd,
+.chart.is-armed.is-swept .footprint tbody td {
+  clip-path: inset(0);
+  transition: clip-path 720ms var(--ease);
+}
+@media print {
+  .chart .bar-row dd,
+  .chart .footprint tbody td { clip-path: none !important; }
 }
 
 /* ---------- Footer ---------- */
@@ -1173,15 +1504,6 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .section-head { display: block; }
   .section-head p { margin-top: 12px; }
 
-  .measures { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-  .measure:nth-child(2) { padding-right: 0; }
-  .measure-wide {
-    grid-column: 1 / -1;
-    padding: 28px 0 0;
-    margin-top: 28px;
-    border-left: 0;
-    border-top: 1px solid var(--line);
-  }
 }
 
 /* A short window on the vertical path, such as 1000x800, cuts the other
@@ -1190,23 +1512,6 @@ details[open] > summary .chev { transform: rotate(90deg); }
 @media (max-width: 63.9375em) and (max-height: 53.125em) {
   .pstep:not(.pstep-station) > p { display: none; }
   .pstep-links { margin-top: 8px; }
-}
-
-@media (max-width: 56.1875em) {
-  .signal-path { grid-template-columns: minmax(0, 1fr); gap: 32px; max-width: 28rem; }
-  .sp:not(:last-child)::after {
-    top: calc(100% + 1px);
-    left: 28px;
-    width: 0;
-    height: 30px;
-    border-top: 0;
-    border-left: 1px solid var(--text-3);
-  }
-  .sp:not(:last-child)::before {
-    top: calc(100% + 23px);
-    left: 24.5px;
-    transform: rotate(135deg);
-  }
 }
 
 @media (max-width: 44.9375em) {
@@ -1241,22 +1546,6 @@ details[open] > summary .chev { transform: rotate(90deg); }
   }
   /* The row scrolls, so it clips: the ring sits inside the link. */
   .site-nav a:focus-visible { outline-offset: -2px; }
-
-  .facts { grid-template-columns: minmax(0, 1fr); }
-  .facts > div,
-  .facts > div:nth-child(even) { padding: 20px 0 22px; border-left: 0; }
-
-  .measures { grid-template-columns: minmax(0, 1fr); }
-  .measure,
-  .measure:first-child,
-  .measure-wide {
-    grid-column: auto;
-    margin-top: 0;
-    padding: 24px 0 28px;
-    border-left: 0;
-    border-top: 1px solid var(--line);
-  }
-  .measure:first-child { border-top: 0; }
 
   .disclosure-body { padding: 4px 16px 16px; }
   .footer-nav { gap: 48px; }

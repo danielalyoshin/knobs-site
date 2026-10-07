@@ -277,26 +277,40 @@
         <p>If you tuned your mic in OBS and send it to a virtual cable, OBS has to stay open all day. Other tools, such as Equalizer APO, VoiceMeeter and NVIDIA Broadcast, process audio their own way, so a chain tuned in OBS can’t match exactly. knobs runs OBS’s own filter code, from your OBS install, with your OBS settings. Nothing else touches the audio.</p>
       </div>
 
+      <!-- One wire through four stages. Each stage's node sits on the wire,
+           and the signal enters knobs along the panel's top border, like
+           the rail meeting the station on the first screen. The chain inside
+           is the one measured below, in the order the measurement names it. -->
       <figure class="signal">
         <ol class="signal-path">
           <li class="sp">
+            <span class="sp-node" aria-hidden="true"></span>
             <span class="sp-name">Your mic</span>
             <span class="sp-note">The mic in your OBS profile</span>
           </li>
           <li class="sp sp-knobs">
+            <span class="sp-node" aria-hidden="true"></span>
             <span class="sp-name">OBS’s filters, run by knobs</span>
             <span class="sp-note">Your chain, in order, with your settings</span>
+            <ol class="sp-chain" aria-label="The four-filter chain measured below">
+              <li>3-Band Equalizer</li>
+              <li>Expander</li>
+              <li>Compressor</li>
+              <li>Limiter</li>
+            </ol>
           </li>
           <li class="sp">
+            <span class="sp-node" aria-hidden="true"></span>
             <span class="sp-name">Virtual cable</span>
             <span class="sp-note">VB-Cable, or another one</span>
           </li>
           <li class="sp">
+            <span class="sp-node" aria-hidden="true"></span>
             <span class="sp-name">Discord, Zoom, games</span>
             <span class="sp-note">Their mic is <b class="ui">CABLE Output</b></span>
           </li>
         </ol>
-        <figcaption>The signal path. There’s no video, no window and no OBS process.</figcaption>
+        <figcaption>The signal path, shown with the four-filter chain measured below. There’s no video, no window and no OBS process.</figcaption>
       </figure>
 
       <dl class="facts">
@@ -321,42 +335,75 @@
         <p>Same sound, same delay, and a fraction of the footprint.</p>
       </div>
 
+      <!-- Each measurement is a row: the claim on the left, its evidence on
+           the right. The evidence keeps a structure screen readers read as
+           data (a table or a list of terms), and CSS draws it as a chart:
+           every bar's length is its value on a linear scale from zero, set
+           inline as --f (a fraction of the scale) beside the printed value. -->
       <div class="measures">
         <div class="measure">
-          <h3>Same sound</h3>
-          <p class="measure-figure">Bit-identical</p>
-          <p>For the same input, knobs’s output is <span class="nowrap">bit-identical</span> to OBS’s: on test signals, on a chain of every audio filter in OBS’s <code>obs-filters</code>, and on a recording of real voice. <code>knobs-compare</code> checks this against OBS itself.</p>
+          <div class="measure-text">
+            <h3>Same sound</h3>
+            <p>For the same input, knobs’s output is <span class="nowrap">bit-identical</span> to OBS’s. <code>knobs-compare</code> checks this against OBS itself.</p>
+          </div>
+          <figure class="measure-fig">
+            <table class="table match" role="table">
+              <caption class="visually-hidden">knobs’s output against OBS’s, for the same input</caption>
+              <thead role="rowgroup">
+                <tr role="row"><th scope="col" role="columnheader">Input</th><th scope="col" role="columnheader">knobs against OBS</th></tr>
+              </thead>
+              <tbody role="rowgroup">
+                <tr role="row"><th scope="row" role="rowheader">Test signals</th><td role="cell"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Bit-identical</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">A chain of every audio filter in OBS’s <code>obs-filters</code></th><td role="cell"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Bit-identical</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">A recording of real voice</th><td role="cell"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Bit-identical</td></tr>
+              </tbody>
+            </table>
+          </figure>
         </div>
 
         <div class="measure">
-          <h3>Same delay</h3>
-          <dl class="delay">
-            <div><dt>knobs</dt><dd><span class="num">88.1</span> ms</dd></div>
-            <div><dt>OBS</dt><dd><span class="num">87.7</span> ms</dd></div>
-          </dl>
-          <p>From the mic to the cable, on the same cable input.</p>
-          <p class="footnote">Measured on one PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and VB-Cable.</p>
+          <div class="measure-text">
+            <h3>Same delay</h3>
+            <p>From the mic to the cable, on the same cable input.</p>
+          </div>
+          <figure class="measure-fig chart chart-delay" data-sweep>
+            <div class="plot">
+              <div class="ticks" aria-hidden="true">
+                <span style="--t: 0">0</span><span style="--t: 0.25">25</span><span style="--t: 0.5">50</span><span style="--t: 0.75">75</span><span style="--t: 1">100&nbsp;ms</span>
+              </div>
+              <dl class="bars">
+                <div class="bar-row is-knobs"><dt>knobs</dt><dd style="--f: 0.881"><span class="val"><span class="num">88.1</span> ms</span></dd></div>
+                <div class="bar-row"><dt>OBS</dt><dd style="--f: 0.877"><span class="val"><span class="num">87.7</span> ms</span></dd></div>
+              </dl>
+            </div>
+            <figcaption class="footnote">Measured on one PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and VB-Cable.</figcaption>
+          </figure>
         </div>
 
-        <div class="measure measure-wide">
-          <h3>A fraction of the footprint</h3>
-          <p>knobs running a four-filter chain (3-Band Equalizer, Expander, Compressor, Limiter), against OBS minimized on the same PC.</p>
-          <!-- The roles repeat the table's own, so it stays a table to screen
-               readers when a narrow column restyles its rows as blocks. -->
-          <table class="table footprint" role="table">
-            <caption class="visually-hidden">knobs running a four-filter chain, against OBS minimized</caption>
-            <thead role="rowgroup">
-              <tr role="row"><td role="cell"></td><th scope="col" role="columnheader">knobs, running</th><th scope="col" role="columnheader">OBS, minimized</th></tr>
-            </thead>
-            <tbody role="rowgroup">
-              <!-- data-label names the column when a narrow column stacks each row into a block -->
-              <tr role="row"><th scope="row" role="rowheader">CPU, one core</th><td role="cell" data-label="knobs, running">0.72%</td><td role="cell" data-label="OBS, minimized">5.64%</td></tr>
-              <tr role="row"><th scope="row" role="rowheader">Memory (working set)</th><td role="cell" data-label="knobs, running">36 MB</td><td role="cell" data-label="OBS, minimized">469 MB</td></tr>
-              <tr role="row"><th scope="row" role="rowheader">Threads</th><td role="cell" data-label="knobs, running">7–9</td><td role="cell" data-label="OBS, minimized">90–98</td></tr>
-              <tr role="row"><th scope="row" role="rowheader">GPU</th><td role="cell" data-label="knobs, running">None</td><td role="cell" data-label="OBS, minimized">0.05%</td></tr>
-            </tbody>
-          </table>
-          <p class="footnote">Measured on one PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and VB-Cable. <a href="https://github.com/danielalyoshin/knobs/blob/main/plan.md#m3-test-on-real-hardware-obs-3222">plan.md</a> has the method.</p>
+        <div class="measure">
+          <div class="measure-text">
+            <h3>A fraction of the footprint</h3>
+            <p>knobs running a four-filter chain (3-Band Equalizer, Expander, Compressor, Limiter), against OBS minimized on the same PC.</p>
+          </div>
+          <figure class="measure-fig chart chart-footprint" data-sweep>
+            <!-- The roles repeat the table's own, so it stays a table to
+                 screen readers once CSS lays its rows out as bars. Each
+                 measure has its own scale, from zero to OBS's value; a range
+                 draws its low end solid and the rest of it pale (--f2). -->
+            <table class="footprint" role="table">
+              <caption class="visually-hidden">knobs running a four-filter chain, against OBS minimized</caption>
+              <thead role="rowgroup">
+                <tr role="row"><td role="cell"></td><th scope="col" role="columnheader" class="is-knobs">knobs, running</th><th scope="col" role="columnheader">OBS, minimized</th></tr>
+              </thead>
+              <tbody role="rowgroup">
+                <tr role="row"><th scope="row" role="rowheader">CPU, one core</th><td role="cell" class="is-knobs" style="--f: 0.1277">0.72%</td><td role="cell" style="--f: 1">5.64%</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Memory (working set)</th><td role="cell" class="is-knobs" style="--f: 0.0768">36 MB</td><td role="cell" style="--f: 1">469 MB</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Threads</th><td role="cell" class="is-knobs is-range" style="--f: 0.0714; --f2: 0.0918">7–9</td><td role="cell" class="is-range" style="--f: 0.9184; --f2: 1">90–98</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">GPU</th><td role="cell" class="is-knobs" style="--f: 0">None</td><td role="cell" style="--f: 1">0.05%</td></tr>
+              </tbody>
+            </table>
+            <figcaption class="footnote">Each measure has its own scale, from zero. Measured on one PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and VB-Cable. <a href="https://github.com/danielalyoshin/knobs/blob/main/plan.md#m3-test-on-real-hardware-obs-3222">plan.md</a> has the method.</figcaption>
+          </figure>
         </div>
       </div>
     </div>

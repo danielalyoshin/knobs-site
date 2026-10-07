@@ -211,6 +211,30 @@
     KR.load().then(render, function () { render({ state: "error" }); });
   }
 
+  /* ---------- Measured: each chart's bars are drawn once ---------- */
+
+  // The first time a chart comes into view, one sweep draws its bars from
+  // zero at the same pace on every line (styles.css). Only charts still
+  // below the fold wait for it; one already on screen stays drawn, and so
+  // does every chart with reduced motion or without IntersectionObserver.
+  (function () {
+    var charts = $$("[data-sweep]");
+    var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!charts.length || calm || !("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("is-swept");
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -15% 0px" });
+    charts.forEach(function (c) {
+      if (c.getBoundingClientRect().top < window.innerHeight) return;
+      c.classList.add("is-armed");
+      io.observe(c);
+    });
+  })();
+
   /* ---------- Copy ---------- */
 
   function copyText(text) {
