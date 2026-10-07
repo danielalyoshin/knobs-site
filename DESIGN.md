@@ -266,7 +266,7 @@ A cool, near-monochrome palette drawn from the knob's graphite, with black ink a
 
 **The Red Stays in the Logo Rule.** Brand red appears in the lockup and app icon and nowhere else: not as a link colour, a button, a marker, a badge or a background.
 
-**The Logo Is Not Ours to Recolour Rule.** Use the lockup files as supplied (dark text on light, light text on dark, swapped by colour scheme). Never recolour, rotate or stretch the knob, never show it under 32px tall, and keep clear space at least the length of the pointer around it.
+**The Logo Is Not Ours to Recolour Rule.** Use the site's lockup files (dark text on light, light text on dark, swapped by colour scheme). They are a site variant of the masters in the knobs repository: the same knob, with the wordmark larger and further from it (see Lockup under Navigation). Never recolour, rotate or stretch the knob, never show it under 32px tall, and keep clear space at least the length of the pointer around it.
 
 ## Typography
 
@@ -279,7 +279,7 @@ A cool, near-monochrome palette drawn from the knob's graphite, with black ink a
 **Files.** The Latin subsets exactly as the official IBM Plex release ships them (`@ibm/plex-sans` 1.1.0, `@ibm/plex-mono` 2.5.0, github.com/IBM/plex), five woff2 files in `site/fonts/` with the release's own unicode ranges and its SIL Open Font License beside them (`OFL-IBM-Plex.txt`). The page preloads only the three Plex Sans weights the first screen uses; Plex Mono loads when a mono line renders. Every face uses `font-display: swap`, and until Plex arrives the text sets in "IBM Plex Sans Fallback": Arial scaled to Plex's width and line metrics on this page's own text (400: size 100.14%; 600: Arial Bold at 96.6%), so the swap barely moves a line.
 
 ### Hierarchy
-- **Display** (600, fluid 2rem to 4rem, line height 1.06, tracking -0.025em): the single h1 pitch on the first screen, across two lines.
+- **Display** (600, fluid 2rem to 4rem, line height 1.06, tracking -0.025em): the single h1 pitch on the first screen, "Your OBS mic chain, outside of OBS.", in two lines that break at the comma. Each half is an inline block, so it stays on one line where it fits and wraps inside itself only when it can't (very large text), never running off the page. Where the whole sentence fits one line (on the vertical path from about 750px to 1023px) it takes one.
 - **Headline** (600, fluid 1.75rem to 2.375rem, tracking -0.018em): section titles, set in the left head column.
 - **Title** (600, 1.1875rem, line height 1.3, tracking -0.008em): path step titles, fact terms, measurement titles.
 - **Title Small** (600, 1.125rem, tracking -0.006em): the release state head inside the station.
@@ -303,18 +303,18 @@ A cool, near-monochrome palette drawn from the knob's graphite, with black ink a
 
 ## Layout
 
-Content sits on a 72rem column with a fluid gutter (16px to 40px). The first screen sets the pitch on a 12-column grid: the h1 in the left eight columns, the lede bottom-aligned in the right four. From 1024px to 1279px, where four columns would set the lede in six lines of under 40 characters, the h1 takes seven columns and the lede five; the h1's two lines need only about 480px. Below it, the path band spans the full content width with four columns weighted 1 : 1 : 2 : 1, a 32px gap (40px at 1600px and wider), so step 3's station gets the room for the download.
+Content sits on a 72rem column with a fluid gutter (16px to 40px). The first screen sets the pitch on a 12-column grid: the h1 in the left eight columns, the lede bottom-aligned in the right four. From 1024px to 1279px, where four columns would set the lede in six lines of under 40 characters, the h1 takes seven columns and the lede five; the h1's longer line needs only about 470px. Below it, the path band spans the full content width with four columns weighted 1 : 1 : 2 : 1, a 32px gap (40px at 1600px and wider), so step 3's station gets the room for the download.
 
 Content sections use a two-column head: a 20rem head column and the body, 64px apart. Section titles live in the head column. Sections are separated by a hairline and padded fluidly (72px to 128px vertically); the first screen, header and footer sit on Paper Subtle, the content sections on Paper.
 
 Spacing is a loose 4px rhythm: 4 and 8 for tight inline gaps, 12 to 16 between related lines, 20 to 24 inside panels, 40 to 72 between blocks.
 
 **Responsive behaviour.**
-- **1024px and up:** the path is horizontal, with the bracket ("You only need step 3") spanning steps 1 and 2 above the rail, and the non-Windows note in two balanced lines just under the station. The panels under the path take the columns of steps 2 and 3.
+- **1024px and up:** the path is horizontal, with the bracket ("Start from step 3") over steps 1 and 2 above the rail, from node 1 to node 3, and the non-Windows note in two balanced lines just under the station. The panels under the path take the columns of steps 2 and 3.
 - **Below 1024px:** the pitch stacks, with the lede at the measure; the path turns vertical, one rail down the left of the nodes, capped at 40rem; the station indents to the step text and its node sits on the rail, and so do the panels under the path; the bracket becomes a plain line above the steps. Section heads stack; measurements go to two columns.
 - **Below 900px:** the signal path stacks vertically with downward arrows.
 - **Below 720px:** the section links leave the header row for a row of their own under it, 44px tall and flush with the gutter (both fit at 320px); facts and measurements go to one column.
-- **Below 640px:** the header's top row drops to 56px and the lockup to 32px; the first screen's top padding drops to 28px and path step descriptions hide, so the download stays inside the first screen; the station takes the active state's own height; the ready state's links, "Checksums" among them, become a ruled list of 44px rows, and the open file list continues it.
+- **Below 640px:** the header's top row drops to 56px and the lockup to 32px tall (128px wide); the first screen's top padding drops to 28px and path step descriptions hide, so the download stays inside the first screen; the station takes the active state's own height; the ready state's links, "Checksums" among them, become a ruled list of 44px rows, and the open file list continues it.
 - **Below 480px:** the download button's size moves to its own line, without its dot. It does the same wherever the station is narrower than 19.5em (a container query), which is the horizontal path's narrowest widths, from 1024px to about 1100px.
 - **Below 360px:** "Build from source" may wrap. Nothing scrolls sideways at 320px (400% zoom on a 1280px window).
 - **A narrow measurements column:** where the footprint table's column is narrower than 17.5em (a container query: a phone with the browser's text at 150% or more), each measurement becomes a labelled block (see Ruled Tables).
@@ -365,7 +365,7 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 
 ### Step Rail and Nodes (signature)
 - **Path (first screen):** four round nodes (32px, Plex Sans 600 numerals) on a 1px Hairline Strong rail. Idle nodes are hollow with Graphite 2 numerals. Step 3's node is inked. The path is the page's whole setup: each step is a title, a line (hidden on phones and short vertical layouts) and its links, and step 3 is the station.
-- **Bracket:** a 1px open bracket over steps 1 and 2, 12px above the nodes, whose ticks run down to the path. The left one starts at node 1's centre, so the node covers its end and it lands on the node's top; the right one meets the rail in the middle of the gap before step 3. Its label-size line, 8px above it, tells experienced users they only need step 3 and stays between the ticks: from 1024px to about 1170px wide it breaks after the question.
+- **Bracket:** a 1px open bracket over steps 1 and 2 that runs from node 1 to node 3, 12px above the nodes, its ticks running down to the path. Each tick starts at its node's centre (node 1's, and node 3's on the station's top border), so the node covers its end and the tick lands on the node's top. Its label-size line, 8px above it, reads "Already have OBS `32.2.x`, a tuned mic and a cable? Start from step 3.", with the version in mono and "Start from step 3" linking to the station. It is centred between the ticks and stays on one line from 1024px up (about 9px clear of each tick at 1024px); where it can't fit, it breaks after the question. On the vertical path it is a plain line of text above the steps.
 - **Forced colours:** the rail is drawn as borders, so it survives, and step 3's inked node fills with the visitor's own text colour (`CanvasText`, numeral in `Canvas`).
 
 ### Station (signature)
@@ -412,9 +412,10 @@ Gently rounded rectangles on hairline borders. Containers that hold content (the
 - **Copy button:** 30px tall (44px on touch), 6px radius, outlined, Graphite 2 text. On success it turns Signal Green and swaps its icon to a check for 1.8 seconds; when the clipboard is blocked it selects the text, reads "Press Ctrl+C", and says so to screen readers. Each copy button in the file list names its file to screen readers ("Copy the SHA-256 of knobs-0.1.0-setup-x64.exe").
 
 ### Navigation
-- **Skip links:** "Skip to content" (`#main`) and "Skip to download" (`#step-3`, the station), the first two Tab stops, each shown at the top left only while focused (an ink pill, 600). After "Skip to download", the next Tab reaches the active state's main action. The bracket's "You only need step 3" and the footer's "Download" go to the station too.
-- **Header:** 64px on Paper Subtle with a hairline under it; the lockup at 36px tall on the left; section links (How it works, Measured; UI Small, Graphite 2, 6px-radius hover fill on Surface Sunken) and the "Source" link on the right. Below 720px the section links take a 44px row of their own under the lockup and "Source", so every section stays one tap away on a phone.
-- **Footer:** Paper Subtle; the lockup at 32px with a one-line description, two link columns grouped by destination ("On GitHub", every link with the external arrow; "On this page", the in-page jumps: Download, How it works, Measured), then a hairline and the license and independence lines at Label size.
+- **Skip links:** "Skip to content" (`#main`) and "Skip to download" (`#step-3`, the station), the first two Tab stops, each shown at the top left only while focused (an ink pill, 600). After "Skip to download", the next Tab reaches the active state's main action. The bracket's "Start from step 3" and the footer's "Download" go to the station too.
+- **Lockup:** `site/brand/knobs-lockup-horizontal-dark.svg` and `-light.svg`, a site variant of the masters in the knobs repository's `assets/`, changed together. The knob is untouched. The outlined wordmark is scaled uniformly to 1.27 times the master's size, with its x-height still centred on the knob (y 76.7 of the 152-unit height), and its first stem starts 46.9 units past the knob's widest point (the skirt) instead of 33. The viewBox is 608 by 152, so the lockup is exactly 144 by 36px in the header and 128 by 32px on phones and in the footer. The app icon and favicon are the masters, unchanged.
+- **Header:** 64px on Paper Subtle with a hairline under it; the lockup at 36px tall (144px wide) on the left; section links (How it works, Measured; UI Small, Graphite 2, 6px-radius hover fill on Surface Sunken) and the "Source" link on the right. Below 720px the section links take a 44px row of their own under the lockup and "Source", so every section stays one tap away on a phone.
+- **Footer:** Paper Subtle; the lockup at 32px tall (128px wide) with a one-line description (the headline, "Your OBS mic chain, outside of OBS."), two link columns grouped by destination ("On GitHub", every link with the external arrow; "On this page", the in-page jumps: Download, How it works, Measured), then a hairline and the license and independence lines at Label size.
 
 ### Preview Strip
 - A thin full-width band above the header (Paper ground, hairline below, Label size) with an amber info icon: "Preview. This release data is made up." It appears only when made-up release data is shown, which the page allows only on a local development host. Nothing else on the page uses amber.
