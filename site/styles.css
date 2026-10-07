@@ -234,7 +234,7 @@ b, strong { font-weight: 600; color: var(--text); }
   padding: 4px 0;
   border-radius: 6px;
 }
-.brand img { width: 144px; height: 36px; }
+.brand img { width: auto; height: 36px; }
 
 .site-nav { margin-left: auto; }
 .site-nav ul {
@@ -1423,7 +1423,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   justify-content: space-between;
   gap: 40px;
 }
-.footer-id img { width: 128px; height: 32px; }
+.footer-id img { width: auto; height: 32px; }
 .footer-id p { margin-top: 12px; color: var(--text-3); font-size: 0.9375rem; }
 .footer-nav { display: flex; gap: 72px; }
 .footer-h {
@@ -1566,7 +1566,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
 
 @media (max-width: 39.9375em) {
   .site-header-inner { min-height: 56px; }
-  .brand img { width: 128px; height: 32px; }
+  .brand img { width: auto; height: 32px; }
 
   /* The first screen gives a little of its top space back, so the
      download stays in it. */
@@ -1692,11 +1692,15 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .rs-hint a,
   .rs-fit a,
   .file-meta a,
+  .disclosure-body a,
+  .footnote a,
   .footer-legal a { position: relative; }
   .path-skip a::after,
   .rs-hint a::after,
   .rs-fit a::after,
   .file-meta a::after,
+  .disclosure-body a::after,
+  .footnote a::after,
   .footer-legal a::after { content: ""; position: absolute; inset: -12px -4px; }
 
   .pstep-links { row-gap: 0; margin-top: -1px; margin-bottom: -13px; }

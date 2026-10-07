@@ -96,14 +96,12 @@
   --text: #17181b;
   --text-2: #464950;
   --text-3: #686c75;
-  --accent: #d63c42;
   --primary-bg: #17181b;
   --primary-bg-hover: #2b2d32;
   --primary-text: #ffffff;
   --ok: #1d7a4c;
   --warn: #9a5a00;
   --focus: #17181b;
-  --shadow: 0 1px 2px rgb(23 24 27 / 0.06), 0 4px 16px rgb(23 24 27 / 0.06);
 
   --radius-sm: 6px;
   --radius: 8px;
@@ -112,18 +110,13 @@
   --text-xs: 0.8125rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.375rem;
-  --text-2xl: 1.75rem;
-  --text-3xl: 2.25rem;
-  --text-4xl: 3rem;
 
   --content: 72rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Dark: the knob's graphite, light ink #e8eaee, the dark-ground red. */
+    /* Dark: the knob's graphite, light ink #e8eaee. */
     --bg: #0f1012;
     --bg-subtle: #141518;
     --surface: #17181b;
@@ -133,14 +126,12 @@
     --text: #e8eaee;
     --text-2: #b0b4bc;
     --text-3: #8b8f98;
-    --accent: #e5484d;
     --primary-bg: #e8eaee;
     --primary-bg-hover: #ffffff;
     --primary-text: #17181b;
     --ok: #4cc38a;
     --warn: #f0a33c;
     --focus: #e8eaee;
-    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 16px rgb(0 0 0 / 0.3);
   }
 }
 

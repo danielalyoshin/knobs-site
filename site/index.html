@@ -35,7 +35,6 @@
   <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5.75" y="5.75" width="7.5" height="7.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.25 3.5v-.25a.75.75 0 0 0-.75-.75H3.25a.75.75 0 0 0-.75.75V9.5c0 .41.34.75.75.75h.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
   <symbol id="i-check" viewBox="0 0 16 16"><path d="m3.25 8.5 3 3 6.5-7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-chevron" viewBox="0 0 16 16"><path d="m6 3.75 4.25 4.25L6 12.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M2.75 8h10.5M9 3.75 13.25 8 9 12.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-arrow-down" viewBox="0 0 16 16"><path d="M8 2.75v10.5M3.75 9 8 13.25 12.25 9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-info" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7.25v3.75" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="5" r=".9" fill="currentColor"/></symbol>
   <symbol id="i-github" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.01 8.01 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A8 8 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol>
@@ -57,7 +56,7 @@
     <a class="brand" href="./">
       <picture>
         <source srcset="brand/knobs-lockup-horizontal-light.svg" media="(prefers-color-scheme: dark)">
-        <img src="brand/knobs-lockup-horizontal-dark.svg" alt="knobs" width="144" height="36">
+        <img src="brand/knobs-lockup-horizontal-dark.svg" alt="knobs" width="139" height="36">
       </picture>
     </a>
     <nav class="site-nav" aria-label="Sections">
@@ -227,7 +226,7 @@
                 <li>In <b class="ui">Settings › Audio</b>, set <b class="ui">Mic/Auxiliary Audio</b> to your mic, if it isn’t already.</li>
                 <li>In the <b class="ui">Audio Mixer</b>, click <b class="ui">Mic/Aux</b> and choose <b class="ui">Filters</b>.</li>
                 <li>Under <b class="ui">Audio Filters</b>, click <b class="ui">+</b> and add filters as needed. They run from the top of the list down.</li>
-                <li>Click each filter and adjust it by ear, starting from OBS’s defaults. OBS’s <a href="https://obsproject.com/kb/filters-guide">Filters Guide</a> explains each one.</li>
+                <li>Click each filter and adjust it by ear, starting from OBS’s defaults. OBS’s <a class="nowrap" href="https://obsproject.com/kb/filters-guide">Filters Guide<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a> explains each one.</li>
                 <li>Close OBS. knobs reads your filters when OBS closes.</li>
               </ol>
               <p class="aside">To hear the filters while you adjust them, choose headphones as the <b class="ui">Monitoring Device</b> in <b class="ui">Settings › Audio</b>, then set the mic’s <b class="ui">Audio Monitoring</b> to <b class="ui">Monitor Only (mute output)</b> in <b class="ui">Edit › Advanced Audio Properties</b>.</p>
@@ -253,7 +252,7 @@
                   <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
                 </button>
               </div>
-              <p>Then run <code>build\x64\Release\knobs.exe</code>. <a href="https://github.com/danielalyoshin/knobs#building">The README</a> has the full instructions and the tests.</p>
+              <p>Then run <code>build\x64\Release\knobs.exe</code>. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#building">The README<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a> has the full instructions and the tests.</p>
             </div>
           </details>
         </div>
@@ -407,7 +406,7 @@
                 <tr role="row"><th scope="row" role="rowheader">GPU</th><td role="cell" class="is-knobs" style="--f: 0">None</td><td role="cell" style="--f: 1">0.05%</td></tr>
               </tbody>
             </table>
-            <figcaption class="footnote">Each measure has its own scale, from zero. Measured on one PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and VB-Cable. <a href="https://github.com/danielalyoshin/knobs/blob/main/plan.md#m3-test-on-real-hardware-obs-3222">plan.md</a> has the method.</figcaption>
+            <figcaption class="footnote">Each measure has its own scale, from zero. Measured on one PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and VB-Cable. <a href="https://github.com/danielalyoshin/knobs/blob/main/plan.md#m3-test-on-real-hardware-obs-3222" class="nowrap">plan.md<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a> has the method.</figcaption>
           </figure>
         </div>
       </div>
@@ -421,7 +420,7 @@
       <div class="footer-id">
         <picture>
           <source srcset="brand/knobs-lockup-horizontal-light.svg" media="(prefers-color-scheme: dark)">
-          <img src="brand/knobs-lockup-horizontal-dark.svg" alt="knobs" width="128" height="32" loading="lazy">
+          <img src="brand/knobs-lockup-horizontal-dark.svg" alt="knobs" width="124" height="32" loading="lazy">
         </picture>
         <p>Your OBS mic chain, outside of OBS.</p>
       </div>
@@ -447,7 +446,7 @@
       </nav>
     </div>
     <div class="footer-legal">
-      <p>knobs is licensed under <a href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">GPL-2.0-or-later</a>, the same as libobs. It ships no OBS binaries: it runs the OBS you installed.</p>
+      <p>knobs is licensed under <a class="nowrap" href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">GPL-2.0-or-later<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>, the same as libobs. It ships no OBS binaries: it runs the OBS you installed.</p>
       <p>knobs is an independent project. It isn’t affiliated with or endorsed by the OBS Project.</p>
     </div>
   </div>

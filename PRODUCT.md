@@ -55,7 +55,7 @@ For the site: every download is a file from the project's own GitHub Releases, l
 - None of these exist yet, and asset file names aren't decided. The page has to find each kind of file in a release rather than expect exact names, and show only what the release actually holds.
 - Every release will be code-signed (owner, 2026-10-06), so the site says nothing about signing or SmartScreen: no signing status, no signer and no warning to get past.
 - License: GPL-2.0-or-later. knobs ships no OBS binaries; it runs the OBS the user installed.
-- This repository's license is decided (owner, 2026-10-06): GPL-2.0-or-later, matching the app, in `LICENSE`. Not covered: `site/fonts/`, which stays under the SIL Open Font License, and the knobs logo files in `site/brand/`. The scope note sits at the end of `LICENSE`, after the GPL text, because a note above it stops GitHub detecting the license.
+- This repository's license is decided (owner, 2026-10-06): GPL-2.0-or-later, matching the app, in `LICENSE`. Not covered: `site/fonts/`, which stays under the SIL Open Font License, and the knobs logo files in `site/brand/`, which carry their own `site/brand/LICENSE` (all rights reserved, apart from the knobs repository's `TRADEMARKS.md`), matching the knobs repository's `assets/LICENSE` (owner, 2026-10-07). The scope note sits at the end of `LICENSE`, after the GPL text, because a note above it stops GitHub detecting the license.
 - Terms, from the app: mic, filter chain, virtual cable (or cable), OBS profile, scene collection, monitoring device. For downloads: release, installer, portable zip, checksum.
 - Open: whether the site uses any analytics.
 
@@ -76,7 +76,7 @@ From the knobs repository's PRODUCT.md and `assets/README.md`, which stay the au
 - Output bit-identical to OBS's, on test signals, on a chain of every audio filter in `obs-filters`, and on a recording of real voice. `knobs-compare` checks this against OBS itself.
 - Mic to cable: 88.1 ms in knobs, 87.7 ms in OBS, on the same cable input.
 - A four-filter chain, knobs running against OBS minimized: 0.72% against 5.64% of one CPU core, 36 MB against 469 MB of memory, 7–9 against 90–98 threads, and no GPU against 0.05%. Measured on one PC (Core Ultra 7 265K, OBS 32.2.2, Audient iD4, VB-Cable); say so wherever the numbers appear.
-- The logo files, in `danielalyoshin/knobs` under `assets/`. The app icon is copied unchanged into `site/brand/`, beside the site's favicon. The two horizontal lockups there are a site variant (owner, 2026-10-07): the same knob, with the wordmark 1.27 times larger and further from it, so they no longer match the masters. DESIGN.md has the measurements.
+- The logo files, in `danielalyoshin/knobs` under `assets/`. The app icon and the two horizontal lockups are copied unchanged into `site/brand/`, beside the site's favicon (owner, 2026-10-07: the masters now carry the enlarged wordmark, so the site uses them as they are).
 - Not on hand, and not to be made up: a release, download or star counts, users, testimonials, and screenshots of the tray app.
 
 ## Product Principles
