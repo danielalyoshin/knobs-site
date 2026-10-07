@@ -356,5 +356,20 @@
     window.requestAnimationFrame(function () { arrived.scrollIntoView(); });
   }
 
+  /* ---------- The wave ---------- */
+
+  // The wave at the seam runs only while it's on screen and the tab is
+  // showing. Reduced motion never starts it (styles.css).
+  var wave = $(".wave");
+  if (wave && "IntersectionObserver" in window) {
+    var waveSeen = true;
+    var waveRun = function () { wave.classList.toggle("is-paused", !waveSeen || doc.hidden); };
+    new IntersectionObserver(function (entries) {
+      waveSeen = entries[entries.length - 1].isIntersecting;
+      waveRun();
+    }).observe(wave);
+    doc.addEventListener("visibilitychange", waveRun);
+  }
+
   load();
 })();

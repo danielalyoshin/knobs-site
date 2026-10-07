@@ -277,39 +277,53 @@ b, strong { font-weight: 600; color: var(--text); }
   background: var(--bg-subtle);
 }
 
-/* The page's one decoration: a spoken phrase traced as a 1px line whose
-   zero is the seam under the band, centred on the next section's rule.
-   It stays in the band's bottom padding, clear of the headline and the
-   download, and never moves. One unit is one pixel, so a narrower column
-   shows the phrase's start rather than squeezing it, and a stretch of
-   sound that would run past the column's edge (its --end) isn't drawn:
-   the line always stops in a pause, never cut off mid-word. */
-.voice {
+/* The page's one decoration: a drawn waveform, 1px, whose zero line is the
+   seam under the band, centred on the next section's rule. It runs edge to
+   edge in the band's bottom padding, clear of the headline and the
+   download, and drifts left at 36px a second: one 2880px tile in 80s, in
+   whole-pixel steps (half-pixel on 2x screens) so the hairline stays
+   sharp, then the next copy takes its place. One unit is one pixel, so it
+   is never squeezed. page.js pauses it off screen and in a hidden tab;
+   with reduced motion it stands still. */
+.wave {
   position: absolute;
   left: 0;
   right: 0;
   bottom: -0.5px;
+  height: 30px;
   transform: translateY(50%);
-  container-type: inline-size;
+  overflow: hidden;
+  contain: strict;
   pointer-events: none;
 }
-.voice-trace {
+.wave-track {
   display: block;
-  width: 100%;
-  min-height: 30px;
-  aspect-ratio: 1152 / 30;
+  width: 8640px;
+  max-width: none;
+  height: 30px;
   fill: none;
   stroke: var(--line-strong);
+  stroke-width: 1px;
+  stroke-linecap: round;
   stroke-linejoin: round;
 }
-.voice-trace path {
-  stroke-width: clamp(0px, (100cqw - var(--end) + 1px) * 1000, 1px);
-  vector-effect: non-scaling-stroke;
+@media (prefers-reduced-motion: no-preference) {
+  .wave-track {
+    animation: wave-run 80s steps(2880) infinite;
+    will-change: transform;
+  }
+  .wave.is-paused .wave-track { animation-play-state: paused; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-resolution: 2dppx) {
+  .wave-track { animation-timing-function: steps(5760); }
+}
+@keyframes wave-run {
+  to { transform: translateX(-2880px); }
 }
 /* Forced colours drop fills, so step 3's inked node keeps its fill in the
    visitor's own colours. */
 @media (forced-colors: active) {
-  .voice { display: none; }
+  .wave { display: none; }
   .pstep-station > .node {
     forced-color-adjust: none;
     border-color: CanvasText;
