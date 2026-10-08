@@ -10,7 +10,7 @@ web
 
 Delegated (2026-10-06): plain HTML, CSS and a small vanilla JavaScript file, with no build step. The site is one download page whose only live data is the latest release, read in the browser, so a framework or generator would add upkeep without adding anything a visitor sees.
 
-Hosting is decided: GitHub Pages from this repository (`danielalyoshin/knobs-site`), on the custom domain `getknobs.app` (owner, 2026-10-06). The domain is set up (2026-10-07): the repository's Pages settings carry it, with HTTPS enforced, and its DNS points at GitHub Pages. The Actions deploy ignores a CNAME file, so the repository holds none. The app's source stays in `danielalyoshin/knobs`; the two repositories are separate.
+Hosting is decided: GitHub Pages from this repository (`danielalyoshin/knobs-site`), on the custom domain `getknobs.app` (owner, 2026-10-06). The domain is set up (2026-10-07): the repository's Pages settings carry it, with HTTPS enforced, and its DNS points at GitHub Pages. The Actions deploy ignores a CNAME file, so the repository holds none. The canonical URL is https://getknobs.app/. Link previews use the share card, and their description states independence. There is no structured data, by choice: software rich results need ratings or reviews, which the site doesn't have. The app's source stays in `danielalyoshin/knobs`; the two repositories are separate.
 
 This repository is public, like the app's. Everything committed here can be read by anyone checking whether the site is genuine, including this file:
 
@@ -78,7 +78,7 @@ From the knobs repository's PRODUCT.md and `assets/README.md`, which stay the au
 - Output bit-identical to OBS's, on test signals, on a chain of every audio filter in `obs-filters`, and on a recording of real voice. `knobs-compare` checks this against OBS itself.
 - Mic to cable: 88.1 ms in knobs, 87.7 ms in OBS, on the same cable input.
 - A four-filter chain, knobs running against OBS minimized: 0.72% against 5.64% of one CPU core, 36 MB against 469 MB of memory, 7–9 against 90–98 threads, and no GPU against 0.05%. Measured on a PC (Core Ultra 7 265K, OBS 32.2.2, Audient iD4, VB-Cable); say so wherever the numbers appear. The method is in the knobs repository's `docs/design.md`, "On real hardware" (plan.md is gone); the page links it as "How it was measured" (owner, 2026-10-07).
-- The logo files, in `danielalyoshin/knobs` under `assets/`. The app icon and the light-text horizontal lockup are copied unchanged into `site/brand/`, beside the site's favicon (owner, 2026-10-07: the masters now carry the enlarged wordmark, so the site uses them as they are; the dark-text lockup left with the light mode).
+- The logo files, in `danielalyoshin/knobs` under `assets/`. The app icon and the light-text horizontal lockup are copied unchanged into `site/brand/`, beside the site's favicon (owner, 2026-10-07: the masters now carry the enlarged wordmark, so the site uses them as they are; the dark-text lockup left with the light mode). The share card (`card.png`) and the iOS touch icon (`apple-touch-icon.png`), which contain the logo, live there too, under `brand/LICENSE`.
 - Not on hand, and not to be made up: download or star counts, users, testimonials, and screenshots of the tray app.
 
 ## Product Principles

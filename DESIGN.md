@@ -421,7 +421,7 @@ Icons are bare glyphs drawn inline as 1.5px strokes with round caps and joins. T
 - It lives in the band's bottom padding and the top of the next section, never behind the headline or the download. It is positioned out of the flow and clipped to its strip, so it never moves the download and never scrolls the page sideways. It is drawn at a fixed pixel scale: a narrower window shows less of it, never a denser clip.
 - No fill, gradient or glow. Inline SVG, `aria-hidden`, its strokes the Hairline Strong and Graphite 3 tokens; hidden in forced colours.
 
-**The One Decoration Rule.** The seam clip is the page's only decoration: a drawn, synthetic speech clip of 1px columns in Hairline Strong and Graphite 3, edge to edge at the seam under the first screen, drifting slowly. Never a second decoration, never a fill or glow, never anything behind the headline or the download, and never louder: no faster pace, no taller columns and no burst that stands out from the rest.
+**The One Decoration Rule.** The seam clip is the page's only decoration: a drawn, synthetic speech clip of 1px columns in Hairline Strong and Graphite 3, edge to edge at the seam under the first screen, drifting slowly. The share card may carry the same clip in its own place on its seam; the 404 page carries none. Never a second decoration, never a fill or glow, never anything behind the headline or the download, and never louder: no faster pace, no taller columns and no burst that stands out from the rest.
 
 ### File List (in the station)
 - Opened by the station's "Checksums" and closed by it again; it fades in with the settle motion (160ms). It sits under the ready state's links, after a Hairline 14px below them, inside the station: no border, fill or lift of its own, so it never reads as a card in a card. Each file is a row, rows divided by Hairlines, 16px apart: the installer, the portable zip, any other files, then the checksums file.
@@ -468,6 +468,17 @@ Icons are bare glyphs drawn inline as 1.5px strokes with round caps and joins. T
 
 ### Preview Strip
 - A thin full-width band above the header (Paper ground, hairline below, Label size) with an amber info icon: "Preview. This release data is made up. The version, files and checksums are not real.", and a link back to the live page. It appears only when made-up release data is shown, which the page allows only on a local development host. Nothing else on the page uses amber.
+
+### Share Card
+- `site/brand/card.png`, 1200 by 630, the image for every link preview (Open Graph and X `summary_large_image`), referenced by absolute URL from https://getknobs.app/. It is the first screen in miniature: a Paper Subtle band over a Paper strip, the light-text lockup at 64px tall (32px in a 600px preview, the logo's floor), the headline in two lines at Display size on a 24px card base (the page's sizes at 1.5 times, since previews show the card at half size or smaller), the page's seam clip unchanged on a Hairline seam, then the domain in Plex Mono in Graphite 2 and the independence line at Label size in Graphite 3. Content keeps 40px or more from every edge. No version, counts or screenshots, so it never goes stale.
+- The preview description carries the independence line too ("It isn’t affiliated with or endorsed by the OBS Project."), since the card's own line can't be read at thumbnail size.
+- It lives in `site/brand/` because it contains the logo, so `brand/LICENSE` covers it. It is rendered from an HTML template in headless Chromium and compressed losslessly (about 38KB); the template and the rejected options are kept outside the repository.
+
+### 404 Page
+- `site/404.html`, which GitHub Pages serves with a 404 status for any missing path. The download page's header, then "This page doesn’t exist." at Headline size and one primary button, "Go to the download page", on the first screen's Paper Subtle ground, then the footer with only the license and independence lines. No decoration. It reuses base.css and styles.css with root-relative URLs, so it works at any depth, and it is `noindex` with its own description.
+
+### Touch Icon
+- `site/brand/apple-touch-icon.png`, 180 by 180: the app icon unchanged, 136px wide, centred on a Paper Subtle square (neither the icon nor the favicon has a ground of its own).
 
 ## Do's and Don'ts
 
