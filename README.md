@@ -1,35 +1,23 @@
-# knobs-site
+<h1 align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/danielalyoshin/knobs/main/assets/knobs-lockup-horizontal-light.svg">
+    <img src="https://raw.githubusercontent.com/danielalyoshin/knobs/main/assets/knobs-lockup-horizontal-dark.svg" alt="knobs" width="320">
+  </picture>
+</h1>
 
-The source of [getknobs.app](https://getknobs.app/), the download page for [knobs](https://github.com/danielalyoshin/knobs): a Windows tray app that runs the mic filter chain you tuned in OBS Studio and sends it to a virtual audio cable.
+<div align="center">
 
-knobs is an independent project. It isn't affiliated with or endorsed by the OBS Project.
+**Your OBS mic chain, in every app.**
 
-## How the site works
+The source of [getknobs.app](https://getknobs.app/), the download page for knobs.<br>
+One static page on GitHub Pages. Every download links to the knobs repository's GitHub Releases.
 
-- It's one page of plain HTML, CSS and JavaScript in `site/`, with no build step and no dependencies.
-- The page reads the latest release from GitHub's public REST API in the visitor's browser, and links every download to the file on the knobs repository's [GitHub Releases](https://github.com/danielalyoshin/knobs/releases), with its SHA-256. The site hosts no binaries and makes no other outside request.
-- A GitHub Actions workflow (`.github/workflows/pages.yml`) publishes only `site/` to GitHub Pages on every push to `main` that changes it.
+[getknobs.app](https://getknobs.app/) · [knobs](https://github.com/danielalyoshin/knobs) · [Releases](https://github.com/danielalyoshin/knobs/releases) · [Product](PRODUCT.md) · [Design](DESIGN.md)
 
-## Run it locally
+<sub>An independent project. Not affiliated with or endorsed by the OBS Project.</sub>
 
-```sh
-python3 -m http.server 8000 --bind 127.0.0.1 --directory site
-```
-
-Then open http://127.0.0.1:8000/. On a local host, add `?preview=ready`, `?preview=error`, `?preview=offline` or `?preview=loading` to see each release state with made-up data; the page says so in a strip at the top. Preview never works on the real domain.
-
-## Design and product notes
-
-- [PRODUCT.md](PRODUCT.md): who the site is for, what it must say, and the decisions behind it.
-- [DESIGN.md](DESIGN.md): the design system the page is built on, from colours and type to every component.
+</div>
 
 ## License
 
-The site is licensed under [GPL-2.0-or-later](LICENSE), the same as knobs. Two folders are not:
-
-- `site/fonts/`: IBM Plex, under the SIL Open Font License (`site/fonts/OFL-IBM-Plex.txt`).
-- `site/brand/`: the knobs logo files, all rights reserved apart from the knobs repository's [TRADEMARKS.md](https://github.com/danielalyoshin/knobs/blob/main/TRADEMARKS.md) (`site/brand/LICENSE`).
-
-## Contributing
-
-Issues and pull requests are welcome. Issues about knobs itself belong in the [knobs repository](https://github.com/danielalyoshin/knobs/issues). Commits follow [Conventional Commits](https://www.conventionalcommits.org/).
+[GPL-2.0-or-later](LICENSE), the same as knobs, except two folders: `site/fonts/` (IBM Plex, under the SIL Open Font License) and `site/brand/` (the knobs logo files, all rights reserved; see [site/brand/LICENSE](site/brand/LICENSE)).
