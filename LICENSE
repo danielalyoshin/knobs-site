@@ -351,7 +351,8 @@ Not covered by this license:
 
 - site/fonts/: the IBM Plex fonts. They stay under the SIL Open Font
   License 1.1, in site/fonts/OFL-IBM-Plex.txt.
-- site/brand/: the knobs logo files (the app icon and lockups, copied
-  from the knobs repository's assets/) and the favicon made from them.
+- site/brand/: the knobs logo files (the app icon and lockup, copied
+  from the knobs repository's assets/) and the favicon, touch icon and
+  share card made from them.
   They aren't under the GPL; see site/brand/LICENSE and the knobs
   repository's TRADEMARKS.md.
