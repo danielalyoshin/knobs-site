@@ -1011,25 +1011,27 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .sp-knobs > .sp-pulse { left: calc(100% + 1px - var(--radius-lg)); }
 }
 
-/* The chain inside knobs: whichever of OBS's built-in audio filters the
-   visitor uses, in their order. A short wire runs down the list, with one
-   dot for each filter the signal passes through. */
+/* The chain inside knobs is the visitor's own, so it's drawn, not named:
+   a row for each filter, in the order they run, with a dot on a short wire
+   down the list and a setting drawn as a slider at its own value, the way
+   each filter is tuned in OBS. Screen readers get one image, named by its
+   label. Each row is as tall as a line of UI Small text would make it, so
+   the drawing grows with the visitor's text size. */
+.sp-drawn { margin: 16px 0 0; }
 .sp-chain {
+  --row: calc(14px + 1.4em);
   position: relative;
-  margin: 16px 0 0;
+  margin: 0;
   padding: 0;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--bg-subtle);
   list-style: none;
   font-size: var(--text-sm);
-  line-height: 1.4;
 }
 .sp-chain li {
   position: relative;
-  padding: 7px 12px 7px 32px;
-  color: var(--text);
-  font-variant-numeric: tabular-nums;
+  height: var(--row);
 }
 .sp-chain li + li { border-top: 1px solid var(--line); }
 .sp-chain li::before {
@@ -1050,13 +1052,41 @@ details[open] > summary .chev { transform: rotate(90deg); }
   height: calc(100% - 4px);
   border-left: 1px solid var(--wire);
 }
-.sp-chain .sp-rest { color: var(--text-3); }
-/* The signal's run down the chain: from the first dot to the last. Every
-   row is one line, so each dot sits 7px plus half a line from its edge. */
+/* A filter's setting: the track, the stretch up to its value, and the
+   handle. The lines are borders, not fills, so they keep their place in
+   forced colours, and the handle's position carries the value there. */
+.sp-setting {
+  position: absolute;
+  top: 50%;
+  left: 32px;
+  right: 18px;
+  border-top: 1px solid var(--line-strong);
+}
+.sp-setting::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: calc(var(--v) * 100%);
+  border-top: 1px solid var(--text-3);
+}
+.sp-setting::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: calc(var(--v) * 100% - 4.5px);
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--text-2);
+  border-radius: 50%;
+  background: var(--surface);
+}
+/* The signal's run down the chain: from the first dot to the last, each
+   half a row from its edge of the list. */
 .sp-chain > .sp-pulse {
   position: absolute;
-  top: calc(7px + 0.7em);
-  bottom: calc(7px + 0.7em);
+  top: calc(var(--row) / 2);
+  bottom: calc(var(--row) / 2);
   left: 16px;
 }
 

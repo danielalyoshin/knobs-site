@@ -393,15 +393,20 @@
     var steps = [];
     for (var i = 0; i <= 10; i++) steps.push(i / 10);
 
+    // The observer's view stops 16px short of the bottom edge, so the whole
+    // drawing in view is a ratio of 1, itself a threshold: the check runs
+    // the moment the drawing is whole, even on a slow scroll. A drawing
+    // taller than that view plays once its top is in the top 35%.
     fig.classList.add("is-armed");
     var io = new IntersectionObserver(function (entries) {
       var e = entries[entries.length - 1];
       var r = e.boundingClientRect, vh = window.innerHeight;
-      // The whole drawing, or as much of it as the screen can show.
-      if (!e.isIntersecting || (r.bottom > vh - 16 && r.top > vh * 0.35)) return;
+      var room = e.rootBounds ? e.rootBounds.height : vh - 16;
+      var shown = e.intersectionRatio > 0.99 || (r.height > room && r.top <= vh * 0.35);
+      if (!e.isIntersecting || !shown) return;
       io.disconnect();
       play();
-    }, { threshold: steps });
+    }, { threshold: steps, rootMargin: "0px 0px -16px 0px" });
     io.observe(fig);
 
     function setTime(el, name, ms) { el.style.setProperty(name, Math.round(ms) + "ms"); }

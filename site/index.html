@@ -257,9 +257,9 @@
       <!-- One wire through four stages. Each stage's node sits on the wire,
            and the wire carries on as the knobs panel's border, like the
            rail meeting the station on the first screen. The chain inside is
-           a placeholder: any of OBS's built-in audio filters, in the
-           visitor's own order. page.js sends one signal through it the
-           first time it comes into view. -->
+           the visitor's own, so it's drawn, not named: a row for each
+           filter, in order, each with a setting at its own value. page.js
+           sends one signal through it the first time it comes into view. -->
       <figure class="signal" aria-label="The signal path">
         <ol class="signal-path">
           <li class="sp">
@@ -271,12 +271,14 @@
             <span class="sp-node" aria-hidden="true"></span>
             <span class="sp-name">OBS’s filters, run by knobs</span>
             <span class="sp-note">Your chain, in order, with your settings</span>
-            <ol class="sp-chain" aria-label="Your filters, in your order">
-              <li>Filter 1</li>
-              <li>Filter 2</li>
-              <li>Filter 3</li>
-              <li class="sp-rest"><span aria-hidden="true">…</span><span class="visually-hidden">And the rest of your chain</span></li>
-            </ol>
+            <div class="sp-drawn" role="img" aria-label="Your filters, in your order, each with your settings">
+              <ol class="sp-chain" aria-hidden="true">
+                <li><span class="sp-setting" style="--v: 0.64"></span></li>
+                <li><span class="sp-setting" style="--v: 0.3"></span></li>
+                <li><span class="sp-setting" style="--v: 0.82"></span></li>
+                <li><span class="sp-setting" style="--v: 0.48"></span></li>
+              </ol>
+            </div>
           </li>
           <li class="sp">
             <span class="sp-node" aria-hidden="true"></span>
