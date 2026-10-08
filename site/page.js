@@ -457,17 +457,35 @@
 
   /* ---------- The wave ---------- */
 
-  // The wave at the seam runs only while it's on screen and the tab is
-  // showing. Reduced motion never starts it (styles.css).
+  // The three bands at the seam lie flat on the rule until the release
+  // has settled and the whole strip is in view, then rise and start to
+  // drift (styles.css). They run only while they're on screen and the tab
+  // is showing. Reduced motion never moves them.
   var wave = $(".wave");
-  if (wave && "IntersectionObserver" in window) {
-    var waveSeen = true;
-    var waveRun = function () { wave.classList.toggle("is-paused", !waveSeen || doc.hidden); };
-    new IntersectionObserver(function (entries) {
-      waveSeen = entries[entries.length - 1].isIntersecting;
-      waveRun();
-    }).observe(wave);
+  if (wave) {
+    var hasIO = "IntersectionObserver" in window;
+    var waveSeen = !hasIO, waveWhole = !hasIO;
+    var waveRun = function () {
+      if (waveWhole && !doc.hidden && /^(ready|none|error)$/.test(root.getAttribute("data-release-state"))) {
+        wave.classList.add("is-up");
+      }
+      wave.classList.toggle("is-paused", !waveSeen || doc.hidden || !wave.classList.contains("is-up"));
+    };
+    if (hasIO) {
+      new IntersectionObserver(function (entries) {
+        var e = entries[entries.length - 1];
+        waveSeen = e.isIntersecting;
+        waveWhole = e.intersectionRatio > 0.99;
+        waveRun();
+      }, { threshold: [0, 1] }).observe(wave);
+    }
     doc.addEventListener("visibilitychange", waveRun);
+    if ("MutationObserver" in window) {
+      new MutationObserver(waveRun).observe(root, { attributes: true, attributeFilter: ["data-release-state"] });
+    } else {
+      wave.classList.add("is-up");
+    }
+    waveRun();
   }
 
   load();
