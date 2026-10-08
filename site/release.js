@@ -7,12 +7,13 @@
  *
  * r.state is one of:
  *   "ready"  a release exists; r.release holds it
- *   "none"   no published release yet (GitHub lists none)
- *   "error"  GitHub couldn't be reached, or the rate limit was hit
- *            (r.reason is "rate-limited" then)
+ *   "error"  no release to show. r.reason says why: "rate-limited" when
+ *            GitHub's limit was hit, "unlisted" when GitHub answered but
+ *            listed no release, otherwise what went wrong on the way
  *
- * Add ?preview=ready|none|error|loading to the page URL to see each state
- * with made-up data. r.synthetic is true then, and the page must say so.
+ * Add ?preview=ready|error|offline|loading to the page URL to see each
+ * state ("error" is the rate limit, "offline" an unreachable GitHub) with
+ * made-up data. r.synthetic is true then, and the page must say so.
  * Preview works only on a local server: on the real domain the made-up
  * checksums could end up beside a real release with the same version.
  */
@@ -22,10 +23,9 @@
   var REPO = "danielalyoshin/knobs";
   var API = "https://api.github.com/repos/" + REPO;
   var REPO_URL = "https://github.com/" + REPO;
-  var CACHE_KEY = "knobs-release-v2";
-  // How long this tab reuses an answer. A release is kept for 10 minutes;
-  // "no release" for one, so the first release shows soon after it's out.
-  var CACHE_MS = { ready: 10 * 60 * 1000, none: 60 * 1000 };
+  var CACHE_KEY = "knobs-release-v3";
+  // How long this tab reuses a release, so a reload doesn't ask again.
+  var CACHE_MS = 10 * 60 * 1000;
   // After the rate limit is hit, the error is kept until GitHub says the
   // limit resets, within these bounds, so a reload doesn't ask in vain.
   var LIMIT_MS = { fallback: 5 * 60 * 1000, min: 30 * 1000, max: 15 * 60 * 1000 };
@@ -170,12 +170,16 @@
     return err;
   }
 
+  // GitHub answered, but listed no release to show.
+  function unlisted() {
+    return { state: "error", reason: "unlisted" };
+  }
+
   /*
    * The latest release is the newest full release, or the newest pre-release
-   * when there's no full one. The releases list answers 200 even when it's
-   * empty, so a visitor's console shows no 404 while there's no release, and
-   * one request usually settles it. (A release marked "latest" by hand on
-   * GitHub doesn't count; the newest full release wins.)
+   * when there's no full one. One request to the releases list usually
+   * settles it. (A release marked "latest" by hand on GitHub doesn't count;
+   * the newest full release wins.)
    */
   function fetchLive() {
     return getJSON(API + "/releases?per_page=" + PAGE).then(function (res) {
@@ -189,7 +193,7 @@
         if (full) return { state: "ready", release: normalize(full) };
         // A full page of pre-releases could hide an older full release.
         if (list.length >= PAGE) return fetchLatest(all[0]);
-        return all[0] ? { state: "ready", release: normalize(all[0]) } : { state: "none" };
+        return all[0] ? { state: "ready", release: normalize(all[0]) } : unlisted();
       });
     });
   }
@@ -197,23 +201,24 @@
   function fetchLatest(newestPre) {
     return getJSON(API + "/releases/latest").then(function (res) {
       if (res.ok) return res.json().then(function (j) { return { state: "ready", release: normalize(j) }; });
-      if (res.status === 404) return newestPre ? { state: "ready", release: normalize(newestPre) } : { state: "none" };
+      if (res.status === 404) return newestPre ? { state: "ready", release: normalize(newestPre) } : unlisted();
       throw failure(res);
     });
   }
 
-  /* Made-up data for ?preview=. Names, sizes and digests are invented. */
+  /* Made-up data for ?preview=: the first release's file names, sizes and
+     date, with invented digests. */
   var FIXTURE = {
     tag_name: "v0.1.0",
     name: "knobs 0.1.0",
     prerelease: false,
-    published_at: "2026-11-02T18:00:00Z",
+    published_at: "2026-10-08T12:00:00Z",
     html_url: REPO_URL + "/releases/tag/v0.1.0",
     body: "First release.",
     assets: [
-      { name: "knobs-0.1.0-setup-x64.exe", size: 4718592, browser_download_url: REPO_URL + "/releases/download/v0.1.0/knobs-0.1.0-setup-x64.exe",
+      { name: "knobs-0.1.0-setup.exe", size: 4718592, browser_download_url: REPO_URL + "/releases/download/v0.1.0/knobs-0.1.0-setup.exe",
         digest: "sha256:3f8a1c0e9b7d4e2a6c5f1b8d0e3a7c9f2b4d6e8a1c3f5b7d9e0a2c4f6b8d0e1a" },
-      { name: "knobs-0.1.0-portable-x64.zip", size: 3984588, browser_download_url: REPO_URL + "/releases/download/v0.1.0/knobs-0.1.0-portable-x64.zip",
+      { name: "knobs-0.1.0-portable.zip", size: 3984588, browser_download_url: REPO_URL + "/releases/download/v0.1.0/knobs-0.1.0-portable.zip",
         digest: "sha256:9c2e4a6b8d0f1e3c5a7b9d1f3e5c7a9b0d2f4e6c8a0b2d4f6e8c0a1b3d5f7e9c" },
       { name: "SHA256SUMS.txt", size: 196, browser_download_url: REPO_URL + "/releases/download/v0.1.0/SHA256SUMS.txt",
         digest: "sha256:1a3c5e7f9b0d2f4a6c8e0b1d3f5a7c9e2b4d6f8a0c1e3b5d7f9a2c4e6b8d0f1a" }
@@ -223,8 +228,8 @@
   function preview(mode) {
     if (mode === "loading") return new Promise(function () {});
     var out;
-    if (mode === "none") out = { state: "none" };
-    else if (mode === "error") out = { state: "error", reason: "rate-limited" };
+    if (mode === "error") out = { state: "error", reason: "rate-limited" };
+    else if (mode === "offline") out = { state: "error", reason: "offline" };
     else out = { state: "ready", release: normalize(FIXTURE) };
     out.synthetic = true;
     return new Promise(function (resolve) { setTimeout(function () { resolve(out); }, 350); });
@@ -241,11 +246,14 @@
     var cached = readCache();
     if (cached) return Promise.resolve(cached);
     return fetchLive().then(function (result) {
-      writeCache(result, CACHE_MS[result.state]);
+      // Only a release is kept: after any other answer, "Try again" or a
+      // reload asks again.
+      if (result.state === "ready") writeCache(result, CACHE_MS);
       return result;
     }, function (err) {
       var result = { state: "error", reason: String(err && err.message || err) };
-      // Other errors aren't kept: "Try again" may work a moment later.
+      // The rate limit is kept until it resets; other errors aren't, since
+      // "Try again" may work a moment later.
       writeCache(result, err && err.waitMs);
       return result;
     });

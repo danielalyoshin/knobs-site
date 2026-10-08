@@ -1,6 +1,6 @@
 /*
- * knobs download page: the release state in step 3, its file list, copy
- * buttons, and the panels the path opens in place. Needs release.js
+ * knobs download page: the release state in step 3, with its file list and
+ * build steps opened in place, and the copy buttons. Needs release.js
  * (window.knobsRelease).
  */
 (function () {
@@ -25,14 +25,66 @@
 
   /* ---------- Release states ---------- */
 
+  var stack = $('[data-release="stack"]');
+  var build = $("#build");
+  var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var shown = false;
+  var landing = location.hash.slice(1);
+
+  // The panel takes the active state's own height. When an answer changes
+  // it, the panel moves from the old height to the new one on the same
+  // curve the arriving state settles on (styles.css), so nothing under it
+  // jumps.
+  function resize(from) {
+    var to = stack.offsetHeight;
+    if (calm || Math.abs(to - from) < 1) return;
+    stack.style.height = from + "px";
+    stack.classList.add("is-sizing");
+    stack.getBoundingClientRect(); // start from the old height
+    stack.style.height = to + "px";
+    stack._knobsTimer = setTimeout(stopResize, 360);
+  }
+
+  function stopResize() {
+    clearTimeout(stack._knobsTimer);
+    stack.classList.remove("is-sizing");
+    stack.style.height = "";
+  }
+
   function show(state) {
+    var had = doc.activeElement;
+    if (!stack || !stack.contains(had)) had = null;
+    var from = stack ? stack.offsetHeight : 0;
+    if (stack) stopResize();
     root.setAttribute("data-release-state", state);
-    // The panel stacks every state in one cell, so its size never changes.
+    var active = null;
     $$('[data-release="stack"] > [data-when]').forEach(function (el) {
       var on = el.getAttribute("data-when") === state;
       el.classList.toggle("is-active", on);
-      if (on) el.removeAttribute("inert"); else el.setAttribute("inert", "");
+      if (on) { el.removeAttribute("inert"); active = el; } else el.setAttribute("inert", "");
     });
+    // The build steps open under the buttons of whichever state offers them.
+    var actions = active && $(".actions", active);
+    if (build && actions && actions.nextElementSibling !== build) actions.parentNode.insertBefore(build, actions.nextSibling);
+    if (stack && shown) resize(from);
+    shown = true;
+    // Arriving by a link into the panel (#files, #build): once the answer
+    // shows, land on the link's target, or on the panel when the answer
+    // doesn't offer it (the build steps, once a release exists).
+    var target = landing && state !== "static" && doc.getElementById(landing);
+    if (target) {
+      landing = "";
+      if (stack.contains(target)) (active.contains(target) ? target : $("#step-3")).scrollIntoView();
+    }
+    // The control that had focus left with its state (a retry, or an answer
+    // arriving), or moved with the build steps. Chrome may still report a
+    // now inert control as focused, so check for that too. Focus stays on
+    // the build steps when the new state has them, and goes to the new
+    // state's main action otherwise.
+    if (had && (doc.activeElement !== had || had.closest("[inert]"))) {
+      var next = !had.closest("[inert]") ? had : $(".btn-primary", active) || $("a, button, summary", active);
+      if (next) next.focus();
+    }
   }
 
   function kindTitle(f) {
@@ -163,17 +215,20 @@
 
   function renderError(reason) {
     var limited = reason === "rate-limited";
-    var msg = limited
+    var unlisted = reason === "unlisted";
+    setText($('[data-error="head"]'), unlisted ? "Couldn’t find a release" : "Couldn’t check for a release");
+    setText($('[data-error="reason"]'), limited
       ? "GitHub limits how often this page can check, and the limit was reached. The releases page works now."
-      : "GitHub couldn’t be reached.";
-    $$('[data-error="reason"]').forEach(function (n) { n.textContent = msg; });
+      : unlisted ? "GitHub didn’t list one." : "GitHub couldn’t be reached.");
     // The rate-limit message already points to the releases page, and asking
     // again can't work until the limit resets, so there's no "Try again".
-    $$('[data-error="after"]').forEach(function (n) { n.hidden = limited; });
-    $$("[data-retry]").forEach(function (n) { n.hidden = limited; });
+    // With no release listed, the releases page may not have the files.
+    $('[data-error="after"]').hidden = limited || unlisted;
+    $("[data-retry]").hidden = limited;
+    return unlisted
+      ? "GitHub didn’t list a release. The releases page link still works."
+      : "Couldn’t check GitHub for a release. The releases page link still works.";
   }
-
-  var retryFrom = null;
 
   function render(r) {
     r = r || { state: "error" };
@@ -184,24 +239,11 @@
       renderFiles(r.release);
       show("ready");
       announce("Latest release: knobs " + r.release.version + ", " + r.release.dateLabel + ".");
-    } else if (r.state === "none") {
-      show("none");
-      announce("knobs has no release yet. You can build it from source.");
     } else {
-      renderError(r.reason);
+      var said = renderError(r.reason);
       show("error");
-      announce("Couldn’t check GitHub for a release. The releases page link still works.");
+      announce(said);
     }
-
-    // A retry hid the button that had focus. Chrome may still report the
-    // now inert button as focused, so check for that too, then move focus
-    // to the new state's main action.
-    var a = doc.activeElement;
-    if (retryFrom && (!a || a === doc.body || a.closest("[inert], [hidden]"))) {
-      var target = $(".is-active .btn-primary", retryFrom) || $(".is-active a", retryFrom);
-      if (target) target.focus();
-    }
-    retryFrom = null;
   }
 
   function load() {
@@ -295,38 +337,14 @@
       return;
     }
 
-    var retry = t.closest("[data-retry]");
-    if (retry) {
-      retryFrom = retry.closest("[data-release]");
+    if (t.closest("[data-retry]")) {
       load();
       return;
     }
 
     // "Checksums": shows or hides the file list under the panel's links.
     var toggle = t.closest("button[aria-controls]");
-    if (toggle) {
-      expand(toggle, toggle.getAttribute("aria-expanded") !== "true");
-      return;
-    }
-
-    var opener = t.closest("[data-open]");
-    if (opener) {
-      openTarget(opener.getAttribute("data-open"));
-      return;
-    }
-
-    // A panel under the path closed from its own summary takes no room, so
-    // focus goes back to the link or button that opens it.
-    var sum = t.closest(".path-more > details > summary");
-    if (sum && sum.parentNode.open) {
-      var id = sum.parentNode.id;
-      window.requestAnimationFrame(function () {
-        var back = $$("[data-open]").filter(function (n) {
-          return n.getAttribute("data-open") === id && !n.closest("[inert]") && n.getClientRects().length;
-        })[0];
-        if (back) back.focus();
-      });
-    }
+    if (toggle) expand(toggle, toggle.getAttribute("aria-expanded") !== "true");
   });
 
   function expand(btn, open) {
@@ -336,25 +354,19 @@
     t.hidden = !open;
   }
 
-  // A disclosure opens; a list with a button that controls it opens with
-  // that button, so a link to #files lands on the open file list.
+  // A link to #build opens the build steps; one to #files opens the file
+  // list, with the button that controls it.
   function openTarget(id) {
     var t = id && doc.getElementById(id);
-    if (!t) return null;
+    if (!t) return;
     if (t.tagName === "DETAILS") t.open = true;
     else $$("button[aria-controls]").forEach(function (b) {
       if (b.getAttribute("aria-controls") === id) expand(b, true);
     });
-    return t;
   }
 
   window.addEventListener("hashchange", function () { openTarget(location.hash.slice(1)); });
-  // Arriving at #build or #new-to-obs: the panel took no room when the
-  // browser looked for it, so scroll to it once it's open.
-  var arrived = openTarget(location.hash.slice(1));
-  if (arrived && arrived.tagName === "DETAILS") {
-    window.requestAnimationFrame(function () { arrived.scrollIntoView(); });
-  }
+  openTarget(location.hash.slice(1));
 
   /* ---------- How it works: one signal through the path ---------- */
 

@@ -34,8 +34,7 @@
   <symbol id="i-external" viewBox="0 0 16 16"><path d="M6.25 3.75h6v6M12 4 4 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5.75" y="5.75" width="7.5" height="7.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.25 3.5v-.25a.75.75 0 0 0-.75-.75H3.25a.75.75 0 0 0-.75.75V9.5c0 .41.34.75.75.75h.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
   <symbol id="i-check" viewBox="0 0 16 16"><path d="m3.25 8.5 3 3 6.5-7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-chevron" viewBox="0 0 16 16"><path d="m6 3.75 4.25 4.25L6 12.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-arrow-down" viewBox="0 0 16 16"><path d="M8 2.75v10.5M3.75 9 8 13.25 12.25 9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 16 16"><path d="m5.875 3.75 4.25 4.25-4.25 4.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-info" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7.25v3.75" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="5" r=".9" fill="currentColor"/></symbol>
   <symbol id="i-github" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.01 8.01 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A8 8 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol>
 </svg>
@@ -80,7 +79,7 @@
       <div class="pitch">
         <h1 id="pitch"><span class="pitch-line">Your OBS mic chain,</span> <span class="pitch-line">outside of OBS.</span></h1>
         <div class="pitch-side">
-          <p class="lede">A Windows tray app that runs the mic filter chain you tuned in OBS Studio and sends it to a virtual audio cable. Discord, Zoom and games get the same processed mic while OBS stays closed.</p>
+          <p class="lede">A Windows tray app that runs the mic filter chain you tuned in OBS Studio and sends it to a virtual audio cable. Your other apps get the same processed mic while OBS stays closed.</p>
         </div>
       </div>
 
@@ -103,9 +102,6 @@
             <span class="node" aria-hidden="true">2</span>
             <h3><span class="visually-hidden">Step 2: </span>Tune <span class="nowrap">your mic</span> in OBS</h3>
             <p>Add filters to your mic, then close OBS. knobs reads them from OBS’s settings.</p>
-            <ul class="pstep-links">
-              <li><a href="#new-to-obs" data-open="new-to-obs">New to OBS?</a></li>
-            </ul>
           </li>
           <li class="pstep pstep-station" id="step-3">
             <span class="node" aria-hidden="true">3</span>
@@ -123,11 +119,33 @@
                   <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">
                     <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
                   </a>
-                  <a class="btn btn-secondary btn-build" href="#build" data-open="build">
-                    <svg class="icon" aria-hidden="true"><use href="#i-arrow-down"/></svg>
-                    <span class="btn-build-text"><span>Build from source</span> <span class="btn-build-cost">(Visual Studio 2022 and CMake)</span></span>
-                  </a>
                 </div>
+                <!-- The build steps, opened in place under the state's buttons.
+                     Without JavaScript they stay in this state; page.js moves
+                     them under the buttons of whichever state offers them. -->
+                <details class="build" id="build">
+                  <summary class="btn btn-secondary btn-build">
+                    <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+                    <span class="btn-build-text"><span>Build from source</span> <span class="btn-build-cost">(Visual Studio 2022 and CMake)</span></span>
+                  </summary>
+                  <div class="build-body">
+                    <p>You need Visual Studio 2022 or newer with the <b class="ui">Desktop development with C++</b> workload, and CMake 3.25 or newer. From a Developer PowerShell for VS:</p>
+                    <!-- One span per command. Each wraps only between its words and
+                         after the URL's slashes, never inside an option, and runs on
+                         under a hanging indent, so a wrapped line reads as one command.
+                         The copied text is the four plain lines. -->
+                    <div class="code">
+                      <pre id="build-cmds"><code><span class="cmd"><span class="nowrap">git clone</span> <span class="nowrap">https://github.com/</span><wbr><span class="nowrap">danielalyoshin/</span><wbr><span class="nowrap">knobs.git</span></span>
+<span class="cmd">cd knobs</span>
+<span class="cmd">cmake <span class="nowrap">--preset x64</span></span>
+<span class="cmd">cmake <span class="nowrap">--build</span> <span class="nowrap">--preset release</span></span></code></pre>
+                      <button class="copy" type="button" data-copy-from="#build-cmds" aria-label="Copy the build commands">
+                        <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
+                      </button>
+                    </div>
+                    <p>Then run <code class="exe-path">build\<wbr>x64\<wbr>Release\<wbr>knobs.exe</code>. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#building">The README<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a> has the full instructions and the tests.</p>
+                  </div>
+                </details>
               </div>
 
               <div class="rs" data-when="ready" inert>
@@ -147,7 +165,7 @@
                   </p>
                   <!-- What an OBS user skipping steps 1 and 2 still needs to know. -->
                   <p class="rs-fit">Needs OBS <span class="mono">32.2.x</span>. knobs runs OBS’s <span class="nowrap">built-in</span> audio filters, not VST filters or NVIDIA noise removal. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#known-limits">Known limits<span class="visually-hidden"> in the README</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
-                  <!-- The release itself, at the foot of the panel. -->
+                  <!-- The release itself, under a hairline. -->
                   <div class="rs-foot">
                     <p class="rs-meta">
                       <span class="tag" data-hero="pre" hidden>Pre-release</span>
@@ -167,24 +185,8 @@
                 <ul class="files" id="files" data-r="files" aria-label="Files in this release" hidden></ul>
               </div>
 
-              <div class="rs" data-when="none" inert>
-                <p class="rs-head">No release yet</p>
-                <p class="rs-body">An installer and a portable zip come next. knobs works end to end and has been tested on real hardware.</p>
-                <p class="os-note">Both will be for a <span class="nowrap">Windows 64-bit PC.</span> knobs doesn’t run on phones or macOS.</p>
-                <div class="actions">
-                  <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs">
-                    <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Watch for releases
-                  </a>
-                  <a class="btn btn-secondary btn-build" href="#build" data-open="build">
-                    <svg class="icon" aria-hidden="true"><use href="#i-arrow-down"/></svg>
-                    <span class="btn-build-text"><span>Build from source</span> <span class="btn-build-cost">(Visual Studio 2022 and CMake)</span></span>
-                  </a>
-                </div>
-                <p class="rs-hint">With a GitHub account: Watch › Custom › Releases. Without one, add the <a class="nowrap" href="https://github.com/danielalyoshin/knobs/releases.atom">releases feed<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a> to a feed reader.</p>
-              </div>
-
               <div class="rs" data-when="error" inert>
-                <p class="rs-head">Couldn’t check for a release</p>
+                <p class="rs-head" data-error="head">Couldn’t check for a release</p>
                 <p class="rs-body"><span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files.</span></p>
                 <p class="os-note">The files there are for a <span class="nowrap">Windows 64-bit PC.</span> knobs doesn’t run on phones or macOS.</p>
                 <div class="actions">
@@ -192,10 +194,6 @@
                     <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
                   </a>
                   <button class="btn btn-secondary" type="button" data-retry>Try again</button>
-                  <a class="btn btn-secondary btn-build" href="#build" data-open="build">
-                    <svg class="icon" aria-hidden="true"><use href="#i-arrow-down"/></svg>
-                    <span class="btn-build-text"><span>Build from source</span> <span class="btn-build-cost">(Visual Studio 2022 and CMake)</span></span>
-                  </a>
                 </div>
               </div>
             </div>
@@ -203,59 +201,12 @@
           <li class="pstep">
             <span class="node" aria-hidden="true">4</span>
             <h3><span class="visually-hidden">Step 4: </span>Choose the cable in your apps</h3>
-            <p>In Discord, Zoom and games, choose the cable as your mic. For <span class="nowrap">VB-Cable</span>, that’s <b class="ui">CABLE&nbsp;Output</b>.</p>
+            <p>In your other apps, choose the cable as your mic. For <span class="nowrap">VB-Cable</span>, that’s <b class="ui">CABLE&nbsp;Output</b>.</p>
             <ul class="pstep-links">
               <li><a href="https://github.com/danielalyoshin/knobs#4-choose-the-cable-in-your-apps">Turn off the app’s own <span class="nowrap">processing<span class="visually-hidden">, in the README</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></span></a></li>
             </ul>
           </li>
         </ol>
-        <!-- Opened in place from the path: "New to OBS?" in step 2 and "Build
-             from source" in step 3. Each takes no room until it opens, and
-             "Build it from source" hides once a release exists. Without
-             JavaScript both show as closed rows. -->
-        <div class="path-more">
-          <details class="disclosure" id="new-to-obs">
-            <summary>
-              <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
-              <span>New to OBS? Set up the mic in six steps</span>
-            </summary>
-            <div class="disclosure-body">
-              <p>You only need the mic, not a scene, a stream or a recording.</p>
-              <ol class="numbered">
-                <li>Open OBS.</li>
-                <li>In <b class="ui">Settings › Audio</b>, set <b class="ui">Mic/Auxiliary Audio</b> to your mic, if it isn’t already.</li>
-                <li>In the <b class="ui">Audio Mixer</b>, click <b class="ui">Mic/Aux</b> and choose <b class="ui">Filters</b>.</li>
-                <li>Under <b class="ui">Audio Filters</b>, click <b class="ui">+</b> and add filters as needed. They run from the top of the list down.</li>
-                <li>Click each filter and adjust it by ear, starting from OBS’s defaults. OBS’s <a class="nowrap" href="https://obsproject.com/kb/filters-guide">Filters Guide<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a> explains each one.</li>
-                <li>Close OBS. knobs reads your filters when OBS closes.</li>
-              </ol>
-              <p class="aside">To hear the filters while you adjust them, choose headphones as the <b class="ui">Monitoring Device</b> in <b class="ui">Settings › Audio</b>, then set the mic’s <b class="ui">Audio Monitoring</b> to <b class="ui">Monitor Only (mute output)</b> in <b class="ui">Edit › Advanced Audio Properties</b>.</p>
-            </div>
-          </details>
-          <details class="disclosure" id="build">
-            <summary>
-              <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
-              <span>Build it from source</span>
-            </summary>
-            <div class="disclosure-body">
-              <p>You need Visual Studio 2022 or newer with the <b class="ui">Desktop development with C++</b> workload, and CMake 3.25 or newer. From a Developer PowerShell for VS:</p>
-              <!-- One span per command. Each wraps only between its words and
-                   after the URL's slashes, never inside an option, and runs on
-                   under a hanging indent, so a wrapped line reads as one command.
-                   The copied text is the four plain lines. -->
-              <div class="code">
-                <pre id="build-cmds"><code><span class="cmd"><span class="nowrap">git clone</span> <span class="nowrap">https://github.com/</span><wbr><span class="nowrap">danielalyoshin/</span><wbr><span class="nowrap">knobs.git</span></span>
-<span class="cmd">cd knobs</span>
-<span class="cmd">cmake <span class="nowrap">--preset x64</span></span>
-<span class="cmd">cmake <span class="nowrap">--build</span> <span class="nowrap">--preset release</span></span></code></pre>
-                <button class="copy" type="button" data-copy-from="#build-cmds" aria-label="Copy the build commands">
-                  <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
-                </button>
-              </div>
-              <p>Then run <code>build\x64\Release\knobs.exe</code>. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#building">The README<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a> has the full instructions and the tests.</p>
-            </div>
-          </details>
-        </div>
       </div>
     </div>
 
