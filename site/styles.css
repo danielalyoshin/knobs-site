@@ -10,7 +10,7 @@
   --head-col: 20rem;
   --col-gap: 64px;
 
-  --lift: 0 1px 2px rgb(23 24 27 / 0.07);
+  --lift: 0 1px 2px rgb(0 0 0 / 0.5);
 
   /* Reading measure for every text cap. In Plex Sans 1ch (the "0") is
      0.6em and an average character about 0.45em, so 52ch sets lines of
@@ -21,10 +21,6 @@
   --path-gap: 32px;
   /* 32px, growing with the visitor's text size so the numeral stays inside. */
   --node: max(32px, 2rem);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root { --lift: 0 1px 2px rgb(0 0 0 / 0.5); }
 }
 
 /* ---------- Browser surfaces ---------- */

@@ -78,7 +78,7 @@
 }
 
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
 
   /* Faces. Plex Sans sets everything on the page: headings, numerals,
      figures, prose, buttons and labels. Plex Mono sets what a visitor might
@@ -86,22 +86,22 @@
   --font-sans: "IBM Plex Sans", "IBM Plex Sans Fallback", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* Light: brand ink on white, cool graphite greys. */
-  --bg: #ffffff;
-  --bg-subtle: #f5f6f8;
-  --surface: #ffffff;
-  --surface-sunken: #f0f1f4;
-  --line: #e2e4e8;
-  --line-strong: #cdd0d6;
-  --text: #17181b;
-  --text-2: #464950;
-  --text-3: #686c75;
-  --primary-bg: #17181b;
-  --primary-bg-hover: #2b2d32;
-  --primary-text: #ffffff;
-  --ok: #1d7a4c;
-  --warn: #9a5a00;
-  --focus: #17181b;
+  /* Dark only: the knob's graphite, light ink #e8eaee. */
+  --bg: #0f1012;
+  --bg-subtle: #141518;
+  --surface: #17181b;
+  --surface-sunken: #121316;
+  --line: #26282d;
+  --line-strong: #363940;
+  --text: #e8eaee;
+  --text-2: #b0b4bc;
+  --text-3: #8b8f98;
+  --primary-bg: #e8eaee;
+  --primary-bg-hover: #ffffff;
+  --primary-text: #17181b;
+  --ok: #4cc38a;
+  --warn: #f0a33c;
+  --focus: #e8eaee;
 
   --radius-sm: 6px;
   --radius: 8px;
@@ -112,27 +112,6 @@
   --text-base: 1rem;
 
   --content: 72rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark: the knob's graphite, light ink #e8eaee. */
-    --bg: #0f1012;
-    --bg-subtle: #141518;
-    --surface: #17181b;
-    --surface-sunken: #121316;
-    --line: #26282d;
-    --line-strong: #363940;
-    --text: #e8eaee;
-    --text-2: #b0b4bc;
-    --text-3: #8b8f98;
-    --primary-bg: #e8eaee;
-    --primary-bg-hover: #ffffff;
-    --primary-text: #17181b;
-    --ok: #4cc38a;
-    --warn: #f0a33c;
-    --focus: #e8eaee;
-  }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
