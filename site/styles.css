@@ -1390,7 +1390,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-.val .num { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
+.val .num { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; }
 .bar-row.is-knobs dt,
 .bar-row.is-knobs .val { color: var(--text); font-weight: 600; }
 .bar-row.is-knobs dd::before { background: var(--c-knobs); }

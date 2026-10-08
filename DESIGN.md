@@ -307,7 +307,7 @@ A cool, near-monochrome graphite palette drawn from the knob, on one dark scheme
 - **Title** (600, 1.1875rem, line height 1.3, tracking -0.008em): path step titles, fact terms, measurement titles. On the horizontal path each open step's title is capped at 9em, so all three take two lines ("Tune your mic / in OBS", with "your mic" kept together) and their descriptions start on one line.
 - **Title Small** (600, 1rem, line height 1.4): the release state's head inside the station ("From GitHub Releases", "Couldn't check for a release"), a status line under the step's title rather than a second title; also the signal path's stage names.
 - **Pitch Lede** (400, 1.125rem, line height 1.55, Graphite 2): the one paragraph beside the headline, capped at the measure. It drops to 1rem below 640px.
-- **Chart Value** (0.9375rem, tabular): the value at the tip of each bar, knobs's in ink 600 and OBS's in Graphite 2 at 400; the delay values' numbers at 1.0625rem 600.
+- **Chart Value** (0.9375rem, tabular): the value at the tip of each bar, knobs's in ink 600 and OBS's in Graphite 2 at 400; the delay values' numbers at 1rem 600.
 - **Numeral** (600, 0.875rem, tabular): step node numbers.
 - **Body** (400, 1rem, line height 1.55): the page default; fact text.
 - **Body Small** (0.9375rem; line height 1.5 for the path's step text, the station's state text and the build steps, 1.55 elsewhere): step descriptions, the station's state text, the build steps, tables, measurement and chart text, the footer's line under the lockup and its links.
