@@ -48,6 +48,11 @@ a {
   text-decoration-color: var(--line-strong);
   transition: text-decoration-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
 }
+/* A link inside a sentence sits among words of nearly its own colour,
+   where the hairline barely shows on the dark grounds, so its underline
+   rests in Graphite 3. Links that stand on their own line or row keep
+   the hairline. */
+:where(.path-skip, .rs-fit, .build-body, .footnote, .footer-legal) a { text-decoration-color: var(--text-3); }
 a:hover { text-decoration-color: currentColor; }
 
 code, .mono {
@@ -472,6 +477,8 @@ b, strong { font-weight: 600; color: var(--text); }
   bottom: calc(-12px - var(--node) / 2 - 1px);
   border: 1px solid var(--line-strong);
   border-bottom: 0;
+  /* A drawing only: a tap on it reaches the link's hit area under it. */
+  pointer-events: none;
 }
 .path-skip a { color: var(--text); }
 .path-skip .mono { font-size: 1em; }
@@ -596,6 +603,15 @@ b, strong { font-weight: 600; color: var(--text); }
   line-height: 1.5;
 }
 .rs .actions { margin-top: 16px; }
+/* With very large text in a narrow panel (200% at 390px), what can't fit
+   on one line wraps rather than run off the page: a button's label, the
+   note's "Windows 64-bit PC." and the github.com line. At the default
+   size every width keeps them as they are. */
+@container (max-width: 12.5em) {
+  .rs .actions .btn { white-space: normal; text-align: left; }
+  .rs .os-note .nowrap { white-space: normal; }
+  .dest .mono { overflow-wrap: anywhere; }
+}
 
 /* "Build from source", with what it needs on a second line, like the
    download button's sub-line. It opens the build steps in place, under
@@ -700,6 +716,7 @@ b, strong { font-weight: 600; color: var(--text); }
   font-size: var(--text-sm);
 }
 .rs-meta .tag { margin-left: 0; vertical-align: 0; }
+.rs-meta [hidden] { display: none; }
 .rs-meta a { color: var(--text); }
 .sep { color: var(--text-3); }
 .rs-links {
@@ -710,7 +727,11 @@ b, strong { font-weight: 600; color: var(--text); }
   font-size: var(--text-sm);
 }
 .rs-links a { color: var(--text); }
-.rs-links a[hidden] { display: none; }
+.rs-links a[hidden],
+.rs-links .rs-toggle[hidden] { display: none; }
+/* Every file size is Plex Sans with tabular figures, here as in the
+   download's sub-line and the file list. */
+.rs-links [data-hero="portable"] { font-variant-numeric: tabular-nums; }
 /* "Checksums" opens the file list in place, so it's a button that reads
    as its neighbours, with a chevron that turns down while the list is open.
    The chevron's centre sits 0.29em above the baseline, the middle of a
@@ -765,7 +786,7 @@ b, strong { font-weight: 600; color: var(--text); }
 }
 .file-meta a { color: var(--text); overflow-wrap: anywhere; }
 /* The size keeps its dot when it wraps under a long name. */
-.file-meta .file-size { white-space: nowrap; }
+.file-meta .file-size { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .file-meta .sep { margin-right: 8px; }
 .check { margin-top: 12px; }
 .check-head {
@@ -799,6 +820,16 @@ b, strong { font-weight: 600; color: var(--text); }
 }
 /* In the command the hash runs on from "-eq", as a terminal would wrap it. */
 .cmd-hash { word-break: break-all; }
+/* With very large text (200% at 390px) the list is narrower than the
+   command's longest unbroken run, so each run starts a line of its own
+   and wraps between its words there, never after an option's dash; and
+   Copy drops under its label, at the right. At the default size every
+   width keeps the layout above. */
+@container files (max-width: 12.5em) {
+  .check-value .nowrap { display: inline-block; white-space: normal; }
+  .check-head { flex-wrap: wrap; }
+  .check-head .copy { margin-left: auto; }
+}
 
 /* ---------- Sections ---------- */
 
@@ -808,7 +839,6 @@ b, strong { font-weight: 600; color: var(--text); }
   padding-block: clamp(64px, 6.5vw, 96px) clamp(48px, 5vw, 72px);
   border-top: 1px solid var(--line);
 }
-.intro + .section { border-top-color: var(--line); }
 
 /* A section opens on its title, set on a Hairline Strong rule the width
    of its rows, as a ruled table opens on its header rule. No rule crosses
@@ -867,7 +897,6 @@ details[open] > summary .chev { transform: rotate(90deg); }
   font-size: var(--text-xs);
   font-weight: 500;
 }
-.table thead td { border-bottom-color: var(--line-strong); }
 .table tbody th { color: var(--text); font-weight: 600; }
 
 /* The copy button has a column of its own, so no command ever runs under
@@ -1226,6 +1255,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   line-height: 1.5;
 }
 .measure-fig > .footnote { max-width: var(--measure); margin-top: 18px; }
+.footnote a { color: var(--text-2); }
 
 /* Same sound: the result for each input, read like a test report. */
 .match th, .match td { padding-block: 13px; }
@@ -1586,15 +1616,8 @@ details[open] > summary .chev { transform: rotate(90deg); }
   font-size: var(--text-xs);
 }
 .footer-legal p + p { margin-top: 4px; }
-/* The licence link carries no arrow, so its underline is the clearer
-   Graphite 3 at rest. */
-.footer-legal a { color: var(--text-2); text-decoration-color: var(--text-3); }
-.footer-legal a:hover { color: var(--text); text-decoration-color: currentColor; }
-/* Its line is short at the label size, so on touch the hit area reaches a
-   little further to stay 44px tall. */
-@media (pointer: coarse) {
-  .site-footer .footer-legal a::after { inset: -14px -4px; }
-}
+.footer-legal a { color: var(--text-2); }
+.footer-legal a:hover { color: var(--text); }
 
 /* ---------- Responsive ---------- */
 
@@ -1617,10 +1640,15 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .intro { padding-top: 28px; }
   .path { margin-top: 28px; }
   .rs { display: flex; flex-direction: column; }
-  .rs > .rs-head { order: -2; }
-  .rs > .actions { order: -1; margin-top: 12px; }
+  .rs > .rs-head,
+  .rs > .actions { order: -2; }
+  .rs > .actions { margin-top: 12px; }
   .rs > .build { order: -1; }
   .rs > .rs-body { margin-top: 12px; }
+  /* Opened, the build steps come after the explanation, so it never reads
+     as a note under them. */
+  .rs:has(> .build[open]) > .rs-body { order: -1; }
+  .rs:has(> .build[open]) > .build { margin-top: 12px; }
 }
 
 @media (max-width: 63.9375em) {
@@ -1797,7 +1825,8 @@ details[open] > summary .chev { transform: rotate(90deg); }
 /* On a touch screen every target is at least 44px tall. Links that stand
    on their own line grow in the flow, with negative margins that keep their
    text where it was; links inside a sentence keep their line and get a
-   larger invisible hit area instead. */
+   larger invisible hit area instead, 44px tall and centred on the link's
+   own box, so it holds at any text size. */
 @media (pointer: coarse) {
   .btn { min-height: 44px; }
   .copy { min-height: 44px; }
@@ -1818,12 +1847,15 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .file-meta a::after,
   .build-body a::after,
   .footnote a::after,
-  .footer-legal a::after { content: ""; position: absolute; inset: -12px -4px; }
+  .footer-legal a::after { content: ""; position: absolute; inset: calc(50% - 22px) -4px; }
 
   .pstep-links { row-gap: 0; margin-top: -1px; margin-bottom: -13px; }
   .pstep-links a,
   .more a { display: inline-flex; align-items: center; min-height: 44px; }
-  .more { margin-top: 14px; }
+  /* A step link whose label wraps (step 4's, on the horizontal path) grows
+     by its extra lines, so its first line sits where a one-line label's
+     does, not up against the text above. */
+  .pstep-links a { padding-block: calc((44px - 1lh) / 2); }
 
   .footer-nav ul { margin-top: 0; }
   .footer-nav li + li { margin-top: 0; }
@@ -1854,6 +1886,8 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 @media (pointer: coarse) and (max-width: 39.9375em) {
   .pstep-links { margin-top: -5px; }
+  /* The 32px lockup grows to 44px, inside the 56px header row. */
+  .brand { padding-block: 6px; }
 }
 
 @media (min-width: 100em) {

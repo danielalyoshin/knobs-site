@@ -32,20 +32,6 @@
   var PAGE = 10;
   var TIMEOUT_MS = 8000;
 
-  var links = {
-    repo: REPO_URL,
-    releases: REPO_URL + "/releases",
-    latest: REPO_URL + "/releases/latest",
-    issues: REPO_URL + "/issues",
-    license: REPO_URL + "/blob/main/LICENSE",
-    readme: REPO_URL + "#readme",
-    building: REPO_URL + "#building",
-    knownLimits: REPO_URL + "#known-limits",
-    site: "https://github.com/danielalyoshin/knobs-site",
-    obs: "https://obsproject.com/download",
-    vbcable: "https://vb-audio.com/Cable/"
-  };
-
   function formatBytes(n) {
     if (typeof n !== "number" || !isFinite(n)) return "";
     if (n < 1024) return n + " B";
@@ -114,14 +100,11 @@
     var files = classify(raw.assets || []);
     var version = String(raw.tag_name || "").replace(/^v/i, "");
     return {
-      tag: raw.tag_name,
       version: version,
-      name: raw.name || raw.tag_name,
       prerelease: !!raw.prerelease,
       publishedAt: raw.published_at,
       dateLabel: formatDate(raw.published_at),
       url: raw.html_url,
-      notes: raw.body || "",
       installer: files.installer,
       portable: files.portable,
       checksums: files.checksums,
@@ -259,5 +242,5 @@
     });
   }
 
-  window.knobsRelease = { load: load, links: links, formatBytes: formatBytes, formatDate: formatDate };
+  window.knobsRelease = { load: load };
 })();

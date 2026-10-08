@@ -70,11 +70,12 @@
     shown = true;
     // Arriving by a link into the panel (#files, #build): once the answer
     // shows, land on the link's target, or on the panel when the answer
-    // doesn't offer it (the build steps, once a release exists).
+    // doesn't offer it (the build steps once a release exists, the file
+    // list when the release has no files).
     var target = landing && state !== "static" && doc.getElementById(landing);
     if (target) {
       landing = "";
-      if (stack.contains(target)) (active.contains(target) ? target : $("#step-3")).scrollIntoView();
+      if (stack.contains(target)) (active.contains(target) && !target.hidden ? target : $("#step-3")).scrollIntoView();
     }
     // The control that had focus left with its state (a retry, or an answer
     // arriving), or moved with the build steps. Chrome may still report a
@@ -129,6 +130,9 @@
     // The non-Windows note under the button names what the button gets.
     setText($('[data-hero="os-file"]'),
       rel.installer ? "This is the installer" : rel.portable ? "This is the portable zip" : "Its files are");
+    // Without a file the button opens the release page, so it carries
+    // GitHub's mark rather than the download arrow.
+    $('[data-hero="icon"]').setAttribute("href", primary ? "#i-download" : "#i-github");
     if (primary) {
       link.href = primary.url;
       setText($('[data-hero="label"]'), "Download knobs " + rel.version);
@@ -138,9 +142,17 @@
       setText($('[data-hero="label"]'), "knobs " + rel.version + " on GitHub");
       setText($('[data-hero="sub"]'), "Open the release to see its files");
     }
-    var time = $('[data-hero="date"]');
+    // The date is added here, so it's never an empty <time>.
+    var meta = $(".rs-meta");
+    var sep = $(".sep", meta);
+    var time = $("time", meta);
+    if (!time) {
+      time = doc.createElement("time");
+      meta.insertBefore(time, sep);
+    }
     time.textContent = rel.dateLabel;
     time.setAttribute("datetime", String(rel.publishedAt || "").slice(0, 10));
+    time.hidden = sep.hidden = !rel.dateLabel;
     $('[data-hero="notes"]').href = rel.url;
     $('[data-hero="pre"]').hidden = !rel.prerelease;
     var zip = $('[data-hero="portable"]');
@@ -211,6 +223,10 @@
     apps.concat([rel.checksums]).forEach(function (f) {
       if (f) list.appendChild(fileRow(f, rel, f === primary, apps.length > 1));
     });
+    // A release without files has nothing to list, so no "Checksums".
+    var toggle = $(".rs-toggle");
+    if (!list.children.length) expand(toggle, false);
+    toggle.hidden = !list.children.length;
   }
 
   function renderError(reason) {
@@ -224,6 +240,10 @@
     // again can't work until the limit resets, so there's no "Try again".
     // With no release listed, the releases page may not have the files.
     $('[data-error="after"]').hidden = limited || unlisted;
+    // Nor can the note for visitors not on Windows point at those files,
+    // so it says what knobs is for, as the page does before an answer.
+    setText($('[data-error="os-what"]'), unlisted ? "knobs is" : "The files there are");
+    setText($('[data-error="os-who"]'), unlisted ? "It doesn’t" : "knobs doesn’t");
     $("[data-retry]").hidden = limited;
     return unlisted
       ? "GitHub didn’t list a release. The releases page link still works."
@@ -238,7 +258,8 @@
       renderHero(r.release);
       renderFiles(r.release);
       show("ready");
-      announce("Latest release: knobs " + r.release.version + ", " + r.release.dateLabel + ".");
+      announce((r.release.prerelease ? "Latest pre-release: knobs " : "Latest release: knobs ") + r.release.version +
+        (r.release.dateLabel ? ", " + r.release.dateLabel : "") + ".");
     } else {
       var said = renderError(r.reason);
       show("error");
@@ -361,7 +382,7 @@
     if (!t) return;
     if (t.tagName === "DETAILS") t.open = true;
     else $$("button[aria-controls]").forEach(function (b) {
-      if (b.getAttribute("aria-controls") === id) expand(b, true);
+      if (b.getAttribute("aria-controls") === id && !b.hidden) expand(b, true);
     });
   }
 

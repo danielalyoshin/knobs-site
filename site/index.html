@@ -148,7 +148,7 @@
               <div class="rs" data-when="ready" inert>
                 <div class="rs-main">
                   <a class="btn btn-primary btn-download" data-hero="link" href="https://github.com/danielalyoshin/knobs/releases/latest">
-                    <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
+                    <svg class="icon" aria-hidden="true"><use data-hero="icon" href="#i-download"/></svg>
                     <span class="btn-download-text">
                       <span class="btn-download-label" data-hero="label">Download knobs</span>
                       <span class="btn-download-sub" data-hero="sub">Installer for Windows x64</span>
@@ -162,11 +162,11 @@
                   </p>
                   <!-- What an OBS user skipping steps 1 and 2 still needs to know. -->
                   <p class="rs-fit">Needs OBS <span class="mono">32.2.x</span>. knobs runs OBS’s <span class="nowrap">built-in</span> audio filters, not VST filters or NVIDIA noise removal. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#known-limits">Known limits<span class="visually-hidden"> in the README</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
-                  <!-- The release itself, under a hairline. -->
+                  <!-- The release itself, under a hairline. renderHero adds
+                       the date, so the page never ships an empty one. -->
                   <div class="rs-foot">
                     <p class="rs-meta">
                       <span class="tag" data-hero="pre" hidden>Pre-release</span>
-                      <time data-hero="date"></time>
                       <span class="sep" aria-hidden="true">·</span>
                       <a data-hero="notes" href="https://github.com/danielalyoshin/knobs/releases/latest">Release notes<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
                     </p>
@@ -185,7 +185,7 @@
               <div class="rs" data-when="error" inert>
                 <p class="rs-head" data-error="head">Couldn’t check for a release</p>
                 <p class="rs-body"><span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files.</span></p>
-                <p class="os-note">The files there are for a <span class="nowrap">Windows 64-bit PC.</span> knobs doesn’t run on phones or macOS.</p>
+                <p class="os-note"><span data-error="os-what">The files there are</span> for a <span class="nowrap">Windows 64-bit PC.</span> <span data-error="os-who">knobs doesn’t</span> run on phones or macOS.</p>
                 <div class="actions">
                   <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">
                     <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
@@ -200,7 +200,9 @@
             <h3><span class="visually-hidden">Step 4: </span>Choose the cable in your apps</h3>
             <p>In your other apps, choose the cable as your mic. For <span class="nowrap">VB-Cable</span>, that’s <b class="ui">CABLE&nbsp;Output</b>.</p>
             <ul class="pstep-links">
-              <li><a href="https://github.com/danielalyoshin/knobs#4-choose-the-cable-in-your-apps">Turn off the app’s own <span class="nowrap">processing<span class="visually-hidden">, in the README</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></span></a></li>
+              <!-- The label is one span, so on touch, where the link is a
+                   flex box, it stays one run of text that wraps as a sentence. -->
+              <li><a href="https://github.com/danielalyoshin/knobs#4-choose-the-cable-in-your-apps"><span>Turn off the app’s own <span class="nowrap">processing<span class="visually-hidden">, in the README</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></span></span></a></li>
             </ul>
           </li>
         </ol>
@@ -414,7 +416,7 @@
 <template id="tpl-file">
   <li class="file">
     <p class="file-title"><span data-k="title"></span><span class="tag" data-k="tag" hidden>Recommended</span></p>
-    <p class="file-meta"><a class="mono" data-k="link" href="https://github.com/danielalyoshin/knobs/releases"><span class="visually-hidden">Download </span><span data-k="name"></span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-download"/></svg></a><span class="file-size" data-k="size-unit"><span class="sep" aria-hidden="true">·</span><span class="mono" data-k="size"></span></span></p>
+    <p class="file-meta"><a class="mono" data-k="link" href="https://github.com/danielalyoshin/knobs/releases"><span class="visually-hidden">Download </span><span data-k="name"></span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-download"/></svg></a><span class="file-size" data-k="size-unit"><span class="sep" aria-hidden="true">·</span><span data-k="size"></span></span></p>
     <div class="check" data-k="sha-item">
       <div class="check-head">
         <span>SHA-256</span>
