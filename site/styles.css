@@ -280,7 +280,7 @@ b, strong { font-weight: 600; color: var(--text); }
    hairline from the lowest to the highest point in it, in Hairline Strong,
    with the louder core over it in Graphite 3, in phrases with pauses
    between them; the rule shows through the gaps and the pauses. Its zero
-   line is the rule's centre, its tallest column 11.5px above it. It drifts
+   line is the rule's centre, its tallest column 19.5px above it. It drifts
    left at 30px a second, one 2880px tile in 96s, one device pixel a step
    (page.js sets --wave-steps from the screen's pixel ratio), so no hairline
    ever lands between pixels while it moves. page.js pauses it off screen
@@ -293,7 +293,7 @@ b, strong { font-weight: 600; color: var(--text); }
   left: 0;
   right: 0;
   bottom: -0.5px;
-  height: 30px;
+  height: 48px;
   transform: translateY(50%);
   overflow: hidden;
   contain: strict;
@@ -306,7 +306,7 @@ b, strong { font-weight: 600; color: var(--text); }
 .wave-track {
   display: block;
   max-width: none;
-  height: 30px;
+  height: 48px;
   fill: none;
   stroke-width: 1px;
   opacity: 0.8;
@@ -318,11 +318,19 @@ b, strong { font-weight: 600; color: var(--text); }
 .intro:has(#step-3 [data-hero="link"]:is(:hover, :focus-visible)) .wave-track {
   opacity: 1;
 }
-/* Where the note for visitors not on Windows hangs under the panel at its
-   narrowest (1024 to 1087px), the clip is drawn at 70% of its height, so
-   its tallest column clears the note by 12px. The hairlines stay 1px. */
+/* Where the note for visitors not on Windows hangs under the panel on the
+   narrower horizontal path, the clip is drawn lower, in steps, so its
+   tallest column clears the note by 12px and is never cut off: 50% from
+   1024 to 1087px, 72% to 1151px and 95% to 1215px. The hairlines stay
+   1px. */
+@media (min-width: 64em) and (max-width: 75.9375em) {
+  .not-windows .wave-track > g { transform: scaleY(0.95); }
+}
+@media (min-width: 64em) and (max-width: 71.9375em) {
+  .not-windows .wave-track > g { transform: scaleY(0.72); }
+}
 @media (min-width: 64em) and (max-width: 67.9375em) {
-  .not-windows .wave-track > g { transform: scaleY(0.7); }
+  .not-windows .wave-track > g { transform: scaleY(0.5); }
 }
 /* The track and the band stay on their own layers (will-change), so the
    drift, the rise and the lift are composited with no layout or paint, at
