@@ -275,18 +275,20 @@ b, strong { font-weight: 600; color: var(--text); }
   background: var(--bg-subtle);
 }
 
-/* The page's one decoration: three drawn waves, low, mid and high, whose
-   zero line is the seam under the band, centred on the next section's
-   rule. Each is a 1px line in Graphite 3 at its own strength, the low band
-   the strongest, edge to edge in the band's bottom padding, clear of the
-   headline and the download. Each drifts left at its own pace, one tile in
-   211s, 131s and 61s (about 12, 19 and 30px a second), so the shape they
-   make together never comes round again. Each band is its own layer,
-   moved by a transform and nothing else. One unit is one pixel, so they
-   are never squeezed. page.js pauses them off screen and in a hidden tab,
-   and lets them rise from the rule once the release has settled and the
-   strip is in view; with reduced motion they stand still, already up. */
+/* The page's one decoration: a drawn clip at the seam, the way an audio
+   editor draws speech zoomed out. Every other pixel column is a 1px
+   hairline from the lowest to the highest point in it, in Hairline Strong,
+   with the louder core over it in Graphite 3, in phrases with pauses
+   between them; the rule shows through the gaps and the pauses. Its zero
+   line is the rule's centre, its tallest column 11.5px above it. It drifts
+   left at 30px a second, one 2880px tile in 96s, one device pixel a step
+   (page.js sets --wave-steps from the screen's pixel ratio), so no hairline
+   ever lands between pixels while it moves. page.js pauses it off screen
+   and in a hidden tab, and lets it rise from the rule once the release has
+   settled and the strip is in view; with reduced motion it stands still,
+   already up. */
 .wave {
+  --wave-steps: 2880;
   position: absolute;
   left: 0;
   right: 0;
@@ -306,50 +308,45 @@ b, strong { font-weight: 600; color: var(--text); }
   max-width: none;
   height: 30px;
   fill: none;
-  stroke: var(--text-3);
   stroke-width: 1px;
-  stroke-linecap: round;
-  opacity: var(--band);
+  opacity: 0.8;
 }
-.wave-low { --band: 0.56; --band-lift: 0.76; }
-.wave-mid { --band: 0.4; --band-lift: 0.54; }
-.wave-high { --band: 0.26; --band-lift: 0.36; }
-/* Reaching for the download lifts all three a step, as a meter does when
-   the signal arrives. */
+.wave-peak { stroke: var(--line-strong); }
+.wave-core { stroke: var(--text-3); stroke-opacity: 0.48; }
+/* Reaching for the download brings the clip up to full strength, as a
+   meter lifts when the signal arrives. */
 .intro:has(#step-3 [data-hero="link"]:is(:hover, :focus-visible)) .wave-track {
-  opacity: var(--band-lift);
+  opacity: 1;
 }
 /* Where the note for visitors not on Windows hangs under the panel at its
-   narrowest (1024 to 1087px), the waves are drawn at 70% of their height,
-   so the tallest crest clears it by 12px. The stroke stays 1px. */
+   narrowest (1024 to 1087px), the clip is drawn at 70% of its height, so
+   its tallest column clears the note by 12px. The hairlines stay 1px. */
 @media (min-width: 64em) and (max-width: 67.9375em) {
   .not-windows .wave-track > g { transform: scaleY(0.7); }
 }
-/* Every band and its track stay on their own layers (will-change), so the
+/* The track and the band stay on their own layers (will-change), so the
    drift, the rise and the lift are composited with no layout or paint, at
    their start and end too. */
 @media (prefers-reduced-motion: no-preference) {
   .wave-track {
     will-change: transform, opacity;
     transition: opacity var(--t-struct) var(--ease);
+    animation: wave-drift 96s steps(var(--wave-steps)) infinite;
   }
-  .wave-low .wave-track { animation: wave-low 211s linear infinite; }
-  .wave-mid .wave-track { animation: wave-mid 131s linear infinite; }
-  .wave-high .wave-track { animation: wave-high 61s linear infinite; }
+  /* Half-pixel steps on 2x screens when page.js can't say. */
+  @media (min-resolution: 2dppx) {
+    .wave { --wave-steps: 5760; }
+  }
   .wave.is-paused .wave-track { animation-play-state: paused; }
-  /* Flat on the rule until page.js marks the strip up, then each band
-     rises from it in turn, low first, on the sweep's 720ms. */
+  /* Flat on the rule until page.js marks the strip up, then it rises from
+     the rule on the sweep's 720ms, once the station has settled. */
   .wave-band {
     will-change: transform, opacity;
-    transition: transform 720ms var(--ease), opacity var(--t-struct) var(--ease);
+    transition: transform 720ms var(--ease) var(--t-struct), opacity var(--t-struct) var(--ease) var(--t-struct);
   }
-  .wave-mid { transition-delay: 120ms; }
-  .wave-high { transition-delay: 240ms; }
   .js .wave:not(.is-up) .wave-band { transform: scaleY(0); opacity: 0; }
 }
-@keyframes wave-low { to { transform: translateX(-2560px); } }
-@keyframes wave-mid { to { transform: translateX(-2520px); } }
-@keyframes wave-high { to { transform: translateX(-1800px); } }
+@keyframes wave-drift { to { transform: translateX(-2880px); } }
 /* Forced colours drop fills, so step 3's inked node keeps its fill in the
    visitor's own colours. */
 @media (forced-colors: active) {

@@ -474,20 +474,41 @@
 
   /* ---------- The wave ---------- */
 
-  // The three bands at the seam lie flat on the rule until the release
-  // has settled and the whole strip is in view, then rise and start to
-  // drift (styles.css). They run only while they're on screen and the tab
-  // is showing. Reduced motion never moves them.
+  // The clip at the seam lies flat on the rule until the release has
+  // settled and the whole strip is in view, then rises and starts to drift
+  // (styles.css). It runs only while it's on screen and the tab is
+  // showing. Reduced motion never moves it.
   var wave = $(".wave");
   if (wave) {
     var hasIO = "IntersectionObserver" in window;
     var waveSeen = !hasIO, waveWhole = !hasIO;
     var waveRun = function () {
-      if (waveWhole && !doc.hidden && /^(ready|none|error)$/.test(root.getAttribute("data-release-state"))) {
+      if (waveWhole && !doc.hidden && /^(ready|error)$/.test(root.getAttribute("data-release-state"))) {
         wave.classList.add("is-up");
       }
       wave.classList.toggle("is-paused", !waveSeen || doc.hidden || !wave.classList.contains("is-up"));
     };
+    // Each step of the drift moves the clip one device pixel at whatever
+    // pixel ratio the screen has (125% and 150% scaling included): one
+    // tile, read from the first copy's offset, in tile x ratio steps. Its
+    // hairlines then never land between pixels, so they never blur or
+    // shimmer while it moves. Asked again when the ratio changes (a zoom,
+    // or the window moving to another screen).
+    var waveUse = wave.querySelector("use");
+    var waveTile = waveUse ? parseFloat(waveUse.getAttribute("x")) : 0;
+    var waveSteps = function () {
+      var ratio = window.devicePixelRatio || 1;
+      if (waveTile) wave.style.setProperty("--wave-steps", String(Math.max(1, Math.round(waveTile * ratio))));
+      if (window.matchMedia) {
+        var mq = window.matchMedia("(resolution: " + ratio + "dppx)");
+        var again = function () {
+          if (mq.removeEventListener) mq.removeEventListener("change", again); else mq.removeListener(again);
+          waveSteps();
+        };
+        if (mq.addEventListener) mq.addEventListener("change", again); else mq.addListener(again);
+      }
+    };
+    waveSteps();
     if (hasIO) {
       new IntersectionObserver(function (entries) {
         var e = entries[entries.length - 1];
