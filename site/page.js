@@ -356,6 +356,105 @@
     window.requestAnimationFrame(function () { arrived.scrollIntoView(); });
   }
 
+  /* ---------- How it works: one signal through the path ---------- */
+
+  // The first time the whole signal path is in view, one signal runs
+  // through it (styles.css): a short pulse along each wire at one speed,
+  // knobs's node lighting as it arrives, each filter's dot in turn as the
+  // pulse runs down the chain, then on to the cable and the apps. Only a
+  // path still below the fold waits for it, as the charts do. With reduced
+  // motion, in forced colours or without IntersectionObserver the drawing
+  // stays as it is.
+  (function () {
+    var fig = $(".signal");
+    function matches(q) { return !!(window.matchMedia && window.matchMedia(q).matches); }
+    function calm() { return matches("(prefers-reduced-motion: reduce)") || matches("(forced-colors: active)"); }
+    if (!fig || calm() || !("IntersectionObserver" in window)) return;
+    if (fig.getBoundingClientRect().top < window.innerHeight) return;
+
+    var stages = $$(".signal-path > .sp", fig);
+    var chain = $(".sp-chain", fig);
+    if (stages.length < 2 || !chain) return;
+
+    var SPEED = 0.5;  // px per ms, on every wire
+    var SLOW = 0.28;  // down the chain, so the filters light one by one
+    var steps = [];
+    for (var i = 0; i <= 10; i++) steps.push(i / 10);
+
+    fig.classList.add("is-armed");
+    var io = new IntersectionObserver(function (entries) {
+      var e = entries[entries.length - 1];
+      var r = e.boundingClientRect, vh = window.innerHeight;
+      // The whole drawing, or as much of it as the screen can show.
+      if (!e.isIntersecting || (r.bottom > vh - 16 && r.top > vh * 0.35)) return;
+      io.disconnect();
+      play();
+    }, { threshold: steps });
+    io.observe(fig);
+
+    function setTime(el, name, ms) { el.style.setProperty(name, Math.round(ms) + "ms"); }
+
+    // A pulse on the wire it shares its box with (styles.css).
+    function addPulse(parent, down) {
+      var p = doc.createElement("span");
+      p.className = down ? "sp-pulse is-y" : "sp-pulse";
+      p.setAttribute("aria-hidden", "true");
+      parent.appendChild(p);
+      var b = p.getBoundingClientRect();
+      return { el: p, len: down ? b.height : b.width, top: b.top };
+    }
+
+    function play() {
+      fig.classList.remove("is-armed");
+      if (calm()) return;
+
+      var dash = parseFloat(getComputedStyle(fig).getPropertyValue("--sp-dash")) || 32;
+      var down = stages[1].getBoundingClientRect().top >= stages[0].getBoundingClientRect().bottom;
+      var nodes = stages.map(function (li) { return $(".sp-node", li); });
+      var wires = stages.slice(0, -1).map(function (li) { return addPulse(li, down); });
+      var run = addPulse(chain, true);
+      var timed = nodes.slice();
+
+      // Starts a pulse at `at`; returns when its head reaches the wire's end.
+      function send(w, at, speed) {
+        speed = speed || SPEED;
+        setTime(w.el, "--at", at);
+        setTime(w.el, "--run", (w.len + dash) / speed);
+        return at + w.len / speed;
+      }
+
+      setTime(nodes[0], "--at", 0);
+      var t = send(wires[0], 80);
+      setTime(nodes[1], "--at", t);
+
+      // Down the chain: each dot lights as the pulse's head passes it.
+      var c0 = t + 200;
+      $$("li", chain).forEach(function (li) {
+        var b = li.getBoundingClientRect();
+        setTime(li, "--at", c0 + Math.max(0, b.top + b.height / 2 - run.top) / SLOW);
+        timed.push(li);
+      });
+      t = send(run, c0, SLOW) + 160;
+
+      // Out of knobs, into the cable, and on to the apps.
+      for (var n = 1; n < wires.length; n++) {
+        t = send(wires[n], t);
+        setTime(nodes[n + 1], "--at", t);
+        t += 40;
+      }
+
+      fig.classList.add("is-playing");
+      setTimeout(function () {
+        fig.classList.remove("is-playing");
+        wires.concat(run).forEach(function (w) { w.el.remove(); });
+        timed.forEach(function (el) {
+          el.style.removeProperty("--at");
+          if (!el.getAttribute("style")) el.removeAttribute("style");
+        });
+      }, t + 1000);
+    }
+  })();
+
   /* ---------- The wave ---------- */
 
   // The wave at the seam runs only while it's on screen and the tab is

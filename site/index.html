@@ -278,14 +278,16 @@
     <div class="wrap">
       <div class="section-head">
         <h2 id="how-title">How it works</h2>
-        <p>If you tuned your mic in OBS and send it to a virtual cable, OBS has to stay open all day. Other tools, such as Equalizer APO, VoiceMeeter and NVIDIA Broadcast, process audio their own way, so a chain tuned in OBS can’t match exactly. knobs runs OBS’s own filter code, from your OBS install, with your OBS settings. Nothing else touches the audio.</p>
+        <p class="more"><a href="https://github.com/danielalyoshin/knobs#how-it-works">More in the README<span class="visually-hidden"> on how it works</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
       </div>
 
       <!-- One wire through four stages. Each stage's node sits on the wire,
-           and the signal enters knobs along the panel's top border, like
-           the rail meeting the station on the first screen. The chain inside
-           is the one measured below, in the order the measurement names it. -->
-      <figure class="signal">
+           and the wire carries on as the knobs panel's border, like the
+           rail meeting the station on the first screen. The chain inside is
+           a placeholder: any of OBS's built-in audio filters, in the
+           visitor's own order. page.js sends one signal through it the
+           first time it comes into view. -->
+      <figure class="signal" aria-label="The signal path">
         <ol class="signal-path">
           <li class="sp">
             <span class="sp-node" aria-hidden="true"></span>
@@ -296,11 +298,11 @@
             <span class="sp-node" aria-hidden="true"></span>
             <span class="sp-name">OBS’s filters, run by knobs</span>
             <span class="sp-note">Your chain, in order, with your settings</span>
-            <ol class="sp-chain" aria-label="The four-filter chain measured below">
-              <li>3-Band Equalizer</li>
-              <li>Expander</li>
-              <li>Compressor</li>
-              <li>Limiter</li>
+            <ol class="sp-chain" aria-label="Your filters, in your order">
+              <li>Filter 1</li>
+              <li>Filter 2</li>
+              <li>Filter 3</li>
+              <li class="sp-rest"><span aria-hidden="true">…</span><span class="visually-hidden">And the rest of your chain</span></li>
             </ol>
           </li>
           <li class="sp">
@@ -310,24 +312,22 @@
           </li>
           <li class="sp">
             <span class="sp-node" aria-hidden="true"></span>
-            <span class="sp-name">Discord, Zoom, games</span>
+            <span class="sp-name">Your other apps</span>
             <span class="sp-note">Their mic is <b class="ui">CABLE Output</b></span>
           </li>
         </ol>
-        <figcaption>The signal path, shown with the four-filter chain measured below. There’s no video, no window and no OBS process.</figcaption>
       </figure>
 
       <dl class="facts">
         <div>
           <dt>In the tray, from sign-in</dt>
-          <dd>knobs starts with Windows and lives in the tray. In testing, the mic was on the cable 9.5&nbsp;s after signing in, with nothing clicked. A notification says when something needs you.</dd>
+          <dd>knobs starts with Windows and stays out of sight in the tray while it works. A notification says when something needs you.</dd>
         </div>
         <div>
           <dt>Read-only on OBS</dt>
           <dd>knobs never writes to OBS’s settings or its install. The install stays unlocked, so a running knobs never blocks an OBS update.</dd>
         </div>
       </dl>
-      <p class="more"><a href="https://github.com/danielalyoshin/knobs#how-it-works">How it works in the README<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
     </div>
   </section>
 
@@ -336,7 +336,6 @@
     <div class="wrap">
       <div class="section-head">
         <h2 id="measured-title">Measured against OBS</h2>
-        <p>Same sound, same delay, and a fraction of the footprint.</p>
       </div>
 
       <!-- Each measurement is a row: the claim on the left, its evidence on
@@ -380,7 +379,7 @@
                 <div class="bar-row"><dt>OBS</dt><dd style="--f: 0.877"><span class="val"><span class="num">87.7</span> ms</span></dd></div>
               </dl>
             </div>
-            <figcaption class="footnote">Measured on one PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and VB-Cable.</figcaption>
+            <figcaption class="footnote">Measured on a PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and <span class="nowrap">VB-Cable</span>.</figcaption>
           </figure>
         </div>
 
@@ -406,7 +405,7 @@
                 <tr role="row"><th scope="row" role="rowheader">GPU</th><td role="cell" class="is-knobs" style="--f: 0">None</td><td role="cell" style="--f: 1">0.05%</td></tr>
               </tbody>
             </table>
-            <figcaption class="footnote">Each measure has its own scale, from zero. Measured on one PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and VB-Cable. <a href="https://github.com/danielalyoshin/knobs/blob/main/plan.md#m3-test-on-real-hardware-obs-3222" class="nowrap">plan.md<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a> has the method.</figcaption>
+            <figcaption class="footnote">Each measure has its own scale, from zero. Measured on a PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and <span class="nowrap">VB-Cable</span>.</figcaption>
           </figure>
         </div>
       </div>
@@ -446,7 +445,7 @@
       </nav>
     </div>
     <div class="footer-legal">
-      <p>knobs is licensed under <a class="nowrap" href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">GPL-2.0-or-later<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>, the same as libobs. It ships no OBS binaries: it runs the OBS you installed.</p>
+      <p>knobs is licensed under <a class="nowrap" href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">GPL-2.0-or-later</a>, the same as libobs. It ships no OBS binaries: it runs the OBS you installed.</p>
       <p>knobs is an independent project. It isn’t affiliated with or endorsed by the OBS Project.</p>
     </div>
   </div>
