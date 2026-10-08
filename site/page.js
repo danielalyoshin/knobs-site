@@ -26,7 +26,7 @@
   /* ---------- Release states ---------- */
 
   var stack = $('[data-release="stack"]');
-  var build = $("#build");
+  var build = $("details.build");
   var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var shown = false;
   var landing = location.hash.slice(1);
@@ -75,7 +75,7 @@
     var target = landing && state !== "static" && doc.getElementById(landing);
     if (target) {
       landing = "";
-      if (stack.contains(target)) (active.contains(target) && !target.hidden ? target : $("#step-3")).scrollIntoView();
+      if (stack.contains(target)) (active.contains(target) && !target.hidden ? target.closest("details") || target : $("#step-3")).scrollIntoView();
     }
     // The control that had focus left with its state (a retry, or an answer
     // arriving), or moved with the build steps. Chrome may still report a
@@ -377,12 +377,13 @@
     t.hidden = !open;
   }
 
-  // A link to #build opens the build steps; one to #files opens the file
-  // list, with the button that controls it.
+  // A link to #build opens the build steps (its target sits inside them);
+  // one to #files opens the file list, with the button that controls it.
   function openTarget(id) {
     var t = id && doc.getElementById(id);
     if (!t) return;
-    if (t.tagName === "DETAILS") t.open = true;
+    var d = t.closest("details");
+    if (d) d.open = true;
     else $$("button[aria-controls]").forEach(function (b) {
       if (b.getAttribute("aria-controls") === id && !b.hidden) expand(b, true);
     });

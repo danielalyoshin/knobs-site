@@ -55,7 +55,7 @@ a {
    where the hairline barely shows on the dark grounds, so its underline
    rests in Graphite 3. Links that stand on their own line or row keep
    the hairline. */
-:where(.path-skip, .rs-fit, .build-body, .footnote, .footer-legal) a { text-decoration-color: var(--text-3); }
+:where(.path-skip, .rs-fit, .build-body, .sp-note, .footnote, .footer-legal) a { text-decoration-color: var(--text-3); }
 a:hover { text-decoration-color: currentColor; }
 
 code, .mono {
@@ -636,6 +636,9 @@ b, strong { font-weight: 600; color: var(--text); }
   margin-top: 16px;
   padding-top: 16px;
   border-top: 1px solid var(--line);
+  /* A link to #build lands here; the room keeps "Build from source" in
+     view above the steps it opened. */
+  scroll-margin-top: calc(16px + 4.5rem);
   color: var(--text-2);
   font-size: 0.9375rem;
   line-height: 1.5;
@@ -982,6 +985,8 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 .sp-name { color: var(--text); font-weight: 600; line-height: 1.4; }
 .sp-note { color: var(--text-3); font-size: var(--text-sm); line-height: 1.45; }
+.sp-note a { color: var(--text-2); }
+.sp-note a:hover { color: var(--text); }
 /* A stage's icon: the sprite's 1.5px round strokes, drawn 20px wide in a
    21px box and growing with the visitor's text size, as the step nodes
    do. Graphite like the wire, and knobs's in ink. */
@@ -1890,12 +1895,14 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .rs-fit a,
   .file-meta a,
   .build-body a,
+  .sp-note a,
   .footnote a,
   .footer-legal a { position: relative; }
   .path-skip a::after,
   .rs-fit a::after,
   .file-meta a::after,
   .build-body a::after,
+  .sp-note a::after,
   .footnote a::after,
   .footer-legal a::after { content: ""; position: absolute; inset: calc(50% - 22px) -4px; }
 

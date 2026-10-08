@@ -143,13 +143,15 @@
                 </div>
                 <!-- The build steps, opened in place under the state's buttons.
                      Without JavaScript they stay in this state; page.js moves
-                     them under the buttons of whichever state offers them. -->
-                <details class="build" id="build">
+                     them under the buttons of whichever state offers them. The
+                     #build target sits inside them, so a link to #build opens
+                     them even without JavaScript. -->
+                <details class="build">
                   <summary class="btn btn-secondary btn-build">
                     <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
                     <span class="btn-build-text"><span>Build from source</span> <span class="btn-build-cost">(Visual Studio 2022 and CMake)</span></span>
                   </summary>
-                  <div class="build-body">
+                  <div class="build-body" id="build">
                     <p>You need Visual Studio 2022 or newer with the <b class="ui">Desktop development with C++</b> workload, and CMake 3.25 or newer. From a Developer PowerShell for VS:</p>
                     <!-- One span per command. Each wraps only between its words and
                          after the URL's slashes, never inside an option, and runs on
@@ -295,12 +297,12 @@
           <li class="sp">
             <svg class="sp-icon" viewBox="-0.5 -0.5 21 21" aria-hidden="true"><path d="M7.75 2.25v3.5m4.5-3.5v3.5M5 5.75h10v2.5a5 5 0 0 1-10 0zm5 7.5v4.5"/></svg>
             <span class="sp-name">Virtual cable<span class="visually-hidden">: </span></span>
-            <span class="sp-note">VB-Cable, or another one</span>
+            <span class="sp-note">Such as <a class="nowrap" href="https://vb-audio.com/Cable/">VB-Cable<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></span>
           </li>
           <li class="sp">
             <svg class="sp-icon" viewBox="-0.5 -0.5 21 21" aria-hidden="true"><rect x="3" y="3" width="5.25" height="5.25" rx="1.25"/><rect x="11.75" y="3" width="5.25" height="5.25" rx="1.25"/><rect x="3" y="11.75" width="5.25" height="5.25" rx="1.25"/><rect x="11.75" y="11.75" width="5.25" height="5.25" rx="1.25"/></svg>
             <span class="sp-name">Your other apps<span class="visually-hidden">: </span></span>
-            <span class="sp-note">Their mic is <b class="ui">CABLE Output</b></span>
+            <span class="sp-note">Set mic input to <b class="ui">CABLE Output</b></span>
           </li>
         </ol>
       </figure>
