@@ -1644,7 +1644,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 .footer-id img { width: auto; height: 32px; }
 .footer-id p { margin-top: 12px; color: var(--text-3); font-size: 0.9375rem; }
-.footer-nav { display: flex; gap: 72px; }
+.footer-nav { display: flex; flex-wrap: wrap; gap: 32px 72px; }
 .footer-h {
   color: var(--text);
   font: 600 var(--text-sm)/1.4 var(--font-sans);
@@ -1768,7 +1768,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 
 @media (max-width: 44.9375em) {
-  .footer-nav { gap: 48px; }
+  .footer-nav { column-gap: 48px; }
 }
 
 @media (max-width: 39.9375em) {

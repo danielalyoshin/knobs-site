@@ -129,7 +129,9 @@
     var link = $('[data-hero="link"]');
     // The non-Windows note under the button names what the button gets.
     setText($('[data-hero="os-file"]'),
-      rel.installer ? "This is the installer" : rel.portable ? "This is the portable zip" : "Its files are");
+      rel.installer ? "This is the installer" : rel.portable ? "This is the portable zip" : "knobs is");
+    // A release with no files names none of them, as the static note does.
+    setText($('[data-hero="os-who"]'), primary ? "knobs doesn’t" : "It doesn’t");
     // Without a file the button opens the release page, so it carries
     // GitHub's mark rather than the download arrow.
     $('[data-hero="icon"]').setAttribute("href", primary ? "#i-download" : "#i-github");
