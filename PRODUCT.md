@@ -43,9 +43,9 @@ For the site: every download is a file from the project's own GitHub Releases, l
 
 ## Operating Context
 
-- Release data comes live from GitHub's REST API (`GET /repos/danielalyoshin/knobs/releases?per_page=10`), unauthenticated, in the visitor's browser. That allows 60 requests an hour per IP address. With no release, the list is empty; the page asks `/releases/latest`, which answers 404 when there's no full release, only when ten pre-releases fill the list.
+- Release data comes live from GitHub's REST API (`GET /repos/danielalyoshin/knobs/releases?per_page=10`), unauthenticated, in the visitor's browser. That allows 60 requests an hour per IP address. The page asks `/releases/latest` only when ten pre-releases fill the list, in case an older full release hides behind them.
 - Downloads link to `github.com/danielalyoshin/knobs/releases/download/…`. The site never copies or proxies a binary.
-- **The first release, v0.1.0, went out on 2026-10-08.** The page still keeps a truthful no-release state (for a repository with no full release) and a fallback to the GitHub Releases page when the API fails or is rate-limited.
+- **The first release, v0.1.0, went out on 2026-10-08.** The page no longer has a no-release state (owner, 2026-10-07). When GitHub lists no release, can't be reached or is rate-limited, the page says which and links to the GitHub Releases page.
 - What knobs needs to run, which a visitor must know before downloading: Windows 64-bit, OBS Studio 32.2.x (tested on 32.2.2), and a virtual cable such as VB-Cable.
 - knobs is Windows only for now. Visitors on macOS, Linux or a phone should learn that, not get a file that won't run.
 
@@ -70,19 +70,21 @@ From the knobs repository's PRODUCT.md and `assets/README.md`, which stay the au
 - **Independence:** knobs isn't affiliated with or endorsed by the OBS Project. Say so wherever knobs is presented, this site included.
 - **This site, from the owner's brief (2026-10-06):** professional and in line with the standard for open-source project sites. It must not look suspicious, and visitors should feel comfortable downloading. Not over the top: it serves its purpose, clear and clean.
 - **Standing preference (2026-10-06):** the open-source download-page standard, played straight, with no concept or theme on top. The owner chose it over themed directions. Zed (zed.dev, its download page) and Audacity (audacityteam.org, its Windows download page) set the bar for finish.
+- **Dark only (owner, 2026-10-07):** the site has one colour scheme, the dark one, whatever the visitor's system setting. It uses the light-text lockup.
+- **Generic about apps (owner, 2026-10-07):** the site names no particular app (no Discord, Zoom or games). Like the README, it says "your other apps".
 
 ## Evidence on Hand
 
 - Output bit-identical to OBS's, on test signals, on a chain of every audio filter in `obs-filters`, and on a recording of real voice. `knobs-compare` checks this against OBS itself.
 - Mic to cable: 88.1 ms in knobs, 87.7 ms in OBS, on the same cable input.
-- A four-filter chain, knobs running against OBS minimized: 0.72% against 5.64% of one CPU core, 36 MB against 469 MB of memory, 7–9 against 90–98 threads, and no GPU against 0.05%. Measured on one PC (Core Ultra 7 265K, OBS 32.2.2, Audient iD4, VB-Cable); say so wherever the numbers appear.
-- The logo files, in `danielalyoshin/knobs` under `assets/`. The app icon and the two horizontal lockups are copied unchanged into `site/brand/`, beside the site's favicon (owner, 2026-10-07: the masters now carry the enlarged wordmark, so the site uses them as they are).
-- Not on hand, and not to be made up: a release, download or star counts, users, testimonials, and screenshots of the tray app.
+- A four-filter chain, knobs running against OBS minimized: 0.72% against 5.64% of one CPU core, 36 MB against 469 MB of memory, 7–9 against 90–98 threads, and no GPU against 0.05%. Measured on a PC (Core Ultra 7 265K, OBS 32.2.2, Audient iD4, VB-Cable); say so wherever the numbers appear. The method is in the knobs repository's `docs/design.md`, "On real hardware" (plan.md is gone); the page links it as "How it was measured" (owner, 2026-10-07).
+- The logo files, in `danielalyoshin/knobs` under `assets/`. The app icon and the light-text horizontal lockup are copied unchanged into `site/brand/`, beside the site's favicon (owner, 2026-10-07: the masters now carry the enlarged wordmark, so the site uses them as they are; the dark-text lockup left with the light mode).
+- Not on hand, and not to be made up: download or star counts, users, testimonials, and screenshots of the tray app.
 
 ## Product Principles
 
 1. **The download is the page.** The current file for a Windows PC is the first thing a visitor can act on.
 2. **Every file from GitHub.** Downloads go to the project's GitHub Releases. Checksums, release notes and the source are one click away.
-3. **Only what's true.** Version, date, size and checksum come from the actual release. When there's no release, or GitHub can't be reached, say so and link to GitHub.
+3. **Only what's true.** Version, date, size and checksum come from the actual release. When GitHub lists no release or can't be reached, say so and link to GitHub.
 4. **Requirements before the download.** Windows 64-bit, OBS 32.2.x and a virtual cable, stated where the download is, so nobody gets a file that won't work for them.
 5. **Plain like the README.** Nothing a cautious visitor could read as a download trap: no hype, no urgency, no surprise prompts.
