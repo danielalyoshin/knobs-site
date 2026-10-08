@@ -1682,7 +1682,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
 /* ---------- Responsive ---------- */
 
 /* Breakpoints are in em, so they follow the text size set in the browser:
-   at the default 16px they fall at 1280, 1024, 900, 720, 640, 520, 480
+   at the default 16px they fall at 1600, 1024, 900, 720, 640, 520, 480
    and 360px, and with larger text the page takes the layout of a narrower
    window instead of squeezing its columns. */
 
