@@ -802,24 +802,42 @@ b, strong { font-weight: 600; color: var(--text); }
 
 /* ---------- Sections ---------- */
 
+/* More room above a section's title than after its last row, so the
+   space between two sections reads as the pause before the next title. */
 .section {
-  padding-block: clamp(72px, 9vw, 128px);
+  padding-block: clamp(64px, 6.5vw, 96px) clamp(48px, 5vw, 72px);
   border-top: 1px solid var(--line);
 }
 .intro + .section { border-top-color: var(--line); }
 
-/* A section opens on its title alone, at the left edge of its rows. */
-.section-head { margin-bottom: clamp(40px, 5vw, 64px); }
+/* A section opens on its title, set on a Hairline Strong rule the width
+   of its rows, as a ruled table opens on its header rule. No rule crosses
+   the page between two sections: the next title carries its own. The rule
+   over How it works stays, as the seam under the first screen. In
+   Measured the title's rule is the top of the first row. */
+.section + .section { border-top: 0; }
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 24px;
+  margin-bottom: clamp(32px, 3.5vw, 48px);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line-strong);
+}
 .section-head h2 {
   font-size: clamp(1.75rem, 1.35rem + 1.3vw, 2.375rem);
   font-weight: 600;
   letter-spacing: -0.018em;
 }
+.measured .section-head { margin-bottom: 0; }
 
 h3 { color: var(--text); }
 
-/* A link on to the README, under the title of the section it continues. */
-.more { margin-top: 8px; color: var(--text-2); font-size: var(--text-sm); }
+/* A link on to the README, at the far end of the title's rule in the
+   section it continues, on the title's baseline. */
+.more { color: var(--text-2); font-size: var(--text-sm); }
 .more a { color: inherit; }
 .more a:hover { color: var(--text); }
 
@@ -1171,8 +1189,8 @@ details[open] > summary .chev { transform: rotate(90deg); }
   padding: 26px 0 28px;
   border-bottom: 1px solid var(--line);
 }
-/* The section ends on its last fact, not a rule, so the rule that opens
-   Measured is the only one between them. */
+/* The section ends on its last fact, not a rule, so the next rule is the
+   one under Measured's title. */
 .facts > div:last-child { padding-bottom: 0; border-bottom: 0; }
 .facts dt {
   color: var(--text);
@@ -1181,17 +1199,18 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 .facts dd { max-width: var(--measure); margin: 0; color: var(--text-2); }
 
-/* On touch the README link grows to 44px, and its text stays put. */
+/* On touch the README link grows to 44px, and its text stays on the
+   title's baseline. */
 @media (pointer: coarse) {
-  .section-head .more { margin-block: -3px -11px; }
+  .section-head .more { margin-block: -11px; }
 }
 
 /* ---------- Measured ---------- */
 
 /* Each measurement is a row on the section's grid: the claim left, its
    evidence right. The evidence keeps a structure screen readers read as
-   data, and CSS draws it as a chart. */
-.measures { border-top: 1px solid var(--line); }
+   data, and CSS draws it as a chart. The rule under the section's title
+   opens the first row. */
 .measure {
   display: grid;
   grid-template-columns: var(--head-col) minmax(0, 1fr);
