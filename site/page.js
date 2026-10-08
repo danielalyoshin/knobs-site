@@ -372,11 +372,11 @@
 
   // The first time the whole signal path is in view, one signal runs
   // through it (styles.css): a short pulse along each wire at one speed,
-  // knobs's node lighting as it arrives, each filter's dot in turn as the
-  // pulse runs down the chain, then on to the cable and the apps. Only a
-  // path still below the fold waits for it, as the charts do. With reduced
-  // motion, in forced colours or without IntersectionObserver the drawing
-  // stays as it is.
+  // each stage's icon lighting as it arrives (knobs's stays lit), each
+  // filter's dot in turn as the pulse runs down the chain, then on to the
+  // cable and the apps. Only a path still below the fold waits for it, as
+  // the charts do. With reduced motion, in forced colours or without
+  // IntersectionObserver the drawing stays as it is.
   (function () {
     var fig = $(".signal");
     function matches(q) { return !!(window.matchMedia && window.matchMedia(q).matches); }
@@ -421,16 +421,25 @@
       return { el: p, len: down ? b.height : b.width, top: b.top };
     }
 
+    // The lit icon: an ink copy laid over the stage's icon for the run.
+    function addLight(li) {
+      var icon = $(".sp-icon", li);
+      var lit = icon.cloneNode(true);
+      lit.classList.add("is-lit");
+      icon.parentNode.insertBefore(lit, icon.nextSibling);
+      return lit;
+    }
+
     function play() {
       fig.classList.remove("is-armed");
       if (calm()) return;
 
       var dash = parseFloat(getComputedStyle(fig).getPropertyValue("--sp-dash")) || 32;
       var down = stages[1].getBoundingClientRect().top >= stages[0].getBoundingClientRect().bottom;
-      var nodes = stages.map(function (li) { return $(".sp-node", li); });
+      var lights = stages.map(addLight);
       var wires = stages.slice(0, -1).map(function (li) { return addPulse(li, down); });
       var run = addPulse(chain, true);
-      var timed = nodes.slice();
+      var timed = [];
 
       // Starts a pulse at `at`; returns when its head reaches the wire's end.
       function send(w, at, speed) {
@@ -440,9 +449,9 @@
         return at + w.len / speed;
       }
 
-      setTime(nodes[0], "--at", 0);
+      setTime(lights[0], "--at", 0);
       var t = send(wires[0], 80);
-      setTime(nodes[1], "--at", t);
+      setTime(lights[1], "--at", t);
 
       // Down the chain: each dot lights as the pulse's head passes it.
       var c0 = t + 200;
@@ -456,7 +465,7 @@
       // Out of knobs, into the cable, and on to the apps.
       for (var n = 1; n < wires.length; n++) {
         t = send(wires[n], t);
-        setTime(nodes[n + 1], "--at", t);
+        setTime(lights[n + 1], "--at", t);
         t += 40;
       }
 
@@ -464,6 +473,7 @@
       setTimeout(function () {
         fig.classList.remove("is-playing");
         wires.concat(run).forEach(function (w) { w.el.remove(); });
+        lights.forEach(function (el) { el.remove(); });
         timed.forEach(function (el) {
           el.style.removeProperty("--at");
           if (!el.getAttribute("style")) el.removeAttribute("style");
