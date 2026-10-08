@@ -45,15 +45,15 @@ For the site: every download is a file from the project's own GitHub Releases, l
 
 - Release data comes live from GitHub's REST API (`GET /repos/danielalyoshin/knobs/releases?per_page=10`), unauthenticated, in the visitor's browser. That allows 60 requests an hour per IP address. With no release, the list is empty; the page asks `/releases/latest`, which answers 404 when there's no full release, only when ten pre-releases fill the list.
 - Downloads link to `github.com/danielalyoshin/knobs/releases/download/…`. The site never copies or proxies a binary.
-- **As of 2026-10-06 there is no release.** The knobs README says to build from source until there is one. The site needs a truthful no-release state, and a fallback to the GitHub Releases page when the API fails or is rate-limited.
+- **The first release, v0.1.0, went out on 2026-10-08.** The page still keeps a truthful no-release state (for a repository with no full release) and a fallback to the GitHub Releases page when the API fails or is rate-limited.
 - What knobs needs to run, which a visitor must know before downloading: Windows 64-bit, OBS Studio 32.2.x (tested on 32.2.2), and a virtual cable such as VB-Cable.
 - knobs is Windows only for now. Visitors on macOS, Linux or a phone should learn that, not get a file that won't run.
 
 ## Capabilities and Constraints
 
-- Planned release contents (confirmed 2026-10-06): an installer (`.exe` or `.msi`, not decided), a portable `.zip` and SHA-256 checksums.
-- None of these exist yet, and asset file names aren't decided. The page has to find each kind of file in a release rather than expect exact names, and show only what the release actually holds.
-- Every release will be code-signed (owner, 2026-10-06), so the site says nothing about signing or SmartScreen: no signing status, no signer and no warning to get past.
+- Release contents, as shipped in v0.1.0: an installer (`knobs-<version>-setup.exe`), a portable zip (`knobs-<version>-portable.zip`, a `knobs/` folder with `knobs.exe` and a `portable_mode.txt` that keeps settings beside it) and `SHA256SUMS.txt`. GitHub publishes a SHA-256 digest for each asset.
+- The page still finds each kind of file in a release rather than expecting exact names, and shows only what the release actually holds.
+- The site says nothing about signing or SmartScreen: no signing status, no signer and no warning to get past (owner, 2026-10-06, on the plan that every release is code-signed). v0.1.0 shipped unsigned, and the owner chose to leave the page as it is (2026-10-07).
 - License: GPL-2.0-or-later. knobs ships no OBS binaries; it runs the OBS the user installed.
 - This repository's license is decided (owner, 2026-10-06): GPL-2.0-or-later, matching the app, in `LICENSE`. Not covered: `site/fonts/`, which stays under the SIL Open Font License, and the knobs logo files in `site/brand/`, which carry their own `site/brand/LICENSE` (all rights reserved, apart from the knobs repository's `TRADEMARKS.md`), matching the knobs repository's `assets/LICENSE` (owner, 2026-10-07). The scope note sits at the end of `LICENSE`, after the GPL text, because a note above it stops GitHub detecting the license.
 - Terms, from the app: mic, filter chain, virtual cable (or cable), OBS profile, scene collection, monitoring device. For downloads: release, installer, portable zip, checksum.
