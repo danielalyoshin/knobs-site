@@ -10,7 +10,7 @@ web
 
 Delegated (2026-10-06): plain HTML, CSS and a small vanilla JavaScript file, with no build step. The site is one download page whose only live data is the latest release, read in the browser, so a framework or generator would add upkeep without adding anything a visitor sees.
 
-Hosting is decided: GitHub Pages from this repository (`danielalyoshin/knobs-site`), on the custom domain `getknobs.app` (owner, 2026-10-06). The domain isn't bought yet, so nothing in the repository points to it until it is. The app's source stays in `danielalyoshin/knobs`; the two repositories are separate.
+Hosting is decided: GitHub Pages from this repository (`danielalyoshin/knobs-site`), on the custom domain `getknobs.app` (owner, 2026-10-06). The domain is set up (2026-10-07): the repository's Pages settings carry it, with HTTPS enforced, and its DNS points at GitHub Pages. The Actions deploy ignores a CNAME file, so the repository holds none. The app's source stays in `danielalyoshin/knobs`; the two repositories are separate.
 
 This repository is public, like the app's. Everything committed here can be read by anyone checking whether the site is genuine, including this file:
 
