@@ -942,18 +942,26 @@ details[open] > summary .chev { transform: rotate(90deg); }
 
 /* The signal path: one 1px wire through four stages, left to right (top
    to bottom below 900px). Each stage is marked by its icon on the wire,
-   and each stretch of wire ends in an arrowhead at the next stage. knobs's
-   stage is the one panel, standing on the wire (below). */
+   and each stretch of wire ends in an arrowhead just short of the next
+   icon. knobs's stage is the one panel, hung under its icon (below).
+   Every 1px line that meets an icon runs through its centre exactly: the
+   icon's box is an odd number of pixels, so its centre is a pixel's
+   centre, and each line sits at (size - 1px) / 2 across it. */
 .signal {
   --kp: 20px;
+  --kp-top: 14px;
+  --kp-drop: 10px;
   --sp-gap: 40px;
-  --sp-icon: max(20px, 1.25rem);
+  --sp-icon: max(21px, 1.25rem + 1px);
   --sp-clear: 6px;
-  --sp-text: 14px;
   --sp-row: 28px;
   --sp-dash: 32px;
   --wire: var(--text-3);
   margin: 0;
+}
+/* Kept odd at any text size where the browser can round. */
+@supports (width: round(down, 1px, 2px)) {
+  .signal { --sp-icon: max(21px, round(down, 1.25rem, 2px) + 1px); }
 }
 .signal-path {
   display: grid;
@@ -961,21 +969,22 @@ details[open] > summary .chev { transform: rotate(90deg); }
   column-gap: var(--sp-gap);
   align-items: start;
   margin: 0;
-  padding: calc(var(--kp) + 1px) 0 0;
+  padding: 0;
   list-style: none;
 }
+/* Every stage's name sits on one line with the knobs panel's. */
 .sp {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding-top: calc(var(--sp-icon) + var(--sp-text));
+  padding-top: calc(var(--sp-icon) + var(--kp-drop) + 1px + var(--kp-top));
 }
 .sp-name { color: var(--text); font-weight: 600; line-height: 1.4; }
 .sp-note { color: var(--text-3); font-size: var(--text-sm); line-height: 1.45; }
-/* A stage's icon: the sprite's 1.5px round strokes, drawn at 20px and
-   growing with the visitor's text size, as the step nodes do. Graphite
-   like the wire, and knobs's in ink. */
+/* A stage's icon: the sprite's 1.5px round strokes, drawn 20px wide in a
+   21px box and growing with the visitor's text size, as the step nodes
+   do. Graphite like the wire, and knobs's in ink. */
 .sp-icon {
   position: absolute;
   top: 0;
@@ -997,15 +1006,17 @@ details[open] > summary .chev { transform: rotate(90deg); }
 .sp:not(:last-child)::after,
 .sp > .sp-pulse {
   position: absolute;
-  top: calc(var(--sp-icon) / 2 - 1px);
+  top: calc((var(--sp-icon) - 1px) / 2);
   left: calc(var(--sp-icon) + var(--sp-clear));
   right: calc(var(--sp-clear) + 1px - var(--sp-gap));
   border-top: 1px solid var(--wire);
 }
+/* The arrowhead's 7px box turned 45 degrees: its tip is level with the
+   box's centre, so the box sits at (size - 7px) / 2. */
 .sp:not(:last-child)::before {
   content: "";
   position: absolute;
-  top: calc(var(--sp-icon) / 2 - 4px);
+  top: calc((var(--sp-icon) - 7px) / 2);
   right: calc(var(--sp-clear) + 1.5px - var(--sp-gap));
   width: 7px;
   height: 7px;
@@ -1014,38 +1025,56 @@ details[open] > summary .chev { transform: rotate(90deg); }
   transform: rotate(45deg);
 }
 
-/* knobs: the panel stands on the wire, the block the signal runs
-   through. The wire in ends with its arrowhead on the panel's left edge
-   and the wire out leaves its right edge, both on the icons' line, so no
-   line crosses the panel or meets a corner. The panel rises above the
-   line by its padding: inside, knobs's icon sits on the line, and its
-   name and note on the same lines as every other stage's. The path's own
-   top padding makes room for the rise. */
+/* knobs: the wire runs straight through its icon, as it does through
+   every other, and the panel hangs under the icon, clear of the wire, with
+   a caret in its top edge pointing up at it. The panel reaches into the
+   gaps by its padding, so its icon, name and note stay on the column like
+   every other stage's. */
 .sp-knobs {
-  margin-top: calc((var(--kp) + 1px) * -1);
-  padding: calc(var(--kp) + var(--sp-icon) + var(--sp-text)) var(--kp) var(--kp);
+  margin: calc(var(--sp-icon) + var(--kp-drop)) calc((var(--kp) + 1px) * -1) 0;
+  padding: var(--kp-top) var(--kp) var(--kp);
   border: 1px solid var(--text);
   border-radius: var(--radius-lg);
   background: var(--surface);
   box-shadow: var(--lift);
 }
-.sp-knobs > .sp-icon { top: var(--kp); left: var(--kp); }
-/* The wire in runs up to the panel's edge, the arrowhead's tip on it. */
-.sp:has(+ .sp-knobs)::after,
-.sp:has(+ .sp-knobs) > .sp-pulse { right: calc(1px - var(--sp-gap)); }
-.sp:has(+ .sp-knobs)::before { right: calc(1.5px - var(--sp-gap)); }
-/* The wire out leaves from the panel's right edge (positioned from its
-   padding box, inside the 1px border). */
+/* The icon and its wire, positioned from the panel's padding box (inside
+   its 1px border), back on the wire's line and the column's edge. */
+.sp-knobs > .sp-icon {
+  top: calc((var(--sp-icon) + var(--kp-drop) + 1px) * -1);
+  left: var(--kp);
+}
 .sp-knobs:not(:last-child)::after,
 .sp-knobs > .sp-pulse {
-  top: calc(var(--kp) + var(--sp-icon) / 2 - 1px);
-  left: calc(100% + 1px);
-  right: calc(var(--sp-clear) - var(--sp-gap));
+  top: calc((var(--sp-icon) + 1px) / -2 - var(--kp-drop) - 1px);
+  left: calc(var(--kp) + var(--sp-icon) + var(--sp-clear));
+  right: calc(var(--sp-clear) + 1px + var(--kp) - var(--sp-gap));
 }
 .sp-knobs:not(:last-child)::before {
-  top: calc(var(--kp) + var(--sp-icon) / 2 - 4px);
-  right: calc(var(--sp-clear) + 0.5px - var(--sp-gap));
+  top: calc((var(--sp-icon) + 7px) / -2 - var(--kp-drop) - 1px);
+  right: calc(var(--sp-clear) + 1.5px + var(--kp) - var(--sp-gap));
 }
+/* The caret is one 1px stroke: along the top edge, up to a point 6px
+   above it under the icon's centre, and back down. Its flat ends lie on
+   the edge's own pixels and its fill covers the edge between its sides,
+   so it reads as part of the border, with no seam where they meet. Its
+   21px box is centred on the icon, so its point is on the icon's centre,
+   a pixel's centre: at 1x its sides pass through pixel centres and draw
+   nearly as bright as the edge. */
+.sp-caret {
+  position: absolute;
+  top: -8px;
+  left: calc(var(--kp) + (var(--sp-icon) - 21px) / 2);
+  width: 21px;
+  height: 8px;
+  overflow: visible;
+  fill: var(--surface);
+  stroke: var(--text);
+  stroke-width: 1;
+  stroke-linejoin: miter;
+}
+.sp-caret path:first-child { stroke: none; }
+.sp-caret path:last-child { fill: none; }
 
 /* The chain inside knobs is the visitor's own, so it's drawn, not named:
    a row for each filter, in the order they run, with a dot on a short wire
@@ -1492,6 +1521,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .sp-chain li::before { forced-color-adjust: none; }
   .sp-chain li::before { background: CanvasText; }
   .signal .sp-icon { color: CanvasText; }
+  .sp-caret { forced-color-adjust: none; fill: Canvas; stroke: CanvasText; }
 }
 
 /* Below 1024px these rows stack: the term or claim over its text or chart. */
@@ -1505,21 +1535,20 @@ details[open] > summary .chev { transform: rotate(90deg); }
 
 /* Below 900px the signal path runs down the left: the same icons, wire
    and arrowheads, turned, each icon level with its stage name's first
-   line at any text size. The wire comes down onto the knobs panel's top
-   edge and leaves from its bottom edge, on the icons' line. The panel's
-   left edge is the path's, so the icons and the other stages' text sit in
-   by the panel's padding. */
+   line at any text size. The rail runs unbroken from the mic to the apps;
+   the knobs panel sits right of it, clear of it, and its caret turns onto
+   the panel's left edge, the side that faces the rail, to point across at
+   knobs's icon. The other stages' text lines up with the panel's. */
 @media (max-width: 56.1875em) {
   .signal {
-    --kp: 12px;
-    --sp-indent: calc(var(--sp-icon) + 12px);
+    --kp-top: 12px;
+    --sp-indent: calc(var(--sp-icon) + 22px);
     --sp-top: calc(0.7rem - var(--sp-icon) / 2);
   }
   .signal-path {
     grid-template-columns: minmax(0, 1fr);
     row-gap: var(--sp-row);
     max-width: 30rem;
-    padding: 0 0 0 calc(var(--kp) + 1px);
   }
   .sp { padding: 0 0 0 var(--sp-indent); }
   .sp-icon { top: var(--sp-top); }
@@ -1527,7 +1556,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .sp > .sp-pulse {
     top: calc(var(--sp-top) + var(--sp-icon) + var(--sp-clear));
     bottom: calc((var(--sp-row) + var(--sp-top) - var(--sp-clear) - 1px) * -1);
-    left: calc(var(--sp-icon) / 2 - 1px);
+    left: calc((var(--sp-icon) - 1px) / 2);
     right: auto;
     border-top: 0;
     border-left: 1px solid var(--wire);
@@ -1535,31 +1564,49 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .sp:not(:last-child)::before {
     top: auto;
     bottom: calc((var(--sp-row) + var(--sp-top) - var(--sp-clear) - 1.5px) * -1);
-    left: calc(var(--sp-icon) / 2 - 4px);
+    left: calc((var(--sp-icon) - 7px) / 2);
     right: auto;
     transform: rotate(135deg);
   }
 
+  /* The panel's left edge stands 9px clear of the icon's box, room for
+     the caret's 6px point and a gap before it. */
   .sp-knobs {
-    margin: 0 0 0 calc((var(--kp) + 1px) * -1);
-    padding: var(--kp) 18px 18px calc(var(--kp) + var(--sp-indent));
+    margin: 0 0 0 calc(var(--sp-icon) + 9px);
+    padding: var(--kp-top) 18px 18px 12px;
   }
-  .sp-knobs > .sp-icon { top: calc(var(--kp) + var(--sp-top)); }
+  .sp-knobs > .sp-icon {
+    top: calc(var(--kp-top) + var(--sp-top));
+    left: calc((var(--sp-icon) + 10px) * -1);
+  }
   .sp:has(+ .sp-knobs)::after,
-  .sp:has(+ .sp-knobs) > .sp-pulse { bottom: calc((var(--sp-row) - 1px) * -1); }
-  .sp:has(+ .sp-knobs)::before { bottom: calc((var(--sp-row) - 1.5px) * -1); }
+  .sp:has(+ .sp-knobs) > .sp-pulse {
+    bottom: calc((var(--sp-row) + var(--kp-top) + var(--sp-top) - var(--sp-clear)) * -1);
+  }
+  .sp:has(+ .sp-knobs)::before {
+    bottom: calc((var(--sp-row) + var(--kp-top) + var(--sp-top) - var(--sp-clear) - 0.5px) * -1);
+  }
   .sp-knobs:not(:last-child)::after,
   .sp-knobs > .sp-pulse {
-    top: calc(100% + 1px);
+    top: calc(var(--kp-top) + var(--sp-top) + var(--sp-icon) + var(--sp-clear));
     bottom: calc((var(--sp-row) + var(--sp-top) - var(--sp-clear)) * -1);
-    left: calc(var(--kp) + var(--sp-icon) / 2 - 1px);
+    left: calc((var(--sp-icon) + 1px) / -2 - 10px);
     right: auto;
   }
   .sp-knobs:not(:last-child)::before {
     top: auto;
     bottom: calc((var(--sp-row) + var(--sp-top) - var(--sp-clear) - 0.5px) * -1);
-    left: calc(var(--kp) + var(--sp-icon) / 2 - 4px);
+    left: calc((var(--sp-icon) + 7px) / -2 - 10px);
     right: auto;
+  }
+  /* Turned a quarter about a whole pixel, the caret lands on whole pixels
+     again: its flat ends on the left edge, its point level with the
+     icon's centre. */
+  .sp-caret {
+    top: calc(var(--kp-top) + var(--sp-top) + (var(--sp-icon) - 7px) / 2);
+    left: -14px;
+    transform: rotate(-90deg);
+    transform-origin: 10px 4px;
   }
 }
 

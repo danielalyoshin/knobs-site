@@ -242,19 +242,21 @@
 
       <!-- One wire through four stages, each marked by its icon on the
            wire. The icons only draw; the stage names carry the meaning.
-           The chain inside knobs's panel is the visitor's own, so it's
-           drawn, not named: a row for each filter, in order, each with a
-           setting at its own value. page.js sends one signal through it
-           the first time it comes into view. -->
+           knobs's panel hangs under its icon, with a caret pointing at it.
+           The chain inside is the visitor's own, so it's drawn, not named:
+           a row for each filter, in order, each with a setting at its own
+           value. page.js sends one signal through it the first time it
+           comes into view. -->
       <figure class="signal" aria-label="The signal path">
         <ol class="signal-path">
           <li class="sp">
-            <svg class="sp-icon" viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="2.25" width="6" height="9.5" rx="3"/><path d="M4.25 9.25a5.75 5.75 0 0 0 11.5 0M10 15v2.75M7 17.75h6"/></svg>
+            <svg class="sp-icon" viewBox="-0.5 -0.5 21 21" aria-hidden="true"><rect x="7" y="2.25" width="6" height="9.5" rx="3"/><path d="M4.25 9.25a5.75 5.75 0 0 0 11.5 0M10 15v2.75M7 17.75h6"/></svg>
             <span class="sp-name">Your mic<span class="visually-hidden">: </span></span>
             <span class="sp-note">The mic in your OBS profile</span>
           </li>
           <li class="sp sp-knobs">
-            <svg class="sp-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.75 4.25h6M11.25 10h6M2.75 15.75H6.5m9 0h1.75"/><circle cx="13.25" cy="4.25" r="1.75"/><circle cx="6.75" cy="10" r="1.75"/><circle cx="11" cy="15.75" r="1.75"/></svg>
+            <svg class="sp-icon" viewBox="-0.5 -0.5 21 21" aria-hidden="true"><path d="M2.75 4.25h6M11.25 10h6M2.75 15.75H6.5m9 0h1.75"/><circle cx="13.25" cy="4.25" r="1.75"/><circle cx="6.75" cy="10" r="1.75"/><circle cx="11" cy="15.75" r="1.75"/></svg>
+            <svg class="sp-caret" viewBox="0 0 21 8" aria-hidden="true"><path d="M3.5 8 10.5 1l7 7z"/><path d="M0 7.5h4.5l6-6 6 6h4.5"/></svg>
             <span class="sp-name">OBS’s filters, run by knobs<span class="visually-hidden">: </span></span>
             <span class="sp-note">Your chain, in order, with your settings</span>
             <div class="sp-drawn" role="img" aria-label="Your filters, in your order, each with your settings">
@@ -267,12 +269,12 @@
             </div>
           </li>
           <li class="sp">
-            <svg class="sp-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M7.75 2.25v3.5m4.5-3.5v3.5M5 5.75h10v2.5a5 5 0 0 1-10 0zm5 7.5v4.5"/></svg>
+            <svg class="sp-icon" viewBox="-0.5 -0.5 21 21" aria-hidden="true"><path d="M7.75 2.25v3.5m4.5-3.5v3.5M5 5.75h10v2.5a5 5 0 0 1-10 0zm5 7.5v4.5"/></svg>
             <span class="sp-name">Virtual cable<span class="visually-hidden">: </span></span>
             <span class="sp-note">VB-Cable, or another one</span>
           </li>
           <li class="sp">
-            <svg class="sp-icon" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="5.25" height="5.25" rx="1.25"/><rect x="11.75" y="3" width="5.25" height="5.25" rx="1.25"/><rect x="3" y="11.75" width="5.25" height="5.25" rx="1.25"/><rect x="11.75" y="11.75" width="5.25" height="5.25" rx="1.25"/></svg>
+            <svg class="sp-icon" viewBox="-0.5 -0.5 21 21" aria-hidden="true"><rect x="3" y="3" width="5.25" height="5.25" rx="1.25"/><rect x="11.75" y="3" width="5.25" height="5.25" rx="1.25"/><rect x="3" y="11.75" width="5.25" height="5.25" rx="1.25"/><rect x="11.75" y="11.75" width="5.25" height="5.25" rx="1.25"/></svg>
             <span class="sp-name">Your other apps<span class="visually-hidden">: </span></span>
             <span class="sp-note">Their mic is <b class="ui">CABLE Output</b></span>
           </li>
