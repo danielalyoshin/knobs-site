@@ -940,6 +940,11 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .code pre { padding: 14px 16px 12px; }
   .code .copy { justify-self: end; margin: 0 10px 10px; }
 }
+/* Copy needs page.js, so without JavaScript there's no button and the
+   commands take the whole well, to be selected by hand. */
+.no-js .code { grid-template-columns: minmax(0, 1fr); }
+.no-js .code pre { padding: 14px 16px; }
+.no-js .code .copy { display: none; }
 
 /* ---------- How it works ---------- */
 

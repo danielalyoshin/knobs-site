@@ -29,7 +29,17 @@
   var build = $("details.build");
   var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var shown = false;
+  // Arriving by a link into the panel (#files, #build), the page lands on
+  // the link's target once the answer shows (see show). A visitor who has
+  // moved on by then, by scrolling, clicking, tapping, pressing a key or
+  // following another link, is left where they are.
   var landing = location.hash.slice(1);
+  var MOVES = ["wheel", "touchmove", "pointerdown", "keydown"];
+  function stayPut() {
+    landing = "";
+    MOVES.forEach(function (t) { window.removeEventListener(t, stayPut, true); });
+  }
+  if (landing) MOVES.forEach(function (t) { window.addEventListener(t, stayPut, { capture: true, passive: true }); });
 
   // The panel takes the active state's own height. When an answer changes
   // it, the panel moves from the old height to the new one on the same
@@ -71,10 +81,10 @@
     // Arriving by a link into the panel (#files, #build): once the answer
     // shows, land on the link's target, or on the panel when the answer
     // doesn't offer it (the build steps once a release exists, the file
-    // list when the release has no files).
+    // list when the release has no files), unless the visitor has moved on.
     var target = landing && state !== "static" && doc.getElementById(landing);
     if (target) {
-      landing = "";
+      stayPut();
       if (stack.contains(target)) (active.contains(target) && !target.hidden ? target.closest("details") || target : $("#step-3")).scrollIntoView();
     }
     // The control that had focus left with its state (a retry, or an answer
@@ -389,7 +399,7 @@
     });
   }
 
-  window.addEventListener("hashchange", function () { openTarget(location.hash.slice(1)); });
+  window.addEventListener("hashchange", function () { stayPut(); openTarget(location.hash.slice(1)); });
   openTarget(location.hash.slice(1));
 
   /* ---------- How it works: one signal through the path ---------- */
