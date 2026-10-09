@@ -516,19 +516,26 @@ b, strong { font-weight: 600; color: var(--text); }
   border-top: 1px solid var(--line-strong);
 }
 
+/* The figure is centred by its own height, from the baseline to the cap
+   height, not by the font's line box, whose tall ascent set it half a
+   pixel low in Safari. Chrome rounds text to a whole pixel, so there it
+   can't sit closer than about 0.4px. Where text-box isn't supported, the
+   line box fills the circle and centres the figure as before. */
 .node {
   position: relative;
   z-index: 1;
-  display: grid;
-  place-items: center;
+  display: block;
+  align-content: center;
   width: var(--node);
   height: var(--node);
   border: 1px solid var(--line-strong);
   border-radius: 50%;
   background: var(--bg-subtle);
   color: var(--text-2);
-  font: 600 0.875rem/1 var(--font-sans);
+  font: 600 0.875rem/calc(var(--node) - 2px) var(--font-sans);
   font-variant-numeric: tabular-nums;
+  text-align: center;
+  text-box: trim-both cap alphabetic;
 }
 
 .pstep h3 {
@@ -1930,10 +1937,12 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .rs-links a,
   .rs-toggle { display: inline-flex; align-items: center; min-height: 44px; }
 }
-/* Where "Checksums" is a 44px row (phones and touch screens), its chevron
-   still sits on the label's baseline rather than the row's middle: the row
-   centres its one line, and the chevron keeps the same offset as inline. */
-@media (max-width: 39.9375em), (pointer: coarse) {
+/* Where "Checksums" is a 44px link beside the others (touch screens on the
+   horizontal row), its chevron still sits on the label's baseline rather
+   than the row's middle: the row centres its one line, and the chevron
+   keeps the same offset as inline. On phones it's a ruled row of its own,
+   and its chevron sits in the row's middle, as the other rows' icons do. */
+@media (pointer: coarse) and (min-width: 40em) {
   .rs-links .rs-toggle {
     align-items: baseline;
     flex-wrap: wrap;
