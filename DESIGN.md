@@ -18,77 +18,77 @@ colors:
   brand-red: "#e5484d"
 typography:
   display:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "clamp(2rem, 1.1rem + 3.4vw, 4rem)"
     fontWeight: 600
     lineHeight: 1.06
     letterSpacing: "-0.025em"
   headline:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "clamp(1.75rem, 1.35rem + 1.3vw, 2.375rem)"
     fontWeight: 600
     lineHeight: 1.2
     letterSpacing: "-0.018em"
   title:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "1.1875rem"
     fontWeight: 600
     lineHeight: 1.3
     letterSpacing: "-0.008em"
   title-sm:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "1rem"
     fontWeight: 600
     lineHeight: 1.4
   pitch-lede:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "1.125rem"
     fontWeight: 400
     lineHeight: 1.55
   chart-value:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.9375rem"
     fontWeight: 600
     lineHeight: 1.55
     fontFeature: "tnum"
   numeral:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 600
     lineHeight: 1
     fontFeature: "tnum"
   body:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.55
   body-sm:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.9375rem"
     fontWeight: 400
     lineHeight: 1.5
   ui-sm:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 400
     lineHeight: 1.55
   label:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.8125rem"
     fontWeight: 400
     lineHeight: 1.45
   button:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.9375rem"
     fontWeight: 500
     lineHeight: 1.2
   tag:
-    fontFamily: "IBM Plex Sans, IBM Plex Sans Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "Radio Canada, Radio Canada Fallback, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.75rem"
     fontWeight: 600
     lineHeight: 1
   mono:
-    fontFamily: "IBM Plex Mono, ui-monospace, Cascadia Mono, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
+    fontFamily: "Source Code Pro, ui-monospace, Cascadia Mono, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
     fontSize: "0.875em"
     fontWeight: 400
     fontFeature: "liga 0"
@@ -102,7 +102,7 @@ rounded:
 spacing:
   gutter: "clamp(16px, 4vw, 40px)"
   content: "72rem"
-  measure: "52ch"
+  measure: "53.5ch"
   head-col: "20rem"
   col-gap: "64px"
   path-gap: "32px"
@@ -249,7 +249,7 @@ Motion settles and never performs. Every transition runs on one curve, `cubic-be
 
 **Key Characteristics:**
 - Restrained palette on one dark scheme: cool graphite neutrals, light ink as the only action colour, brand red only inside the logo.
-- IBM Plex Sans for every word on the page, from the pitch to the footnotes; IBM Plex Mono for anything copyable; Sora only inside the outlined logo.
+- Radio Canada for every word on the page, from the pitch to the footnotes; Source Code Pro for anything copyable; Sora only inside the outlined logo.
 - 1px hairlines carry structure, and every line that meets a node or icon runs through its centre; one tight lift is the only shadow.
 - A step rail with round numbered nodes, and a single "station" panel for the download that takes each state's own height; the signal path in How it works echoes it with one wire, four icons and one ink-bordered panel.
 - Measurements drawn as plain bars on linear scales from zero, knobs in ink and OBS in graphite, every value printed beside its bar.
@@ -293,16 +293,16 @@ A cool, near-monochrome graphite palette drawn from the knob, on one dark scheme
 
 ## Typography
 
-**Display Font:** IBM Plex Sans at 600, self-hosted
-**Body Font:** IBM Plex Sans at 400 and 500, the same family
-**Label/Mono Font:** IBM Plex Mono at 400, self-hosted, falling back to the system monospace (Cascadia Mono on Windows)
+**Display Font:** Radio Canada at 600, self-hosted
+**Body Font:** Radio Canada at 400 and 500, the same family
+**Label/Mono Font:** Source Code Pro at 400, self-hosted, falling back to the system monospace (Cascadia Mono on Windows)
 
-**Character:** Plex Sans is plain and engineered, with the slightly squared, open forms of a well-made technical manual, which suits a page whose job is to be trusted. One family sets every role, so the hierarchy comes from size, weight and tone, never from a change of voice. Plex Mono is its companion on the same vertical metrics, so a version or a checksum sits on the line beside the prose without a jump. Sora stays in the wordmark alone, which keeps the lockup reading as the logo rather than as one more heading.
+**Character:** Radio Canada is a sturdy, open humanist sans made for a public broadcaster, CBC/Radio-Canada: plain and readable, with a warmth that a squared engineering face doesn't have, which suits a page whose job is to be trusted. One family sets every role, so the hierarchy comes from size, weight and tone, never from a change of voice. Source Code Pro is Adobe's open-source code face. It sets lighter than the prose, so copyable text stands apart from the words around it, and it takes Radio Canada's line metrics, so a version or a checksum sits in a line of prose without moving it. Sora stays in the wordmark alone, which keeps the lockup reading as the logo rather than as one more heading.
 
-**Files.** The Latin subsets exactly as the official IBM Plex release ships them (`@ibm/plex-sans` 1.1.0, `@ibm/plex-mono` 2.5.0, github.com/IBM/plex), four woff2 files in `site/fonts/` (Plex Sans 400, 500 and 600, Plex Mono 400) with the release's own unicode ranges and its SIL Open Font License beside them (`OFL-IBM-Plex.txt`). Nothing copyable is set heavier than 400, so Plex Mono ships its regular only. The page preloads the three Plex Sans weights; Plex Mono loads when a mono line renders. Every face uses `font-display: swap`, and until Plex arrives the text sets in "IBM Plex Sans Fallback": Arial scaled to Plex's width and line metrics on this page's own text (400: size 100.14%; 600: Arial Bold at 96.6%), so the swap barely moves a line.
+**Files.** Four woff2 files in `site/fonts/`, each family's SIL Open Font License beside them. Radio Canada is CBC/Radio-Canada's version 2.104 (github.com/cbcrc/radiocanadafonts, `fonts/ttf`): the hinted static Regular 400, Medium 500 and SemiBold 600, each subset to the Latin-1 range (`RadioCanada-Regular-Latin1.woff2`, `-Medium-`, `-SemiBold-`, 17.6 to 17.8KB each). Its licence has no Reserved Font Name, so subsets are allowed (`OFL-Radio-Canada.txt`). Source Code Pro is Adobe's 2.042 release, `SourceCodePro-Regular.ttf.woff2` from its official WOFF2 files, shipped unmodified because its licence reserves the name "Source" (74,052 bytes, `OFL-Source-Code-Pro.txt`). Nothing copyable is set heavier than 400, so Source Code Pro ships its regular only. The page preloads the three Radio Canada weights; Source Code Pro loads when a mono line renders. Every face uses `font-display: swap`, and every face, the mono included, takes Radio Canada's own line metrics (`ascent-override: 94.5%; descent-override: 25.5%; line-gap-override: 0%`), so a line sets the same height on every platform. Until Radio Canada arrives the text sets in "Radio Canada Fallback": Arial scaled to Radio Canada's width and line metrics (100 to 500: size 102.91%; 600 to 900: Arial Bold at 98.84%), so the swap barely moves a line. Radio Canada's figures are tabular by default.
 
 ### Hierarchy
-- **Display** (600, fluid 2rem to 4rem, line height 1.06, tracking -0.025em): the single h1, "Your OBS mic chain, in every app.", plain and in one tone. Its two halves are inline blocks, so it breaks only at the comma, and a half wraps inside itself only with very large text, never running off the page. On the horizontal path (1024px and up) the halves never wrap, so it always takes two lines there. Below 1024px, where the whole sentence fits, it takes one line: from about 615px to 1023px wide in headless Chromium without a scrollbar.
+- **Display** (600, fluid 2rem to 4rem, line height 1.06, tracking -0.025em): the single h1, "Your OBS mic chain, in every app.", plain and in one tone. Its two halves are inline blocks, so it breaks only at the comma, and a half wraps inside itself only with very large text, never running off the page. On the horizontal path (1024px and up) the halves never wrap, so it always takes two lines there. Below 1024px, where the whole sentence fits, it takes one line: from about 638px to 1023px wide in headless Chromium without a scrollbar. Below 360px it steps from 32px to 31px, so "Your OBS mic chain," stays on one line at 320px.
 - **Headline** (600, fluid 1.75rem to 2.375rem, line height 1.2, tracking -0.018em): section titles, each on its own rule.
 - **Title** (600, 1.1875rem, line height 1.3, tracking -0.008em): path step titles, fact terms, measurement titles. On the horizontal path each open step's title is capped at 9em, so all three take two lines ("Tune your mic / in OBS", with "your mic" kept together) and their descriptions start on one line.
 - **Title Small** (600, 1rem, line height 1.4): the release state's head inside the station ("From GitHub Releases", "Couldn't check for a release"), a status line under the step's title rather than a second title; also the signal path's stage names.
@@ -314,20 +314,20 @@ A cool, near-monochrome graphite palette drawn from the knob, on one dark scheme
 - **UI Small** (0.875rem): nav links, the path's and the station's link rows, file names and metadata, the signal path's notes and chain rows, "More in the README", the Source link (500) and the footer's column heads (600).
 - **Label** (0.8125rem, line height 1.45, Graphite 3): hints, the bracket's line, the non-Windows note, the requirement line and the github.com destination, footnotes and captions, table headers, tick labels, hashes and commands, Copy buttons (500), the build cost line, the preview strip and the legal lines. Sentence case, no tracking.
 - **Tag** (600, 0.75rem, line height 1, Graphite 2): the "Pre-release" and "Recommended" tags, the page's smallest text.
-- **Mono** (Plex Mono 400, 0.875em of its context, ligatures off): versions in running text, file names, hashes, commands, paths, hosts, the github.com destination.
+- **Mono** (Source Code Pro 400, 0.875em of its context, ligatures off): versions in running text, file names, hashes, commands, paths, hosts, the github.com destination.
 
 ### Named Rules
-**The Wordmark Face Rule.** Sora is the wordmark's face and lives only in the logo files, as outlined paths. The page never loads it and never sets text in it. Every heading, numeral, figure, line of prose, button and label is IBM Plex Sans; everything copyable is IBM Plex Mono.
+**The Wordmark Face Rule.** Sora is the wordmark's face and lives only in the logo files, as outlined paths. The page never loads it and never sets text in it. Every heading, numeral, figure, line of prose, button and label is Radio Canada; everything copyable is Source Code Pro.
 
-**The Copyable Is Mono Rule.** If a visitor could paste it or type it (a version in running text, a file name, a checksum, a command, a path, a host), it is set in Plex Mono with ligatures off. Numbers that line up, file sizes among them, are Plex Sans with tabular figures: Plex Sans's default figures are already tabular, and `tabular-nums` stays declared for the fallback faces. A SHA-256 wraps in even rows of 32 characters (16 where the file list is narrower than 17.5em, as on phones), so it can be compared in chunks.
+**The Copyable Is Mono Rule.** If a visitor could paste it or type it (a version in running text, a file name, a checksum, a command, a path, a host), it is set in Source Code Pro with ligatures off. Numbers that line up, file sizes among them, are Radio Canada with tabular figures: Radio Canada's default figures are already tabular, and `tabular-nums` stays declared for the fallback faces. A SHA-256 wraps in even rows of 32 characters (16 where the file list is narrower than 17.5em, as on phones), so it can be compared in chunks.
 
-**The Measure Rule.** Every text cap is the `--measure` token, 52ch: the lede, fact and measurement text, chart captions, the station's state text, requirement line and non-Windows note, and the build steps. In Plex Sans 1ch is the width of "0" (0.6em) while an average character is about 0.45em, so 52ch sets lines of about 66 to 72 characters at any text size. Never cap text in rem, and never read "68ch" as 68 characters.
+**The Measure Rule.** Every text cap is the `--measure` token, 53.5ch: the lede, fact and measurement text, chart captions, the station's state text, requirement line and non-Windows note, and the build steps. In Radio Canada 1ch is the width of "0" (0.6em) while an average character on this page is about 0.47em, so 53.5ch sets lines of about 66 to 72 characters at any text size. Never cap text in rem, and never read "68ch" as 68 characters.
 
 **The No Small Caps Rule.** Labels and table headers are small sentence-case text in Graphite 3. There are no uppercase tracked labels above headings.
 
 ## Layout
 
-Content sits on a 72rem column with a fluid gutter (16px to 40px). The first screen opens on the pitch: the headline and the lede side by side on a two-column grid (`min-content minmax(0, 1fr)`), the headline's column as wide as its longer line and the lede 64px after it, with their cap heights level. The lede's top padding makes up the difference between the two line boxes: in Plex Sans a first line's cap height sits 0.207em under the top of a 1.06 line and 0.452em under a 1.55 line, so the padding is the display size times 0.207 less the lede size times 0.452. Below it, the path band spans the full content width with four columns weighted 1 : 1 : 2 : 1 and a 32px gap (40px at 1600px and wider), so step 3's station gets the room for the download.
+Content sits on a 72rem column with a fluid gutter (16px to 40px). The first screen opens on the pitch: the headline and the lede side by side on a two-column grid (`min-content minmax(0, 1fr)`), the headline's column as wide as its longer line and the lede 64px after it, with their cap heights level. The lede's top padding makes up the difference between the two line boxes: in Radio Canada a first line's cap height sits 0.185em under the top of a 1.06 line and 0.43em under a 1.55 line, so the padding is the display size times 0.185 less the lede size times 0.43. Below it, the path band spans the full content width with four columns weighted 1 : 1 : 2 : 1 and a 32px gap (40px at 1600px and wider), so step 3's station gets the room for the download.
 
 Content sections open on a section head: the title, and in How it works "More in the README" at the far end, in one flex row on its own 1px Hairline Strong rule the width of the content. No rule crosses the page between two content sections; the only full-width rule is the seam over How it works, where the clip sits. Sections are padded `clamp(64px, 6.5vw, 96px)` above and `clamp(48px, 5vw, 72px)` after, so the space between them reads as the pause before the next title. Under a head, the rows (How it works' facts, Measured's measurements) keep a two-column grid: a 20rem term column and the body, 64px apart. How it works ends on its last fact, with no closing rule, and Measured's head rule opens its first measurement. The first screen, header and footer sit on Paper Subtle, the content sections on Paper.
 
@@ -341,13 +341,13 @@ Spacing is a loose 4px rhythm: 4 and 8 for tight inline gaps, 12 to 16 between r
 - **Below 640px:** the header drops to 56px and the lockup to 32px tall (145px wide); the first screen's top padding and the path's top margin drop to 28px, the lede to 1rem, and path step descriptions hide, so the download stays inside the first screen; the ready state's links, "Checksums" among them, become a ruled list of 44px rows, and the open file list continues it.
 - **Below 520px:** the section links leave the header row for a row of their own under it, 44px tall and flush with the gutter. From 520px up they share the top row with the lockup and "Source".
 - **Below 480px:** the download button's size moves to its own line, without its dot, and the destination drops its "From". Both do the same wherever the station is narrower than 19.5em (a container query), which is the horizontal path's narrowest widths, from 1024px to about 1100px.
-- **Below 360px:** "Build from source" may wrap, and the date and "Release notes" take a row each in the ready state's ruled list. Nothing scrolls sideways at 320px.
+- **Below 360px:** the headline steps from 32px to 31px, so its first half fits the 288px column at 320px; "Build from source" may wrap, and the date and "Release notes" take a row each in the ready state's ruled list. Nothing scrolls sideways at 320px.
 - **Very large text** (container queries, in the container's own em): where the station or the file list is narrower than 12.5em (390px at 200% text), the station's buttons, its non-Windows note and the github.com line wrap, the file list's command runs each start a line and wrap between their words, and Copy drops under its label at the right. Where the station is narrower than 30em (the horizontal path and phones), the build commands' Copy button moves under them, at the right. The footer's link columns wrap under the lockup's line whenever they don't fit beside it.
 - **Narrow charts** (container queries, in the chart's own em, so they follow the text size): below 34em each footprint measure's name goes over its bars (every phone); below 22em the delay scale labels only 0, 50 and 100 ms; below 20em each Same sound result goes under its input, and below 18em the delay's names go over its bars. See Measurement Charts.
 
 **The Text Size Rule.** Breakpoints are set in em, so the widths above are at the browser's default 16px text. A visitor who raises the browser's text size gets the layout of a narrower window, never squeezed columns: at 200% text a 1440px window takes the 720px layout. Controls that hold text grow with it (min-height, never a fixed height), the path's nodes are `max(33px, 2.0625rem)` and the signal path's icons `max(21px, 1.25rem + 1px)`, kept odd.
 
-**The Download in the First Screen Rule.** At every width, step 3's primary action is visible without scrolling. When space runs short, cut the descriptions of the other steps, never the station. At 390x844 the download button ends at 656px and every other state's primary action by 733px, or 779px with the non-Windows note. At 680x800 every state's primary action ends by 658px, or 703px with the note. (Figures from headless Chromium with a mouse pointer, no scrollbar and Plex loaded, the GitHub API answered locally.)
+**The Download in the First Screen Rule.** At every width, step 3's primary action is visible without scrolling. When space runs short, cut the descriptions of the other steps, never the station. At 390x844 the download button ends at 656px and every other state's primary action by 733px, or 779px with the non-Windows note. At 680x800 every state's primary action ends by 658px, or 703px with the note. (Figures from headless Chromium with a mouse pointer, no scrollbar and Radio Canada loaded, the GitHub API answered locally.)
 
 - **Short desktop windows** (1024px wide or more and 680px tall or less, such as a 1080p laptop at 150% scaling, about 1280x610): the first screen's top padding and the path's top margin drop to 40px, so every state's primary action ends by 539px from 1250 to 1300px wide.
 - **Shorter still** (560px tall or less, such as a 1366x768 laptop at 125%, about 1093x520): they drop to 28px, and each state shows its buttons right under its head, then its explanation; opened, the build steps come after the explanation. Only the order on screen changes; the reading and tab order stay the page's. From 1024 to 1099px wide every state's primary action ends by 446px.
@@ -378,7 +378,7 @@ Icons are bare glyphs drawn inline as 1.5px strokes with round caps and joins. T
 ## Components
 
 ### Buttons
-- **Shape:** gently rounded (8px), at least 40px tall, 16px side padding, Plex Sans 500 at 15px, an optional 16px icon 8px from the label.
+- **Shape:** gently rounded (8px), at least 40px tall, 16px side padding, Radio Canada 500 at 15px, an optional 16px icon 8px from the label.
 - **Leading icon:** says where the button goes: the GitHub mark for a page on GitHub ("Releases on GitHub"), the download icon for a file, a chevron for something that opens in place ("Build from source").
 - **Primary:** ink fill, on-ink text. Hover lightens to Ink Lifted.
 - **Secondary:** surface fill, strong hairline border, ink text. Hover darkens the border to Graphite 3 and fills Paper Subtle.
@@ -395,7 +395,7 @@ Icons are bare glyphs drawn inline as 1.5px strokes with round caps and joins. T
 - **README links:** where the knobs README says more than the page, the page links it rather than copying it, and states only what a visitor needs to decide. "More in the README" stands at the far end of How it works' title rule, UI Small in Graphite 2, ink on hover. Where room is tight the label is shorter and the rest is for screen readers only: "Known limits" in the station's requirement line, "Turn off the app's own processing" under step 4, and "The README" in the build steps. "How it was measured", at the end of the footprint caption, is Graphite 2.
 
 ### Step Rail and Nodes (signature)
-- **Path (first screen):** four round nodes (33px, growing with the text size; Plex Sans 600 numerals) on a 1px Hairline Strong rail through their centres. Idle nodes are Paper Subtle inside a Hairline Strong ring, with Graphite 2 numerals. Step 3's node is inked and sits on the station's top border, which runs through its centre; on the horizontal path the rail runs from node to node and carries on as that border. Each step is a title, a line (hidden on phones and short vertical layouts) and its links, and step 3, "Get knobs running", is the station. Step titles are not links. Step 2 has no link.
+- **Path (first screen):** four round nodes (33px, growing with the text size; Radio Canada 600 numerals) on a 1px Hairline Strong rail through their centres. Idle nodes are Paper Subtle inside a Hairline Strong ring, with Graphite 2 numerals. Step 3's node is inked and sits on the station's top border, which runs through its centre; on the horizontal path the rail runs from node to node and carries on as that border. Each step is a title, a line (hidden on phones and short vertical layouts) and its links, and step 3, "Get knobs running", is the station. Step titles are not links. Step 2 has no link.
 - **Bracket:** a 1px open bracket over steps 1 and 2 that runs from node 1 to node 3, 12px above the nodes, its ticks running down through node 1's centre and node 3's, so each node covers its tick's end. Its label-size line, 8px above it, reads "Already have OBS `32.2.x`, a tuned mic and a cable? Start from step 3.", with the version in mono and "Start from step 3" linking to the station. It is centred between the ticks and stays on one line from 1024px up; where it can't fit, it breaks after the question. On the vertical path it is a plain line of text above the steps.
 - **Forced colours:** the rail is drawn as borders, so it survives, and step 3's inked node fills with the visitor's own text colour (`CanvasText`, numeral in `Canvas`).
 
@@ -425,8 +425,8 @@ Icons are bare glyphs drawn inline as 1.5px strokes with round caps and joins. T
 
 ### File List (in the station)
 - Opened by the station's "Checksums" and closed by it again; it fades in with the settle motion (160ms). It sits under the ready state's links, after a Hairline 14px below them, inside the station: no border, fill or lift of its own, so it never reads as a card in a card. Each file is a row, rows divided by Hairlines, 16px apart: the installer, the portable zip, any other files, then the checksums file.
-- Each row: the file kind in 600 at UI Small, with a "Recommended" tag on the main file only when the release has another copy of knobs to choose from; then the file name in Plex Mono as a link to the file on github.com, with the download icon, and its size after a dot, in Plex Sans with tabular figures. The size keeps its dot when it wraps under a long name.
-- **SHA-256:** a label row ("SHA-256" at Label size in Graphite 3, its Copy button at the right), then the hash in a Sunken well (Hairline border, 8px radius, 8px by 10px), Plex Mono at Label size, in even rows of 32 (16 where the list is narrower than 17.5em).
+- Each row: the file kind in 600 at UI Small, with a "Recommended" tag on the main file only when the release has another copy of knobs to choose from; then the file name in Source Code Pro as a link to the file on github.com, with the download icon, and its size after a dot, in Radio Canada with tabular figures. The size keeps its dot when it wraps under a long name.
+- **SHA-256:** a label row ("SHA-256" at Label size in Graphite 3, its Copy button at the right), then the hash in a Sunken well (Hairline border, 8px radius, 8px by 10px), Source Code Pro at Label size, in even rows of 32 (16 where the list is narrower than 17.5em).
 - **PowerShell check:** a label row ("Run this in PowerShell. It prints True if the file matches.", balanced, with its own Copy), then the command in the same well: `(Get-FileHash "$HOME\Downloads\<file>" -Algorithm SHA256).Hash -eq '<sha>'`, which prints True or False and ignores case. A wrap never splits an option from its dash, and the hash runs on from `-eq` as a terminal would wrap it.
 - A file with no SHA-256 on GitHub keeps only the command, without the comparison, and the label asks the visitor to compare by hand (pointing to the checksums file when the release has one). The checksums file's row keeps only its kind, name and size.
 
@@ -470,7 +470,7 @@ Icons are bare glyphs drawn inline as 1.5px strokes with round caps and joins. T
 - A thin full-width band above the header (Paper ground, hairline below, Label size) with an amber info icon: "Preview. This release data is made up. The version, files and checksums are not real.", and a link back to the live page. It appears only when made-up release data is shown, which the page allows only on a local development host. Nothing else on the page uses amber.
 
 ### Share Card
-- `site/brand/card.png`, 1200 by 630, the image for every link preview (Open Graph and X `summary_large_image`), referenced by absolute URL from https://getknobs.app/. It is the first screen in miniature: a Paper Subtle band over a Paper strip, the light-text lockup at 64px tall (32px in a 600px preview, the logo's floor), the headline in two lines at Display size on a 24px card base (the page's sizes at 1.5 times, since previews show the card at half size or smaller), the page's seam clip unchanged on a Hairline seam, then the domain in Plex Mono in Graphite 2 and the independence line at Label size in Graphite 3. Content keeps 40px or more from every edge. No version, counts or screenshots, so it never goes stale.
+- `site/brand/card.png`, 1200 by 630, the image for every link preview (Open Graph and X `summary_large_image`), referenced by absolute URL from https://getknobs.app/. It is the first screen in miniature: a Paper Subtle band over a Paper strip, the light-text lockup at 64px tall (32px in a 600px preview, the logo's floor), the headline in two lines in Radio Canada 600 at Display size on a 24px card base (the page's sizes at 1.5 times, since previews show the card at half size or smaller), the page's seam clip unchanged on a Hairline seam, then the domain in Source Code Pro in Graphite 2 and the independence line at Label size in Graphite 3. Content keeps 40px or more from every edge. No version, counts or screenshots, so it never goes stale.
 - The preview description carries the independence line too ("It isn’t affiliated with or endorsed by the OBS Project."), since the card's own line can't be read at thumbnail size.
 - It lives in `site/brand/` because it contains the logo, so `brand/LICENSE` covers it. It is rendered from an HTML template in headless Chromium and compressed losslessly (about 38KB); the template and the rejected options are kept outside the repository.
 
@@ -486,8 +486,8 @@ Icons are bare glyphs drawn inline as 1.5px strokes with round caps and joins. T
 - **Do** put the download inside the bordered station as step 3 of the path, with the destination on github.com shown under the button.
 - **Do** open what a step needs in place, inside the station (the file list, the build steps), under a hairline and with no box of its own.
 - **Do** use ink for every primary action and the surface-plus-hairline style for every secondary one.
-- **Do** set anything copyable (versions in running text, file names, hashes, commands, paths) in Plex Mono, and line numbers up, file sizes among them, with Plex Sans's tabular figures.
-- **Do** cap text with the `--measure` token (52ch), never in rem.
+- **Do** set anything copyable (versions in running text, file names, hashes, commands, paths) in Source Code Pro, and line numbers up, file sizes among them, with Radio Canada's tabular figures.
+- **Do** cap text with the `--measure` token (53.5ch), never in rem.
 - **Do** mark every link that leaves the site with the 12px external arrow (the footer's GPL link is the owner's one exception).
 - **Do** run every 1px line that meets a node or icon through its centre: odd-sized boxes, lines at `(size - 1px) / 2`.
 - **Do** let the station take each state's own height, moving between heights over 320ms, and let state changes settle on `cubic-bezier(0.2, 0, 0, 1)`, fading in as they drop 4px into place: 160ms for feedback, 320ms for structure. Reduced motion makes every change instant: no animation or transition at all, never a 0.01ms duration, which would hold a newly shown state hidden (and unable to take focus) until the next frame.

@@ -12,10 +12,10 @@
 
   --lift: 0 1px 2px rgb(0 0 0 / 0.5);
 
-  /* Reading measure for every text cap. In Plex Sans 1ch (the "0") is
-     0.6em and an average character about 0.45em, so 52ch sets lines of
-     about 66 to 72 characters at any text size. */
-  --measure: 52ch;
+  /* Reading measure for every text cap. In Radio Canada 1ch (the "0") is
+     0.6em and an average character on this page about 0.47em, so 53.5ch
+     sets lines of about 66 to 72 characters at any text size. */
+  --measure: 53.5ch;
 
   --path-cols: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
   --path-gap: 32px;
@@ -377,9 +377,9 @@ b, strong { font-weight: 600; color: var(--text); }
 
 /* The pitch: the lede stands beside the headline, the column gap after
    its longer line, with their cap heights level, so the two read as one
-   block whatever the width. In Plex Sans (ascent 1.025em, descent
-   0.275em, caps 0.698em) a first line's cap height sits 0.207em under the
-   top of a 1.06 line, the headline's, and 0.452em under a 1.55 line, the
+   block whatever the width. In Radio Canada (ascent 0.945em, descent
+   0.255em, caps 0.69em) a first line's cap height sits 0.185em under the
+   top of a 1.06 line, the headline's, and 0.43em under a 1.55 line, the
    lede's; the lede's padding makes up the difference. */
 .pitch {
   --display: clamp(2rem, 1.1rem + 3.4vw, 4rem);
@@ -403,7 +403,7 @@ b, strong { font-weight: 600; color: var(--text); }
   .pitch-line { white-space: nowrap; }
 }
 .nowrap { white-space: nowrap; }
-.pitch-side { padding-top: calc(var(--display) * 0.207 - var(--lede) * 0.452); }
+.pitch-side { padding-top: calc(var(--display) * 0.185 - var(--lede) * 0.43); }
 .lede {
   max-width: var(--measure);
   color: var(--text-2);
@@ -742,7 +742,7 @@ b, strong { font-weight: 600; color: var(--text); }
 .rs-links a { color: var(--text); }
 .rs-links a[hidden],
 .rs-links .rs-toggle[hidden] { display: none; }
-/* Every file size is Plex Sans with tabular figures, here as in the
+/* Every file size is Radio Canada with tabular figures, here as in the
    download's sub-line and the file list. */
 .rs-links [data-hero="portable"] { font-variant-numeric: tabular-nums; }
 /* "Checksums" opens the file list in place, so it's a button that reads
@@ -1875,8 +1875,11 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 
 /* Below 360px the date and "Release notes" can't share a row, so each
-   takes a row of the ruled list. */
+   takes a row of the ruled list. The headline steps down to 31px, so its
+   first half stays on one line at 320px: in Radio Canada it needs 290px
+   at 32px, 2px more than the column. */
 @media (max-width: 22.4375em) {
+  .pitch { --display: 1.9375rem; }
   .rs-meta { row-gap: 0; }
   .rs-meta time { display: flex; align-items: center; min-height: 44px; }
   .rs-meta a {

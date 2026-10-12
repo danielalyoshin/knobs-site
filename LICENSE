@@ -349,8 +349,9 @@ later version.
 
 Not covered by this license:
 
-- site/fonts/: the IBM Plex fonts. They stay under the SIL Open Font
-  License 1.1, in site/fonts/OFL-IBM-Plex.txt.
+- site/fonts/: the Radio Canada and Source Code Pro fonts. They stay
+  under the SIL Open Font License 1.1, in site/fonts/OFL-Radio-Canada.txt
+  and site/fonts/OFL-Source-Code-Pro.txt.
 - site/brand/: the knobs logo files (the app icon and lockup, copied
   from the knobs repository's assets/) and the favicon, touch icon and
   share card made from them.

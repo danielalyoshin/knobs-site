@@ -20,4 +20,4 @@ One static page on GitHub Pages. Every download links to the knobs repository's 
 
 ## License
 
-[GPL-2.0-or-later](LICENSE), the same as knobs, except two folders: `site/fonts/` (IBM Plex, under the SIL Open Font License) and `site/brand/` (the knobs logo files, all rights reserved; see [site/brand/LICENSE](site/brand/LICENSE)).
+[GPL-2.0-or-later](LICENSE), the same as knobs, except two folders: `site/fonts/` (Radio Canada and Source Code Pro, under the SIL Open Font License) and `site/brand/` (the knobs logo files, all rights reserved; see [site/brand/LICENSE](site/brand/LICENSE)).
