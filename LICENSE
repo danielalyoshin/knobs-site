@@ -349,11 +349,13 @@ later version.
 
 Not covered by this license:
 
+- knobs-brand/: a git submodule, the knobs-brand repository, under its
+  own licences. The deploy copies two kinds of its files into site/:
 - site/fonts/: the Radio Canada and Source Code Pro fonts. They stay
   under the SIL Open Font License 1.1, in site/fonts/OFL-Radio-Canada.txt
   and site/fonts/OFL-Source-Code-Pro.txt.
-- site/brand/: the knobs logo files (the app icon and lockup, copied
-  from the knobs repository's assets/) and the favicon, touch icon and
-  share card made from them.
+- site/brand/: the knobs logo files (the horizontal lockups in four
+  versions) and the favicon, touch icon and share card made from the
+  knobs logo.
   They aren't under the GPL; see site/brand/LICENSE and the knobs
   repository's TRADEMARKS.md.

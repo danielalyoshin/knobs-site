@@ -1,192 +1,102 @@
 /*
- * Foundation for the knobs download page: brand tokens, faces and a small
- * reset. Layout and components live in styles.css.
+ * Foundation for the knobs download page: the faces and a small reset.
+ * Colours, type stacks, geometry and motion are tokens, in tokens.css; the
+ * page's layout and components are in styles.css.
  *
- * Colour strategy: restrained. Cool graphite neutrals taken from the knob,
- * ink for the primary action, and the brand red only in the logo. Never a
- * field, a button fill or a large area.
+ * Geometry: the mark is cut straight and only its circles are round. So on
+ * the page every rectangle (button, panel, well, tag, frame, focus ring)
+ * takes var(--radius) and every round thing (step node, dot, handle) is a
+ * true circle.
  */
 
-/*
- * Faces: Radio Canada and Source Code Pro, under the SIL Open Font License
- * (fonts/OFL-Radio-Canada.txt and fonts/OFL-Source-Code-Pro.txt).
- *
- * Radio Canada is CBC/Radio-Canada's face, version 2.104 from
- * github.com/cbcrc/radiocanadafonts (fonts/ttf), hinted for Windows, in
- * three weights subset to Latin1. It has no Reserved Font Name, so the
- * subsets are allowed. Source Code Pro is Adobe's 2.042 release
- * (github.com/adobe-fonts/source-code-pro, WOFF2/TTF), its regular only and
- * unmodified, as the Reserved Font Name "Source" asks; nothing copyable is
- * set heavier.
- *
- * Every face takes Radio Canada's line metrics (ascent 0.945em, descent
- * 0.255em), so a line sets the same height on every platform, and a version
- * or a checksum sits in a line of prose without moving it. Sora, the
- * wordmark's face, lives only in the logo files, as outlines.
- */
-
+/* Faces: Radio Canada (CBC/Radio-Canada, 2.104, the hinted static files,
+   subset to Latin-1, no Reserved Font Name) and Source Code Pro (Adobe
+   2.042, unmodified). Radio Canada Condensed is the same family's narrow
+   width, for the headline and the section titles. Every face
+   takes Radio Canada's line metrics, so mono sits in prose without moving
+   the line. */
 @font-face {
   font-family: "Radio Canada";
   src: url("fonts/RadioCanada-Regular-Latin1.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  ascent-override: 94.5%;
-  descent-override: 25.5%;
-  line-gap-override: 0%;
-  unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+  font-weight: 400; font-style: normal; font-display: swap;
+  ascent-override: 94.5%; descent-override: 25.5%; line-gap-override: 0%;
 }
 @font-face {
   font-family: "Radio Canada";
   src: url("fonts/RadioCanada-Medium-Latin1.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-  ascent-override: 94.5%;
-  descent-override: 25.5%;
-  line-gap-override: 0%;
-  unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+  font-weight: 500; font-style: normal; font-display: swap;
+  ascent-override: 94.5%; descent-override: 25.5%; line-gap-override: 0%;
 }
 @font-face {
   font-family: "Radio Canada";
   src: url("fonts/RadioCanada-SemiBold-Latin1.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-  ascent-override: 94.5%;
-  descent-override: 25.5%;
-  line-gap-override: 0%;
-  unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+  font-weight: 600; font-style: normal; font-display: swap;
+  ascent-override: 94.5%; descent-override: 25.5%; line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Radio Canada Condensed";
+  src: url("fonts/RadioCanadaCondensed-Bold-Latin1.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+  ascent-override: 94.5%; descent-override: 25.5%; line-gap-override: 0%;
 }
 @font-face {
   font-family: "Source Code Pro";
   src: url("fonts/SourceCodePro-Regular.ttf.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  ascent-override: 94.5%;
-  descent-override: 25.5%;
-  line-gap-override: 0%;
-  unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+2044, U+20AC, U+2122, U+2212, U+FB01-FB02;
+  font-weight: 400; font-style: normal; font-display: swap;
+  ascent-override: 94.5%; descent-override: 25.5%; line-gap-override: 0%;
 }
-
-/* Arial, scaled to Radio Canada's width and line metrics on this page's
-   text, so the swap from fallback to Radio Canada barely moves a line. */
+/* Arial, scaled to Radio Canada's width and line metrics. */
 @font-face {
   font-family: "Radio Canada Fallback";
   src: local("Arial"), local("ArialMT");
   font-weight: 100 500;
-  size-adjust: 102.91%;
-  ascent-override: 91.83%;
-  descent-override: 24.78%;
-  line-gap-override: 0%;
+  size-adjust: 102.91%; ascent-override: 91.83%; descent-override: 24.78%; line-gap-override: 0%;
 }
 @font-face {
   font-family: "Radio Canada Fallback";
   src: local("Arial Bold"), local("Arial-BoldMT");
   font-weight: 600 900;
-  size-adjust: 98.84%;
-  ascent-override: 95.61%;
-  descent-override: 25.8%;
-  line-gap-override: 0%;
-}
-
-:root {
-  color-scheme: dark;
-
-  /* Faces. Radio Canada sets everything on the page: headings, numerals,
-     figures, prose, buttons and labels. Source Code Pro sets what a visitor
-     might compare, paste or type. */
-  --font-sans: "Radio Canada", "Radio Canada Fallback", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "Source Code Pro", ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-
-  /* Dark only: the knob's graphite, light ink #e8eaee. */
-  --bg: #0f1012;
-  --bg-subtle: #141518;
-  --surface: #17181b;
-  --surface-sunken: #121316;
-  --line: #26282d;
-  --line-strong: #363940;
-  --text: #e8eaee;
-  --text-2: #b0b4bc;
-  --text-3: #8b8f98;
-  --primary-bg: #e8eaee;
-  --primary-bg-hover: #ffffff;
-  --primary-text: #17181b;
-  --ok: #4cc38a;
-  --warn: #f0a33c;
-  --focus: #e8eaee;
-
-  --radius-sm: 6px;
-  --radius: 8px;
-  --radius-lg: 12px;
-
-  --text-xs: 0.8125rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-
-  --content: 72rem;
+  size-adjust: 98.84%; ascent-override: 95.61%; descent-override: 25.8%; line-gap-override: 0%;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-
 html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
-
-body {
-  margin: 0;
-  background: var(--bg);
+  background: var(--ground);
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: var(--text-base);
+  font-size: 100%;
   line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+  scrollbar-color: var(--line-strong) var(--ground);
 }
+body { margin: 0; min-height: 100vh; }
+img, svg, video { display: block; max-width: 100%; }
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure, pre { margin: 0; }
+ul[class], ol[class] { padding: 0; list-style: none; }
+button { font: inherit; color: inherit; }
+code, kbd, samp, pre, .mono { font-family: var(--font-mono); font-variant-ligatures: none; }
+::selection { background: var(--selection); color: var(--text); }
 
-h1, h2, h3, h4 {
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  margin: 0;
-  text-wrap: balance;
-}
-
-p { margin: 0; text-wrap: pretty; }
-
-img, svg { display: block; max-width: 100%; }
-
-code, kbd, samp, pre { font-family: var(--font-mono); font-size: 0.9em; }
-
-a { color: inherit; }
-
-:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: var(--radius); }
 
 .visually-hidden {
-  position: absolute !important;
-  width: 1px; height: 1px;
-  margin: -1px; padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
+.nowrap { white-space: nowrap; }
+/* Kept on one line where it fits, and wrapped inside itself only where it
+   can't (very large text in a narrow column). Not for words in a link: a
+   link's underline doesn't run through an inline block. */
+.keep { display: inline-block; }
 
-/* Reduced motion makes every change instant. Not a 0.01ms duration: that
-   gives every element a transition on every property, visibility included,
-   so a release state shown by script stays hidden, and can't take focus,
-   until the next frame. Nothing here waits for an animation to end. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
-  }
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+/* While the scheme switches, nothing fades: every colour takes the new
+   scheme's in the same frame, rather than links and buttons easing over
+   from the old one (theme.js). */
+.is-switching *, .is-switching *::before, .is-switching *::after { transition: none !important; }

@@ -8,3 +8,11 @@
 
 # Draft layouts, compared locally. The chosen one moves into site/.
 drafts/
+
+# Brand files the deploy and a local preview copy into site/ from the
+# knobs-brand submodule (scripts/copy-brand.sh). The submodule is their only
+# source; site/brand/LICENSE stays in this repository.
+/site/tokens.css
+/site/fonts/
+/site/brand/*
+!/site/brand/LICENSE

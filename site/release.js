@@ -57,11 +57,22 @@
     return null;
   }
 
+  // Every link the page makes from GitHub's answer goes to this project on
+  // GitHub. Anything else (another site, a script URL) takes the releases
+  // page's place.
+  function onGitHub(u) {
+    try {
+      var url = new URL(u);
+      if (url.origin === "https://github.com" && url.pathname.indexOf("/" + REPO + "/") === 0) return url.href;
+    } catch (e) { /* not a URL */ }
+    return REPO_URL + "/releases";
+  }
+
   function toFile(asset, kind) {
     return {
       kind: kind,
       name: asset.name,
-      url: asset.browser_download_url,
+      url: onGitHub(asset.browser_download_url),
       size: asset.size,
       sizeLabel: formatBytes(asset.size),
       sha256: sha256Of(asset),
@@ -104,7 +115,7 @@
       prerelease: !!raw.prerelease,
       publishedAt: raw.published_at,
       dateLabel: formatDate(raw.published_at),
-      url: raw.html_url,
+      url: onGitHub(raw.html_url),
       installer: files.installer,
       portable: files.portable,
       checksums: files.checksums,

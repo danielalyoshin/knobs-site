@@ -1,88 +1,102 @@
-/* knobs download page: the setup path.
-   Built on base.css (tokens, faces, reset). */
+/*
+ * knobs download page: layout tokens, the components and the bands. The
+ * faces and the reset are in base.css; colours, type stacks, geometry and
+ * motion are tokens in tokens.css.
+ *
+ * The bands alternate graphite and the deep ground: the hero (with the
+ * header on it) on graphite, Download for Windows deep, the steps with it,
+ * How it works on graphite, Benchmarks deep, Questions on graphite,
+ * Get knobs deep, then the footer's band of cap red deep. In light they
+ * alternate a cool pale grey and a step deeper, with white rows and
+ * panels.
+ *
+ * The red caps on a grey mixing desk: cap red (--action) is the action
+ * colour and the colour of everything that is knobs, and grounds, text and
+ * lines stay neutral, so the red has something to sing against.
+ */
 
 :root {
-  --ease: cubic-bezier(0.2, 0, 0, 1);
-  --t-fast: 160ms;
-  --t-struct: 320ms;
+  /* Layout */
+  --content: 77rem;        /* the content grid: 1232px at the default size */
+  --narrow: 48rem;         /* Download for Windows' column */
+  --gutter: clamp(16px, 5vw, 64px);
+  --measure: 34rem;        /* about 68 characters of Radio Canada */
+  --head-col: 20rem;       /* a row's term or claim, beside its text or chart */
+  --col-gap: clamp(40px, 4.5vw, 64px);
+  --band-top: clamp(64px, 7vw, 104px);
+  --band-bottom: clamp(64px, 6vw, 96px);
+  --head-gap: clamp(32px, 3.5vw, 56px);
 
-  --gutter: clamp(16px, 4vw, 40px);
-  --head-col: 20rem;
-  --col-gap: 64px;
+  /* Type sizes. The headline is 84px at 1440. */
+  --display: clamp(2.25rem, 5.84vw, 5.5rem);
+  --title: clamp(2.125rem, 1.25rem + 2.2vw, 3.25rem);
+  --lede: 1.125rem;
+  --text-md: 0.9375rem;
+  --text-sm: 0.875rem;
+  --text-xs: 0.8125rem;
 
-  --lift: 0 1px 2px rgb(0 0 0 / 0.5);
+  /* The big button's height, in every release state. */
+  --btn-hero: 64px;
 
-  /* Reading measure for every text cap. In Radio Canada 1ch (the "0") is
-     0.6em and an average character on this page about 0.47em, so 53.5ch
-     sets lines of about 66 to 72 characters at any text size. */
-  --measure: 53.5ch;
+  /* Which ground each band takes. The header sits on the hero's. */
+  --hero-ground: var(--ground);
+  --band-ground: var(--ground);
+  --band-ground-deep: var(--ground-deep);
 
-  --path-cols: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
-  --path-gap: 32px;
-  /* 33px, growing with the visitor's text size so the numeral stays inside.
-     An odd size puts the node's centre on a pixel's centre, so a 1px line
-     placed at (node - 1px) / 2 runs through it exactly and stays sharp at
-     1x and 2x. Every line that meets a node is placed that way. */
-  --node: max(33px, 2.0625rem);
+  /* A cap dot, the page's one graphic device: a red knob cap seen from
+     above, marking the items of a list. An odd number of pixels, so it
+     centres on a 1px rule, and it grows with the visitor's text. */
+  --dot: 9px;
+}
+@supports (width: round(down, 1px, 2px)) {
+  :root { --dot: max(9px, round(down, 0.5625rem, 2px) + 1px); }
 }
 
 /* ---------- Browser surfaces ---------- */
 
-html {
-  scrollbar-color: var(--line-strong) var(--bg);
-  scroll-padding-top: 24px;
-}
+/* The header doesn't follow the page, so a link to a section lands on the
+   section's own band. Links jump rather than glide: a smooth scroll on
+   arrival would still be running when the release arrives and fills the
+   rows, and would stop short of its target. */
+html { scroll-padding-top: 0; }
+body { background: var(--ground); caret-color: var(--action); }
 
-@media (prefers-reduced-motion: no-preference) {
-  html { scroll-behavior: smooth; }
-}
-
-::selection {
-  background: var(--text);
-  color: var(--bg);
-}
-
-body { caret-color: var(--text); }
-
+/* A link is its words on a cap-red underline: red marks what can be
+   pressed, and the underline, not the colour alone, says it's a link.
+   Under the pointer the words turn red too. */
 a {
   text-decoration-line: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
-  text-decoration-color: var(--line-strong);
-  transition: text-decoration-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+  text-decoration-color: var(--action);
+  transition: text-decoration-color var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease);
 }
-/* A link inside a sentence sits among words of nearly its own colour,
-   where the hairline barely shows on the dark grounds, so its underline
-   rests in Graphite 3. Links that stand on their own line or row keep
-   the hairline. */
-:where(.path-skip, .rs-fit, .build-body, .sp-note, .footnote, .footer-legal) a { text-decoration-color: var(--text-3); }
-a:hover { text-decoration-color: currentColor; }
+:is(.preview-strip, .hero-more, .hero-needs, .rs-line, .dl-meta, .about-block, .build-body, .step-links, .more, .sp-note, .footnote, .footer-legal) a:hover { color: var(--action-text); }
+/* Pressed, a link or a disclosure dims a step, as a button sinks. */
+a:active, summary:active { opacity: 0.72; }
 
-code, .mono {
-  font-family: var(--font-mono);
-  font-size: 0.875em;
-  font-variant-ligatures: none;
-}
+code, .mono { font-size: 0.875em; }
 p code, dd code, li > code { white-space: nowrap; }
-
 b, strong { font-weight: 600; color: var(--text); }
 .ui { font-weight: 600; color: var(--text); }
+.figure { font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+
+/* A word too long for its line (very large text in a narrow window) breaks
+   rather than running off the page. */
+h1, h2, h3, h4 { font-weight: 600; text-wrap: balance; overflow-wrap: break-word; }
+p, dd { text-wrap: pretty; }
 
 .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
-
+/* 16px beside text at the default size, growing with the visitor's text
+   size like the words beside them. */
 .icon {
   display: inline-block;
   flex: none;
-  width: 16px;
-  height: 16px;
-  vertical-align: -3px;
+  width: 1rem;
+  height: 1rem;
+  vertical-align: -0.1875rem;
 }
-.icon-sm {
-  width: 12px;
-  height: 12px;
-  margin-left: 4px;
-  vertical-align: -1px;
-}
+/* The external arrow after a link's last word. Its drawing sits inside the
+   16px box, so the box itself nearly touches the word. */
+.icon-ext { margin-left: 1px; }
 
 .wrap {
   width: 100%;
@@ -90,8 +104,11 @@ b, strong { font-weight: 600; color: var(--text); }
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
+/* Download for Windows keeps its narrow measure, on the left edge every
+   section's title starts on. */
+.wrap-narrow > * { max-width: var(--narrow); }
 
-/* Two skip links, to the content and to the download (#step-3). Each waits
+/* Two skip links, to the content and to Download for Windows. Each waits
    above the top edge by its own height plus its offset, so it stays out of
    sight however large the visitor's text is. */
 .skip-link {
@@ -99,11 +116,11 @@ b, strong { font-weight: 600; color: var(--text); }
   left: 12px;
   top: 12px;
   z-index: 10;
-  padding: 8px 14px;
+  padding: 10px 16px;
   border-radius: var(--radius);
-  background: var(--primary-bg);
-  color: var(--primary-text);
-  font-weight: 600;
+  background: var(--action);
+  color: var(--on-action);
+  font-weight: 500;
   text-decoration: none;
   transform: translateY(calc(-100% - 16px));
 }
@@ -119,30 +136,35 @@ b, strong { font-weight: 600; color: var(--text); }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 40px;
-  padding: 0 16px;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 20px;
   border: 1px solid transparent;
   border-radius: var(--radius);
-  font: 500 0.9375rem/1.2 var(--font-sans);
+  font: 500 var(--text-md)/1.2 var(--font-sans);
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+  transition: background-color var(--duration-fast) var(--ease), border-color var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease);
 }
+.btn[hidden] { display: none; }
+/* Buttons are red caps. The primary one is a solid cap, its words graphite
+   in dark and white in light; a secondary one is the cap's outline, and
+   fills under the pointer. Neither is ever graphite or black on the light
+   ground. */
 .btn-primary {
-  background: var(--primary-bg);
-  border-color: var(--primary-bg);
-  color: var(--primary-text);
+  background: var(--action);
+  border-color: var(--action);
+  color: var(--on-action);
 }
-.btn-primary:hover { background: var(--primary-bg-hover); border-color: var(--primary-bg-hover); }
+.btn-primary:hover { background: var(--action-hover); border-color: var(--action-hover); }
 .btn-secondary {
-  background: var(--surface);
-  border-color: var(--line-strong);
-  color: var(--text);
+  background: transparent;
+  border-color: var(--action);
+  color: var(--action-text);
 }
-.btn-secondary:hover { border-color: var(--text-3); background: var(--bg-subtle); }
-.btn:active { transform: translateY(1px); }
+.btn-secondary:hover { background: var(--action); border-color: var(--action); color: var(--on-action); }
+.btn:active { opacity: 1; transform: translateY(1px); }
 
 /* Buttons that share a row line up by their tops, so a taller one never
    stretches its neighbours. */
@@ -150,53 +172,101 @@ b, strong { font-weight: 600; color: var(--text); }
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 8px;
+  gap: 12px;
+}
+
+/* The hero's big button, 64px tall in every release state, so an answer
+   arriving never moves what's under it. */
+.btn-hero {
+  min-height: var(--btn-hero);
+  padding: 0 28px;
+  font-size: 1.125rem;
+}
+.btn-hero.btn-primary { min-width: 17.5rem; }
+.btn-download {
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 9px 32px 9px 24px;
+  white-space: normal;
+  text-align: left;
+}
+.btn-download .icon { width: 1.25rem; height: 1.25rem; }
+.btn-download-text { display: grid; gap: 2px; min-width: 0; }
+.btn-download-label { font-size: 1.125rem; font-weight: 600; line-height: 1.25; }
+/* The second line steps down by size, not by fading: on the red a faded
+   line would fall under 4.5:1. It keeps the button's 500, as every small
+   word on a red button does: white on the light scheme's red is 4.5:1 with
+   no margin, and a regular stroke that thin reads lighter than that. */
+.btn-download-sub {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1.35;
+  font-variant-numeric: tabular-nums;
 }
 
 .tag {
   display: inline-flex;
   align-items: center;
   min-height: 22px;
-  margin-left: 10px;
-  padding: 0 8px;
+  padding: 0 7px;
   border: 1px solid var(--line-strong);
-  border-radius: 999px;
+  border-radius: var(--radius);
   color: var(--text-2);
-  font: 600 0.75rem/1 var(--font-sans);
-  letter-spacing: 0;
-  vertical-align: 0.2em;
+  font: 500 0.75rem/1 var(--font-sans);
+  letter-spacing: 0.01em;
   white-space: nowrap;
 }
-.tag[hidden],
-.btn[hidden] { display: none; }
+.tag[hidden] { display: none; }
+/* "Recommended" marks knobs's own main download, so it takes the red. A
+   pre-release stays a plain grey tag: red never warns. */
+.file-title .tag { border-color: var(--action); color: var(--action-text); }
 
+/* Copy: a quiet outlined button that turns red under the pointer, like
+   every control. Copied, its icon turns to the check, in ink: red never
+   stands for success or failure. */
 .copy {
   display: inline-flex;
   flex: none;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  min-width: 5.5rem;
-  min-height: 30px;
+  min-width: 5.75rem;
+  min-height: 32px;
   padding: 0 10px;
   border: 1px solid var(--line-strong);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
+  border-radius: var(--radius);
+  background: transparent;
   color: var(--text-2);
-  font: 500 0.8125rem/1 var(--font-sans);
+  font: 500 var(--text-xs)/1 var(--font-sans);
   cursor: pointer;
-  transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+  transition: color var(--duration-fast) var(--ease), border-color var(--duration-fast) var(--ease), background-color var(--duration-fast) var(--ease);
 }
-.copy:hover { color: var(--text); border-color: var(--text-3); }
+.copy:hover { color: var(--action-text); border-color: var(--action); }
+.copy:active { transform: translateY(1px); }
 .copy .i-done { display: none; }
-.copy.is-copied { color: var(--ok); border-color: currentColor; }
+.copy.is-copied { color: var(--text); border-color: var(--text-2); }
 .copy.is-copied .i-copy { display: none; }
-.copy.is-copied .i-done { display: inline-block; animation: settle var(--t-fast) var(--ease); }
+.copy.is-copied .i-done { display: inline-block; animation: settle var(--duration-fast) var(--ease); }
 
 @keyframes settle {
   from { opacity: 0; transform: translateY(-4px); }
 }
 
+/* A chevron says a control opens something in place, and turns down while
+   it's open. It stands centred on its words' first line, however many
+   lines they take: its summary lines them up by their tops and pads a
+   single line to the summary's height. */
+.chev {
+  color: var(--text-3);
+  transition: transform var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease);
+}
+summary > .chev {
+  margin-top: calc((1.55em - 1rem) / 2);
+  margin-top: calc((1lh - 1rem) / 2);
+}
+details[open] > summary .chev { transform: rotate(90deg); }
+summary { list-style: none; }
+summary::-webkit-details-marker { display: none; }
 
 /* ---------- Preview strip ---------- */
 
@@ -204,7 +274,7 @@ b, strong { font-weight: 600; color: var(--text); }
   display: none;
   padding-block: 8px;
   border-bottom: 1px solid var(--line);
-  background: var(--bg);
+  background: var(--ground-deep);
   color: var(--text-2);
   font-size: var(--text-xs);
 }
@@ -215,599 +285,501 @@ b, strong { font-weight: 600; color: var(--text); }
   gap: 10px;
   min-height: 24px;
 }
-.preview-strip .icon { color: var(--warn); }
+.preview-strip .icon { color: var(--text); }
 .preview-strip p { flex: 1; }
 .preview-strip a { color: var(--text); white-space: nowrap; }
 
-/* ---------- Header ---------- */
+/* ---------- Header, on the hero's band ---------- */
 
-.site-header {
-  background: var(--bg-subtle);
-  border-bottom: 1px solid var(--line);
-}
+.site-header { background: var(--hero-ground); }
 .site-header-inner {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 12px 40px;
   min-height: 64px;
 }
-.brand {
-  display: block;
-  flex: none;
-  padding: 4px 0;
-  border-radius: 6px;
-}
-.brand img { width: auto; height: 36px; }
+/* The lockup at 32px tall (140px wide), its clear space kept by the
+   header's padding and the gap to the links. Both colour lockups are in
+   the markup; the one for the scheme on screen shows (see "Light and
+   dark" below). */
+.brand { display: block; flex: none; }
+.brand img { width: auto; height: 32px; }
 
-.site-nav { margin-left: auto; }
-.site-nav ul {
-  display: flex;
-  gap: 4px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+.site-nav ul { display: flex; gap: 4px; margin: 0 -12px; padding: 0; list-style: none; }
 .site-nav a {
   display: block;
-  padding: 6px 10px;
-  border-radius: var(--radius-sm);
+  padding: 8px 12px;
   color: var(--text-2);
-  font-size: var(--text-sm);
+  font-size: var(--text-md);
   text-decoration: none;
-  transition: color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+  white-space: nowrap;
+  transition: color var(--duration-fast) var(--ease);
 }
-.site-nav a:hover { color: var(--text); background: var(--surface-sunken); }
+.site-nav a:hover { color: var(--action-text); }
 
+/* Source and the light/dark toggle, together at the header's end, 38px
+   tall (44px on a touch screen). With large text they grow with it, so the
+   toggle's icon always keeps room around it. */
+.header-tools {
+  --tool: max(38px, 1.125rem + 12px);
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
 .source-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 34px;
-  padding: 0 12px;
+  min-height: var(--tool);
+  padding: 0 14px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
-  background: var(--surface);
   color: var(--text);
-  font-size: var(--text-sm);
-  font-weight: 500;
+  font: 500 var(--text-sm)/1 var(--font-sans);
   text-decoration: none;
-  transition: border-color var(--t-fast) var(--ease);
+  transition: border-color var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease);
 }
-.source-link:hover { border-color: var(--text-3); }
+.source-link:hover { border-color: var(--action); color: var(--action-text); }
+/* GitHub's mark keeps GitHub's colours: it never turns red. */
+.source-link .icon { color: var(--text); }
+.source-link:active { opacity: 1; transform: translateY(1px); }
 
-/* ---------- Intro: pitch and the path ---------- */
+/* The light/dark toggle: a square icon button the height of Source, its
+   sun or moon in ink, red under the pointer like every control. It needs
+   theme.js, so without JavaScript it isn't there and the page follows the
+   system. In forced colours the visitor's own colours rule, so it goes. */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tool);
+  height: var(--tool);
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease);
+}
+.theme-toggle:hover { border-color: var(--action); color: var(--action-text); }
+.theme-toggle:active { transform: translateY(1px); }
+.theme-toggle .icon { width: 1.125rem; height: 1.125rem; }
+.no-js .theme-toggle { display: none; }
 
-.intro {
-  position: relative;
-  padding-block: clamp(36px, 5.5vw, 80px) clamp(56px, 7vw, 104px);
-  background: var(--bg-subtle);
-}
+/* ---------- Light and dark ---------- */
 
-/* The page's one decoration: a drawn clip at the seam, the way an audio
-   editor draws speech zoomed out. Every other pixel column is a 1px
-   hairline from the lowest to the highest point in it, in Hairline Strong,
-   with the louder core over it in Graphite 3, in phrases with pauses
-   between them; the rule shows through the gaps and the pauses. Its zero
-   line is the rule's centre, its tallest column 19.5px above it. It drifts
-   left at 30px a second, one 2880px tile in 96s, one device pixel a step
-   (page.js sets --wave-steps from the screen's pixel ratio), so no hairline
-   ever lands between pixels while it moves. page.js pauses it off screen
-   and in a hidden tab, and lets it rise from the rule once the release has
-   settled and the strip is in view; with reduced motion it stands still,
-   already up. */
-.wave {
-  --wave-steps: 2880;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.5px;
-  height: 48px;
-  transform: translateY(50%);
-  overflow: hidden;
-  contain: strict;
-  pointer-events: none;
+/* Each scheme shows its own lockup in the header and its own icon and name
+   on the toggle: the sun and "Switch to light mode" while dark is showing,
+   the moon and "Switch to dark mode" while light is. Light is showing when
+   the system is light and the visitor hasn't chosen dark, or when they
+   chose light (the same two conditions as the light scheme in tokens.css). */
+.lockup-on-light,
+.tt-moon,
+.tt-to-dark { display: none; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .lockup-on-dark,
+  :root:not([data-theme="dark"]) .tt-sun,
+  :root:not([data-theme="dark"]) .tt-to-light { display: none; }
+  :root:not([data-theme="dark"]) .lockup-on-light { display: block; }
+  :root:not([data-theme="dark"]) .tt-moon { display: inline-block; }
+  :root:not([data-theme="dark"]) .tt-to-dark { display: inline; }
 }
-.wave-band {
-  position: absolute;
-  inset: 0;
-}
-.wave-track {
-  display: block;
-  max-width: none;
-  height: 48px;
-  fill: none;
-  stroke-width: 1px;
-  opacity: 0.8;
-}
-.wave-peak { stroke: var(--line-strong); }
-.wave-core { stroke: var(--text-3); stroke-opacity: 0.48; }
-/* Reaching for the download brings the clip up to full strength, as a
-   meter lifts when the signal arrives. */
-.intro:has(#step-3 [data-hero="link"]:is(:hover, :focus-visible)) .wave-track {
-  opacity: 1;
-}
-/* Where the note for visitors not on Windows hangs under the panel on the
-   narrower horizontal path, the clip is drawn lower, in steps, so its
-   tallest column clears the note by 12px and is never cut off: 50% from
-   1024 to 1087px, 72% to 1151px and 95% to 1215px. The hairlines stay
-   1px. */
-@media (min-width: 64em) and (max-width: 75.9375em) {
-  .not-windows .wave-track > g { transform: scaleY(0.95); }
-}
-@media (min-width: 64em) and (max-width: 71.9375em) {
-  .not-windows .wave-track > g { transform: scaleY(0.72); }
-}
-@media (min-width: 64em) and (max-width: 67.9375em) {
-  .not-windows .wave-track > g { transform: scaleY(0.5); }
-}
-/* The track and the band stay on their own layers (will-change), so the
-   drift, the rise and the lift are composited with no layout or paint, at
-   their start and end too. */
-@media (prefers-reduced-motion: no-preference) {
-  .wave-track {
-    will-change: transform, opacity;
-    transition: opacity var(--t-struct) var(--ease);
-    animation: wave-drift 96s steps(var(--wave-steps)) infinite;
-  }
-  /* Half-pixel steps on 2x screens when page.js can't say. */
-  @media (min-resolution: 2dppx) {
-    .wave { --wave-steps: 5760; }
-  }
-  .wave.is-paused .wave-track { animation-play-state: paused; }
-  /* Flat on the rule until page.js marks the strip up, then it rises from
-     the rule on the sweep's 720ms, once the station has settled. */
-  .wave-band {
-    will-change: transform, opacity;
-    transition: transform 720ms var(--ease) var(--t-struct), opacity var(--t-struct) var(--ease) var(--t-struct);
-  }
-  .js .wave:not(.is-up) .wave-band { transform: scaleY(0); opacity: 0; }
-}
-@keyframes wave-drift { to { transform: translateX(-2880px); } }
-/* Forced colours drop fills, so step 3's inked node keeps its fill in the
-   visitor's own colours. */
-@media (forced-colors: active) {
-  .wave { display: none; }
-  .pstep-station > .node {
-    forced-color-adjust: none;
-    border-color: CanvasText;
-    background: CanvasText;
-    color: Canvas;
-  }
-}
+:root[data-theme="light"] .lockup-on-dark,
+:root[data-theme="light"] .tt-sun,
+:root[data-theme="light"] .tt-to-light { display: none; }
+:root[data-theme="light"] .lockup-on-light { display: block; }
+:root[data-theme="light"] .tt-moon { display: inline-block; }
+:root[data-theme="light"] .tt-to-dark { display: inline; }
 
-/* The pitch: the lede stands beside the headline, the column gap after
-   its longer line, with their cap heights level, so the two read as one
-   block whatever the width. In Radio Canada (ascent 0.945em, descent
-   0.255em, caps 0.69em) a first line's cap height sits 0.185em under the
-   top of a 1.06 line, the headline's, and 0.43em under a 1.55 line, the
-   lede's; the lede's padding makes up the difference. */
-.pitch {
-  --display: clamp(2rem, 1.1rem + 3.4vw, 4rem);
-  --lede: 1.125rem;
+/* ---------- Hero ---------- */
+
+/* The pitch on the left, the video on the right, centred on each other. */
+.hero {
+  padding-block: clamp(24px, 2vw, 28px) clamp(48px, 3.4vw, 52px);
+  background: var(--hero-ground);
+}
+.hero-grid {
   display: grid;
-  grid-template-columns: min-content minmax(0, 1fr);
+  grid-template-columns: minmax(0, 33fr) minmax(0, 40fr);
   column-gap: var(--col-gap);
-  align-items: start;
+  align-items: center;
 }
+.pitch { min-width: 0; }
 .pitch h1 {
-  font-size: var(--display);
-  font-weight: 600;
-  line-height: 1.06;
-  letter-spacing: -0.025em;
+  color: var(--text);
+  font: 700 var(--display)/0.9 var(--font-display);
+  letter-spacing: -0.01em;
+  text-wrap: wrap;
 }
-/* Each half of the headline stays on one line where it fits, so it always
-   breaks at the comma. With very large text a half wraps inside itself
-   rather than running off the page. */
-.pitch-line { display: inline-block; }
-@media (min-width: 64em) {
-  .pitch-line { white-space: nowrap; }
+/* Each piece of the headline breaks as a whole, so the lines always end at
+   "OBS", at the comma or at the full stop. A piece too wide for its line
+   (very large text) wraps inside itself rather than running off. */
+.hl { display: inline-block; }
+/* In forced colours every line gets its own backplate, and at a line-height
+   under 1 the next line's covers the tail of the comma above it, so the
+   comma reads as a full stop. The extra class outranks the narrower
+   screens' line-height below. */
+@media (forced-colors: active) {
+  .hero .pitch h1 { line-height: 1; }
 }
-.nowrap { white-space: nowrap; }
-.pitch-side { padding-top: calc(var(--display) * 0.185 - var(--lede) * 0.43); }
 .lede {
   max-width: var(--measure);
+  margin-top: 22px;
   color: var(--text-2);
   font-size: var(--lede);
-  line-height: 1.55;
+  line-height: 1.5;
 }
-/* For visitors not on Windows: one quiet line in each release state,
-   before its first action. Under the download button it never moves it. */
-.os-note {
-  display: none;
-  max-width: var(--measure);
-  color: var(--text-3);
-  font-size: var(--text-xs);
-  line-height: 1.45;
-  text-wrap: balance;
+
+/* The release's states. Only the active one takes room, so a stack is as
+   tall as what it holds. An answer from GitHub settles in, and page.js
+   moves the stack from the old height to the new one on the same curve,
+   clipped below so the arriving state never spills. Without JavaScript only
+   the static state shows. */
+[data-release] { container-type: inline-size; }
+[data-release] > .rs:not(.is-active) { display: none; }
+[data-release].is-sizing {
+  clip-path: inset(-12px -12px 0 -12px);
+  transition: height var(--duration-slow) var(--ease);
 }
-.not-windows .os-note { display: block; }
-.rs-body + .os-note { margin-top: 8px; }
-.btn-download + .os-note { margin-top: 10px; }
-@media (max-width: 63.9375em) {
-  .not-windows .os-note + .dest { margin-top: 6px; }
+[data-release-state="ready"] [data-release] > .rs.is-active,
+[data-release-state="error"] [data-release] > .rs.is-active {
+  animation: settle var(--duration-slow) var(--ease);
 }
-/* On the horizontal path it sits just under the panel instead. It's placed
-   from its state, which fills the panel's content box, because a settling
-   state's transform would otherwise move it during the animation. While
-   the panel changes height it waits, then fades in under the new edge. */
-@media (min-width: 64em) {
-  .rs { position: relative; }
-  .rs .os-note {
-    position: absolute;
-    top: calc(100% + 24px + 1px + 12px);
-    left: -24px;
-    right: -24px;
-    max-width: none;
-    margin: 0;
-    transition: opacity var(--t-fast) var(--ease);
+
+.get { margin-top: 30px; }
+/* Where the stack can't hold Releases on GitHub and Try again side by side
+   (on phones, and in a narrow desktop column), Try again goes under it at a
+   plain button's height and type, as wide as the big one, so the big one
+   stays the one to press. */
+@container (max-width: 26.5rem) {
+  .get .actions { display: grid; justify-content: start; }
+  .get .btn-hero.btn-secondary {
+    min-height: 44px;
+    padding: 0 20px;
+    font-size: var(--text-md);
   }
-  .rstack.is-sizing .os-note { opacity: 0; transition: none; }
 }
-
-.path { margin-top: clamp(40px, 5.5vw, 72px); }
-
-/* The bracket over steps 1 and 2, from node 1 to node 3. Its ticks run down
-   from node 1's centre and node 3's, so each node covers its tick's end and
-   the tick lands on the node's top. The label sits 8px above it, centred
-   between the ticks. */
-.path-skip {
-  display: grid;
-  grid-template-columns: var(--path-cols);
-  column-gap: var(--path-gap);
-  margin-bottom: 12px;
-  color: var(--text-3);
-  font-size: var(--text-xs);
-}
-.path-skip-text {
-  grid-column: 1 / 3;
-  position: relative;
-  /* On past the gap to node 3: the panel's 1px border and 24px padding,
-     then far enough that the tick's 1px line is centred on the node. */
-  margin-right: calc((var(--path-gap) + 25px + (var(--node) + 1px) / 2) * -1);
-  padding: 0 1px 8px calc((var(--node) + 1px) / 2);
-  text-align: center;
-}
-/* Where the bracket is narrower than the label, the label breaks after the
-   question. */
-.path-skip-q { white-space: nowrap; }
-.path-skip-text::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: calc((var(--node) - 1px) / 2);
-  right: 0;
-  /* Down past the margin and half a node, plus the rail's own pixel. */
-  bottom: calc(-12px - var(--node) / 2 - 1px);
-  border: 1px solid var(--line-strong);
-  border-bottom: 0;
-  /* A drawing only: a tap on it reaches the link's hit area under it. */
-  pointer-events: none;
-}
-.path-skip a { color: var(--text); }
-.path-skip .mono { font-size: 1em; }
-
-.path-steps {
-  display: grid;
-  grid-template-columns: var(--path-cols);
-  column-gap: var(--path-gap);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.pstep { position: relative; }
-
-/* The rail: from each node to the next */
-.pstep:not(:last-child)::before {
-  content: "";
-  position: absolute;
-  top: calc((var(--node) - 1px) / 2);
-  left: calc(var(--node) / 2);
-  right: calc(var(--path-gap) * -1);
-  border-top: 1px solid var(--line-strong);
-}
-.pstep-station::before { display: none; }
-.pstep-station + .pstep::after {
-  content: "";
-  position: absolute;
-  top: calc((var(--node) - 1px) / 2);
-  left: calc(var(--path-gap) * -1);
-  width: var(--path-gap);
-  border-top: 1px solid var(--line-strong);
-}
-
-/* The figure is centred by its own height, from the baseline to the cap
-   height, not by the font's line box, whose tall ascent set it half a
-   pixel low in Safari. Chrome rounds text to a whole pixel, so there it
-   can't sit closer than about 0.4px. Where text-box isn't supported, the
-   line box fills the circle and centres the figure as before. */
-.node {
-  position: relative;
-  z-index: 1;
-  display: block;
-  align-content: center;
-  width: var(--node);
-  height: var(--node);
-  border: 1px solid var(--line-strong);
-  border-radius: 50%;
-  background: var(--bg-subtle);
-  color: var(--text-2);
-  font: 600 0.875rem/calc(var(--node) - 2px) var(--font-sans);
-  font-variant-numeric: tabular-nums;
-  text-align: center;
-  text-box: trim-both cap alphabetic;
-}
-
-.pstep h3 {
-  margin-top: 20px;
-  font-size: 1.1875rem;
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -0.008em;
-}
-/* On the horizontal path each open step's title takes two lines, as the
-   narrow columns set most of them anyway, so the three descriptions start
-   on one line. */
-@media (min-width: 64em) {
-  .pstep:not(.pstep-station) > h3 { max-width: 9em; }
-}
-.pstep > p {
-  margin-top: 8px;
-  color: var(--text-2);
-  font-size: 0.9375rem;
-  line-height: 1.5;
-}
-.pstep-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-  margin: 12px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: var(--text-sm);
-}
-.pstep-links a { color: var(--text); }
-
-/* Step 3: the station that holds the download */
-.pstep-station {
-  margin-top: calc((var(--node) - 1px) / 2);
-  padding: 0 24px 24px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  box-shadow: var(--lift);
-}
-.pstep-station > .node {
-  margin-top: calc((var(--node) + 1px) / -2);
-  border-color: var(--primary-bg);
-  background: var(--primary-bg);
-  color: var(--primary-text);
-}
-
-/* Release states. Only the active state takes room, so the panel is as
-   tall as what it holds and grows and shrinks with it. An answer from
-   GitHub settles in, and page.js moves the panel from the old height to
-   the new one on the same curve, clipped below so the arriving state
-   never spills past the border. Without JavaScript only the static state
-   shows. */
-.rstack {
-  margin-top: 16px;
-  container-type: inline-size;
-}
-.rstack > .rs:not(.is-active) { display: none; }
-.rstack.is-sizing {
-  clip-path: inset(-24px -24px 0 -24px);
-  transition: height var(--t-struct) var(--ease);
-}
-[data-release-state="ready"] .rstack > .rs.is-active,
-[data-release-state="error"] .rstack > .rs.is-active {
-  animation: settle var(--t-struct) var(--ease);
-}
-
-.rs-head { font: 600 1rem/1.4 var(--font-sans); }
-.rs-body {
-  max-width: var(--measure);
-  margin-top: 6px;
-  color: var(--text-2);
-  font-size: 0.9375rem;
-  line-height: 1.5;
-}
-.rs .actions { margin-top: 16px; }
-/* With very large text in a narrow panel (200% at 390px), what can't fit
-   on one line wraps rather than run off the page: a button's label, the
-   note's "Windows 64-bit PC." and the github.com line. At the default
-   size every width keeps them as they are. */
-@container (max-width: 12.5em) {
-  .rs .actions .btn { white-space: normal; text-align: left; }
-  .rs .os-note .nowrap { white-space: normal; }
-  .dest .mono { overflow-wrap: anywhere; }
-}
-
-/* "Build from source", with what it needs on a second line, like the
-   download button's sub-line. It opens the build steps in place, under
-   the buttons, the way "Checksums" opens the file list: a chevron that
-   turns down while they're open, and a hairline above them, with no box
-   of their own. Without JavaScript it works the same. It may wrap on the
-   narrowest screens, where its second line is wider than the panel. */
-.build { margin-top: 8px; }
-.btn-build { padding-block: 8px; white-space: normal; list-style: none; }
-.btn-build::-webkit-details-marker { display: none; }
-.btn-build .chev { color: currentColor; }
-.btn-build-text { display: grid; gap: 2px; text-align: left; }
-.btn-build-cost {
-  color: var(--text-2);
-  font-size: var(--text-xs);
-  font-weight: 400;
-}
-.build-body {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
-  /* A link to #build lands here; the room keeps "Build from source" in
-     view above the steps it opened. */
-  scroll-margin-top: calc(16px + 4.5rem);
-  color: var(--text-2);
-  font-size: 0.9375rem;
-  line-height: 1.5;
-}
-.build[open] > .build-body { animation: settle var(--t-fast) var(--ease); }
-.build-body > p { max-width: var(--measure); }
-.build-body > * + * { margin-top: 12px; }
-.build-body a { color: var(--text); }
-.build-body code { color: var(--text); }
-/* The exe's path wraps only after its backslashes, as a narrow panel or
-   large text needs. */
-.build-body .exe-path { white-space: normal; }
-
-.btn-download {
-  justify-content: flex-start;
-  gap: 12px;
-  width: 100%;
-  min-height: 60px;
-  padding: 10px 18px;
-  white-space: normal;
-  text-align: left;
-}
-.btn-download .icon { width: 20px; height: 20px; }
-.btn-download-text { display: grid; gap: 3px; min-width: 0; text-wrap: balance; }
-.btn-download-label { font-size: 1rem; font-weight: 600; }
-.btn-download-sub {
-  font-size: var(--text-xs);
-  font-weight: 400;
-  opacity: 0.78;
-  font-variant-numeric: tabular-nums;
-}
-/* Where the panel is too narrow for the description and the size on one
-   line (the horizontal path's narrowest widths, about 1024 to 1100px), the
-   size takes its own line without the dot, as on phones, rather than
-   wrapping with the dot at the start of the line. The destination drops
-   its "From", as on phones, so it stays on one line. */
-@container (max-width: 19.5em) {
-  .btn-download-sub .sub-size { display: block; }
-  .btn-download-sub .sub-dot { display: none; }
-  .dest-from { display: none; }
-}
-
-.dest {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-  margin-top: 8px;
-  color: var(--text-3);
-  font-size: var(--text-xs);
-  line-height: 1.45;
-}
-.dest .icon { flex: none; margin: 3px 0 0; }
-.dest .mono { color: var(--text-2); font-size: 1em; }
-
-/* What a visitor who skips to step 3 still needs: the OBS version and the
-   filters knobs runs, with the README's known limits. */
-.rs-fit {
-  max-width: var(--measure);
-  margin-top: 6px;
-  color: var(--text-3);
-  font-size: var(--text-xs);
-  line-height: 1.45;
-}
-.rs-fit .mono { color: var(--text-2); font-size: 1em; }
-.rs-fit a { color: var(--text-2); }
-
-/* The ready state: the download and what it needs, then, under a
-   hairline, the release's date and links. The file list opens under the
-   links, so opening it grows the panel and never moves "Checksums". */
-.rs-foot {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-}
-.rs-meta {
+/* One quiet line with the big button in every state: where the file comes
+   from, or that GitHub is being asked. It stands beside the button where
+   the stack holds both, so every state is the button's own height, and
+   goes under it where it doesn't. The source's address is never broken:
+   the whole line moves rather than wrap inside it. Why there's no release
+   goes under the buttons, as far under them as the line goes under the
+   button in the other states. */
+.rs-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px 8px;
+  gap: 10px 20px;
+}
+.rs-line {
+  max-width: var(--measure);
+  margin-top: 10px;
+  color: var(--text-3);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+.rs-row > .rs-line {
+  flex: 1 1 auto;
+  margin: 0;
+}
+/* Where the stack can't hold the download and its whole source line side
+   by side (the hero's column never can), the line goes under the button in
+   every state, so the states stay level with each other. */
+@container (max-width: 41rem) {
+  .rs-row > .rs-line { flex-basis: 100%; }
+}
+.rs-line .rs-head { color: var(--text-2); }
+.rs-line [hidden] { display: none; }
+/* The source line, here and in Download for Windows: GitHub's mark stays
+   on the first line when a narrow column puts the address under "From". */
+.dest, .dl-from {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.dest .icon, .dl-from .icon { margin-top: 0.125rem; }
+/* A pre-release tag keeps 8px to "From", the space after it included (a
+   space is a quarter of the line's size). */
+.dest .tag { margin-right: calc(8px - var(--text-sm) / 4); vertical-align: 1px; }
+.dest .mono, .dl-from .mono { color: var(--text-2); font-size: 0.9286em; white-space: nowrap; }
+/* A <wbr> breaks even inside nowrap, so the address's own break points
+   wait until its line can't hold it whole (see Responsive). */
+.dest wbr, .dl-from wbr { display: none; }
+
+/* For visitors not on Windows: what knobs runs on, at the top of the
+   stack, before any button. It reads the same in every state, so an
+   answer arriving never moves the button under it. */
+.os-note {
+  display: none;
+  max-width: var(--measure);
+  margin-bottom: 16px;
+  color: var(--text);
+  font-size: var(--text-md);
+  line-height: 1.5;
+}
+.not-windows .os-note { display: block; }
+
+.hero-more {
+  margin-top: 18px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.hero-more a { color: var(--text); }
+/* In the error states the rows aren't there and the hero already offers
+   the releases page, so the link would only lead back to the same error.
+   The Needs line then keeps the link's distance from the state above it. */
+[data-release-state="error"] .hero-more { display: none; }
+.hero-needs {
+  max-width: var(--measure);
+  margin-top: 6px;
   color: var(--text-2);
   font-size: var(--text-sm);
+  line-height: 1.5;
 }
-.rs-meta .tag { margin-left: 0; vertical-align: 0; }
-.rs-meta [hidden] { display: none; }
-.rs-meta a { color: var(--text); }
-.sep { color: var(--text-3); }
-.rs-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-  margin-top: 6px;
+[data-release-state="error"] .hero-needs,
+.hero-more[hidden] + .hero-needs { margin-top: 18px; }
+.hero-needs a { color: var(--text); }
+
+/* The video: a screen at 16:9 with a hairline edge, square (a dark well in
+   dark, white on the grey in light). A <video> dropped into the frame
+   fills it exactly. */
+.video { margin: 0; min-width: 0; }
+.video-frame {
+  position: relative;
+  aspect-ratio: var(--video-ratio, 16 / 9);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--screen);
+}
+.video-frame > video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Until the video is in, the frame says so in one quiet line and shows the
+   loop's Pause button where page.js will draw it. That button is a picture
+   of the control, so it never answers the pointer. */
+.video-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--text-3);
   font-size: var(--text-sm);
 }
-.rs-links a { color: var(--text); }
-.rs-links a[hidden],
-.rs-links .rs-toggle[hidden] { display: none; }
-/* Every file size is Radio Canada with tabular figures, here as in the
-   download's sub-line and the file list. */
-.rs-links [data-hero="portable"] { font-variant-numeric: tabular-nums; }
-/* "Checksums" opens the file list in place, so it's a button that reads
-   as its neighbours, with a chevron that turns down while the list is open.
-   The chevron's centre sits 0.29em above the baseline, the middle of a
-   mostly lowercase label (between the x-height's middle and the caps'),
-   and it turns about that centre, so it points right and down from the
-   same place. Its offset is rounded to a whole pixel, so it lands the same
-   way as the text wherever the row falls on the page. */
-.rs-toggle {
-  padding: 0;
-  border: 0;
-  background: none;
+.video-placeholder .video-toggle { pointer-events: none; }
+.video-frame:has(video) .video-placeholder { display: none; }
+/* The video's own Pause and Play (WCAG 2.2.2), drawn by page.js only once a
+   <video> is in the frame: a small solid button in its corner, so it reads
+   over any frame of the loop. Its focus ring sits inside it for the same
+   reason. */
+.video-toggle {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 12px 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--ground);
   color: var(--text);
-  font: inherit;
-  text-decoration-line: underline;
-  text-decoration-thickness: 1px;
-  text-decoration-color: var(--line-strong);
-  text-underline-offset: 0.22em;
+  font: 500 var(--text-xs)/1 var(--font-sans);
   cursor: pointer;
-  transition: text-decoration-color var(--t-fast) var(--ease);
+  transition: border-color var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease);
 }
-.rs-toggle:hover { text-decoration-color: currentColor; }
-.rs-toggle .chev {
-  color: currentColor;
-  vertical-align: -2px;
-  vertical-align: round(calc(0.29em - 6px), 1px);
-}
-.rs-toggle[aria-expanded="true"] .chev { transform: rotate(90deg); }
+.video-toggle[hidden] { display: none; }
+.video-toggle:hover { border-color: var(--action); color: var(--action-text); }
+.video-toggle:active { transform: translateY(1px); }
+.video-toggle:focus-visible { outline-offset: -5px; }
 
-/* The release's files, opened under the panel's links: each file's name and
-   size, its SHA-256 and the PowerShell check, each with its own Copy. The
-   panel grows while the list is open and returns when it closes. */
+/* ---------- Bands ---------- */
+
+.band {
+  --band-bg: var(--band-ground);
+  padding-block: var(--band-top) var(--band-bottom);
+  background: var(--band-bg);
+}
+.band-deep { --band-bg: var(--band-ground-deep); }
+
+/* Section titles in the condensed display face, each set left on the
+   left edge of what it heads. On the full content grid that's the edge
+   the hero's headline starts on, so the eye follows one line down the
+   page. The face sets a straight stem 0.07em in from its edge and a round
+   letter about 0.03em in, where the headline's first letter starts at
+   none, so a title hangs 0.05em into the margin: its stems then stand on
+   the edge and its rounds just over it, as round letters should. */
+.title {
+  margin-left: -0.05em;
+  color: var(--text);
+  font: 700 var(--title)/1.02 var(--font-display);
+  letter-spacing: -0.005em;
+}
+.section-head { margin-bottom: var(--head-gap); }
+.section-head .more {
+  margin-top: 14px;
+  color: var(--text-2);
+  font-size: var(--text-md);
+}
+.more a { color: inherit; }
+.more a:hover { color: var(--action-text); }
+
+/* ---------- Download for Windows ---------- */
+
+.dl { margin-top: 16px; container-name: dl; }
+/* "Current version: 0.3.0 · October 13, 2026 | Release notes" */
+.dl-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  color: var(--text-3);
+  font-size: var(--text-md);
+}
+/* 10px from the version, the space before the tag included. */
+.dl-version .tag { margin-left: calc(10px - var(--text-md) / 4); vertical-align: 1px; }
+.dl-version [hidden], .dl-meta > [hidden] { display: none; }
+.dl-date { color: var(--text-2); font-variant-numeric: tabular-nums; }
+.dl-dot { color: var(--text-3); }
+.dl-bar { align-self: stretch; width: 1px; margin-block: 3px; background: var(--line-strong); }
+.dl-meta a { color: var(--text); }
+/* Where the line can't hold the version, the date and the notes, the notes
+   take a line of their own and the bar between them goes. */
+@container dl (max-width: 28rem) {
+  .dl-bar { display: none; }
+  .dl-meta a { flex-basis: 100%; }
+}
+.dl-from {
+  margin-top: 6px;
+  color: var(--text-3);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+/* A row per file. The recommended download takes a 2px cap-red edge, the
+   others a hairline edge. Every file that runs knobs has an outlined red
+   Download; the checksums file, a quiet link. The rows stand a step
+   lighter than their band (white on the grey in light). */
+/* The rows' container queries ask the stack (dl), not the list: a size
+   container shown as an answer arrives stops the browser's scroll
+   anchoring, and a visitor who arrived at a later section would be pushed
+   down the page. */
 .files {
-  margin: 14px 0 0;
-  padding: 0;
-  list-style: none;
-  border-top: 1px solid var(--line);
-  container: files / inline-size;
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+  scroll-margin-top: 24px;
 }
 .files[hidden] { display: none; }
-.files:not([hidden]) { animation: settle var(--t-fast) var(--ease); }
-.file { padding: 16px 0 0; }
-.file + .file { margin-top: 16px; border-top: 1px solid var(--line); }
-.file-title { color: var(--text); font-size: var(--text-sm); font-weight: 600; }
+.file {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 32px;
+  align-items: center;
+  padding: 24px 28px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--raised);
+}
+.file.is-primary {
+  border-color: var(--action);
+  /* The edge's second pixel, inside the first: the row keeps its size. */
+  box-shadow: inset 0 0 0 1px var(--action);
+}
+.file-main { grid-column: 1; grid-row: 1; min-width: 0; }
+.file-dl { grid-column: 2; grid-row: 1; min-width: 9rem; }
+.file-check { grid-column: 1 / -1; grid-row: 2; margin-top: 10px; }
+
+.file-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  color: var(--text);
+  font-size: 1.25rem;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+.file-desc {
+  max-width: var(--measure);
+  margin-top: 6px;
+  color: var(--text-2);
+  font-size: var(--text-md);
+  line-height: 1.5;
+}
+.file-desc code { color: var(--text); }
 .file-meta {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 2px 8px;
-  margin-top: 2px;
+  margin-top: 10px;
   color: var(--text-3);
   font-size: var(--text-sm);
 }
-.file-meta a { color: var(--text); overflow-wrap: anywhere; }
+.file-name { color: var(--text-2); font-size: 0.9286em; overflow-wrap: anywhere; }
 /* The size keeps its dot when it wraps under a long name. */
-.file-meta .file-size { white-space: nowrap; font-variant-numeric: tabular-nums; }
-.file-meta .sep { margin-right: 8px; }
-.check { margin-top: 12px; }
+.file-size { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.file-size .sep { margin: 0 8px; }
+
+/* The checksums file: a slimmer row, with no checksum of its own. It's
+   there to check the others, so its Download is a quiet link in the
+   buttons' place rather than a third red button. */
+.file.is-checksums { padding-block: 18px; }
+.file.is-checksums .file-title { font-size: 1rem; }
+.file.is-checksums .file-desc { margin-top: 2px; }
+.file.is-checksums .file-meta { margin-top: 6px; }
+.file-dl.file-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: end;
+  min-width: 0;
+  color: var(--text-2);
+  font-size: var(--text-md);
+  font-weight: 500;
+}
+.file-link:hover { color: var(--action-text); }
+
+/* "Checksum (SHA-256)", one disclosure per file: its chevron turns down while
+   it's open, and the SHA-256 and the PowerShell check open under it. */
+.file-check > summary {
+  --summary-h: 32px;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 6px;
+  min-height: var(--summary-h);
+  margin-left: -3px;
+  padding: 0 6px 0 0;
+  padding-block: calc((var(--summary-h) - 1.55em) / 2);
+  padding-block: calc((var(--summary-h) - 1lh) / 2);
+  border-radius: var(--radius);
+  color: var(--text-2);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease);
+}
+.file-check > summary:hover { color: var(--action-text); }
+.file-check > summary:hover .chev { color: var(--action); }
+.file-check[open] > .check { animation: settle var(--duration-fast) var(--ease); }
+.check { margin-top: 10px; }
+.check + .check { margin-top: 14px; }
 .check-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 30px;
+  min-height: 32px;
   color: var(--text-3);
   font-size: var(--text-xs);
   line-height: 1.45;
@@ -816,114 +788,157 @@ b, strong { font-weight: 600; color: var(--text); }
 .check-value {
   display: block;
   margin-top: 6px;
-  padding: 8px 10px;
+  padding: 9px 12px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--surface-sunken);
+  background: var(--sunken);
   color: var(--text);
   font-size: var(--text-xs);
-  line-height: 1.5;
+  line-height: 1.55;
   overflow-wrap: anywhere;
 }
-/* A hash wraps in even rows of 32 characters, or 16 where the panel is too
-   narrow for 32, so it can be compared in chunks. */
+/* A hash runs on one line where the row has room, and otherwise wraps in
+   even rows of 32 characters, or 16 on the narrowest, so it can be
+   compared in chunks. */
 .hash-value { display: block; max-width: 32.5ch; }
-@container files (max-width: 17.5em) {
+@container dl (min-width: 38em) {
+  .hash-value { max-width: none; }
+}
+@container dl (max-width: 17.5em) {
   .hash-value { max-width: 16.5ch; }
 }
 /* In the command the hash runs on from "-eq", as a terminal would wrap it. */
 .cmd-hash { word-break: break-all; }
-/* With very large text (200% at 390px) the list is narrower than the
-   command's longest unbroken run, so each run starts a line of its own
-   and wraps between its words there, never after an option's dash; and
-   Copy drops under its label, at the right. At the default size every
-   width keeps the layout above. */
-@container files (max-width: 12.5em) {
-  .check-value .nowrap { display: inline-block; white-space: normal; }
-  .check-head { flex-wrap: wrap; }
-  .check-head .copy { margin-left: auto; }
-}
-
-/* ---------- Sections ---------- */
-
-/* More room above a section's title than after its last row, so the
-   space between two sections reads as the pause before the next title. */
-.section {
-  padding-block: clamp(64px, 6.5vw, 96px) clamp(48px, 5vw, 72px);
-  border-top: 1px solid var(--line);
-}
-
-/* A section opens on its title, set on a Hairline Strong rule the width
-   of its rows, as a ruled table opens on its header rule. No rule crosses
-   the page between two sections: the next title carries its own. The rule
-   over How it works stays, as the seam under the first screen. In
-   Measured the title's rule is the top of the first row. */
-.section + .section { border-top: 0; }
-.section-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 4px 24px;
-  margin-bottom: clamp(32px, 3.5vw, 48px);
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--line-strong);
-}
-.section-head h2 {
-  font-size: clamp(1.75rem, 1.35rem + 1.3vw, 2.375rem);
-  font-weight: 600;
-  letter-spacing: -0.018em;
-}
-.measured .section-head { margin-bottom: 0; }
-
-h3 { color: var(--text); }
-
-/* A link on to the README, at the far end of the title's rule in the
-   section it continues, on the title's baseline. */
-.more { color: var(--text-2); font-size: var(--text-sm); }
-.more a { color: inherit; }
-.more a:hover { color: var(--text); }
-
-/* A chevron says a control opens something in place, and turns down
-   while it's open. */
-.chev {
-  color: var(--text-3);
-  transition: transform var(--t-fast) var(--ease);
-}
-details[open] > summary .chev { transform: rotate(90deg); }
-
-/* Tables */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9375rem;
-}
-.table th, .table td {
-  padding: 10px 16px 10px 0;
-  border-bottom: 1px solid var(--line);
-  text-align: left;
-  vertical-align: top;
-}
-.table thead th {
-  border-bottom-color: var(--line-strong);
+/* After the command: what its answer means, and what to do about a False. */
+.check-after {
+  max-width: var(--measure);
+  margin-top: 8px;
   color: var(--text-3);
   font-size: var(--text-xs);
-  font-weight: 500;
+  line-height: 1.45;
 }
-.table tbody th { color: var(--text); font-weight: 600; }
+.check-after a { color: var(--text-2); }
+.check-after a:hover { color: var(--action-text); }
+
+/* Before GitHub answers, without JavaScript, or when there's no release to
+   show: a row-like panel with the state's words and its buttons. */
+.dl-note {
+  padding: 24px 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--raised);
+}
+.dl-note[hidden] { display: none; }
+[data-when="ready"] > .dl-note { margin-top: 28px; }
+/* Before an answer, or in its place, the panel stands 28px under the
+   title, as the rows stand under the release's lines. */
+.dl > .rs > .dl-note:first-child { margin-top: 12px; }
+.dl-note-head { color: var(--text); font-weight: 600; }
+.dl-note-text { max-width: var(--measure); color: var(--text-2); }
+.dl-note-head + .dl-note-text { margin-top: 4px; }
+.dl-note-text [hidden] { display: none; }
+.dl-note .actions { margin-top: 18px; }
+
+/* About these downloads, under the rows. */
+.about { margin-top: clamp(48px, 5vw, 64px); }
+.about-title {
+  color: var(--text);
+  font-size: 1.375rem;
+  line-height: 1.3;
+}
+.about-block { margin-top: 24px; }
+.about-block h4 {
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+.about-block > p { margin-top: 8px; color: var(--text-2); }
+.about-block > p a { color: var(--text); }
+.reqs {
+  margin-top: 10px;
+  border-top: 1px solid var(--line);
+}
+.reqs > div {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  column-gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.reqs dt { color: var(--text-3); }
+/* What knobs needs, each marked by a cap dot. */
+.reqs dt::before {
+  content: "";
+  display: inline-block;
+  width: var(--dot);
+  height: var(--dot);
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--action);
+  vertical-align: 0.0625em;
+}
+.reqs dd { margin: 0; color: var(--text); }
+.reqs dd a { color: var(--text); }
+/* The requirements already say Windows, so the line that says knobs runs
+   on nothing else is only for visitors not on Windows. */
+.about-block > .about-note { display: none; margin-top: 12px; color: var(--text-2); }
+.not-windows .about-block > .about-note { display: block; }
+
+/* "Build from source": a disclosure on its own ruled row, opened in place.
+   Without JavaScript it works the same. */
+.build {
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.build > summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 56px;
+  padding-block: 16px;
+  padding-block: calc((56px - 1lh) / 2);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease);
+}
+.build > summary:hover { color: var(--action-text); }
+.build > summary:hover .chev { color: var(--action); }
+.build-cost { color: var(--text-3); font-weight: 400; }
+.build-body {
+  padding-bottom: 24px;
+  /* A link to #build lands here; the room keeps "Build from source" in
+     view above the steps it opened. */
+  scroll-margin-top: 80px;
+  color: var(--text-2);
+  font-size: var(--text-md);
+  line-height: 1.5;
+}
+.build[open] > .build-body { animation: settle var(--duration-fast) var(--ease); }
+.build-body > p { max-width: var(--measure); }
+.build-body > * + * { margin-top: 12px; }
+.build-body a, .build-body code { color: var(--text); }
+/* The exe's path wraps only after its backslashes, as a narrow column or
+   large text needs. */
+.build-body .exe-path { white-space: normal; }
+
+/* The build steps are the commands' container, so in a narrow column the
+   well itself can change: one column, with Copy under the commands at the
+   right. */
+.build-body { container: code / inline-size; }
 
 /* The copy button has a column of its own, so no command ever runs under
    it. Commands wrap in theirs: between words and after the URL's slashes,
-   continued under a hanging indent. A word too long for the column scrolls
-   inside it. */
+   continued under a hanging indent. The commands sit on the band itself,
+   as the file rows do, so they take the rows' tone (white in light). */
 .code {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: start;
-  margin-top: 12px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--surface-sunken);
+  background: var(--raised);
 }
 .code pre {
   margin: 0;
@@ -940,12 +955,19 @@ details[open] > summary .chev { transform: rotate(90deg); }
 .code pre code { display: grid; font-size: 1em; }
 .code .cmd { padding-left: 2ch; text-indent: -2ch; }
 .code .copy { margin: 10px 10px 10px 12px; }
-/* In a narrow panel (the horizontal path and phones) the copy button moves
-   under the commands, at the right, so they keep the width. */
-@container (max-width: 30em) {
+@container code (max-width: 30em) {
   .code { grid-template-columns: minmax(0, 1fr); }
   .code pre { padding: 14px 16px 12px; }
   .code .copy { justify-self: end; margin: 0 10px 10px; }
+}
+/* With very large text in a narrow column, the URL also breaks after
+   "https://", an option's value may go under it, and the indent narrows,
+   so no line runs out of the well. */
+.code .wbr-tight { display: none; }
+@container code (max-width: 12.5em) {
+  .code .wbr-tight { display: inline; }
+  .code .pair { white-space: normal; }
+  .code .cmd { padding-left: 1ch; text-indent: -1ch; }
 }
 /* Copy needs page.js, so without JavaScript there's no button and the
    commands take the whole well, to be selected by hand. */
@@ -953,25 +975,146 @@ details[open] > summary .chev { transform: rotate(90deg); }
 .no-js .code pre { padding: 14px 16px; }
 .no-js .code .copy { display: none; }
 
+/* On a touch screen the quiet Download keeps a 44px target, and the issue
+   link gets the one every link inside a sentence does (see Touch below). */
+@media (pointer: coarse) {
+  .file-dl.file-link { min-height: 44px; }
+}
+
+/* ---------- Get knobs, where the page ends ---------- */
+
+/* The hero's stack once more, after Questions, for a reader who got this
+   far: a short title over the same button, on a band of the deep ground,
+   the downloads' ground, between Questions and the footer, and on the
+   left edge every section's title starts on. Its title stands a step
+   under the sections' own, so it reads as the page's close rather than a
+   second hero. It keeps the page's buttons and the hero's rule off
+   Windows: the note above the button. */
+.get-end { padding-block: clamp(56px, 6vw, 88px); }
+.get-end-title {
+  margin-left: -0.05em;  /* hung as the section titles are */
+  color: var(--text);
+  font: 700 clamp(1.875rem, 1.25rem + 1.4vw, 2.5rem)/1.02 var(--font-display);
+  letter-spacing: -0.005em;
+}
+.get-end .get { margin-top: 24px; }
+
+/* ---------- Set up in four steps ---------- */
+
+/* Four steps in four columns, each opening on a numbered circle on one
+   grey rule. Step 3, getting knobs running, is the one red cap: the others
+   are quiet outlined circles, so the eye goes to the download step. The
+   band follows Download for Windows on the same ground, so it opens a
+   little closer under it.
+   Every 1px line that meets a node runs through its centre: the node is
+   an odd number of pixels, so its centre is a pixel's centre. */
+.setup { padding-top: clamp(32px, 3.5vw, 56px); }
+.steps {
+  --node: max(33px, 2.0625rem);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@supports (width: round(down, 1px, 2px)) {
+  .steps { --node: max(33px, round(down, 2.0625rem, 2px) + 1px); }
+}
+.step { position: relative; min-width: 0; scroll-margin-top: 32px; }
+/* The rule, from each node's centre across its column and the gap to the
+   next node, which covers the line's end. */
+.step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: calc((var(--node) - 1px) / 2);
+  left: calc(var(--node) / 2);
+  right: calc(var(--col-gap) * -1);
+  border-top: 1px solid var(--line-strong);
+}
+/* The figure is centred by its own height, from the baseline to the cap
+   height, where text-box is supported; elsewhere the line box fills the
+   circle and centres it. */
+.node {
+  position: relative;
+  z-index: 1;
+  display: block;
+  align-content: center;
+  width: var(--node);
+  height: var(--node);
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--band-bg, var(--ground));
+  color: var(--text-2);
+  font: 600 0.875rem/calc(var(--node) - 2px) var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  text-box: trim-both cap alphabetic;
+}
+.step-get > .node {
+  border-color: var(--action);
+  background: var(--action);
+  color: var(--on-action);
+}
+.step h3 {
+  margin-top: 18px;
+  color: var(--text);
+  font-size: 1.1875rem;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+.step p {
+  max-width: var(--measure);
+  margin-top: 8px;
+  color: var(--text-2);
+  font-size: var(--text-md);
+  line-height: 1.5;
+}
+.step-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+.step-links a { color: var(--text); }
+/* Where the steps stand side by side, each one's node, title and text
+   take the same three rows as its neighbours', so every step's text
+   starts on one line however many lines its title takes. A shorter title
+   sits down on its text, and the room it leaves goes above it. */
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 56.25em) {
+    .step { display: grid; grid-row: span 3; grid-template-rows: subgrid; }
+    .step h3 { align-self: end; }
+  }
+}
+
 /* ---------- How it works ---------- */
 
-/* The signal path: one 1px wire through four stages, left to right (top
-   to bottom below 900px). Each stage is marked by its icon on the wire,
-   and each stretch of wire ends in an arrowhead just short of the next
-   icon. knobs's stage is the one panel, hung under its icon (below).
-   Every 1px line that meets an icon runs through its centre exactly: the
-   icon's box is an odd number of pixels, so its centre is a pixel's
-   centre, and each line sits at (size - 1px) / 2 across it. */
+/* The signal path: one 1px wire through four stages, left to right (top to
+   bottom below 900px). Each stage is marked by its icon on the wire, and
+   each stretch of wire ends in an arrowhead just short of the next icon.
+   knobs's stage is the one panel, hung under its icon. Every 1px line that
+   meets an icon runs through its centre exactly: the icon's box is an odd
+   number of pixels, so its centre is a pixel's centre, and each line sits
+   at (size - 1px) / 2 across it. */
 .signal {
   --kp: 20px;
   --kp-top: 14px;
   --kp-drop: 10px;
+  --sp-cols: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr);
   --sp-gap: 40px;
   --sp-icon: max(21px, 1.25rem + 1px);
   --sp-clear: 6px;
   --sp-row: 28px;
-  --sp-dash: 32px;
+  --sp-dash: 44px;         /* the running signal's trail, at full speed */
+  --pulse-w: 3px;          /* its weight, three times the wire's */
+  --pulse-box: 7px;        /* its head, a small cap: odd, so it centres on the 1px wire */
+  --pulse: var(--text);    /* ink from the mic; cap red from knobs on */
   --wire: var(--text-3);
+  position: relative;
   margin: 0;
 }
 /* Kept odd at any text size where the browser can round. */
@@ -980,7 +1123,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 .signal-path {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: var(--sp-cols);
   column-gap: var(--sp-gap);
   align-items: start;
   margin: 0;
@@ -998,10 +1141,10 @@ details[open] > summary .chev { transform: rotate(90deg); }
 .sp-name { color: var(--text); font-weight: 600; line-height: 1.4; }
 .sp-note { color: var(--text-3); font-size: var(--text-sm); line-height: 1.45; }
 .sp-note a { color: var(--text-2); }
-.sp-note a:hover { color: var(--text); }
-/* A stage's icon: the sprite's 1.5px round strokes, drawn 20px wide in a
-   21px box and growing with the visitor's text size, as the step nodes
-   do. Graphite like the wire, and knobs's in ink. */
+.sp-note a:hover { color: var(--action-text); }
+/* A stage's icon, in the sprite's cut: 1.5px strokes, butt caps and miter
+   joins, round only where the thing is. Graphite like the wire, and
+   knobs's in cap red. */
 .sp-icon {
   position: absolute;
   top: 0;
@@ -1013,10 +1156,10 @@ details[open] > summary .chev { transform: rotate(90deg); }
   fill: none;
   stroke: currentColor;
   stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
 }
-.sp-knobs > .sp-icon { color: var(--text); }
+.sp-knobs > .sp-icon { color: var(--action); }
 /* The wire to the next stage, and its arrowhead. The signal that runs
    along a wire (.sp-pulse, added by page.js) takes the wire's place. */
 .sp:not(:last-child)::after { content: ""; }
@@ -1042,21 +1185,19 @@ details[open] > summary .chev { transform: rotate(90deg); }
   transform: rotate(45deg);
 }
 
-/* knobs: the wire runs straight through its icon, as it does through
-   every other, and the panel hangs under the icon, clear of the wire, with
-   a caret in its top edge pointing up at it. The panel reaches into the
-   gaps by its padding, so its icon, name and note stay on the column like
-   every other stage's. */
+/* knobs: the wire runs straight through its icon, as it does through every
+   other, and the panel hangs under the icon, clear of the wire, with a
+   caret in its top edge pointing up at it. The panel reaches into the gaps
+   by its padding, so its icon, name and note stay on the column like every
+   other stage's. A 1px cap-red edge, square, and no shadow: depth from
+   tone. */
 .sp-knobs {
   margin: calc(var(--sp-icon) + var(--kp-drop)) calc((var(--kp) + 1px) * -1) 0;
   padding: var(--kp-top) var(--kp) var(--kp);
-  border: 1px solid var(--text);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  box-shadow: var(--lift);
+  border: 1px solid var(--action);
+  border-radius: var(--radius);
+  background: var(--raised);
 }
-/* The icon and its wire, positioned from the panel's padding box (inside
-   its 1px border), back on the wire's line and the column's edge. */
 .sp-knobs > .sp-icon {
   top: calc((var(--sp-icon) + var(--kp-drop) + 1px) * -1);
   left: var(--kp);
@@ -1071,13 +1212,10 @@ details[open] > summary .chev { transform: rotate(90deg); }
   top: calc((var(--sp-icon) + 7px) / -2 - var(--kp-drop) - 1px);
   right: calc(var(--sp-clear) + 1.5px + var(--kp) - var(--sp-gap));
 }
-/* The caret is one 1px stroke: along the top edge, up to a point 6px
-   above it under the icon's centre, and back down. Its flat ends lie on
-   the edge's own pixels and its fill covers the edge between its sides,
-   so it reads as part of the border, with no seam where they meet. Its
-   21px box is centred on the icon, so its point is on the icon's centre,
-   a pixel's centre: at 1x its sides pass through pixel centres and draw
-   nearly as bright as the edge. */
+/* The caret is one 1px stroke: along the top edge, up to a point 6px above
+   it under the icon's centre, and back down. Its fill covers the edge
+   between its sides, so it reads as part of the border. It points: the
+   45 degrees here mean direction. */
 .sp-caret {
   position: absolute;
   top: -8px;
@@ -1085,20 +1223,19 @@ details[open] > summary .chev { transform: rotate(90deg); }
   width: 21px;
   height: 8px;
   overflow: visible;
-  fill: var(--surface);
-  stroke: var(--text);
+  fill: var(--raised);
+  stroke: var(--action);
   stroke-width: 1;
   stroke-linejoin: miter;
 }
 .sp-caret path:first-child { stroke: none; }
 .sp-caret path:last-child { fill: none; }
 
-/* The chain inside knobs is the visitor's own, so it's drawn, not named:
-   a row for each filter, in the order they run, with a dot on a short wire
-   down the list and a setting drawn as a slider at its own value, the way
-   each filter is tuned in OBS. Screen readers get one image, named by its
-   label. Each row is as tall as a line of UI Small text would make it, so
-   the drawing grows with the visitor's text size. */
+/* The chain inside knobs is the visitor's own, so it's drawn, not named: a
+   row for each filter, in the order they run, with a red dot on a short
+   wire down the list and a setting drawn as a fader at its own value, its
+   handle a red cap. Screen readers get one image, named by its label. Each
+   row grows with the visitor's text size. */
 .sp-drawn { margin: 16px 0 0; }
 .sp-chain {
   --row: calc(14px + 1.4em);
@@ -1107,7 +1244,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   padding: 0;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--bg-subtle);
+  background: var(--sunken);
   list-style: none;
   font-size: var(--text-sm);
 }
@@ -1124,7 +1261,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--text);
+  background: var(--action);
 }
 .sp-chain li:not(:last-of-type)::after {
   content: "";
@@ -1135,8 +1272,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   border-left: 1px solid var(--wire);
 }
 /* A filter's setting: the track, the stretch up to its value, and the
-   handle. The lines are borders, not fills, so they keep their place in
-   forced colours, and the handle's position carries the value there. */
+   handle, a red cap, a true circle. */
 .sp-setting {
   position: absolute;
   top: 50%;
@@ -1159,120 +1295,168 @@ details[open] > summary .chev { transform: rotate(90deg); }
   left: calc(var(--v) * 100% - 4.5px);
   width: 9px;
   height: 9px;
-  border: 1px solid var(--text-2);
+  border: 1px solid var(--action);
   border-radius: 50%;
-  background: var(--surface);
-}
-/* The signal's run down the chain: from the first dot to the last, each
-   half a row from its edge of the list. */
-.sp-chain > .sp-pulse {
-  position: absolute;
-  top: calc(var(--row) / 2);
-  bottom: calc(var(--row) / 2);
-  left: 16px;
+  background: var(--action);
 }
 
-/* One signal through the path. The first time the path comes into view,
-   page.js sends a signal through it once: a short ink pulse runs along
-   each wire at one speed, and each icon lights in ink as it arrives. The
-   mic, the cable and the apps flash; knobs's icon, unlit until then,
-   lights and stays lit, then each filter's dot lights in turn, top to
-   bottom. The lit icon is a copy page.js lays over the icon for the run,
-   so only opacity changes. The drawing is whole before and after: only
-   knobs's icon and the dots wait, unlit and small, until their turn. With
-   reduced motion, without script, in forced colours and in print, nothing
-   moves and nothing waits. */
+/* One signal through the path, once. It sets off from the mic in ink and
+   glides into knobs, where the filters take it in order: each fader runs
+   up to its setting in red, its dot and cap turning red as it does, and
+   settles back to grey; then the signal leaves knobs in cap red, as knobs's sound, through the cable to the apps,
+   which light as it reaches them. The whole path holds lit for a moment
+   and settles to the drawing as it always is. Before the pass the drawing
+   waits whole, knobs red as ever, with only its filters unlit: a grey dot,
+   an empty ring and no run up to the setting, each. page.js moves the signal and times each light
+   (--at, and --off for what goes out again). With reduced motion, without
+   script, in forced colours and in print, nothing moves and nothing waits:
+   the lit drawing is simply there. */
 .sp-pulse {
   z-index: 1;
   overflow: hidden;
-  width: 1px;
-  height: 1px;
   border: 0 !important;
   pointer-events: none;
 }
-.sp-pulse::before {
-  content: "";
+/* Along a wire, the pulse's box is its head's size, centred on the wire,
+   and it clips the signal to the wire. */
+.sp-pulse:not(.is-y) {
+  width: auto;
+  height: var(--pulse-box);
+  margin-top: calc((var(--pulse-box) - 1px) / -2);
+}
+.sp-pulse.is-y {
+  width: var(--pulse-box);
+  height: auto;
+  margin-left: calc((var(--pulse-box) - 1px) / -2);
+}
+/* The signal: its head, a small cap, and a trail that ends under the head
+   and is as long as the signal is fast, so it streaks at speed and is only
+   its head at rest. page.js moves both, by transform alone; until then
+   they wait off the wire. */
+.sp-trail,
+.sp-head {
   position: absolute;
-  inset: 0;
-  border-right: var(--sp-dash) solid var(--text);
-  transform: translateX(-100%);
+  top: 0;
+  left: 0;
+  background: var(--pulse);
 }
-.sp-pulse.is-y { height: auto; }
-.sp-pulse:not(.is-y) { width: auto; }
-.sp-pulse.is-y::before {
-  border-right: 0;
-  border-bottom: var(--sp-dash) solid var(--text);
-  transform: translateY(-100%);
+.sp-head {
+  width: var(--pulse-box);
+  height: var(--pulse-box);
+  border-radius: 50%;
+  transform: translateX(calc(-1 * var(--pulse-box)));
 }
-.sp-icon.is-lit { color: var(--text); opacity: 0; }
-@media screen {
-  .signal.is-armed .sp-knobs > .sp-icon,
-  .signal.is-playing .sp-knobs > .sp-icon:not(.is-lit) { color: var(--wire); }
-  .signal.is-armed .sp-chain li::before { transform: scale(0.4); }
+.sp-trail {
+  top: calc((var(--pulse-box) - var(--pulse-w)) / 2);
+  width: var(--sp-dash);
+  height: var(--pulse-w);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+}
+.is-y > .sp-head { transform: translateY(calc(-1 * var(--pulse-box))); }
+.is-y > .sp-trail {
+  top: 0;
+  left: calc((var(--pulse-box) - var(--pulse-w)) / 2);
+  width: var(--pulse-w);
+  height: var(--sp-dash);
+  transform: scaleY(0);
+  transform-origin: 50% 100%;
+}
+.sp-knobs .sp-pulse,
+.sp-knobs ~ .sp > .sp-pulse { --pulse: var(--action); }
 
-  .signal.is-playing .sp-pulse::before { animation: sp-run-x var(--run) linear var(--at) both; }
-  .signal.is-playing .sp-pulse.is-y::before { animation-name: sp-run-y; }
-  .signal.is-playing .sp-icon.is-lit { animation: sp-flash 900ms var(--ease) var(--at) both; }
-  .signal.is-playing .sp-knobs > .sp-icon.is-lit { animation: sp-light 320ms var(--ease) var(--at) both; }
-  .signal.is-playing .sp-chain li::before { animation: sp-dot 320ms var(--ease) var(--at) both; }
+/* A stage lights as the signal reaches it: an ink copy of the mic's icon,
+   cap-red copies of the cable's and the apps'. knobs's is red already. */
+.sp-icon.is-lit { color: var(--text); opacity: 0; }
+.sp-knobs ~ .sp > .sp-icon.is-lit { color: var(--action); }
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  /* Waiting: only the filters are unlit. */
+  .signal.is-armed .sp-chain li::before { background-color: var(--wire); }
+  .signal.is-armed .sp-setting::before { transform: scaleX(0); }
+  .signal.is-armed .sp-setting::after { background-color: var(--sunken); }
+
+  /* The pass. Each part waits for its moment (--at) as it was and stays
+     as it ends up (fill both), unless it goes out again at --off. Things
+     light at the feedback pace and go out at the structure pace. */
+  .signal.is-playing .sp-icon.is-lit {
+    animation: sp-on var(--duration-fast) var(--ease) var(--at) both,
+      sp-off var(--duration-slow) var(--ease) var(--off) forwards;
+  }
+  .signal.is-playing .sp-chain li::before { animation: sp-dot var(--duration-fast) var(--ease) var(--at) both; }
+  .signal.is-playing .sp-setting::before {
+    transform-origin: 0 50%;
+    animation: sp-level 1100ms var(--ease) var(--at) both;
+  }
+  /* The cap fills as the run reaches it. */
+  .signal.is-playing .sp-setting::after { animation: sp-cap var(--duration-fast) var(--ease) calc(var(--at) + 180ms) both; }
 }
-@keyframes sp-run-x {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(var(--sp-dash)); }
-}
-@keyframes sp-run-y {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(var(--sp-dash)); }
-}
-@keyframes sp-flash {
-  0% { opacity: 0; }
-  22% { opacity: 1; }
-  100% { opacity: 0; }
-}
-@keyframes sp-light {
+@keyframes sp-on {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+@keyframes sp-off {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+/* A filter as the signal passes through it: its fader runs up to its
+   setting in red, like a level, in about 220ms; holds; and settles back to
+   the track's grey by 1.1s. Its dot and cap turn red and stay, at the
+   size they always are. */
+@keyframes sp-level {
+  0% { transform: scaleX(0); border-top-color: var(--action); }
+  20% { transform: scaleX(1); border-top-color: var(--action); }
+  55% { border-top-color: var(--action); }
+  100% { transform: scaleX(1); border-top-color: var(--text-3); }
+}
 @keyframes sp-dot {
-  from { transform: scale(0.4); }
-  to { transform: none; }
+  from { background-color: var(--wire); }
+}
+@keyframes sp-cap {
+  from { background-color: var(--sunken); }
 }
 
-/* The two facts, set on the section's own grid: term left, text right. */
+/* Three facts in a row of ruled columns, with no cards: each opens on a
+   strong hairline, with a cap dot at its start,
+   the way the steps sit on theirs. */
 .facts {
-  margin: clamp(56px, 6vw, 88px) 0 0;
-  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px var(--col-gap);
+  margin: clamp(64px, 7vw, 96px) 0 0;
 }
 .facts > div {
-  display: grid;
-  grid-template-columns: var(--head-col) minmax(0, 1fr);
-  column-gap: var(--col-gap);
-  align-items: baseline;
-  padding: 26px 0 28px;
-  border-bottom: 1px solid var(--line);
+  position: relative;
+  padding-top: 22px;
+  border-top: 1px solid var(--line-strong);
 }
-/* The section ends on its last fact, not a rule, so the next rule is the
-   one under Measured's title. */
-.facts > div:last-child { padding-bottom: 0; border-bottom: 0; }
+.facts > div::before {
+  content: "";
+  position: absolute;
+  top: calc((var(--dot) + 1px) / -2);
+  left: 0;
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: 50%;
+  background: var(--action);
+}
 .facts dt {
   color: var(--text);
   font: 600 1.1875rem/1.3 var(--font-sans);
-  letter-spacing: -0.008em;
+  letter-spacing: -0.005em;
 }
-.facts dd { max-width: var(--measure); margin: 0; color: var(--text-2); }
-
-/* On touch the README link grows to 44px, and its text stays on the
-   title's baseline. */
-@media (pointer: coarse) {
-  .section-head .more { margin-block: -11px; }
+.facts dd {
+  max-width: var(--measure);
+  margin: 10px 0 0;
+  color: var(--text-2);
 }
 
 /* ---------- Measured ---------- */
 
-/* Each measurement is a row on the section's grid: the claim left, its
-   evidence right. The evidence keeps a structure screen readers read as
-   data, and CSS draws it as a chart. The rule under the section's title
-   opens the first row. */
+/* Each measurement is a row: the claim left, its evidence right, the rows
+   ruled. The evidence keeps a structure screen readers read as data, and
+   CSS draws it as a chart. */
+.measures { border-top: 1px solid var(--line-strong); }
 .measure {
   display: grid;
   grid-template-columns: var(--head-col) minmax(0, 1fr);
@@ -1282,16 +1466,16 @@ details[open] > summary .chev { transform: rotate(90deg); }
 }
 .measure:last-child { padding-bottom: 0; border-bottom: 0; }
 .measure h3 {
-  font-size: 1.1875rem;
-  font-weight: 600;
+  color: var(--text);
+  font-size: 1.25rem;
   line-height: 1.3;
-  letter-spacing: -0.008em;
+  letter-spacing: -0.005em;
 }
 .measure-text p {
   max-width: var(--measure);
   margin-top: 10px;
   color: var(--text-2);
-  font-size: 0.9375rem;
+  font-size: var(--text-md);
 }
 .measure-fig {
   min-width: 0;
@@ -1306,25 +1490,48 @@ details[open] > summary .chev { transform: rotate(90deg); }
 .measure-fig > .footnote { max-width: var(--measure); margin-top: 18px; }
 .footnote a { color: var(--text-2); }
 
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-md);
+}
+.table th, .table td {
+  padding: 10px 16px 10px 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+.table thead th {
+  border-bottom-color: var(--line-strong);
+  color: var(--text-3);
+  font-size: var(--text-xs);
+  font-weight: 500;
+}
+
 /* Same sound: the result for each input, read like a test report. */
 .match th, .match td { padding-block: 13px; }
 .match thead th { padding-top: 0; }
 .match thead th:last-child,
 .match td { padding-right: 0; text-align: right; white-space: nowrap; }
 .match tbody th { color: var(--text); font-weight: 400; }
+/* A module's name moves to the next line whole, never split at its hyphen. */
+.match th code { white-space: nowrap; }
 .match td { color: var(--text); font-weight: 600; }
 .match td .icon { width: 1em; height: 1em; margin-right: 0.5em; vertical-align: -0.15em; }
 
 /* Charts. Every bar's length is its value on a linear scale from zero:
    --f, set beside the printed value, is its share of the scale's width.
    Bars leave --room at the end of the scale for the longest label, in rem
-   so it grows with the visitor's text size. knobs is ink, OBS graphite. */
+   so it grows with the visitor's text size. knobs is cap red, lit; OBS an
+   unlit grey: they differ in hue (in dark in lightness too), and by order and label,
+   so colour is never the only thing that tells them apart. Bar ends are
+   cut square, as every rectangle. */
 .chart {
   --bar: 10px;
   --room: 5.25rem;
   --key: 4.5rem;
-  --c-knobs: var(--text);
-  --c-obs: var(--text-3);
+  --c-knobs: var(--action);
+  --c-obs: var(--chart-obs);
 }
 
 /* Same delay: two bars on one scale, 0 to 100 ms */
@@ -1372,7 +1579,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   grid-template-columns: var(--key) minmax(0, 1fr);
   align-items: center;
 }
-.bar-row dt { padding-right: 12px; color: var(--text-2); font-size: 0.9375rem; }
+.bar-row dt { padding-right: 12px; color: var(--text-2); font-size: var(--text-md); }
 .bar-row dd {
   display: flex;
   align-items: center;
@@ -1385,15 +1592,15 @@ details[open] > summary .chev { transform: rotate(90deg); }
   width: calc((100% - var(--room)) * var(--f));
   height: var(--bar);
   margin-right: 10px;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
   background: var(--c-obs);
 }
 /* The label masks any gridline it crosses, on a narrow chart. */
 .val {
   padding-right: 4px;
-  background: var(--bg);
+  background: var(--band-bg, var(--ground));
   color: var(--text-2);
-  font-size: 0.9375rem;
+  font-size: var(--text-md);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -1410,7 +1617,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   display: block;
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9375rem;
+  font-size: var(--text-md);
 }
 .footprint thead,
 .footprint tbody { display: block; }
@@ -1437,7 +1644,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   flex: none;
   width: 14px;
   height: 10px;
-  border-radius: 0 4px 4px 0;
+  border-radius: var(--radius);
   background: var(--c-obs);
 }
 .footprint thead th.is-knobs::before { background: var(--c-knobs); }
@@ -1475,7 +1682,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
   width: calc((100% - var(--room)) * var(--f));
   height: var(--bar);
   margin-right: 10px;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
   background: var(--c-obs);
 }
 .footprint tbody td.is-knobs { color: var(--text); font-weight: 600; }
@@ -1488,6 +1695,11 @@ details[open] > summary .chev { transform: rotate(90deg); }
   width: calc((100% - var(--room)) * (var(--f2) - var(--f)));
   opacity: 0.32;
 }
+/* GPU, said in words: with no bars there's no zero line either, and each
+   value is followed, more quietly, by whose it is. */
+.footprint tbody tr.is-words td { gap: 0.3em; border-left: 0; }
+.footprint tbody tr.is-words td::before { content: none; }
+.footprint .who { color: var(--text-3); font-weight: 400; }
 
 /* A narrow chart puts each measure's name over its bars. */
 @container (max-width: 34em) {
@@ -1503,7 +1715,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
 @container (max-width: 18em) {
   .plot { --key: 0px; }
   .bar-row { grid-template-columns: minmax(0, 1fr); }
-  .bar-row dt { justify-self: start; padding: 4px 6px 0 0; background: var(--bg); }
+  .bar-row dt { justify-self: start; padding: 4px 6px 0 0; background: var(--band-bg, var(--ground)); }
 }
 /* With large text, each input's result goes under it. The header row stays
    for screen readers. */
@@ -1527,36 +1739,321 @@ details[open] > summary .chev { transform: rotate(90deg); }
   .match td { margin-top: 2px; text-align: left; }
 }
 
-/* Forced colours drop fills, so the bars keep theirs in the visitor's
-   own colours: text colour for knobs, the disabled-text colour for OBS. */
+/* The charts' one motion: the first time a chart comes into view, one
+   sweep draws its bars from zero, at the same pace on every line. page.js
+   arms only charts still below the fold; without script, with reduced
+   motion and in print (see Print) the bars are simply there. */
+.chart.is-armed .bar-row dd,
+.chart.is-armed .footprint tbody td { clip-path: inset(0 100% 0 0); }
+.chart.is-armed.is-swept .bar-row dd,
+.chart.is-armed.is-swept .footprint tbody td {
+  clip-path: inset(0);
+  transition: clip-path 720ms var(--ease);
+}
+
+/* ---------- Questions ---------- */
+
+/* The questions in three groups, each a ruled row as the benchmarks are:
+   the group's name on the left, quiet, on the line of its first
+   question, and its questions and answers on the right, all open. Each
+   question is marked by a cap dot, its answer hung under the question's
+   words. */
+.qa { border-top: 1px solid var(--line-strong); }
+.qa-group {
+  display: grid;
+  grid-template-columns: var(--head-col) minmax(0, 1fr);
+  column-gap: var(--col-gap);
+  align-items: baseline;
+  padding-block: 40px 44px;
+  border-bottom: 1px solid var(--line);
+}
+.qa-group:last-child { padding-bottom: 0; border-bottom: 0; }
+.qa-group > h3 {
+  color: var(--text-2);
+  font-size: var(--text-md);
+  line-height: 1.4;
+}
+.qa-item { position: relative; padding-left: calc(var(--dot) + 12px); }
+.qa-item + .qa-item { margin-top: 32px; }
+.qa-item h4 {
+  color: var(--text);
+  font-size: 1.1875rem;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+}
+/* Centred on the question's first line, which is 1.35em tall. */
+.qa-item h4::before {
+  content: "";
+  position: absolute;
+  top: calc(0.675em - var(--dot) / 2);
+  left: 0;
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: 50%;
+  background: var(--action);
+}
+.qa-item p {
+  max-width: var(--measure);
+  margin-top: 8px;
+  color: var(--text-2);
+}
+.qa-item p a { color: var(--text); }
+.qa-item p a:hover { color: var(--action-text); }
+
+/* ---------- Footer ---------- */
+
+/* Big and calm, on a band of cap red deep in both schemes: the white
+   lockup at 44px tall with the line, the link columns under a hairline,
+   each headed in the condensed face the section titles use, then the legal
+   lines. Inside it the page's roles take the band's own colours, so every
+   rule above reads on the red without one of its own: every word, link and
+   underline white, a thicker underline under the pointer, the band's own
+   hairlines, a white focus ring, and a deeper red for selected text. White
+   on the band is 4.5:1 with no margin, so the smallest words take 500, as
+   they do on a red button. The band is the screen's: on paper the footer
+   keeps the page's own colours (see Print). */
+.site-footer {
+  padding-block: clamp(64px, 6vw, 88px) 40px;
+  color: var(--text-2);
+}
+@media screen {
+  .site-footer {
+    --line: var(--band-line);
+    --line-strong: var(--band-line-strong);
+    --text: var(--on-band);
+    --text-2: var(--on-band);
+    --text-3: var(--on-band);
+    --action: var(--on-band);
+    --action-text: var(--on-band);
+    --selection: var(--band-selection);
+    --focus: var(--band-focus);
+    background: var(--band);
+  }
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 48px var(--col-gap);
+  align-items: start;
+}
+.footer-id img { width: auto; height: 44px; }
+/* The black lockup is for forced colours on a light canvas only. */
+.footer-id .lockup-black { display: none; }
+.footer-id p { margin-top: 16px; color: var(--text-3); font-size: var(--text-md); }
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 15rem));
+  gap: 32px var(--col-gap);
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.footer-h {
+  margin-left: -0.05em;  /* hung as the section titles are */
+  color: var(--text);
+  font: 700 1.375rem/1.1 var(--font-display);
+  letter-spacing: -0.005em;
+}
+.footer-nav ul { margin: 14px 0 0; padding: 0; list-style: none; }
+.footer-nav li + li { margin-top: 8px; }
+.footer-nav a {
+  color: var(--text-2);
+  font-size: var(--text-md);
+  text-decoration: none;
+}
+.footer-nav a:hover { color: var(--action-text); text-decoration: underline; text-decoration-color: var(--action); text-decoration-thickness: 2px; }
+.footer-legal {
+  margin-top: clamp(48px, 5vw, 72px);
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  color: var(--text-3);
+  font-size: var(--text-xs);
+  font-weight: 500;
+}
+.footer-legal p + p { margin-top: 4px; }
+.footer-legal a { color: var(--text-2); }
+.footer-legal a:hover { color: var(--action-text); text-decoration-thickness: 2px; }
+
+/* ---------- Forced colours ---------- */
+
+/* Forced colours drop fills, so the bars, dots and caret keep theirs in the
+   visitor's own colours: text colour for knobs, the disabled-text colour
+   for OBS. Step 3's cap stays filled, in the visitor's text colour. */
 @media (forced-colors: active) {
   .chart { --c-knobs: CanvasText; --c-obs: GrayText; }
   .bar-row dd::before,
   .footprint thead th::before,
   .footprint tbody td::before,
   .footprint tbody td::after,
-  .sp-chain li::before { forced-color-adjust: none; }
-  .sp-chain li::before { background: CanvasText; }
+  .sp-chain li::before,
+  .reqs dt::before,
+  .facts > div::before,
+  .qa-item h4::before { forced-color-adjust: none; }
+  .sp-chain li::before,
+  .reqs dt::before,
+  .facts > div::before,
+  .qa-item h4::before { background: CanvasText; }
   .signal .sp-icon { color: CanvasText; }
   .sp-caret { forced-color-adjust: none; fill: Canvas; stroke: CanvasText; }
+  /* A filter's cap stays filled, as it is when lit: an empty ring is a
+     filter the signal hasn't reached. */
+  .sp-setting::after { forced-color-adjust: none; border-color: CanvasText; background: CanvasText; }
+  .file.is-primary { border-color: CanvasText; border-width: 2px; }
+  .step-get > .node {
+    forced-color-adjust: none;
+    border-color: CanvasText;
+    background: CanvasText;
+    color: Canvas;
+  }
+  /* The visitor's own colours rule here, so the toggle has nothing to do,
+     and the signal doesn't run. */
+  .theme-toggle { display: none !important; }
+}
+/* In forced colours the canvas is the visitor's, whatever the toggle says:
+   the header takes the colour lockup that reads on it, and the footer, its
+   red gone, the one-colour lockup that does (black on a light canvas). */
+@media (forced-colors: active) and (prefers-color-scheme: dark) {
+  .brand .lockup-on-dark { display: block !important; }
+  .brand .lockup-on-light { display: none !important; }
+}
+@media (forced-colors: active) and (prefers-color-scheme: light) {
+  .brand .lockup-on-dark { display: none !important; }
+  .brand .lockup-on-light { display: block !important; }
+  .footer-id .lockup-white { display: none; }
+  .footer-id .lockup-black { display: block; }
 }
 
-/* Below 1024px these rows stack: the term or claim over its text or chart. */
-@media (max-width: 63.9375em) {
-  .facts > div { display: block; padding: 22px 0 24px; }
-  .facts dd { margin-top: 8px; }
+/* ---------- Print ---------- */
 
+/* On paper the page is the light scheme (theme.js switches to it for the
+   print and back after), ink on white whether or not the browser prints
+   backgrounds. Its marks print in their own colours: the bars, the
+   swatches, the cap dots, the fader caps and step 3's cap are fills, which
+   a browser leaves out by default. The buttons print as the red outline
+   of a cap with red words, since a solid one would print its words white
+   on white. The footer drops its band for the black one-colour lockup on
+   the page's own colours (see Footer). Controls that only work on a
+   screen, and the video's frame, stay off the paper. */
+@media print {
+  .bar-row dd::before,
+  .footprint thead th::before,
+  .footprint tbody td::before,
+  .footprint tbody td::after,
+  .sp-chain li::before,
+  .sp-setting::after,
+  .reqs dt::before,
+  .facts > div::before,
+  .qa-item h4::before,
+  .dl-bar,
+  .step-get > .node {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .chart .bar-row dd,
+  .chart .footprint tbody td { clip-path: none !important; }
+
+  .btn-primary,
+  .btn-primary:hover {
+    background: transparent;
+    border-color: var(--action);
+    color: var(--action-text);
+  }
+  .site-footer { border-top: 1px solid var(--line); }
+  .footer-id .lockup-white { display: none; }
+  .footer-id .lockup-black { display: block; }
+
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .skip-link,
+  .preview-strip,
+  .header-tools,
+  .video,
+  .video-toggle,
+  [data-retry],
+  .copy { display: none !important; }
+}
+
+/* ---------- Responsive ---------- */
+
+/* Breakpoints are in em, so they follow the text size set in the browser:
+   at the default 16px they fall at 1024, 900, 864, 768, 640, 480, 375 and
+   360px, and with larger text the page takes the layout of a narrower
+   window instead of squeezing its columns. Short windows have their own
+   steps, by height. */
+
+/* Short desktop windows (a 1280x720 laptop, or 1366x768 at 100%) keep the
+   headline a step smaller, so the button sits well inside the first
+   screen. */
+@media (min-width: 56.25em) and (max-height: 50em) {
+  :root { --display: clamp(2.25rem, 5.84vw, 4.5rem); }
+}
+/* Shorter still (a 1366x768 laptop at 125%, about 1093x520, or a 1280x720
+   one under the browser's bars, about 1280x610): the header, the headline
+   and the lede give back room, so the requirements under the big button,
+   and off Windows the link to the checksums, stay in the first screen with
+   it. Where the hero's column is narrower than its full width (below
+   1360px) the lede and the requirements take more lines, so this step
+   reaches windows up to 680px tall; at full width, up to 632px. */
+@media (min-width: 56.25em) and (max-height: 39.5em), (min-width: 56.25em) and (max-width: 84.9375em) and (max-height: 42.5em) {
+  :root { --display: 3.25rem; --lede: 1rem; }
+  .site-header-inner { min-height: 56px; }
+  .hero { padding-block: 16px 40px; }
+  .lede { margin-top: 16px; }
+  .get { margin-top: 24px; }
+  .hero-more { margin-top: 14px; }
+}
+
+@media (max-width: 63.9375em) {
+  /* Below 1024px the measurement rows stack: the claim over its chart.
+     The question groups do the same, each name over its questions. */
   .measure { display: block; padding-block: 32px 36px; }
   .measure-fig { margin-top: 24px; }
+  .qa-group { display: block; padding-block: 32px 36px; }
+  .qa-items { margin-top: 20px; }
 }
 
-/* Below 900px the signal path runs down the left: the same icons, wire
-   and arrowheads, turned, each icon level with its stage name's first
-   line at any text size. The rail runs unbroken from the mic to the apps;
-   the knobs panel sits right of it, clear of it, and its caret turns onto
-   the panel's left edge, the side that faces the rail, to point across at
-   knobs's icon. The other stages' text lines up with the panel's. */
+/* Below 900px the hero stacks and centres: the headline, the lede, the full-width button, the link, then the
+   video. */
 @media (max-width: 56.1875em) {
+  .hero { padding-block: 32px 48px; }
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+  .pitch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 36rem;
+  }
+  .pitch h1 {
+    font-size: clamp(2.125rem, 1.2rem + 5.2vw, 3.75rem);
+    line-height: 0.96;
+  }
+  .lede { margin-top: 18px; }
+  /* Centred, the lede and the Needs line run in even lines, so neither
+     ends on a word or a link alone. */
+  .lede, .hero-needs { text-wrap: balance; }
+  .get { width: 100%; max-width: 26rem; margin-top: 28px; }
+  .get .rs-row { justify-content: center; }
+  /* Both buttons take the stack's full width, Try again under the big one
+     (see the hero). */
+  .get .actions { justify-content: stretch; }
+  .btn-hero.btn-primary,
+  .btn-hero.btn-download { width: 100%; min-width: 0; }
+  .btn-download { justify-content: center; padding-inline: 20px; }
+  .rs-line, .os-note, .hero-needs { margin-inline: auto; }
+  /* Centred, the source line runs as one sentence with its mark. */
+  .dest { display: block; }
+  .dest .icon { margin: 0 8px 0 0; vertical-align: -0.1875rem; }
+  .hero-more { margin-top: 18px; }
+  .video { width: 100%; max-width: 40rem; margin-top: 40px; }
+
+  /* The signal path runs down the left: the same icons, wire and
+     arrowheads, turned, each icon level with its stage name's first line.
+     The knobs panel sits right of the rail, its caret turned onto its left
+     edge to point across at knobs's icon. The column starts on the
+     section title's edge, as every section's content does. */
   .signal {
     --kp-top: 12px;
     --sp-indent: calc(var(--sp-icon) + 22px);
@@ -1566,6 +2063,7 @@ details[open] > summary .chev { transform: rotate(90deg); }
     grid-template-columns: minmax(0, 1fr);
     row-gap: var(--sp-row);
     max-width: 30rem;
+    margin-inline: 0;
   }
   .sp { padding: 0 0 0 var(--sp-indent); }
   .sp-icon { top: var(--sp-top); }
@@ -1585,9 +2083,6 @@ details[open] > summary .chev { transform: rotate(90deg); }
     right: auto;
     transform: rotate(135deg);
   }
-
-  /* The panel's left edge stands 9px clear of the icon's box, room for
-     the caret's 6px point and a gap before it. */
   .sp-knobs {
     margin: 0 0 0 calc(var(--sp-icon) + 9px);
     padding: var(--kp-top) 18px 18px 12px;
@@ -1616,9 +2111,6 @@ details[open] > summary .chev { transform: rotate(90deg); }
     left: calc((var(--sp-icon) + 7px) / -2 - 10px);
     right: auto;
   }
-  /* Turned a quarter about a whole pixel, the caret lands on whole pixels
-     again: its flat ends on the left edge, its point level with the
-     icon's centre. */
   .sp-caret {
     top: calc(var(--kp-top) + var(--sp-top) + (var(--sp-icon) - 7px) / 2);
     left: -14px;
@@ -1627,343 +2119,190 @@ details[open] > summary .chev { transform: rotate(90deg); }
   }
 }
 
-/* The charts' one motion. The first time a chart comes into
-   view, one sweep draws its bars from zero, at the same pace on every
-   line: knobs's short bars are drawn almost at once while OBS's keep
-   going, and the two delay bars land together. The scale and the names
-   are there first. page.js arms only charts still below the fold; without
-   script, with reduced motion and in print the bars are simply there. */
-.chart.is-armed .bar-row dd,
-.chart.is-armed .footprint tbody td { clip-path: inset(0 100% 0 0); }
-.chart.is-armed.is-swept .bar-row dd,
-.chart.is-armed.is-swept .footprint tbody td {
-  clip-path: inset(0);
-  transition: clip-path 720ms var(--ease);
-}
-@media print {
-  .chart .bar-row dd,
-  .chart .footprint tbody td { clip-path: none !important; }
-}
-
-/* ---------- Footer ---------- */
-
-.site-footer {
-  padding-block: 56px 40px;
-  border-top: 1px solid var(--line);
-  background: var(--bg-subtle);
-  color: var(--text-2);
-}
-.footer-top {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 40px;
-}
-.footer-id img { width: auto; height: 32px; }
-.footer-id p { margin-top: 12px; color: var(--text-3); font-size: 0.9375rem; }
-.footer-nav { display: flex; flex-wrap: wrap; gap: 32px 72px; }
-.footer-h {
-  color: var(--text);
-  font: 600 var(--text-sm)/1.4 var(--font-sans);
-  letter-spacing: 0;
-}
-.footer-nav ul { margin: 10px 0 0; padding: 0; list-style: none; }
-.footer-nav li + li { margin-top: 6px; }
-.footer-nav a {
-  color: var(--text-2);
-  font-size: 0.9375rem;
-  text-decoration: none;
-}
-.footer-nav a:hover { color: var(--text); text-decoration: underline; }
-.footer-legal {
-  margin-top: 48px;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-  color: var(--text-3);
-  font-size: var(--text-xs);
-}
-.footer-legal p + p { margin-top: 4px; }
-.footer-legal a { color: var(--text-2); }
-.footer-legal a:hover { color: var(--text); }
-
-/* ---------- Responsive ---------- */
-
-/* Breakpoints are in em, so they follow the text size set in the browser:
-   at the default 16px they fall at 1600, 1024, 900, 720, 640, 520, 480
-   and 360px, and with larger text the page takes the layout of a narrower
-   window instead of squeezing its columns. */
-
-/* Short desktop windows, such as a 1080p laptop at 150% scaling (about
-   1280x610), give back some air above the pitch and the path, so every
-   state's main action stays in the first screen. A 1366x768 laptop at 125%
-   (about 1093x520) gives back more, and each state shows its buttons
-   right under its head, before what it says. Only the order on screen
-   changes: the reading and tab order stay the page's. */
-@media (min-width: 64em) and (max-height: 42.5em) {
-  .intro { padding-top: 40px; }
-  .path { margin-top: 40px; }
-}
-@media (min-width: 64em) and (max-height: 35em) {
-  .intro { padding-top: 28px; }
-  .path { margin-top: 28px; }
-  .rs { display: flex; flex-direction: column; }
-  .rs > .rs-head,
-  .rs > .actions { order: -2; }
-  .rs > .actions { margin-top: 12px; }
-  .rs > .build { order: -1; }
-  .rs > .rs-body { margin-top: 12px; }
-  /* Opened, the build steps come after the explanation, so it never reads
-     as a note under them. */
-  .rs:has(> .build[open]) > .rs-body { order: -1; }
-  .rs:has(> .build[open]) > .build { margin-top: 12px; }
-}
-
-@media (max-width: 63.9375em) {
-  .pitch { display: block; }
-  .pitch-side { margin-top: 20px; padding-top: 0; }
-
-  /* The path turns vertical: one rail down the nodes */
-  .path-skip { display: block; margin-bottom: 20px; }
-  .path-skip-text { display: block; margin-right: 0; padding: 0; text-align: left; }
-  .path-skip-q { white-space: normal; }
-  .path-skip-text::after { display: none; }
-
-  .path-steps { position: relative; grid-template-columns: minmax(0, 1fr); max-width: 40rem; }
-  .path-steps::before {
-    content: "";
-    position: absolute;
+/* Below 900px the four steps run down one rule on the left, from the
+   section title's edge, each title level with its node. */
+@media (max-width: 56.1875em) {
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 28px;
+    max-width: 34rem;
+  }
+  .step { padding-left: calc(var(--node) + 18px); }
+  .step > .node { position: absolute; top: 0; left: 0; }
+  .step h3 { margin-top: calc((var(--node) - 1.3em) / 2); }
+  .step:not(:last-child)::before {
     top: calc(var(--node) / 2);
-    bottom: 0;
+    bottom: -28px;
     left: calc((var(--node) - 1px) / 2);
+    right: auto;
+    border-top: 0;
     border-left: 1px solid var(--line-strong);
   }
-  .pstep:not(:last-child)::before,
-  .pstep-station + .pstep::after { display: none; }
-  /* Mask the rail below the last node */
-  .pstep:last-child::before {
-    content: "";
-    position: absolute;
-    top: var(--node);
-    bottom: 0;
-    left: 0;
-    width: var(--node);
-    background: var(--bg-subtle);
-  }
-  .pstep {
-    padding-left: calc(var(--node) + 16px);
-    padding-bottom: 24px;
-  }
-  .pstep:last-child { padding-bottom: 0; }
-  .pstep > .node { position: absolute; top: 0; left: 0; }
-  .pstep h3 { margin-top: 5px; }
-
-  .pstep-station {
-    margin: 0 0 24px calc(var(--node) + 16px);
-    padding: 16px 20px 20px;
-  }
-  .pstep-station > .node {
-    position: absolute;
-    top: 16px;
-    left: calc((var(--node) + 16px) * -1 - 1px);
-    margin: 0;
-  }
-  .pstep-station h3 { margin-top: 4px; }
 }
 
-/* Where the question fits on a line, the bracket's line breaks after it
-   rather than inside it. */
-@media (min-width: 22.5em) and (max-width: 63.9375em) {
-  .path-skip-q { display: inline-block; }
+/* Below 768px the facts and the footer each take one column. */
+@media (max-width: 47.9375em) {
+  .facts { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .footer-top { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* A short window on the vertical path, such as 1000x800, cuts the other
-   steps' descriptions as phones do, so every state's main action stays in
-   the first screen. Their titles and links stay. */
-@media (max-width: 63.9375em) and (max-height: 53.125em) {
-  .pstep:not(.pstep-station) > p { display: none; }
-  .pstep-links { margin-top: 8px; }
-}
-
-@media (max-width: 44.9375em) {
-  .footer-nav { column-gap: 48px; }
-}
-
-@media (max-width: 39.9375em) {
-  .site-header-inner { min-height: 56px; }
-  .brand img { width: auto; height: 32px; }
-
-  /* The first screen gives a little of its top space back, so the
-     download stays in it. */
-  .intro { padding-top: 28px; }
-  .pitch { --lede: 1rem; }
-  .path { margin-top: 28px; }
-  .path-skip { margin-bottom: 16px; }
-
-  /* Keep the download inside the first screen */
-  .pstep { padding-bottom: 16px; }
-  .pstep:not(.pstep-station) > p { display: none; }
-  .pstep-links { margin-top: 8px; }
-  .pstep-station { padding: 14px 16px 16px; }
-
-  /* The release's links become a ruled list of thumb-size rows, so they
-     never wrap into a ragged block: the date with its notes, then the
-     other files and places. The panel's own border closes the list, and
-     the foot's own rule opens it. */
-  .rs-foot { margin-top: 12px; padding-top: 0; }
-  .rs-meta { min-height: 44px; }
-  .rs-meta .sep { display: none; }
-  .rs-meta a { margin-left: auto; }
-  .rs-links { display: block; margin-top: 0; }
-  .rs-meta a,
-  .rs-links a,
-  .rs-links .rs-toggle {
-    display: flex;
-    align-items: center;
-    min-height: 44px;
-    text-decoration: none;
-  }
-  .rs-links a,
-  .rs-links .rs-toggle {
-    justify-content: space-between;
-    width: 100%;
-    border-top: 1px solid var(--line);
-  }
-  .files { margin-top: 0; }
-
-  .table th, .table td { padding-right: 12px; }
-}
-
-@media (max-width: 32.4375em) {
-  /* The section links can't share the header row any more, so they take a
-     row of their own under it, flush with the gutter. On the narrowest
-     phones the row scrolls sideways. */
+/* Below 864px the lockup, the four links, Source and the light/dark
+   toggle no longer share a row: the links take a row of their own under
+   the lockup, the first one's words on the gutter. Where even that row is
+   too narrow (large text) the links wrap onto another row. */
+@media (max-width: 53.9375em) {
   .site-header-inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-rows: 56px auto;
+    grid-template-rows: 60px auto;
     align-items: center;
     gap: 0 16px;
-    height: auto;
   }
   .brand { justify-self: start; }
-  .source-link { grid-area: 1 / 2; }
-  .site-nav {
-    grid-area: 2 / 1 / 3 / -1;
-    margin: 0 calc(var(--gutter) * -1);
-    padding: 0 calc(var(--gutter) - 10px);
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .site-nav::-webkit-scrollbar { display: none; }
-  .site-nav ul { gap: 0; width: max-content; }
+  .header-tools { grid-area: 1 / 2; margin-left: 0; }
+  .site-nav { grid-area: 2 / 1 / 3 / -1; }
+  .site-nav ul { flex-wrap: wrap; gap: 0; margin: 0 -10px; }
   .site-nav a {
     display: flex;
     align-items: center;
     min-height: 44px;
     padding: 0 10px;
-    white-space: nowrap;
+    font-size: var(--text-sm);
   }
-  /* The row scrolls, so it clips: the ring sits inside the link. */
-  .site-nav a:focus-visible { outline-offset: -2px; }
+}
+/* On a phone the links spread across the whole row, the first one's words
+   on the left gutter and the last one's on the right, under the toggle's
+   edge, so the row sits between even margins. Below 375px four of them
+   would crowd at that size, so they take the next size down. */
+@media (max-width: 29.9375em) {
+  .site-nav ul { justify-content: space-between; margin-inline: -6px; }
+  .site-nav a { padding-inline: 6px; }
+}
+@media (max-width: 23.375em) {
+  .site-nav a { font-size: var(--text-xs); }
 }
 
-@media (max-width: 29.9375em) {
-  .dest-from { display: none; }
-  /* The size takes its own line under the label, without the dot. */
+/* Below 640px each file's Download goes under its text, full width. */
+@media (max-width: 39.9375em) {
+  .hero { padding-top: 20px; }
+  .lede { font-size: 1rem; }
+
+  .file {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 20px 20px 14px;
+  }
+  .file-dl { grid-column: 1; grid-row: 2; width: 100%; min-width: 0; margin-top: 16px; }
+  .file-dl.file-link { justify-self: start; width: auto; margin-top: 10px; }
+  .file-check { grid-row: 3; }
+  .file.is-checksums { padding-bottom: 20px; }
+  .dl-note { padding: 20px; }
+  .dl-note .btn { width: 100%; }
+  .reqs > div { grid-template-columns: minmax(0, 1fr); row-gap: 2px; }
+  /* Two columns where each has 8rem, one with very large text. */
+  .footer-nav { grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); column-gap: 24px; }
+}
+
+/* The size takes its own line under the button's label on narrow phones,
+   without the dot. */
+@container (max-width: 21em) {
   .btn-download-sub .sub-size { display: block; }
   .btn-download-sub .sub-dot { display: none; }
 }
+/* With very large text in a narrow column (200% at 390px), what can't fit
+   on one line wraps rather than run off the page. */
+@container (max-width: 12.5em) {
+  .actions .btn { white-space: normal; text-align: left; }
+  .os-note .nowrap { white-space: normal; }
+}
+/* The source's address breaks after its slashes only once its line can't
+   hold it whole: about 15.1em of address, which under the big button has a
+   line of its own, and in Download for Windows shares one with GitHub's
+   mark. */
+@container (max-width: 15.25em) {
+  .dest .mono { white-space: normal; overflow-wrap: anywhere; }
+  .dest wbr { display: inline; }
+}
+@container (max-width: 17em) {
+  .dl-from .mono { white-space: normal; overflow-wrap: anywhere; }
+  .dl-from wbr { display: inline; }
+}
+/* In a narrow row the PowerShell line's help would squeeze into a column
+   beside its Copy, so it takes the row's width and Copy goes under it, at
+   the right, over the line it copies. */
+@container dl (max-width: 32em) {
+  .check-head { flex-wrap: wrap; }
+  .check-head .copy { margin-left: auto; }
+}
+@container dl (max-width: 12.5em) {
+  .check-value .nowrap { display: inline-block; white-space: normal; }
+}
 
-/* Below 360px the date and "Release notes" can't share a row, so each
-   takes a row of the ruled list. The headline steps down to 31px, so its
-   first half stays on one line at 320px: in Radio Canada it needs 290px
-   at 32px, 2px more than the column. */
+/* Below 360px the headline steps down so "Your OBS mic chain," still fits
+   on its line at 320px, and the section links drop "Download": the hero's
+   own link to the downloads is on screen, and the other three then fit
+   without scrolling. */
 @media (max-width: 22.4375em) {
-  .pitch { --display: 1.9375rem; }
-  .rs-meta { row-gap: 0; }
-  .rs-meta time { display: flex; align-items: center; min-height: 44px; }
-  .rs-meta a {
-    flex-basis: 100%;
-    justify-content: space-between;
-    margin-left: 0;
-    border-top: 1px solid var(--line);
+  .pitch h1 { font-size: 2rem; }
+  .nav-download { display: none; }
+  /* Source becomes its mark alone, square like the toggle beside it, so
+     the lockup keeps its full 140px. Its name stays for screen readers. */
+  .source-link { width: var(--tool); padding: 0; justify-content: center; }
+  .source-label {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
   }
 }
 
 /* ---------- Touch ---------- */
 
-/* On a touch screen every target is at least 44px tall. Links that stand
-   on their own line grow in the flow, with negative margins that keep their
-   text where it was; links inside a sentence keep their line and get a
-   larger invisible hit area instead, 44px tall and centred on the link's
-   own box, so it holds at any text size. */
+/* On a touch screen every target is at least 44px tall. Controls and the
+   links in the header and footer lists grow in the flow. Every other link
+   keeps its line and gets a larger invisible hit area, 44px tall and
+   centred on the link. For that the link is one box: it moves to the next
+   line whole rather than breaking inside, unless it's wider than the line,
+   and its words, spaces and underline stay as they are. */
 @media (pointer: coarse) {
-  .btn { min-height: 44px; }
-  .copy { min-height: 44px; }
+  /* The 32px lockup grows to a 44px target inside the header row. */
+  .brand { padding-block: 6px; }
+  .btn, .copy { min-height: 44px; }
   .check-head { min-height: 44px; }
-
+  .file-check > summary { --summary-h: 44px; }
   .site-nav a { display: flex; align-items: center; min-height: 44px; }
-  .source-link { position: relative; }
-  .source-link::after { content: ""; position: absolute; inset: -6px -1px; }
+  .header-tools { --tool: max(44px, 1.125rem + 12px); }
+  .video-toggle { min-height: 44px; }
 
-  .path-skip a,
-  .rs-fit a,
-  .file-meta a,
+  .hero-more a,
+  .hero-needs a,
+  .rs-line a,
+  .dl-meta a,
+  .reqs a,
+  .about-block > p a,
   .build-body a,
+  .step-links a,
+  .more a,
   .sp-note a,
   .footnote a,
-  .footer-legal a { position: relative; }
-  .path-skip a::after,
-  .rs-fit a::after,
-  .file-meta a::after,
+  .qa-item p a,
+  .check-after a,
+  .footer-legal a { position: relative; display: inline-block; }
+  .hero-more a::after,
+  .hero-needs a::after,
+  .rs-line a::after,
+  .dl-meta a::after,
+  .reqs a::after,
+  .about-block > p a::after,
   .build-body a::after,
+  .step-links a::after,
+  .more a::after,
   .sp-note a::after,
   .footnote a::after,
+  .qa-item p a::after,
+  .check-after a::after,
   .footer-legal a::after { content: ""; position: absolute; inset: calc(50% - 22px) -4px; }
+  /* A step's links, side by side, keep their areas apart if they wrap. */
+  .step-links { row-gap: calc(44px - 1.55em); }
 
-  .pstep-links { row-gap: 0; margin-top: -1px; margin-bottom: -13px; }
-  .pstep-links a,
-  .more a { display: inline-flex; align-items: center; min-height: 44px; }
-  /* A step link whose label wraps (step 4's, on the horizontal path) grows
-     by its extra lines, so its first line sits where a one-line label's
-     does, not up against the text above. */
-  .pstep-links a { padding-block: calc((44px - 1lh) / 2); }
-
-  .footer-nav ul { margin-top: 0; }
+  .footer-nav ul { margin-top: 4px; }
   .footer-nav li + li { margin-top: 0; }
-  .footer-nav a { display: flex; align-items: center; min-height: 44px; }
-}
-@media (pointer: coarse) and (min-width: 40em) {
-  .rs-foot { padding-top: 3px; }
-  .rs-links { row-gap: 0; margin-top: 0; }
-  .rs-meta a,
-  .rs-links a,
-  .rs-toggle { display: inline-flex; align-items: center; min-height: 44px; }
-}
-/* Where "Checksums" is a 44px link beside the others (touch screens on the
-   horizontal row), its chevron still sits on the label's baseline rather
-   than the row's middle: the row centres its one line, and the chevron
-   keeps the same offset as inline. On phones it's a ruled row of its own,
-   and its chevron sits in the row's middle, as the other rows' icons do. */
-@media (pointer: coarse) and (min-width: 40em) {
-  .rs-links .rs-toggle {
-    align-items: baseline;
-    flex-wrap: wrap;
-    align-content: center;
-  }
-  .rs-toggle .chev {
-    position: relative;
-    top: 2px;
-    top: round(calc(6px - 0.29em), 1px);
-    vertical-align: 0;
-  }
-}
-@media (pointer: coarse) and (max-width: 39.9375em) {
-  .pstep-links { margin-top: -5px; }
-  /* The 32px lockup grows to 44px, inside the 56px header row. */
-  .brand { padding-block: 6px; }
-}
-
-@media (min-width: 100em) {
-  :root { --path-gap: 40px; }
+  .footer-nav a { display: block; padding-block: max(0px, (44px - 1.55em) / 2); }
 }

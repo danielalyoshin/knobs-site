@@ -6,15 +6,51 @@
 <title>knobs · Your OBS mic chain, in every app</title>
 <meta name="description" content="knobs is a Windows tray app that runs the mic filter chain you tuned in OBS Studio and sends it to a virtual audio cable. Every download comes from the project’s GitHub Releases, with its SHA-256.">
 <link rel="canonical" href="https://getknobs.app/">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#0f1012">
-<link rel="icon" href="brand/favicon.ico" sizes="any">
-<link rel="icon" href="brand/knobs-app-icon.svg" type="image/svg+xml">
-<!-- iOS wants an opaque square: the app icon, unchanged, on Paper Subtle. -->
+<meta name="color-scheme" content="light dark">
+<!-- The browser's bar takes the header's ground. These follow the system;
+     once the visitor chooses a scheme, both take that one's (the script
+     below, then theme.js). -->
+<meta name="theme-color" content="#191b1d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#eef0f4" media="(prefers-color-scheme: light)">
+<script>
+  /* A scheme the visitor chose with the page's toggle, applied before the
+     first paint, so the page never flashes the other one, and the bar
+     takes its ground at once: both metas above take the chosen scheme's,
+     each keeping its own in data-system for theme.js. In forced colours
+     the bar follows the system. Without a stored choice, or without
+     JavaScript, the page and the bar follow the system. */
+  (function (d) {
+    try {
+      var t = localStorage.getItem("knobs-theme");
+      if (t !== "light" && t !== "dark") return;
+      d.documentElement.setAttribute("data-theme", t);
+      if (window.matchMedia && window.matchMedia("(forced-colors: active)").matches) return;
+      var bars = d.querySelectorAll('meta[name="theme-color"]'), ground = "", i;
+      for (i = 0; i < bars.length; i++) {
+        if ((bars[i].getAttribute("media") || "").indexOf(t) > -1) ground = bars[i].getAttribute("content");
+      }
+      if (!ground) return;
+      for (i = 0; i < bars.length; i++) {
+        bars[i].setAttribute("data-system", bars[i].getAttribute("content"));
+        bars[i].setAttribute("content", ground);
+      }
+    } catch (e) {}
+  })(document);
+</script>
+<!-- The favicon is the mark alone, in the scheme the system shows: the
+     SVG holds both marks and switches with light and dark. Browsers that
+     can't switch an SVG take the .ico, the mark on its graphite tile, which
+     reads on any tab. Listed last, the SVG wins where it's understood. -->
+<link rel="icon" href="brand/favicon.ico" sizes="32x32">
+<link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<!-- The faces the first screen sets: the condensed headline, and Radio
+     Canada's text, button and label weights. Source Code Pro waits. -->
+<link rel="preload" href="fonts/RadioCanadaCondensed-Bold-Latin1.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/RadioCanada-Regular-Latin1.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/RadioCanada-Medium-Latin1.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/RadioCanada-SemiBold-Latin1.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="base.css">
 <link rel="stylesheet" href="styles.css">
 <script>
@@ -28,14 +64,9 @@
     h.className = c;
   })(document, navigator, location);
 </script>
+<script src="theme.js" defer></script>
 <script src="release.js" defer></script>
 <script src="page.js" defer></script>
-<!-- Link previews. brand/card.png is the share card, 1200x630: the
-     light-text lockup unchanged, the headline in Radio Canada 600, and this
-     page's seam clip on its seam, on the page's Paper Subtle and Paper.
-     It was rendered from an HTML template in headless Chromium with the
-     site's own font files, then compressed losslessly with oxipng. It
-     names no version, so a new release never makes it stale. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="knobs">
 <meta property="og:title" content="knobs · Your OBS mic chain, in every app">
@@ -45,26 +76,33 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="The knobs logo, the headline “Your OBS mic chain, in every app.”, getknobs.app, and the line “knobs isn’t affiliated with or endorsed by the OBS Project.”">
+<meta property="og:image:alt" content="The knobs logo.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="knobs · Your OBS mic chain, in every app">
 <meta name="twitter:description" content="knobs is a Windows tray app that runs the mic filter chain you tuned in OBS Studio and sends it to a virtual audio cable. It isn’t affiliated with or endorsed by the OBS Project.">
 <meta name="twitter:image" content="https://getknobs.app/brand/card.png">
-<meta name="twitter:image:alt" content="The knobs logo, the headline “Your OBS mic chain, in every app.”, getknobs.app, and the line “knobs isn’t affiliated with or endorsed by the OBS Project.”">
+<meta name="twitter:image:alt" content="The knobs logo.">
 </head>
 <body>
+<!-- The icons, cut straight like the mark: 1.5px strokes with butt caps
+     and miter joins, circles only where a thing is round. GitHub's mark
+     stays GitHub's. -->
 <svg class="sprite" aria-hidden="true" focusable="false">
-  <symbol id="i-download" viewBox="0 0 16 16"><path d="M8 2.25v7.5M4.75 6.75 8 10l3.25-3.25M2.75 11v1.5c0 .55.45 1 1 1h8.5c.55 0 1-.45 1-1V11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-external" viewBox="0 0 16 16"><path d="M6.25 3.75h6v6M12 4 4 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5.75" y="5.75" width="7.5" height="7.5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.25 3.5v-.25a.75.75 0 0 0-.75-.75H3.25a.75.75 0 0 0-.75.75V9.5c0 .41.34.75.75.75h.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
-  <symbol id="i-check" viewBox="0 0 16 16"><path d="m3.25 8.5 3 3 6.5-7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-chevron" viewBox="0 0 16 16"><path d="m5.875 3.75 4.25 4.25-4.25 4.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-info" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7.25v3.75" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="5" r=".9" fill="currentColor"/></symbol>
+  <symbol id="i-download" viewBox="0 0 16 16"><path d="M8 2v7.5M4.75 6.25 8 9.5l3.25-3.25M2.75 10v3.25h10.5V10" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-external" viewBox="0 0 16 16"><path d="M5.5 3.75h6.75v6.75M12.25 3.75l-8.5 8.5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 16 16"><path d="M5.75 5.75h7.5v7.5h-7.5zM10.25 5.75v-3h-7.5v7.5h3" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 16 16"><path d="M3 8.25 6.25 11.5 13 4.75" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 16 16"><path d="M6 3.75 10.25 8 6 12.25" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.75 3v10L12.5 8z" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 16 16"><path d="M5.25 3.25v9.5m5.5-9.5v9.5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-info" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="5" r=".9" fill="currentColor"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.75" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 16 16"><path d="M14 8.53A6 6 0 1 1 7.47 2 4.67 4.67 0 0 0 14 8.53z" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
   <symbol id="i-github" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.01 8.01 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A8 8 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol>
 </svg>
 
 <a class="skip-link" href="#main">Skip to content</a>
-<a class="skip-link" href="#step-3">Skip to download</a>
+<a class="skip-link" href="#download">Skip to download</a>
 
 <div class="preview-strip" role="note">
   <div class="wrap preview-strip-inner">
@@ -74,196 +112,320 @@
   </div>
 </div>
 
+<!-- The header sits on the hero's band: one ground, no rule between
+     them. Both colour lockups are here and CSS shows the
+     one for the scheme that's showing (light ink on graphite, dark ink on
+     the pale grey), so they follow the toggle as well as the system. -->
 <header class="site-header">
   <div class="wrap site-header-inner">
     <a class="brand" href="./">
-      <img src="brand/knobs-lockup-horizontal-light.svg" alt="knobs" width="163" height="36">
+      <img class="lockup-on-dark" src="brand/knobs-lockup-horizontal-light.svg" alt="knobs" width="140" height="32">
+      <img class="lockup-on-light" src="brand/knobs-lockup-horizontal-dark.svg" alt="knobs" width="140" height="32">
     </a>
     <nav class="site-nav" aria-label="Sections">
       <ul>
+        <li class="nav-download"><a href="#download">Download</a></li>
         <li><a href="#how">How it works</a></li>
         <li><a href="#measured">Benchmarks</a></li>
+        <li><a href="#faq">Questions</a></li>
       </ul>
     </nav>
-    <a class="source-link" href="https://github.com/danielalyoshin/knobs">
-      <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>
-      <span>Source<span class="visually-hidden"> code on GitHub</span></span>
-    </a>
+    <div class="header-tools">
+      <a class="source-link" href="https://github.com/danielalyoshin/knobs">
+        <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>
+        <span class="source-label">Source<span class="visually-hidden"> code on GitHub</span></span>
+      </a>
+      <!-- Light or dark: a sun while dark is showing, a moon while light
+           is. CSS shows the icon and the name for the scheme on screen;
+           theme.js switches it, remembers the choice and shows the same
+           name on hover. Hidden without JavaScript, where the page follows
+           the system. -->
+      <button class="theme-toggle" type="button">
+        <svg class="icon tt-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="icon tt-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+        <span class="visually-hidden tt-to-light">Switch to light mode</span>
+        <span class="visually-hidden tt-to-dark">Switch to dark mode</span>
+      </button>
+    </div>
   </div>
 </header>
 
 <main id="main">
 
-  <!-- First screen: the pitch, and the whole path with the download as its third step -->
-  <section class="intro" aria-labelledby="pitch">
-    <div class="wrap">
+  <!-- The hero: the pitch and the one big button on the left, the video on
+       the right. -->
+  <section class="hero" aria-labelledby="pitch">
+    <div class="wrap hero-grid">
       <div class="pitch">
-        <h1 id="pitch"><span class="pitch-line">Your OBS mic chain,</span> <span class="pitch-line">in every app.</span></h1>
-        <div class="pitch-side">
-          <p class="lede">A Windows tray app that runs the mic filter chain you tuned in OBS Studio and sends it to a virtual audio cable. Your other apps get the same processed mic while OBS stays closed.</p>
+        <!-- Each piece breaks as a whole: two lines where "Your OBS mic
+             chain," fits on one, three where it doesn't. -->
+        <h1 id="pitch"><span class="hl">Your OBS</span> <span class="hl">mic chain,</span> <span class="hl">in every app.</span></h1>
+        <p class="lede">A Windows tray app that runs the mic filter chain you tuned in <span class="nowrap">OBS Studio</span> and sends it to a virtual audio cable. Your other apps get the same processed mic while OBS stays closed.</p>
+
+        <!-- The release's states, one shown at a time: before GitHub answers
+             (or without JavaScript), the release, or why there isn't one.
+             Each puts its button in the same place and one quiet line under
+             it, so the answer arriving moves nothing below. The same stack
+             closes the page (data-release="end"). -->
+        <div class="get" data-release="hero">
+          <!-- For visitors not on Windows, before any button: what knobs
+               runs on. It reads the same in every state. -->
+          <p class="os-note">knobs is for a <span class="nowrap">Windows 64-bit PC.</span> It doesn’t run on phones, macOS or Linux.</p>
+          <div class="rs is-active" data-when="static">
+            <div class="rs-row">
+              <a class="btn btn-primary btn-hero" href="https://github.com/danielalyoshin/knobs/releases">
+                <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
+              </a>
+              <p class="rs-line">
+                <span class="if-js">Checking GitHub for the latest release…</span>
+                <span class="if-nojs">Releases, their files and checksums are on GitHub.</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="rs" data-when="ready" inert>
+            <div class="rs-row">
+              <!-- page.js fills in the release. Off Windows the button reads
+                   "Download for Windows". -->
+              <a class="btn btn-primary btn-hero btn-download" data-get="link" href="https://github.com/danielalyoshin/knobs/releases/latest">
+                <svg class="icon" aria-hidden="true"><use data-get="icon" href="#i-download"/></svg>
+                <span class="btn-download-text">
+                  <span class="btn-download-label" data-get="label">Download knobs</span>
+                  <span class="btn-download-sub" data-get="sub">Installer for Windows x64</span>
+                </span>
+              </a>
+              <!-- Where the file comes from, its address always whole: beside
+                   the button where the row holds both, under it where it
+                   doesn't. -->
+              <p class="rs-line dest">
+                <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>
+                <span><span class="tag" data-get="pre" hidden>Pre-release</span> From <span class="mono">github.com/<wbr>danielalyoshin/<wbr>knobs</span></span>
+              </p>
+            </div>
+          </div>
+
+          <div class="rs" data-when="error" inert>
+            <div class="actions">
+              <a class="btn btn-primary btn-hero" href="https://github.com/danielalyoshin/knobs/releases">
+                <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
+              </a>
+              <button class="btn btn-secondary btn-hero" type="button" data-retry>Try again</button>
+            </div>
+            <p class="rs-line"><b class="rs-head" data-error="head">Couldn’t check for a release</b>. <span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files.</span></p>
+          </div>
+        </div>
+
+        <!-- To the file rows with every checksum open, once the release is
+             here (page.js); before that, to the section. -->
+        <p class="hero-more"><a href="#download">Other downloads and checksums</a></p>
+        <p class="hero-needs">Needs Windows 10 or 11 (64-bit), <span class="nowrap">OBS Studio</span> <span class="nowrap">32.2 to 33</span> and a virtual cable such as <span class="nowrap">VB-Cable</span>, which the installer can install. knobs runs OBS’s <span class="nowrap">built-in</span> audio filters, not VST filters or NVIDIA noise removal. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#known-limits">Known limits<span class="visually-hidden"> in the README</span><svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></p>
+      </div>
+
+      <figure class="video" id="video" aria-label="knobs at work, a short looping video">
+        <div class="video-frame">
+          <!-- The video goes here (16:9, muted, looping, no sound). Replace the
+               placeholder with:
+               <video muted loop playsinline controls preload="none"
+                      poster="media/knobs-loop.jpg">
+                 <source src="media/knobs-loop.webm" type="video/webm">
+                 <source src="media/knobs-loop.mp4" type="video/mp4">
+               </video>
+               page.js then takes it over and starts it, so nothing loads
+               before it's wanted: it plays only while it's on screen, waits
+               for Play when the browser asks to save data, never plays with
+               reduced motion (the poster is the picture), and gets a Pause
+               and Play button in place of the browser's controls, which stay
+               only for visitors without JavaScript, so the loop can always be
+               paused. -->
+          <!-- Until then: one quiet line, and the loop's Pause button where
+               page.js will draw it, as a picture rather than a control. -->
+          <div class="video-placeholder">
+            <span>Video placeholder</span>
+            <span class="video-toggle" aria-hidden="true"><svg class="icon"><use href="#i-pause"/></svg><span class="video-toggle-label">Pause</span></span>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Download for Windows: a row per file, each with its checksum. -->
+  <section class="band band-deep downloads" id="download" aria-labelledby="download-title">
+    <div class="wrap wrap-narrow">
+      <h2 class="title" id="download-title">Download for Windows</h2>
+
+      <div class="dl" data-release="files">
+        <div class="rs is-active" data-when="static">
+          <div class="dl-note">
+            <p class="dl-note-text">
+              <span class="if-js">Checking GitHub for the latest release…</span>
+              <span class="if-nojs">Releases, their files and checksums are on GitHub.</span>
+            </p>
+            <div class="actions">
+              <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">
+                <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="rs" data-when="ready" inert>
+          <!-- The release itself. page.js adds the date, so the page never
+               ships an empty one. -->
+          <p class="dl-meta">
+            <!-- The date keeps to the version: a line can break after the
+                 dot, never before it. -->
+            <span class="dl-version">Current version: <b class="figure" data-r="version"></b><span data-r="pre" hidden> <span class="tag">Pre-release</span></span><span class="dl-date" data-r="date" hidden>&nbsp;<span class="dl-dot" aria-hidden="true">·</span> </span></span>
+            <span class="dl-bar" aria-hidden="true"></span>
+            <a data-r="notes" href="https://github.com/danielalyoshin/knobs/releases/latest">Release <span class="nowrap">notes<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a>
+          </p>
+          <p class="dl-from">
+            <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>
+            <span>From <span class="mono">github.com/<wbr>danielalyoshin/<wbr>knobs</span></span>
+          </p>
+          <!-- Every file in the release, the installer first. A link to
+               #files lands here with every checksum open. -->
+          <ul class="files" id="files" data-r="files" aria-label="Files in this release"></ul>
+          <div class="dl-note" data-r="nofiles" hidden>
+            <p class="dl-note-text">Open the release to see its files</p>
+            <div class="actions">
+              <a class="btn btn-primary" data-r="release" href="https://github.com/danielalyoshin/knobs/releases/latest">
+                <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg><span data-r="release-label">knobs on GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="rs" data-when="error" inert>
+          <div class="dl-note">
+            <p class="dl-note-head" data-error="head">Couldn’t check for a release</p>
+            <p class="dl-note-text"><span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files.</span></p>
+            <div class="actions">
+              <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">
+                <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
+              </a>
+              <button class="btn btn-secondary" type="button" data-retry>Try again</button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="path">
-        <h2 class="visually-hidden">Setup in four steps</h2>
-        <p class="path-skip">
-          <span class="path-skip-text"><span class="path-skip-q">Already have OBS <span class="mono">32.2.x</span>, a tuned mic and a cable?</span> <a class="nowrap" href="#step-3">Start from step 3</a>.</span>
-        </p>
-        <ol class="path-steps">
-          <li class="pstep">
-            <span class="node" aria-hidden="true">1</span>
-            <h3><span class="visually-hidden">Step 1: </span>Install OBS and a virtual cable</h3>
-            <p>Windows 64-bit, OBS Studio <span class="mono">32.2.x</span> and a cable such as <span class="nowrap">VB-Cable</span>.</p>
-            <ul class="pstep-links">
-              <li><a href="https://obsproject.com/download">OBS Studio<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
-              <li><a href="https://vb-audio.com/Cable/">VB-Cable<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
-            </ul>
-          </li>
-          <li class="pstep">
-            <span class="node" aria-hidden="true">2</span>
-            <h3><span class="visually-hidden">Step 2: </span>Tune <span class="nowrap">your mic</span> in OBS</h3>
-            <p>Add filters to your mic, then close OBS. knobs reads them from OBS’s settings.</p>
-          </li>
-          <li class="pstep pstep-station" id="step-3">
-            <span class="node" aria-hidden="true">3</span>
-            <h3><span class="visually-hidden">Step 3: </span>Get knobs running</h3>
+      <div class="about">
+        <h3 class="about-title">About these downloads</h3>
 
-            <div class="rstack" data-release="stack">
-              <div class="rs is-active" data-when="static">
-                <p class="rs-head">From GitHub Releases</p>
-                <p class="rs-body">
-                  <span class="if-js">Checking GitHub for the latest release…</span>
-                  <span class="if-nojs">Releases, their files and checksums are on GitHub.</span>
-                </p>
-                <p class="os-note">knobs is for a <span class="nowrap">Windows 64-bit PC.</span> It doesn’t run on phones or macOS.</p>
-                <div class="actions">
-                  <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">
-                    <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
-                  </a>
-                </div>
-                <!-- The build steps, opened in place under the state's buttons.
-                     Without JavaScript they stay in this state; page.js moves
-                     them under the buttons of whichever state offers them. The
-                     #build target sits inside them, so a link to #build opens
-                     them even without JavaScript. -->
-                <details class="build">
-                  <summary class="btn btn-secondary btn-build">
-                    <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
-                    <span class="btn-build-text"><span>Build from source</span> <span class="btn-build-cost">(Visual Studio 2022 and CMake)</span></span>
-                  </summary>
-                  <div class="build-body" id="build">
-                    <p>You need Visual Studio 2022 or newer with the <b class="ui">Desktop development with C++</b> workload, and CMake 3.25 or newer. From a Developer PowerShell for VS:</p>
-                    <!-- One span per command. Each wraps only between its words and
-                         after the URL's slashes, never inside an option, and runs on
-                         under a hanging indent, so a wrapped line reads as one command.
-                         The copied text is the four plain lines. -->
-                    <div class="code">
-                      <pre id="build-cmds"><code><span class="cmd"><span class="nowrap">git clone</span> <span class="nowrap">https://github.com/</span><wbr><span class="nowrap">danielalyoshin/</span><wbr><span class="nowrap">knobs.git</span></span>
+        <div class="about-block">
+          <h4>System requirements</h4>
+          <dl class="reqs">
+            <div><dt>Windows</dt><dd>10 <span class="keep">(version 1803 or later)</span> or 11, <span class="nowrap">64-bit.</span></dd></div>
+            <div><dt>OBS Studio</dt><dd>32.2 to 33, tested on 32.2.2 and <span class="nowrap">33.0.0-rc1.</span></dd></div>
+            <div><dt>Virtual cable</dt><dd>Such as <a class="nowrap" href="https://vb-audio.com/Cable/">VB-Cable<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a>, which the installer can install.</dd></div>
+          </dl>
+          <!-- Only for visitors not on Windows: for everyone else the
+               requirements above already say it. -->
+          <p class="about-note">knobs is for a <span class="nowrap">Windows 64-bit PC.</span> It doesn’t run on phones, macOS or Linux.</p>
+        </div>
+
+        <div class="about-block">
+          <h4>Older versions</h4>
+          <p><a href="https://github.com/danielalyoshin/knobs/releases">All releases on <span class="nowrap">GitHub<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a></p>
+        </div>
+
+        <!-- Works without JavaScript, and the #build target sits inside it,
+             so a link to #build opens it too. -->
+        <details class="build">
+          <summary>
+            <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+            <span class="build-label">Build from source <span class="build-cost keep">(Visual Studio 2022 and CMake)</span></span>
+          </summary>
+          <div class="build-body" id="build">
+            <p>You need Visual Studio 2022 or newer with the <b class="ui">Desktop development with C++</b> workload, and CMake 3.25 or newer. From a Developer PowerShell for VS:</p>
+            <!-- One span per command. Each wraps only between its words and
+                 after the URL's slashes, never inside an option or between
+                 an option and its value (a pair, which only very large text
+                 in a narrow column parts), and runs on under a hanging
+                 indent, so a wrapped line reads as one command. The copied
+                 text is the four plain lines. -->
+            <div class="code">
+              <pre id="build-cmds"><code><span class="cmd"><span class="nowrap">git clone</span> <span class="nowrap">https://</span><wbr class="wbr-tight"><span class="nowrap">github.com/</span><wbr><span class="nowrap">danielalyoshin/</span><wbr><span class="nowrap">knobs.git</span></span>
 <span class="cmd">cd knobs</span>
-<span class="cmd">cmake <span class="nowrap">--preset x64</span></span>
-<span class="cmd">cmake <span class="nowrap">--build</span> <span class="nowrap">--preset release</span></span></code></pre>
-                      <button class="copy" type="button" data-copy-from="#build-cmds" aria-label="Copy the build commands">
-                        <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
-                      </button>
-                    </div>
-                    <p>Then run <code class="exe-path">build\<wbr>x64\<wbr>Release\<wbr>knobs.exe</code>. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#building">The README<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a> has the full instructions and the tests.</p>
-                  </div>
-                </details>
-              </div>
-
-              <div class="rs" data-when="ready" inert>
-                <div class="rs-main">
-                  <a class="btn btn-primary btn-download" data-hero="link" href="https://github.com/danielalyoshin/knobs/releases/latest">
-                    <svg class="icon" aria-hidden="true"><use data-hero="icon" href="#i-download"/></svg>
-                    <span class="btn-download-text">
-                      <span class="btn-download-label" data-hero="label">Download knobs</span>
-                      <span class="btn-download-sub" data-hero="sub">Installer for Windows x64</span>
-                    </span>
-                  </a>
-                  <!-- For visitors not on Windows, before the click. renderHero names the file. -->
-                  <p class="os-note"><span data-hero="os-file">This is the installer</span> for a <span class="nowrap">Windows 64-bit PC.</span> <span data-hero="os-who">knobs doesn’t</span> run on phones or macOS.</p>
-                  <p class="dest">
-                    <svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>
-                    <span><span class="dest-from">From </span><span class="mono">github.com/<wbr>danielalyoshin/<wbr>knobs</span></span>
-                  </p>
-                  <!-- What an OBS user skipping steps 1 and 2 still needs to know. -->
-                  <p class="rs-fit">Needs OBS <span class="mono">32.2.x</span>. knobs runs OBS’s <span class="nowrap">built-in</span> audio filters, not VST filters or NVIDIA noise removal. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#known-limits">Known limits<span class="visually-hidden"> in the README</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
-                  <!-- The release itself, under a hairline. renderHero adds
-                       the date, so the page never ships an empty one. -->
-                  <div class="rs-foot">
-                    <p class="rs-meta">
-                      <span class="tag" data-hero="pre" hidden>Pre-release</span>
-                      <span class="sep" aria-hidden="true">·</span>
-                      <a data-hero="notes" href="https://github.com/danielalyoshin/knobs/releases/latest">Release notes<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
-                    </p>
-                    <p class="rs-links">
-                      <a data-hero="portable" href="https://github.com/danielalyoshin/knobs/releases/latest" hidden><span data-hero="portable-label">Portable zip</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-download"/></svg></a>
-                      <button class="rs-toggle" type="button" aria-expanded="false" aria-controls="files">Checksums<svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chevron"/></svg></button>
-                      <a href="https://github.com/danielalyoshin/knobs/releases">All releases<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a>
-                    </p>
-                  </div>
-                </div>
-                <!-- Every file in the release, with its SHA-256 and the PowerShell
-                     check. "Checksums" opens it in place, and so does a link to #files. -->
-                <ul class="files" id="files" data-r="files" aria-label="Files in this release" hidden></ul>
-              </div>
-
-              <div class="rs" data-when="error" inert>
-                <p class="rs-head" data-error="head">Couldn’t check for a release</p>
-                <p class="rs-body"><span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files.</span></p>
-                <p class="os-note"><span data-error="os-what">The files there are</span> for a <span class="nowrap">Windows 64-bit PC.</span> <span data-error="os-who">knobs doesn’t</span> run on phones or macOS.</p>
-                <div class="actions">
-                  <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">
-                    <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
-                  </a>
-                  <button class="btn btn-secondary" type="button" data-retry>Try again</button>
-                </div>
-              </div>
+<span class="cmd">cmake <span class="nowrap pair"><span class="nowrap">--preset</span> x64</span></span>
+<span class="cmd">cmake <span class="nowrap">--build</span> <span class="nowrap pair"><span class="nowrap">--preset</span> release</span></span></code></pre>
+              <button class="copy" type="button" data-copy-from="#build-cmds" aria-label="Copy the build commands">
+                <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
+              </button>
             </div>
-          </li>
-          <li class="pstep">
-            <span class="node" aria-hidden="true">4</span>
-            <h3><span class="visually-hidden">Step 4: </span>Choose the cable in your apps</h3>
-            <p>In your other apps, choose the cable as your mic. For <span class="nowrap">VB-Cable</span>, that’s <b class="ui">CABLE&nbsp;Output</b>.</p>
-            <ul class="pstep-links">
-              <!-- The label is one span, so on touch, where the link is a
-                   flex box, it stays one run of text that wraps as a sentence. -->
-              <li><a href="https://github.com/danielalyoshin/knobs#4-choose-the-cable-in-your-apps"><span>Turn off the app’s own <span class="nowrap">processing<span class="visually-hidden">, in the README</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></span></span></a></li>
-            </ul>
-          </li>
-        </ol>
-      </div>
-    </div>
-
-    <!-- The page's one decoration: a drawn clip along the seam under this
-         band, the way an audio editor draws speech zoomed out. Every other
-         pixel column is a hairline from the lowest to the highest point in
-         it (the peak), with the louder core over it (the RMS); the zero
-         line is the next section's rule. One 2880px tile that starts and
-         ends in a pause, drawn three times so it covers a 5120px window
-         plus one tile. Generated by a seeded script, not recorded. -->
-    <div class="wave" aria-hidden="true">
-      <div class="wave-band">
-        <svg class="wave-track" width="8640" height="48" viewBox="0 -24 8640 48" focusable="false">
-          <g>
-            <g id="wave-tile">
-              <path class="wave-peak" d="M46.5 -4.5v8m2-14v19m2-18v20m2-22v24m2-26v26m2-25v27m2-26v22m2-21v26m2-31v31m2-27v24m2-27v31m2-29v27m2-28v30m2-33v31m2-29v31m2-32v33m2-32v26m2-25v27m2-23v23m2-23v20m2-21v22m2-21v19m2-16v14m2-13v12m2-15v17m2-16v16m2-15v13m2-11v10m2-11v11m2-11v10m2-9v9m2-7v6m2-7v6m2-5v5m2-4v3m2-3v3m14-4v5m2-10v14m2-15v17m2-18v20m2-22v24m2-23v19m2-22v28m2-26v22m2-22v23m2-23v25m2-27v26m2-27v26m2-22v23m2-21v18m2-18v19m2-20v19m2-16v12m2-11v10m2-11v13m2-12v11m2-10v9m2-9v9m2-8v7m2-6v5m2-5v4m2-3v3m2-2v2m4-3v3m2-5v9m2-13v15m2-16v16m2-19v20m2-19v20m2-19v20m2-19v21m2-25v26m2-27v25m2-26v27m2-25v23m2-24v27m2-24v24m2-27v25m2-26v26m2-24v25m2-25v21m2-20v24m2-24v20m2-17v16m2-16v18m2-18v14m2-13v14m2-14v13m2-12v13m2-11v10m2-10v9m2-8v7m2-7v7m2-6v5m2-5v5m2-5v5m2-4v3m2-3v3m10-7v10m2-13v17m2-17v17m2-18v19m2-23v23m2-18v21m2-23v20m2-21v20m2-19v18m2-17v19m2-22v24m2-23v25m2-24v23m2-22v20m2-18v15m2-14v14m2-13v10m2-9v9m2-7v5m2-5v5m2-4v4m2-5v4m2-12v20m2-19v17m2-17v18m2-16v15m2-17v18m2-17v18m2-17v18m2-21v19m2-16v16m2-20v23m2-23v20m2-21v25m2-25v22m2-22v23m2-23v25m2-24v23m2-21v18m2-17v14m2-13v13m2-10v11m2-12v10m2-9v9m2-8v7m2-7v7m2-5v4m2-5v5m2-4v3m2-3v3m2-3v3m2-4v4m2-3v6m2-8v8m2-10v10m2-7v8m2-10v8m2-8v10m2-12v12m2-11v10m2-7v5m2-5v6m2-9v8m2-5v6m2-6v4m2-4v6m2-5v3m20-5v8m2-15v20m2-21v25m2-29v31m2-31v28m2-23v26m2-26v24m2-25v25m2-22v17m2-16v16m2-13v11m2-10v8m2-7v5m10-6v7m2-14v17m2-15v16m2-14v15m2-15v14m2-15v17m2-18v15m2-15v15m2-14v15m2-13v12m2-12v13m2-13v12m2-14v14m2-13v15m2-17v15m2-16v19m2-18v17m2-18v20m2-22v22m2-20v19m2-20v20m2-19v18m2-17v17m2-14v11m2-10v10m2-9v8m2-8v6m2-5v5m2-4v4m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m8-3v4m2-6v6m2-7v7m2-7v7m2-8v8m2-7v7m2-5v9m2-12v9m2-9v10m2-8v8m2-8v8m2-7v8m2-10v7m2-7v9m2-7v5m2-5v4m20-6v8m2-13v16m2-17v19m2-19v22m2-21v18m2-21v22m2-21v21m2-18v21m2-21v18m2-23v24m2-23v27m2-28v28m2-27v24m2-28v30m2-29v32m2-29v25m2-22v20m2-21v21m2-21v20m2-16v13m2-12v11m2-10v10m2-10v8m2-6v6m2-6v5m2-4v3m2-3v3m2-3v2m10-2v3m2-9v16m2-17v20m2-20v18m2-18v18m2-20v22m2-20v18m2-19v19m2-19v19m2-17v16m2-16v14m2-15v16m2-16v15m2-15v17m2-15v14m2-16v16m2-16v17m2-18v21m2-23v20m2-20v24m2-23v22m2-21v20m2-23v24m2-20v20m2-21v18m2-15v14m2-15v15m2-14v14m2-13v11m2-11v9m2-8v9m2-9v9m2-8v7m2-7v6m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-2v2m20-5v6m2-8v11m2-14v16m2-16v16m2-16v18m2-21v21m2-21v21m2-21v24m2-26v26m2-25v27m2-28v26m2-25v22m2-20v21m2-22v23m2-23v22m2-23v23m2-21v22m2-21v21m2-22v20m2-20v21m2-22v20m2-16v17m2-18v18m2-19v21m2-20v17m2-19v20m2-20v21m2-19v18m2-17v17m2-19v18m2-16v13m2-11v11m2-11v11m2-11v11m2-11v11m2-10v9m2-8v7m2-7v7m2-7v7m2-7v7m2-6v6m2-6v6m2-6v5m2-5v5m2-5v4m2-3v3m2-2v2m144-6v9m2-14v18m2-21v22m2-23v25m2-22v24m2-26v25m2-27v30m2-35v36m2-35v37m2-34v36m2-37v34m2-30v29m2-28v26m2-26v26m2-24v20m2-22v21m2-20v21m2-20v18m2-18v16m2-15v15m2-13v13m2-12v11m2-11v9m2-7v7m2-6v6m2-5v3m2-3v3m4-4v5m2-9v15m2-13v10m2-12v14m2-16v16m2-18v21m2-22v21m2-22v25m2-26v24m2-20v19m2-22v24m2-22v21m2-20v21m2-23v19m2-15v18m2-18v16m2-17v17m2-18v18m2-17v15m2-13v15m2-15v13m2-14v14m2-14v14m2-14v15m2-14v14m2-13v12m2-12v11m2-10v10m2-11v10m2-9v9m2-8v7m2-6v6m2-6v5m2-5v4m2-3v3m2-3v3m104-4v4m2-6v8m2-10v12m2-12v13m2-14v14m2-15v14m2-15v17m2-15v14m2-17v20m2-20v19m2-16v17m2-17v17m2-18v19m2-19v21m2-25v24m2-21v18m2-22v26m2-26v23m2-20v23m2-25v25m2-26v23m2-22v24m2-21v22m2-21v18m2-20v19m2-16v15m2-16v18m2-17v14m2-16v17m2-16v16m2-16v16m2-15v15m2-13v13m2-16v16m2-15v16m2-17v16m2-13v12m2-13v14m2-14v12m2-11v11m2-11v10m2-8v8m2-9v9m2-9v8m2-6v5m2-5v6m2-6v5m2-5v5m2-5v5m2-4v3m2-4v4m2-3v3m2-3v3m2-3v3m2-3v3m18-4v5m2-9v12m2-15v18m2-19v21m2-19v20m2-24v24m2-20v18m2-20v23m2-25v24m2-20v21m2-23v25m2-27v23m2-20v25m2-27v27m2-29v27m2-27v29m2-26v22m2-22v25m2-29v29m2-25v23m2-24v22m2-19v16m2-16v19m2-19v18m2-16v14m2-15v16m2-15v13m2-14v15m2-12v12m2-13v11m2-11v12m2-12v10m2-9v10m2-9v8m2-8v7m2-7v6m2-5v5m2-4v3m2-3v3m2-3v3m4-4v6m2-9v11m2-13v16m2-18v19m2-20v21m2-19v18m2-20v22m2-22v22m2-21v17m2-16v15m2-15v18m2-17v17m2-17v18m2-17v17m2-21v21m2-19v19m2-22v22m2-20v20m2-20v18m2-19v20m2-16v16m2-18v15m2-14v16m2-15v13m2-13v13m2-12v12m2-13v13m2-12v12m2-13v11m2-10v10m2-9v8m2-7v6m2-5v6m2-6v5m2-4v4m2-4v3m2-3v3m2-3v3m2-2v2m2-3v3m2-8v12m2-13v16m2-18v17m2-17v18m2-17v18m2-16v16m2-16v14m2-16v17m2-16v15m2-12v12m2-13v11m2-10v8m2-7v7m2-5v4m2-4v3m2-3v3m2-5v7m2-8v9m2-10v13m2-13v12m2-15v17m2-18v19m2-16v14m2-16v18m2-18v17m2-15v14m2-14v12m2-13v14m2-14v15m2-15v16m2-17v16m2-15v16m2-18v19m2-19v18m2-18v19m2-17v17m2-19v19m2-17v16m2-17v16m2-13v12m2-12v11m2-11v11m2-10v10m2-10v9m2-8v7m2-7v7m2-6v6m2-7v6m2-5v5m2-4v4m2-4v3m2-3v3m2-3v3m2-2v2m8-4v4m2-4v5m2-5v6m2-8v7m2-5v6m2-7v8m2-7v7m2-9v7m2-6v5m2-3v5m2-5v3m124-5v9m2-12v13m2-16v16m2-17v20m2-19v20m2-23v25m2-28v33m2-32v33m2-37v35m2-35v35m2-28v29m2-35v32m2-28v29m2-25v23m2-25v22m2-23v27m2-30v30m2-29v29m2-29v30m2-31v27m2-23v26m2-27v23m2-22v23m2-21v20m2-18v17m2-17v16m2-16v14m2-13v13m2-12v12m2-13v11m2-10v10m2-10v11m2-11v10m2-9v8m2-7v7m2-6v6m2-6v5m2-4v3m2-3v3m12-4v4m2-7v12m2-14v13m2-16v20m2-19v19m2-20v20m2-21v24m2-22v22m2-26v24m2-25v28m2-26v23m2-23v25m2-27v30m2-27v26m2-26v23m2-25v25m2-25v26m2-26v24m2-22v25m2-24v22m2-21v19m2-20v21m2-20v16m2-15v15m2-15v17m2-14v12m2-14v13m2-12v12m2-12v13m2-12v12m2-11v10m2-10v9m2-8v7m2-6v6m2-6v6m2-6v5m2-5v4m2-3v3m2-2v2m14-5v8m2-11v14m2-16v15m2-17v20m2-22v25m2-23v23m2-23v22m2-21v21m2-23v22m2-23v22m2-21v21m2-21v23m2-19v16m2-18v18m2-17v19m2-19v16m2-14v16m2-17v17m2-18v16m2-15v16m2-16v14m2-12v11m2-11v10m2-9v9m2-8v8m2-8v7m2-6v5m2-5v4m2-3v3m2-3v2m10-3v5m2-10v18m2-18v15m2-16v18m2-20v23m2-26v26m2-22v20m2-25v28m2-26v24m2-23v22m2-20v21m2-21v21m2-24v25m2-23v19m2-19v21m2-20v18m2-18v19m2-16v14m2-14v13m2-12v13m2-14v13m2-12v11m2-11v9m2-9v11m2-10v8m2-8v8m2-7v6m2-5v5m2-4v3m2-2v2m14-7v13m2-19v21m2-21v22m2-24v24m2-21v20m2-18v18m2-22v24m2-23v22m2-20v20m2-21v20m2-18v18m2-16v12m2-11v11m2-12v13m2-13v12m2-9v8m2-8v7m2-6v5m2-4v3m142-4v5m2-12v23m2-27v25m2-27v30m2-31v33m2-31v29m2-30v27m2-24v27m2-31v29m2-27v31m2-33v29m2-26v26m2-26v29m2-30v28m2-25v20m2-19v20m2-16v15m2-16v14m2-12v10m2-8v8m2-7v5m2-5v5m2-5v4m2-3v3m4-5v8m2-15v21m2-16v11m2-14v16m2-19v19m2-19v22m2-21v23m2-23v21m2-22v21m2-23v25m2-22v24m2-23v19m2-19v20m2-20v19m2-21v23m2-23v22m2-21v21m2-20v18m2-18v19m2-17v16m2-17v15m2-15v16m2-13v12m2-11v10m2-11v10m2-10v11m2-9v9m2-10v9m2-8v6m2-6v7m2-6v6m2-6v5m2-4v3m2-3v3m2-2v2m4-7v10m2-12v16m2-15v13m2-13v12m2-14v16m2-17v19m2-18v19m2-21v22m2-21v21m2-23v20m2-17v19m2-20v19m2-19v21m2-20v17m2-17v15m2-14v17m2-17v16m2-16v14m2-14v15m2-14v15m2-16v14m2-13v14m2-14v13m2-12v11m2-11v13m2-14v12m2-11v12m2-12v11m2-11v10m2-8v8m2-8v7m2-7v7m2-6v6m2-6v5m2-4v4m2-4v3m2-3v3m2-2v2m106-4v6m2-11v16m2-20v23m2-21v22m2-25v24m2-25v27m2-26v23m2-21v23m2-23v23m2-28v27m2-24v25m2-26v27m2-23v23m2-26v22m2-21v19m2-17v19m2-16v12m2-11v12m2-10v8m2-7v5m2-5v4m2-3v3m2-3v2m12-5v9m2-12v16m2-15v15m2-18v19m2-18v17m2-18v16m2-16v20m2-18v18m2-18v17m2-21v22m2-22v23m2-20v17m2-18v19m2-17v16m2-19v21m2-21v21m2-19v19m2-19v16m2-15v17m2-16v15m2-15v12m2-11v10m2-9v8m2-6v6m2-6v5m2-5v5m2-5v4m2-3v3m2-3v3m2-3v2m12-7v12m2-13v18m2-22v24m2-21v21m2-23v20m2-21v20m2-18v19m2-18v17m2-18v18m2-17v16m2-15v14m2-11v11m2-11v9m2-9v9m2-8v6m2-4v3m2-3v3m6-8v13m2-14v15m2-15v13m2-13v16m2-16v14m2-16v18m2-17v16m2-16v17m2-16v15m2-17v18m2-19v19m2-19v20m2-17v18m2-20v17m2-16v16m2-17v19m2-19v17m2-15v17m2-16v15m2-15v14m2-13v12m2-13v11m2-10v11m2-9v7m2-7v7m2-7v6m2-5v5m2-4v4m2-5v5m2-4v3m2-3v3m2-2v2m8-4v5m2-8v10m2-14v19m2-18v18m2-21v21m2-23v28m2-27v26m2-28v26m2-26v26m2-25v26m2-26v27m2-27v24m2-19v19m2-20v19m2-17v17m2-16v13m2-12v11m2-11v9m2-7v7m2-6v5m2-5v5m2-4v4m2-4v3m2-3v4m2-5v5m2-6v6m2-5v5m2-5v5m2-8v8m2-6v5m2-4v6m2-6v6m2-6v5m2-7v9m2-10v9m2-8v8m2-6v7m2-7v5m2-6v7m2-6v6m2-7v8m2-7v6m2-5v5m2-6v4m2-3v4"/>
-              <path class="wave-core" d="M46.5 -2.5v5m2-8v11m2-10v9m2-10v11m2-12v13m2-13v13m2-13v13m2-13v13m2-13v13m2-14v15m2-14v13m2-14v15m2-15v15m2-15v15m2-15v15m2-15v15m2-15v15m2-14v13m2-12v11m2-11v11m2-10v9m2-9v9m2-8v7m2-8v9m2-8v7m2-7v7m2-7v7m2-7v7m2-6v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m16-3v3m2-5v7m2-8v9m2-9v9m2-10v11m2-11v11m2-12v13m2-13v13m2-13v13m2-14v15m2-14v13m2-13v13m2-12v11m2-11v11m2-10v9m2-9v9m2-8v7m2-7v7m2-7v7m2-6v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m6-3v3m2-4v5m2-6v7m2-8v9m2-9v9m2-10v11m2-11v11m2-11v11m2-11v11m2-12v13m2-13v13m2-13v13m2-13v13m2-13v13m2-13v13m2-13v13m2-13v13m2-12v11m2-11v11m2-10v9m2-9v9m2-9v9m2-8v7m2-7v7m2-6v5m2-5v5m2-5v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m12-4v5m2-7v9m2-10v11m2-11v11m2-11v11m2-11v11m2-10v9m2-9v9m2-9v9m2-10v11m2-11v11m2-11v11m2-11v11m2-11v11m2-10v9m2-8v7m2-6v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-7v11m2-10v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-10v11m2-11v11m2-11v11m2-11v11m2-11v11m2-11v11m2-10v9m2-9v9m2-8v7m2-7v7m2-6v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m6-3v3m2-3v3m2-3v3m2-3v3m2-4v5m2-5v5m2-5v5m2-4v3m2-4v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m20-4v5m2-7v9m2-11v13m2-13v13m2-14v15m2-14v13m2-12v11m2-11v11m2-10v9m2-8v7m2-6v5m2-4v3m2-3v3m10-3v3m2-6v9m2-8v7m2-8v9m2-9v9m2-8v7m2-8v9m2-8v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-8v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-8v7m2-7v7m2-6v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m14-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-4v5m2-5v5m2-5v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m20-4v5m2-7v9m2-10v11m2-11v11m2-11v11m2-11v11m2-11v11m2-11v11m2-11v11m2-11v11m2-12v13m2-13v13m2-13v13m2-14v15m2-15v15m2-14v13m2-13v13m2-12v11m2-10v9m2-9v9m2-8v7m2-6v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m12-3v3m2-5v7m2-8v9m2-9v9m2-10v11m2-11v11m2-10v9m2-9v9m2-9v9m2-8v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-8v9m2-9v9m2-10v11m2-11v11m2-11v11m2-11v11m2-11v11m2-11v11m2-10v9m2-9v9m2-8v7m2-7v7m2-7v7m2-7v7m2-6v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m24-3v3m2-5v7m2-7v7m2-7v7m2-8v9m2-9v9m2-10v11m2-11v11m2-12v13m2-12v11m2-12v13m2-13v13m2-12v11m2-11v11m2-11v11m2-11v11m2-11v11m2-11v11m2-11v11m2-10v9m2-10v11m2-10v9m2-9v9m2-10v11m2-10v9m2-9v9m2-9v9m2-9v9m2-9v9m2-8v7m2-7v7m2-7v7m2-7v7m2-6v5m2-5v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m146-4v5m2-7v9m2-10v11m2-11v11m2-12v13m2-14v15m2-16v17m2-17v17m2-18v19m2-17v15m2-15v15m2-15v15m2-14v13m2-13v13m2-12v11m2-11v11m2-10v9m2-9v9m2-9v9m2-8v7m2-7v7m2-6v5m2-5v5m2-5v5m2-4v3m2-3v3m6-3v3m2-5v7m2-7v7m2-7v7m2-8v9m2-9v9m2-10v11m2-11v11m2-11v11m2-12v13m2-12v11m2-11v11m2-11v11m2-10v9m2-10v11m2-10v9m2-9v9m2-8v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-6v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m106-3v3m2-4v5m2-5v5m2-6v7m2-7v7m2-7v7m2-8v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-10v11m2-11v11m2-11v11m2-11v11m2-12v13m2-12v11m2-12v13m2-13v13m2-12v11m2-11v11m2-11v11m2-11v11m2-10v9m2-9v9m2-9v9m2-8v7m2-8v9m2-8v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-6v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m22-3v3m2-4v5m2-6v7m2-8v9m2-9v9m2-10v11m2-11v11m2-11v11m2-11v11m2-11v11m2-11v11m2-11v11m2-12v13m2-14v15m2-14v13m2-14v15m2-14v13m2-13v13m2-13v13m2-12v11m2-10v9m2-9v9m2-9v9m2-9v9m2-8v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-6v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m6-3v3m2-4v5m2-6v7m2-8v9m2-10v11m2-10v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-10v11m2-11v11m2-11v11m2-10v9m2-10v11m2-10v9m2-9v9m2-9v9m2-8v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-6v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m8-5v7m2-7v7m2-8v9m2-9v9m2-9v9m2-9v9m2-8v7m2-7v7m2-7v7m2-7v7m2-6v5m2-5v5m2-4v3m2-3v3m4-3v3m2-4v5m2-5v5m2-6v7m2-7v7m2-8v9m2-9v9m2-9v9m2-9v9m2-9v9m2-8v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-8v9m2-9v9m2-9v9m2-9v9m2-9v9m2-8v7m2-7v7m2-7v7m2-7v7m2-7v7m2-6v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m10-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m124-4v5m2-6v7m2-8v9m2-10v11m2-12v13m2-13v13m2-14v15m2-15v15m2-15v15m2-15v15m2-15v15m2-15v15m2-14v13m2-13v13m2-13v13m2-13v13m2-13v13m2-13v13m2-13v13m2-13v13m2-13v13m2-13v13m2-12v11m2-10v9m2-9v9m2-8v7m2-7v7m2-7v7m2-6v5m2-5v5m2-6v7m2-6v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m14-3v3m2-4v5m2-6v7m2-8v9m2-9v9m2-9v9m2-10v11m2-11v11m2-11v11m2-11v11m2-12v13m2-13v13m2-13v13m2-13v13m2-13v13m2-13v13m2-13v13m2-13v13m2-12v11m2-11v11m2-10v9m2-9v9m2-8v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-6v5m2-5v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m18-4v5m2-6v7m2-8v9m2-9v9m2-10v11m2-11v11m2-11v11m2-11v11m2-11v11m2-10v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-8v7m2-7v7m2-6v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m12-3v3m2-6v9m2-8v7m2-8v9m2-10v11m2-11v11m2-12v13m2-13v13m2-12v11m2-11v11m2-11v11m2-11v11m2-10v9m2-10v11m2-11v11m2-10v9m2-9v9m2-9v9m2-8v7m2-7v7m2-6v5m2-5v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m16-5v7m2-8v9m2-10v11m2-11v11m2-11v11m2-11v11m2-11v11m2-11v11m2-10v9m2-9v9m2-9v9m2-8v7m2-7v7m2-6v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m142-3v3m2-7v11m2-11v11m2-12v13m2-13v13m2-13v13m2-13v13m2-14v15m2-15v15m2-15v15m2-14v13m2-14v15m2-14v13m2-13v13m2-12v11m2-10v9m2-8v7m2-7v7m2-6v5m2-5v5m2-5v5m2-4v3m2-3v3m6-4v5m2-7v9m2-8v7m2-7v7m2-8v9m2-10v11m2-11v11m2-11v11m2-12v13m2-12v11m2-11v11m2-11v11m2-11v11m2-10v9m2-10v11m2-10v9m2-9v9m2-9v9m2-9v9m2-9v9m2-8v7m2-7v7m2-7v7m2-6v5m2-5v5m2-5v5m2-5v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m8-4v5m2-6v7m2-7v7m2-7v7m2-7v7m2-8v9m2-9v9m2-10v11m2-11v11m2-11v11m2-11v11m2-11v11m2-10v9m2-9v9m2-9v9m2-9v9m2-9v9m2-8v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-7v7m2-6v5m2-5v5m2-5v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m110-3v3m2-6v9m2-10v11m2-11v11m2-11v11m2-11v11m2-11v11m2-11v11m2-11v11m2-12v13m2-13v13m2-13v13m2-13v13m2-13v13m2-11v9m2-9v9m2-8v7m2-6v5m2-5v5m2-4v3m2-3v3m2-3v3m14-4v5m2-7v9m2-8v7m2-8v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-8v7m2-6v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m16-5v7m2-8v9m2-10v11m2-11v11m2-11v11m2-11v11m2-10v9m2-9v9m2-8v7m2-7v7m2-7v7m2-7v7m2-6v5m2-5v5m2-4v3m2-3v3m8-5v7m2-7v7m2-7v7m2-7v7m2-7v7m2-8v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-9v9m2-8v7m2-8v9m2-8v7m2-7v7m2-6v5m2-5v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m12-3v3m2-5v7m2-8v9m2-9v9m2-10v11m2-11v11m2-11v11m2-12v13m2-12v11m2-11v11m2-11v11m2-11v11m2-10v9m2-9v9m2-9v9m2-8v7m2-6v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-4v5m2-5v5m2-5v5m2-4v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3m2-3v3"/>
-            </g>
-            <use href="#wave-tile" x="2880"/>
-            <use href="#wave-tile" x="5760"/>
-          </g>
-        </svg>
+            <p>Then run <code class="exe-path">build\<wbr>x64\<wbr>Release\<wbr>knobs.exe</code>. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#building">The README<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a> has the full instructions and the tests.</p>
+          </div>
+        </details>
+        <!-- Opened at #build, the steps open here, before the page first
+             shows, so nothing under them moves when they do. page.js opens
+             them for a link to #build followed later. -->
+        <script>if (location.hash === "#build") document.querySelector(".build").open = true;</script>
       </div>
     </div>
   </section>
 
-  <!-- Why and how -->
-  <section class="section how" id="how" aria-labelledby="how-title">
+  <!-- Set up in four steps: what a newcomer does, in order, with the
+       README's links. It follows the downloads on the same ground, so the
+       files stay right under the hero; step 3 points back up to them. -->
+  <section class="band band-deep setup" id="setup" aria-labelledby="setup-title">
     <div class="wrap">
       <div class="section-head">
-        <h2 id="how-title">How it works</h2>
-        <p class="more"><a href="https://github.com/danielalyoshin/knobs#how-it-works">More in the README<span class="visually-hidden"> on how it works</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></p>
+        <h2 class="title" id="setup-title">Set up in four steps</h2>
+      </div>
+      <!-- Each step's text and links are one block under its title, so
+           every step's text can start on the same line however many lines
+           the titles take (styles.css). -->
+      <ol class="steps">
+        <li class="step">
+          <span class="node" aria-hidden="true">1</span>
+          <h3><span class="visually-hidden">Step 1: </span>Install OBS Studio</h3>
+          <div class="step-body">
+            <p>OBS Studio <span class="nowrap">32.2 to 33.</span> You don’t need a virtual cable yet: knobs’s installer can install <span class="nowrap">VB-Cable</span> for you in <span class="nowrap">step 3.</span></p>
+            <ul class="step-links">
+              <li><a href="https://obsproject.com/download">OBS <span class="nowrap">Studio<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a></li>
+              <li><a class="nowrap" href="https://vb-audio.com/Cable/">VB-Cable<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="step">
+          <span class="node" aria-hidden="true">2</span>
+          <h3><span class="visually-hidden">Step 2: </span>Tune your mic in OBS</h3>
+          <div class="step-body">
+            <p>Add filters to your mic, then close OBS. knobs reads them from OBS’s settings. New to OBS? Go on to <span class="nowrap">step 3</span> and choose <b class="ui keep">I’m new to OBS</b> in knobs’s setup. It shows you how.</p>
+          </div>
+        </li>
+        <!-- id="step-3" keeps the live site's old links to the download
+             step working: they land here, one link from the files. -->
+        <li class="step step-get" id="step-3">
+          <span class="node" aria-hidden="true">3</span>
+          <h3><span class="visually-hidden">Step 3: </span>Get knobs running</h3>
+          <div class="step-body">
+            <p>Run the installer. knobs’s setup asks which mic and which cable to use, then knobs lives in the tray.</p>
+            <ul class="step-links">
+              <li><a href="#download">Download for Windows</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="step">
+          <span class="node" aria-hidden="true">4</span>
+          <h3><span class="visually-hidden">Step 4: </span>Choose the cable in your apps</h3>
+          <div class="step-body">
+            <p>In your other apps, choose the cable as your mic. For <span class="nowrap">VB-Cable</span>, that’s <b class="ui nowrap">CABLE Output</b>.</p>
+            <ul class="step-links">
+              <li><a href="https://github.com/danielalyoshin/knobs#4-choose-the-cable-in-your-apps">Turn off the app’s own <span class="nowrap">processing<span class="visually-hidden"> in the README</span><svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a></li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="band how" id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="title" id="how-title">How it works</h2>
+        <p class="more"><a href="https://github.com/danielalyoshin/knobs#how-it-works">More in the <span class="nowrap">README<span class="visually-hidden"> on how it works</span><svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a></p>
       </div>
 
       <!-- One wire through four stages, each marked by its icon on the
@@ -271,8 +433,10 @@
            knobs's panel hangs under its icon, with a caret pointing at it.
            The chain inside is the visitor's own, so it's drawn, not named:
            a row for each filter, in order, each with a setting at its own
-           value. page.js sends one signal through it the first time it
-           comes into view. -->
+           value. page.js sends one signal through it, once, as soon as the
+           whole drawing is in view: from the mic into knobs, where its
+           filters light in order, then out to the cable and the apps. With
+           reduced motion, nothing moves. -->
       <figure class="signal" aria-label="The signal path">
         <ol class="signal-path">
           <li class="sp">
@@ -297,34 +461,40 @@
           <li class="sp">
             <svg class="sp-icon" viewBox="-0.5 -0.5 21 21" aria-hidden="true"><path d="M7.75 2.25v3.5m4.5-3.5v3.5M5 5.75h10v2.5a5 5 0 0 1-10 0zm5 7.5v4.5"/></svg>
             <span class="sp-name">Virtual cable<span class="visually-hidden">: </span></span>
-            <span class="sp-note">Such as <a class="nowrap" href="https://vb-audio.com/Cable/">VB-Cable<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></span>
+            <span class="sp-note">Such as <a class="nowrap" href="https://vb-audio.com/Cable/">VB-Cable<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></span>
           </li>
           <li class="sp">
-            <svg class="sp-icon" viewBox="-0.5 -0.5 21 21" aria-hidden="true"><rect x="3" y="3" width="5.25" height="5.25" rx="1.25"/><rect x="11.75" y="3" width="5.25" height="5.25" rx="1.25"/><rect x="3" y="11.75" width="5.25" height="5.25" rx="1.25"/><rect x="11.75" y="11.75" width="5.25" height="5.25" rx="1.25"/></svg>
+            <svg class="sp-icon" viewBox="-0.5 -0.5 21 21" aria-hidden="true"><path d="M3 3h5.25v5.25H3zm8.75 0H17v5.25h-5.25zM3 11.75h5.25V17H3zm8.75 0H17V17h-5.25z"/></svg>
             <span class="sp-name">Your other apps<span class="visually-hidden">: </span></span>
-            <span class="sp-note">Set mic input to <b class="ui">CABLE&nbsp;Output</b></span>
+            <span class="sp-note">Set mic input to <b class="ui nowrap">CABLE Output</b></span>
           </li>
         </ol>
       </figure>
 
+      <!-- Three facts, in ruled columns. -->
       <dl class="facts">
         <div>
-          <dt>In the tray, from sign-in</dt>
+          <dt>In the tray, from <span class="nowrap">sign-in</span></dt>
           <dd>knobs starts with Windows and stays out of sight in the tray while it works. A notification says when something needs you.</dd>
         </div>
         <div>
           <dt>Read-only on OBS</dt>
           <dd>knobs never writes to OBS’s settings or its install. The install stays unlocked, so a running knobs never blocks an OBS update.</dd>
         </div>
+        <div>
+          <dt>No telemetry, no account</dt>
+          <dd>knobs collects nothing. It goes online only if you turn on its update check, which asks GitHub for the latest version once a day.</dd>
+        </div>
       </dl>
     </div>
   </section>
 
-  <!-- Measured against OBS -->
-  <section class="section measured" id="measured" aria-labelledby="measured-title">
+  <!-- Benchmarks against OBS: the header and the footer link here by the
+       same name, so a visitor knows where they've landed. -->
+  <section class="band band-deep measured" id="measured" aria-labelledby="measured-title">
     <div class="wrap">
       <div class="section-head">
-        <h2 id="measured-title">Measured against OBS</h2>
+        <h2 class="title" id="measured-title">Benchmarks against OBS</h2>
       </div>
 
       <!-- Each measurement is a row: the claim on the left, its evidence on
@@ -336,7 +506,7 @@
         <div class="measure">
           <div class="measure-text">
             <h3>Same sound</h3>
-            <p>For the same input, knobs’s output is <span class="nowrap">bit-identical</span> to OBS’s. <code>knobs-compare</code> checks this against OBS itself.</p>
+            <p>For the same input, knobs’s output is <span class="nowrap">bit-identical</span> to OBS’s: not one bit of the audio differs. <code>knobs-compare</code> checks this against OBS itself.</p>
           </div>
           <figure class="measure-fig">
             <table class="table match" role="table">
@@ -375,13 +545,17 @@
         <div class="measure">
           <div class="measure-text">
             <h3>A fraction of the footprint</h3>
-            <p>knobs running a four-filter chain (3-Band Equalizer, Expander, Compressor, Limiter), against OBS minimized on the same PC.</p>
+            <p>knobs running a <span class="nowrap">four-filter</span> chain (<span class="nowrap">3-Band</span> Equalizer, Expander, Compressor, Limiter), against OBS minimized on the same PC. Memory is the working set: the RAM each one is using.</p>
           </div>
           <figure class="measure-fig chart chart-footprint" data-sweep>
             <!-- The roles repeat the table's own, so it stays a table to
                  screen readers once CSS lays its rows out as bars. Each
                  measure has its own scale, from zero to OBS's value; a range
-                 draws its low end solid and the rest of it pale (--f2). -->
+                 draws its low end solid and the rest of it pale (--f2).
+                 GPU is said in words, not drawn: on its own scale, OBS's
+                 0.05% would be a full-length bar beside knobs's none. Who
+                 each value belongs to is written beside it for the eye only,
+                 since the column headers already say it. -->
             <table class="footprint" role="table">
               <caption class="visually-hidden">knobs running a four-filter chain, against OBS minimized</caption>
               <thead role="rowgroup">
@@ -390,12 +564,121 @@
               <tbody role="rowgroup">
                 <tr role="row"><th scope="row" role="rowheader">CPU, one core</th><td role="cell" class="is-knobs" style="--f: 0.1277">0.72%</td><td role="cell" style="--f: 1">5.64%</td></tr>
                 <tr role="row"><th scope="row" role="rowheader">Memory (working set)</th><td role="cell" class="is-knobs" style="--f: 0.0768">36 MB</td><td role="cell" style="--f: 1">469 MB</td></tr>
-                <tr role="row"><th scope="row" role="rowheader">Threads</th><td role="cell" class="is-knobs is-range" style="--f: 0.0714; --f2: 0.0918">7–9</td><td role="cell" class="is-range" style="--f: 0.9184; --f2: 1">90–98</td></tr>
-                <tr role="row"><th scope="row" role="rowheader">GPU</th><td role="cell" class="is-knobs" style="--f: 0">None</td><td role="cell" style="--f: 1">0.05%</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">Threads</th><td role="cell" class="is-knobs is-range" style="--f: 0.0714; --f2: 0.0918">7 to 9</td><td role="cell" class="is-range" style="--f: 0.9184; --f2: 1">90 to 98</td></tr>
+                <tr role="row" class="is-words"><th scope="row" role="rowheader">GPU</th><td role="cell" class="is-knobs">None<span class="who" aria-hidden="true"> for knobs</span></td><td role="cell">0.05%<span class="who" aria-hidden="true"> for OBS</span></td></tr>
               </tbody>
             </table>
-            <figcaption class="footnote">Each measure has its own scale, from zero. Measured on a PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and <span class="nowrap">VB-Cable</span>. <a href="https://github.com/danielalyoshin/knobs/blob/main/docs/design.md#on-real-hardware" class="nowrap">How it was measured<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></figcaption>
+            <figcaption class="footnote">Each measure has its own scale, from zero. Measured on a PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and <span class="nowrap">VB-Cable</span>. <a href="https://github.com/danielalyoshin/knobs/blob/main/docs/design.md#on-real-hardware" class="nowrap">How it was measured<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></figcaption>
           </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Questions, in three groups. Each group is a ruled row, its name on
+       the left and its questions on the right, laid out as the
+       benchmarks above it are. Every answer comes from the README. -->
+  <section class="band faq" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="title" id="faq-title">Questions</h2>
+      </div>
+      <div class="qa">
+        <div class="qa-group">
+          <h3>The sound</h3>
+          <div class="qa-items">
+            <div class="qa-item">
+              <h4>Does knobs change how my mic sounds?</h4>
+              <p>No. knobs runs OBS’s own filter code, from your OBS install, with your settings. For the same input, its output is <span class="nowrap">bit-identical</span> to OBS’s: not one bit of the audio differs.</p>
+            </div>
+            <div class="qa-item">
+              <h4>Which filters does it run?</h4>
+              <p>OBS’s <span class="nowrap">built-in</span> audio filters: Noise Suppression, Noise Gate, Expander, Upward Compressor, Compressor, Limiter, Gain, <span class="nowrap">3-Band</span> Equalizer and Invert Polarity. Not VST filters or NVIDIA noise removal.</p>
+            </div>
+          </div>
+        </div>
+        <div class="qa-group">
+          <h3>Setting up</h3>
+          <div class="qa-items">
+            <div class="qa-item">
+              <h4>Does OBS have to stay open?</h4>
+              <p>No. knobs runs your chain while OBS is closed. While OBS is open, knobs pauses, so the cable never gets your mic twice.</p>
+            </div>
+            <div class="qa-item">
+              <h4>Which virtual cable do I need?</h4>
+              <p><span class="nowrap">VB-Cable</span>, which knobs’s installer can install for you, or another cable: knobs recognizes <span class="nowrap">VB-Audio’s</span> cables and Virtual Audio Cable.</p>
+            </div>
+            <div class="qa-item">
+              <h4>What if something doesn’t work?</h4>
+              <p>Check <a href="https://github.com/danielalyoshin/knobs#known-limits">Known <span class="nowrap">limits<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a> in the README first. If your problem isn’t there, <a href="https://github.com/danielalyoshin/knobs/issues">open an issue on <span class="nowrap">GitHub<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a> and attach knobs’s log, from <b class="ui keep">Open log folder</b> in its tray menu. Look the log over first: it names your audio devices and folders on your PC.</p>
+            </div>
+          </div>
+        </div>
+        <div class="qa-group">
+          <h3>The project</h3>
+          <div class="qa-items">
+            <div class="qa-item">
+              <h4>Does knobs collect anything?</h4>
+              <p>No. knobs has no telemetry and no account. It goes online only if you turn on its update check, and your mic’s audio stays on your PC.</p>
+            </div>
+            <div class="qa-item">
+              <h4>Is knobs made by the OBS Project?</h4>
+              <p>No. knobs is an independent project. It isn’t affiliated with or endorsed by the OBS Project.</p>
+            </div>
+            <div class="qa-item">
+              <h4>Is knobs free?</h4>
+              <p>Yes. knobs is open source, under <span class="nowrap">GPL-2.0-or-later</span>, the same license as libobs, OBS’s core library.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Where the page ends, the hero's button once more, for a reader who
+       read this far: the same stack, state for state, and the same rule
+       for visitors not on Windows. One action, not a second list of files. -->
+  <section class="band band-deep get-end" aria-labelledby="get-end-title">
+    <div class="wrap">
+      <h2 class="get-end-title" id="get-end-title">Get knobs</h2>
+      <div class="get" data-release="end">
+        <p class="os-note">knobs is for a <span class="nowrap">Windows 64-bit PC.</span> It doesn’t run on phones, macOS or Linux.</p>
+        <div class="rs is-active" data-when="static">
+          <div class="rs-row">
+            <a class="btn btn-primary btn-hero" href="https://github.com/danielalyoshin/knobs/releases">
+              <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
+            </a>
+            <p class="rs-line">
+              <span class="if-js">Checking GitHub for the latest release…</span>
+              <span class="if-nojs">Releases, their files and checksums are on GitHub.</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="rs" data-when="ready" inert>
+          <div class="rs-row">
+            <a class="btn btn-primary btn-hero btn-download" data-get="link" href="https://github.com/danielalyoshin/knobs/releases/latest">
+              <svg class="icon" aria-hidden="true"><use data-get="icon" href="#i-download"/></svg>
+              <span class="btn-download-text">
+                <span class="btn-download-label" data-get="label">Download knobs</span>
+                <span class="btn-download-sub" data-get="sub">Installer for Windows x64</span>
+              </span>
+            </a>
+            <p class="rs-line dest">
+              <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>
+              <span><span class="tag" data-get="pre" hidden>Pre-release</span> From <span class="mono">github.com/<wbr>danielalyoshin/<wbr>knobs</span></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="rs" data-when="error" inert>
+          <div class="actions">
+            <a class="btn btn-primary btn-hero" href="https://github.com/danielalyoshin/knobs/releases">
+              <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
+            </a>
+            <button class="btn btn-secondary btn-hero" type="button" data-retry>Try again</button>
+          </div>
+          <p class="rs-line"><b class="rs-head" data-error="head">Couldn’t check for a release</b>. <span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files.</span></p>
         </div>
       </div>
     </div>
@@ -406,32 +689,37 @@
   <div class="wrap">
     <div class="footer-top">
       <div class="footer-id">
-        <img src="brand/knobs-lockup-horizontal-light.svg" alt="knobs" width="145" height="32" loading="lazy">
+        <!-- The footer is a band of cap red deep in both schemes, where only
+             the one-colour lockup may go: the white one, or the black one
+             in forced colours on a light canvas (styles.css). -->
+        <img class="lockup-white" src="brand/knobs-lockup-horizontal-white.svg" alt="knobs" width="193" height="44">
+        <img class="lockup-black" src="brand/knobs-lockup-horizontal-black.svg" alt="knobs" width="193" height="44" loading="lazy">
         <p>Your OBS mic chain, in every app.</p>
       </div>
       <nav class="footer-nav" aria-label="More links">
         <div>
           <h2 class="footer-h">On GitHub</h2>
           <ul>
-            <li><a href="https://github.com/danielalyoshin/knobs">Source code<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
-            <li><a href="https://github.com/danielalyoshin/knobs/releases">Releases<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
-            <li><a href="https://github.com/danielalyoshin/knobs/issues">Issues<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
-            <li><a href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">License<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
-            <li><a href="https://github.com/danielalyoshin/knobs-site">Source of this site<svg class="icon icon-sm" aria-hidden="true"><use href="#i-external"/></svg></a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs">Source <span class="nowrap">code<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs/releases">Releases<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs/issues">Issues<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">License<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs-site">Source of this <span class="nowrap">site<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a></li>
           </ul>
         </div>
         <div>
           <h2 class="footer-h">On this page</h2>
           <ul>
-            <li><a href="#step-3">Download</a></li>
+            <li><a href="#download">Download</a></li>
             <li><a href="#how">How it works</a></li>
             <li><a href="#measured">Benchmarks</a></li>
+            <li><a href="#faq">Questions</a></li>
           </ul>
         </div>
       </nav>
     </div>
     <div class="footer-legal">
-      <p>knobs is licensed under <a class="nowrap" href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">GPL-2.0-or-later</a>, the same as libobs. It ships no OBS binaries: it runs the OBS you installed.</p>
+      <p>knobs is licensed under <a class="nowrap" href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">GPL-2.0-or-later</a>, the same as libobs, OBS’s core library. It ships no OBS binaries: it runs the OBS you installed.</p>
       <p>knobs is an independent project. It isn’t affiliated with or endorsed by the OBS Project.</p>
     </div>
   </div>
@@ -439,30 +727,48 @@
 
 <p class="visually-hidden" id="release-status" role="status" aria-live="polite"></p>
 
-<!-- One file in the step 3 panel's list. The checksums file keeps only
-     its title and name; a file without a SHA-256 keeps only the command. -->
+<!-- One file's row in Download for Windows: its title (and "Recommended"),
+     what it is, its name and size, its Download and its
+     "Checksum (SHA-256)" disclosure. The checksums file keeps no disclosure,
+     and its Download is a quiet link; a file without a SHA-256 keeps only
+     the PowerShell line. The line looks in the Downloads folder: the words
+     before it say how to point it elsewhere, and the words after it what
+     its answer means and what to do about a False. -->
 <template id="tpl-file">
   <li class="file">
-    <p class="file-title"><span data-k="title"></span><span class="tag" data-k="tag" hidden>Recommended</span></p>
-    <p class="file-meta"><a class="mono" data-k="link" href="https://github.com/danielalyoshin/knobs/releases"><span class="visually-hidden">Download </span><span data-k="name"></span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-download"/></svg></a><span class="file-size" data-k="size-unit"><span class="sep" aria-hidden="true">·</span><span data-k="size"></span></span></p>
-    <div class="check" data-k="sha-item">
-      <div class="check-head">
-        <span>SHA-256</span>
-        <button class="copy" type="button" data-k="copy-sha">
-          <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
-        </button>
-      </div>
-      <code class="check-value"><span class="hash-value" data-k="sha"></span></code>
+    <div class="file-main">
+      <h3 class="file-title"><span data-k="title"></span> <span class="tag" data-k="tag" hidden>Recommended</span></h3>
+      <p class="file-desc" data-k="desc"></p>
+      <p class="file-meta"><span class="mono file-name" data-k="name"></span><span class="file-size" data-k="size-unit"><span class="sep" aria-hidden="true">·</span><span data-k="size"></span></span></p>
     </div>
-    <div class="check" data-k="cmd-item">
-      <div class="check-head">
-        <span data-k="cmd-help">Run this in PowerShell. It prints True if the file matches.</span>
-        <button class="copy" type="button" data-k="copy-cmd">
-          <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
-        </button>
+    <a class="btn file-dl" data-k="link" href="https://github.com/danielalyoshin/knobs/releases">
+      <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg><span>Download<span class="visually-hidden" data-k="link-name"></span></span>
+    </a>
+    <details class="file-check" data-k="check">
+      <summary>
+        <svg class="icon chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+        <span>Checksum <span class="nowrap">(SHA-256)</span><span class="visually-hidden" data-k="check-name"></span></span>
+      </summary>
+      <div class="check" data-k="sha-item">
+        <div class="check-head">
+          <span>SHA-256</span>
+          <button class="copy" type="button" data-k="copy-sha">
+            <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
+          </button>
+        </div>
+        <code class="check-value"><span class="hash-value" data-k="sha"></span></code>
       </div>
-      <code class="check-value" data-k="cmd"></code>
-    </div>
+      <div class="check" data-k="cmd-item">
+        <div class="check-head">
+          <span><span data-k="cmd-help">Run this in PowerShell.</span> It checks the file in your Downloads folder. If you saved it somewhere else, change the path.</span>
+          <button class="copy" type="button" data-k="copy-cmd">
+            <svg class="icon i-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="icon i-done" aria-hidden="true"><use href="#i-check"/></svg><span class="copy-label">Copy</span>
+          </button>
+        </div>
+        <code class="check-value" data-k="cmd"></code>
+        <p class="check-after" data-k="cmd-after"><span data-k="cmd-result">It prints True if the file matches. If it prints False,</span> don’t run the file. Download it again from GitHub, and if it still doesn’t match, <a href="https://github.com/danielalyoshin/knobs/issues">open an <span class="nowrap">issue<span class="visually-hidden"> on GitHub</span><svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a>.</p>
+      </div>
+    </details>
   </li>
 </template>
 </body>
