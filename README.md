@@ -17,7 +17,7 @@ Every download on it comes from the knobs repository’s GitHub Releases.
 
 [getknobs.app](https://getknobs.app/) · [knobs](https://github.com/danielalyoshin/knobs) · [Releases](https://github.com/danielalyoshin/knobs/releases) · [Brand](https://github.com/danielalyoshin/knobs-brand) · [Issues](https://github.com/danielalyoshin/knobs/issues)
 
-<sub>knobs is an independent project. It isn’t affiliated with or endorsed by the OBS Project.</sub>
+<sub>knobs is an independent project, not affiliated with the OBS Project.</sub>
 
 </div>
 
