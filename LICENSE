@@ -347,15 +347,14 @@ the GNU General Public License above, as published by the Free Software
 Foundation, either version 2 of the License, or (at your option) any
 later version.
 
-Not covered by this license:
+Not covered by this licence: knobs-brand/, a git submodule holding the
+knobs-brand repository, which has its own licences. The deploy copies
+two kinds of its files into site/, and they keep those licences there:
 
-- knobs-brand/: a git submodule, the knobs-brand repository, under its
-  own licences. The deploy copies two kinds of its files into site/:
-- site/fonts/: the Radio Canada and Source Code Pro fonts. They stay
-  under the SIL Open Font License 1.1, in site/fonts/OFL-Radio-Canada.txt
-  and site/fonts/OFL-Source-Code-Pro.txt.
+- site/fonts/: the Radio Canada and Source Code Pro fonts, under the
+  SIL Open Font License 1.1, in site/fonts/OFL-Radio-Canada.txt and
+  site/fonts/OFL-Source-Code-Pro.txt.
 - site/brand/: the knobs logo files (the horizontal lockups in four
   versions) and the favicon, touch icon and share card made from the
-  knobs logo.
-  They aren't under the GPL; see site/brand/LICENSE and the knobs
-  repository's TRADEMARKS.md.
+  knobs logo. They aren't under the GPL; see site/brand/LICENSE and the
+  knobs repository's TRADEMARKS.md.

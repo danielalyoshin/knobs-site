@@ -9,19 +9,20 @@
 
 **Your OBS mic chain, in every app.**
 
-The source of [getknobs.app](https://getknobs.app/), the download page for knobs.<br>
-One static page on GitHub Pages. Every download links to the knobs repository's GitHub Releases.
+The source of [getknobs.app](https://getknobs.app/), the download page for [knobs](https://github.com/danielalyoshin/knobs).<br>
+Every download on it comes from the knobs repository’s GitHub Releases.
 
-[getknobs.app](https://getknobs.app/) · [knobs](https://github.com/danielalyoshin/knobs) · [Releases](https://github.com/danielalyoshin/knobs/releases) · [Brand](https://github.com/danielalyoshin/knobs-brand) · [Product](PRODUCT.md) · [Design](DESIGN.md)
+[![Deploy](https://img.shields.io/github/actions/workflow/status/danielalyoshin/knobs-site/pages.yml?branch=main&label=deploy&color=5c6169&labelColor=191b1d)](https://github.com/danielalyoshin/knobs-site/actions/workflows/pages.yml)
+[![Licence: GPL-2.0-or-later](https://img.shields.io/badge/licence-GPL--2.0--or--later-5c6169?labelColor=191b1d)](LICENSE)
 
-<sub>An independent project. Not affiliated with or endorsed by the OBS Project.</sub>
+[getknobs.app](https://getknobs.app/) · [knobs](https://github.com/danielalyoshin/knobs) · [Releases](https://github.com/danielalyoshin/knobs/releases) · [Brand](https://github.com/danielalyoshin/knobs-brand) · [Issues](https://github.com/danielalyoshin/knobs/issues)
+
+<sub>knobs is an independent project. It isn’t affiliated with or endorsed by the OBS Project.</sub>
 
 </div>
 
-## Preview
+<br>
 
-The brand's files (tokens, fonts, logo) come from the [knobs-brand](https://github.com/danielalyoshin/knobs-brand) submodule. Clone with `--recurse-submodules` (or run `git submodule update --init`), run `sh scripts/copy-brand.sh`, and serve `site/`.
+## Licence
 
-## License
-
-[GPL-2.0-or-later](LICENSE), the same as knobs, except the files the deploy copies from the knobs-brand submodule: `site/fonts/` (Radio Canada and Source Code Pro, under the SIL Open Font License) and `site/brand/` (the knobs logo files, all rights reserved; see [site/brand/LICENSE](site/brand/LICENSE)).
+[GPL-2.0-or-later](LICENSE), the same as knobs, apart from the fonts and logo files the site takes from [knobs-brand](https://github.com/danielalyoshin/knobs-brand), which keep their own licences.
