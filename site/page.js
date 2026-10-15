@@ -293,7 +293,7 @@
       // The line prints a hash, not True or False: the checksums file holds
       // the one to compare it with.
       k("sha-item").remove();
-      k("cmd-help").textContent = "GitHub lists no SHA-256 for this file; the checksums file has it. Run this in PowerShell and compare the hash it prints.";
+      k("cmd-help").textContent = "GitHub lists no SHA-256 for this file, but the checksums file has it. Run this in PowerShell and compare the hash it prints with that one.";
       k("cmd-result").textContent = "If the two differ,";
     } else {
       // Nothing to compare with, so nothing to say about a mismatch.
@@ -337,18 +337,19 @@
   function renderError(reason) {
     var limited = reason === "rate-limited";
     var unlisted = reason === "unlisted";
-    setAll('[data-error="head"]', unlisted ? "Couldn’t find a release" : "Couldn’t check for a release");
-    setAll('[data-error="reason"]', limited
-      ? "GitHub limits how often this page can check, and the limit was reached. The releases page works now."
-      : unlisted ? "GitHub didn’t list one." : "GitHub couldn’t be reached.");
+    var head = unlisted ? "Couldn’t find a release" : "Couldn’t check for a release";
+    var why = limited
+      ? "GitHub limits how often this page can check, and that limit is used up for now. The releases page on GitHub still has every file."
+      : unlisted ? "GitHub didn’t list one." : "This page couldn’t reach GitHub.";
+    setAll('[data-error="head"]', head);
+    setAll('[data-error="reason"]', why);
     // The rate-limit message already points to the releases page, and asking
     // again can't work until the limit resets, so there's no "Try again".
     // With no release listed, the releases page may not have the files.
     $$('[data-error="after"]').forEach(function (n) { n.hidden = limited || unlisted; });
     $$("[data-retry]").forEach(function (b) { b.hidden = limited; });
-    return unlisted
-      ? "GitHub didn’t list a release. The releases page link still works."
-      : "Couldn’t check GitHub for a release. The releases page link still works.";
+    // Said aloud as it reads on the page.
+    return head + ". " + why + (limited || unlisted ? "" : " The releases page on GitHub has every file.");
   }
 
   function render(r) {

@@ -170,7 +170,7 @@
         <div class="get" data-release="hero">
           <!-- For visitors not on Windows, before any button: what knobs
                runs on. It reads the same in every state. -->
-          <p class="os-note">knobs is for a <span class="nowrap">Windows 64-bit PC.</span> It doesn’t run on phones, macOS or Linux.</p>
+          <p class="os-note">knobs is for a <span class="nowrap">64-bit Windows PC.</span> It doesn’t run on phones, macOS or Linux.</p>
           <div class="rs is-active" data-when="static">
             <div class="rs-row">
               <a class="btn btn-primary btn-hero" href="https://github.com/danielalyoshin/knobs/releases">
@@ -211,7 +211,7 @@
               </a>
               <button class="btn btn-secondary btn-hero" type="button" data-retry>Try again</button>
             </div>
-            <p class="rs-line"><b class="rs-head" data-error="head">Couldn’t check for a release</b>. <span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files.</span></p>
+            <p class="rs-line"><b class="rs-head" data-error="head">Couldn’t check for a release</b>. <span data-error="reason">This page couldn’t reach GitHub.</span> <span data-error="after">The releases page on GitHub has every file.</span></p>
           </div>
         </div>
 
@@ -298,7 +298,7 @@
         <div class="rs" data-when="error" inert>
           <div class="dl-note">
             <p class="dl-note-head" data-error="head">Couldn’t check for a release</p>
-            <p class="dl-note-text"><span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files.</span></p>
+            <p class="dl-note-text"><span data-error="reason">This page couldn’t reach GitHub.</span> <span data-error="after">The releases page on GitHub has every file.</span></p>
             <div class="actions">
               <a class="btn btn-primary" href="https://github.com/danielalyoshin/knobs/releases">
                 <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Releases on GitHub
@@ -321,7 +321,7 @@
           </dl>
           <!-- Only for visitors not on Windows: for everyone else the
                requirements above already say it. -->
-          <p class="about-note">knobs is for a <span class="nowrap">Windows 64-bit PC.</span> It doesn’t run on phones, macOS or Linux.</p>
+          <p class="about-note">knobs is for a <span class="nowrap">64-bit Windows PC.</span> It doesn’t run on phones, macOS or Linux.</p>
         </div>
 
         <div class="about-block">
@@ -380,7 +380,7 @@
           <span class="node" aria-hidden="true">1</span>
           <h3><span class="visually-hidden">Step 1: </span>Install OBS Studio</h3>
           <div class="step-body">
-            <p>OBS Studio <span class="nowrap">32.2 to 33.</span> You don’t need a virtual cable yet: knobs’s installer can install <span class="nowrap">VB-CABLE</span> for you in <span class="nowrap">step 3.</span></p>
+            <p>Any version from <span class="nowrap">32.2 to 33.</span> You don’t need a virtual cable yet: knobs’s installer can install <span class="nowrap">VB-CABLE</span> for you in <span class="nowrap">step 3.</span></p>
             <ul class="step-links">
               <li><a href="https://obsproject.com/download">OBS <span class="nowrap">Studio<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a></li>
               <li><a class="nowrap" href="https://vb-audio.com/Cable/">VB-CABLE<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></li>
@@ -391,7 +391,7 @@
           <span class="node" aria-hidden="true">2</span>
           <h3><span class="visually-hidden">Step 2: </span>Tune your mic in OBS</h3>
           <div class="step-body">
-            <p>Add filters to your mic, then close OBS. knobs reads them from OBS’s settings. New to OBS? Go on to <span class="nowrap">step 3</span> and choose <b class="ui keep">I’m new to OBS</b> in knobs’s setup. It shows you how.</p>
+            <p>Add filters to your mic, then close OBS. knobs reads them when OBS closes, so a mic you’ve already tuned is ready as it is. New to OBS? Go on to <span class="nowrap">step 3</span> and choose <b class="ui keep">I’m new to OBS</b> in knobs’s setup. It shows you how.</p>
           </div>
         </li>
         <!-- id="step-3" keeps the live site's old links to the download
@@ -412,7 +412,7 @@
           <div class="step-body">
             <p>In your other apps, choose the cable as your mic. For <span class="nowrap">VB-CABLE</span>, that’s <b class="ui nowrap">CABLE Output</b>.</p>
             <ul class="step-links">
-              <li><a href="https://github.com/danielalyoshin/knobs#4-choose-the-cable-in-your-apps">Turn off the app’s own <span class="nowrap">processing<span class="visually-hidden"> in the README</span><svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a></li>
+              <li><a href="https://github.com/danielalyoshin/knobs#4-choose-the-cable-in-your-apps">Turn off your apps’ own <span class="nowrap">processing<span class="visually-hidden"> in the README</span><svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a></li>
             </ul>
           </div>
         </li>
@@ -466,7 +466,7 @@
           <li class="sp">
             <svg class="sp-icon" viewBox="-0.5 -0.5 21 21" aria-hidden="true"><path d="M3 3h5.25v5.25H3zm8.75 0H17v5.25h-5.25zM3 11.75h5.25V17H3zm8.75 0H17V17h-5.25z"/></svg>
             <span class="sp-name">Your other apps<span class="visually-hidden">: </span></span>
-            <span class="sp-note">Set mic input to <b class="ui nowrap">CABLE Output</b></span>
+            <span class="sp-note">With <b class="ui nowrap">CABLE Output</b> as their mic</span>
           </li>
         </ol>
       </figure>
@@ -483,7 +483,7 @@
         </div>
         <div>
           <dt>No telemetry, no account</dt>
-          <dd>knobs collects nothing. It goes online only if you turn on its update check, which asks GitHub for the latest version once a day. A VST plugin that goes online, to check its licence, say, does so whether it runs in knobs or in OBS.</dd>
+          <dd>knobs collects nothing. It goes online only if you turn on its update check, which asks GitHub for the latest version once a day. A VST plugin that goes online (to check its licence, say) does so whether it runs in knobs or in OBS.</dd>
         </div>
       </dl>
     </div>
@@ -506,7 +506,7 @@
         <div class="measure">
           <div class="measure-text">
             <h3>Same sound</h3>
-            <p>For the same input, knobs’s output is <span class="nowrap">bit-identical</span> to OBS’s: not one bit of the audio differs. <code>knobs-compare</code> checks this against OBS itself.</p>
+            <p>For the same input, knobs’s output is <span class="nowrap">bit-identical</span> to OBS’s: not one bit of the audio differs. A test tool, <code>knobs-compare</code>, checks this against OBS itself.</p>
           </div>
           <figure class="measure-fig">
             <table class="table match" role="table">
@@ -516,7 +516,7 @@
               </thead>
               <tbody role="rowgroup">
                 <tr role="row"><th scope="row" role="rowheader">Test signals</th><td role="cell"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Bit-identical</td></tr>
-                <tr role="row"><th scope="row" role="rowheader">A chain of every audio filter in OBS’s <code>obs-filters</code></th><td role="cell"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Bit-identical</td></tr>
+                <tr role="row"><th scope="row" role="rowheader">A chain of every <span class="nowrap">built-in</span> audio filter in OBS</th><td role="cell"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Bit-identical</td></tr>
                 <tr role="row"><th scope="row" role="rowheader">VST plugins</th><td role="cell"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Bit-identical</td></tr>
                 <tr role="row"><th scope="row" role="rowheader">A recording of real voice</th><td role="cell"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Bit-identical</td></tr>
               </tbody>
@@ -527,7 +527,7 @@
         <div class="measure">
           <div class="measure-text">
             <h3>Same delay</h3>
-            <p>From the mic to the cable, on the same cable input.</p>
+            <p>From the mic to the cable, with both sending into the same cable.</p>
           </div>
           <figure class="measure-fig chart chart-delay" data-sweep>
             <div class="plot">
@@ -569,7 +569,7 @@
                 <tr role="row" class="is-words"><th scope="row" role="rowheader">GPU</th><td role="cell" class="is-knobs">None<span class="who" aria-hidden="true"> for knobs</span></td><td role="cell">0.05%<span class="who" aria-hidden="true"> for OBS</span></td></tr>
               </tbody>
             </table>
-            <figcaption class="footnote">Each measure has its own scale, from zero. Measured on a PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and <span class="nowrap">VB-CABLE</span>. <a href="https://github.com/danielalyoshin/knobs/blob/main/docs/design.md#on-real-hardware" class="nowrap">How it was measured<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></figcaption>
+            <figcaption class="footnote">Measured on a PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and <span class="nowrap">VB-CABLE</span>. Each measure has its own scale, from zero. <a href="https://github.com/danielalyoshin/knobs/blob/main/docs/design.md#on-real-hardware" class="nowrap">How it was measured<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></figcaption>
           </figure>
         </div>
       </div>
@@ -594,7 +594,7 @@
             </div>
             <div class="qa-item">
               <h4>Which filters does it run?</h4>
-              <p>OBS’s <span class="nowrap">built-in</span> audio filters: Noise Suppression, Noise Gate, Expander, Upward Compressor, Compressor, Limiter, Gain, <span class="nowrap">3-Band</span> Equalizer and Invert Polarity. Also VST&nbsp;2 plugins, as OBS hosts them, and NVIDIA’s noise removal, with an NVIDIA RTX GPU and NVIDIA’s Audio Effects SDK, as in OBS.</p>
+              <p>OBS’s <span class="nowrap">built-in</span> audio filters: Noise Suppression, Noise Gate, Expander, Upward Compressor, Compressor, Limiter, Gain, <span class="nowrap">3-Band</span> Equalizer and Invert Polarity. Also VST&nbsp;2 plugins, as OBS hosts them, and NVIDIA’s noise removal, which needs an NVIDIA RTX GPU and NVIDIA’s Audio Effects SDK, as it does in OBS.</p>
             </div>
           </div>
         </div>
@@ -607,7 +607,7 @@
             </div>
             <div class="qa-item">
               <h4>Which virtual cable do I need?</h4>
-              <p><span class="nowrap">VB-CABLE</span>, which knobs’s installer can install for you, or another cable: knobs recognizes <span class="nowrap">VB-Audio’s</span> cables and Virtual Audio Cable.</p>
+              <p>Any of them. A virtual cable is a sound device that exists only in software: knobs plays your mic into it, and your other apps choose it as their mic. knobs’s installer can install <span class="nowrap">VB-CABLE</span> for you. knobs recognizes <span class="nowrap">VB-Audio’s</span> cables and Virtual Audio Cable, and can use any other playback device too.</p>
             </div>
             <div class="qa-item">
               <h4>What if something doesn’t work?</h4>
@@ -620,7 +620,7 @@
           <div class="qa-items">
             <div class="qa-item">
               <h4>Does knobs collect anything?</h4>
-              <p>No. knobs has no telemetry and no account. It goes online only if you turn on its update check, and your mic’s audio stays on your PC. A VST plugin that goes online, to check its licence, say, does so whether it runs in knobs or in OBS.</p>
+              <p>No. knobs has no telemetry and no account. It goes online only if you turn on its update check, and your mic’s audio stays on your PC. A VST plugin that goes online (to check its licence, say) does so whether it runs in knobs or in OBS.</p>
             </div>
             <div class="qa-item">
               <h4>Is knobs made by the OBS Project?</h4>
@@ -643,7 +643,7 @@
     <div class="wrap">
       <h2 class="get-end-title" id="get-end-title">Get knobs</h2>
       <div class="get" data-release="end">
-        <p class="os-note">knobs is for a <span class="nowrap">Windows 64-bit PC.</span> It doesn’t run on phones, macOS or Linux.</p>
+        <p class="os-note">knobs is for a <span class="nowrap">64-bit Windows PC.</span> It doesn’t run on phones, macOS or Linux.</p>
         <div class="rs is-active" data-when="static">
           <div class="rs-row">
             <a class="btn btn-primary btn-hero" href="https://github.com/danielalyoshin/knobs/releases">
@@ -679,7 +679,7 @@
             </a>
             <button class="btn btn-secondary btn-hero" type="button" data-retry>Try again</button>
           </div>
-          <p class="rs-line"><b class="rs-head" data-error="head">Couldn’t check for a release</b>. <span data-error="reason">GitHub couldn’t be reached.</span> <span data-error="after">The releases page always has the files.</span></p>
+          <p class="rs-line"><b class="rs-head" data-error="head">Couldn’t check for a release</b>. <span data-error="reason">This page couldn’t reach GitHub.</span> <span data-error="after">The releases page on GitHub has every file.</span></p>
         </div>
       </div>
     </div>
@@ -704,7 +704,7 @@
             <li><a href="https://github.com/danielalyoshin/knobs">Source <span class="nowrap">code<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a></li>
             <li><a href="https://github.com/danielalyoshin/knobs/releases">Releases<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></li>
             <li><a href="https://github.com/danielalyoshin/knobs/issues">Issues<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></li>
-            <li><a href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">License<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></li>
+            <li><a href="https://github.com/danielalyoshin/knobs/blob/main/LICENSE">Licence<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></li>
             <li><a href="https://github.com/danielalyoshin/knobs-site">Source of this <span class="nowrap">site<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></span></a></li>
           </ul>
         </div>
