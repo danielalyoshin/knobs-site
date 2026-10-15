@@ -211,9 +211,9 @@
   // What each kind of file is, in the row under its title.
   function fileDescription(node, f) {
     if (f.kind === "installer") {
-      node.textContent = "Installs for your Windows account only, with no admin rights. With no virtual cable on your PC, it offers to install VB-Cable.";
+      node.textContent = "Installs for your Windows account only, with no admin rights. With no virtual cable on your PC, it offers to install VB-CABLE.";
     } else if (f.kind === "portable") {
-      // Only the installer carries VB-Cable, so the zip says it leaves the
+      // Only the installer carries VB-CABLE, so the zip says it leaves the
       // cable to the visitor.
       node.appendChild(doc.createTextNode("Unzip it anywhere and run "));
       node.appendChild(el("code", "", "knobs.exe"));
