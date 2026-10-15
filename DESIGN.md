@@ -49,6 +49,18 @@ typography:
     fontWeight: 700
     lineHeight: 0.9
     letterSpacing: "-0.01em"
+  display-stacked:
+    fontFamily: "Radio Canada Condensed, Radio Canada, Radio Canada Fallback, system-ui, sans-serif"
+    fontSize: "clamp(2.125rem, 1.2rem + 5.2vw, 3.75rem)"
+    fontWeight: 700
+    lineHeight: 0.96
+    letterSpacing: "-0.01em"
+  display-narrow:
+    fontFamily: "Radio Canada Condensed, Radio Canada, Radio Canada Fallback, system-ui, sans-serif"
+    fontSize: "2rem"
+    fontWeight: 700
+    lineHeight: 0.96
+    letterSpacing: "-0.01em"
   headline:
     fontFamily: "Radio Canada Condensed, Radio Canada, Radio Canada Fallback, system-ui, sans-serif"
     fontSize: "clamp(2.125rem, 1.25rem + 2.2vw, 3.25rem)"
@@ -307,7 +319,7 @@ A cool graphite family on hue 260 for every ground, line and word, and one red, 
 - **Headline** (Condensed 700, `clamp(2.125rem, 1.25rem + 2.2vw, 3.25rem)`, 1.02): section titles, hung 0.05em into the margin so their stems stand on the headline's left edge.
 - **Headline Small** (Condensed 700, `clamp(1.875rem, 1.25rem + 1.4vw, 2.5rem)`, 1.02): Get knobs's title, a step under the section titles, hung the same way.
 - **Footer Head** (Condensed 700, 1.375rem, 1.1): the footer's column heads, hung the same way.
-- **Title** (600, 1.25rem, 1.3): a file row's title, a benchmark's claim; About these downloads at 1.375rem.
+- **Title** (600, 1.25rem, 1.3): a file row's title, a benchmark's claim; About these downloads at 1.375rem, and the checksums file's quieter row at 1rem.
 - **Title Small** (600, 1.1875rem, 1.3 to 1.35): step titles, the facts, the questions.
 - **Lede** (400, 1.125rem, 1.5): the hero's one paragraph, `text-2`, at most 34rem.
 - **Body** (400, 1rem, 1.55): running text; measure 34rem (about 68 characters). Smaller steps: 0.9375rem, 0.875rem, 0.8125rem.
@@ -361,7 +373,7 @@ The favicon is the mark alone, filling its square: one SVG holding the brand's t
 Red caps: solid or outlined, square, sinking 1px when pressed.
 - **Shape:** square (0px), 1px border, 44px minimum height, 0 20px padding, Radio Canada 500 at 0.9375rem, icon gap 10px.
 - **Primary:** cap red fill, words graphite in dark and white in light. Used for the hero's and Get knobs's big download, and for Releases on GitHub where there's no file to offer.
-- **Hero:** 64px tall in every release state, at least 17.5rem wide. With a release it is the two-line download button: a 20px download arrow, the label at 1.125rem 600 ("Download knobs 0.3.0"), and a second line at 0.875rem 500 with the file and its size. Off Windows the label reads "Download for Windows" and the second line names the file without repeating Windows ("x64 installer (.exe) · 4.8 MB"), under a note that says knobs is for a Windows 64-bit PC. Without a file it opens the release with GitHub's mark.
+- **Hero:** 64px tall in every release state, at least 17.5rem wide. With a release it is the two-line download button: a 20px download arrow, the label at 1.125rem 600 ("Download knobs 1.0.0"), and a second line at 0.875rem 500 with the file and its size. Off Windows the label reads "Download for Windows" and the second line names the file without repeating Windows ("x64 installer (.exe) · 4.8 MB"), under a note that says knobs is for a Windows 64-bit PC. Without a file it opens the release with GitHub's mark, its one line at the same 1.125rem, at 500.
 - **Secondary:** transparent with a cap red outline and red words; fills with cap red under the pointer. Used for each runnable file's Download in Download for Windows (installer and portable zip) and for Try again.
 - **Quiet link:** the checksums file's Download is a plain link in `text-2` with the download icon, red under the pointer, never a third red button.
 - **Try again:** beside Releases on GitHub where the stack is wide enough; wherever the two can't sit side by side (below 26.5rem of stack), it goes under the big button at a plain 44px height and 0.9375rem type, so the big one stays the one to press.
@@ -412,7 +424,7 @@ A 16:9 square frame with a 1px hairline edge on `screen`. The video is not in ye
 Big and calm: a band of cap red deep (`band`) in both schemes, with every word white. The white one-colour lockup at 44px tall with the line under it, two link columns ("On GitHub", "On this page") under a band hairline, each headed in Radio Canada Condensed Bold, then the legal lines at 500. Inside it the page's colour roles take the band's own values, so links, rules, focus and selection read on the red without rules of their own. In forced colours on a light canvas the black one-colour lockup replaces the white; in print the band is dropped for the black lockup on the page's own colours. The 404 page uses the same header and footer.
 
 ### Motion and scheme switches
-One curve, `cubic-bezier(0.2, 0, 0, 1)`: 160ms for feedback (hover, copy, a disclosure opening, a chevron turning) and 320ms for structure (a release state settling, a stack resizing, things going out after the signal pass). New content settles in from 4px above with a fade. Beyond that only the charts' one sweep and the signal path's one pass move on their own. A scheme switch, whether by the toggle, the system or print, lands in one frame: an `is-switching` class turns every transition off for two frames, so no colour eases from the old scheme. Reduced motion turns off every animation and transition.
+One curve, `cubic-bezier(0.2, 0, 0, 1)`: 160ms for feedback (hover, copy, a disclosure opening, a chevron turning) and 320ms for structure (a release state settling, a stack resizing, things going out after the signal pass). New content settles in from 4px above with a fade: it falls into place, which the brand guide allows beside the app's rise, and opens down from the line that opened it. Beyond that only the charts' one sweep and the signal path's one pass move on their own. A scheme switch, whether by the toggle, the system or print, lands in one frame: an `is-switching` class turns every transition off for two frames, so no colour eases from the old scheme. Reduced motion turns off every animation and transition.
 
 ## Do's and Don'ts
 
