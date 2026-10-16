@@ -1,39 +1,27 @@
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang="en" class="no-js" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>knobs · Your OBS mic chain, in every app</title>
 <meta name="description" content="knobs is a Windows tray app that runs the mic filter chain you tuned in OBS Studio and sends it to a virtual audio cable. Every download comes from the project’s GitHub Releases, with its SHA-256.">
 <link rel="canonical" href="https://getknobs.app/">
-<meta name="color-scheme" content="light dark">
-<!-- The browser's bar takes the header's ground. These follow the system;
-     once the visitor chooses a scheme, both take that one's (the script
-     below, then theme.js). -->
-<meta name="theme-color" content="#191b1d" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#eef0f4" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="dark">
+<!-- The browser's bar takes the header's ground: dark, as the page is
+     until the visitor chooses light (the script below, then theme.js). -->
+<meta name="theme-color" content="#191b1d">
 <script>
-  /* A scheme the visitor chose with the page's toggle, applied before the
-     first paint, so the page never flashes the other one, and the bar
-     takes its ground at once: both metas above take the chosen scheme's,
-     each keeping its own in data-system for theme.js. In forced colours
-     the bar follows the system. Without a stored choice, or without
-     JavaScript, the page and the bar follow the system. */
+  /* The page is dark for every visitor, whatever the system's scheme,
+     until they choose light with the page's toggle. That choice applies
+     before the first paint, so the page never flashes dark first, and the
+     bar takes the light ground at once. Without a stored choice, or
+     without JavaScript, the page stays dark. */
   (function (d) {
     try {
-      var t = localStorage.getItem("knobs-theme");
-      if (t !== "light" && t !== "dark") return;
-      d.documentElement.setAttribute("data-theme", t);
-      if (window.matchMedia && window.matchMedia("(forced-colors: active)").matches) return;
-      var bars = d.querySelectorAll('meta[name="theme-color"]'), ground = "", i;
-      for (i = 0; i < bars.length; i++) {
-        if ((bars[i].getAttribute("media") || "").indexOf(t) > -1) ground = bars[i].getAttribute("content");
-      }
-      if (!ground) return;
-      for (i = 0; i < bars.length; i++) {
-        bars[i].setAttribute("data-system", bars[i].getAttribute("content"));
-        bars[i].setAttribute("content", ground);
-      }
+      if (localStorage.getItem("knobs-theme") !== "light") return;
+      d.documentElement.setAttribute("data-theme", "light");
+      d.querySelector('meta[name="color-scheme"]').setAttribute("content", "light");
+      d.querySelector('meta[name="theme-color"]').setAttribute("content", "#eef0f4");
     } catch (e) {}
   })(document);
 </script>
@@ -122,7 +110,7 @@
 <!-- The header sits on the hero's band: one ground, no rule between
      them. Both colour lockups are here and CSS shows the
      one for the scheme that's showing (light ink on graphite, dark ink on
-     the pale grey), so they follow the toggle as well as the system. -->
+     the pale grey), so they follow the toggle. -->
 <header class="site-header">
   <div class="wrap site-header-inner">
     <a class="brand" href="./">
@@ -145,8 +133,8 @@
       <!-- Light or dark: a sun while dark is showing, a moon while light
            is. CSS shows the icon and the name for the scheme on screen;
            theme.js switches it, remembers the choice and shows the same
-           name on hover. Hidden without JavaScript, where the page follows
-           the system. -->
+           name on hover. Hidden without JavaScript, where the page stays
+           dark. -->
       <button class="theme-toggle" type="button">
         <svg class="icon tt-sun" aria-hidden="true"><use href="#i-sun"/></svg>
         <svg class="icon tt-moon" aria-hidden="true"><use href="#i-moon"/></svg>

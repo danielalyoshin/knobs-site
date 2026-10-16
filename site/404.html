@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang="en" class="no-js" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,32 +9,21 @@
      the site's root, so it works at any depth. -->
 <meta name="robots" content="noindex">
 <meta name="description" content="There’s no page at this address. The knobs download page is at getknobs.app.">
-<meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#191b1d" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#eef0f4" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#191b1d">
 <script>
-  /* As on the download page: JavaScript is on, and a scheme the visitor
-     chose with the toggle applies before the first paint, the bar taking
-     its ground at once (each meta above keeps its own in data-system for
-     theme.js; in forced colours the bar follows the system). Without a
-     stored choice, or without JavaScript, the page follows the system. */
+  /* As on the download page: JavaScript is on, and the page is dark until
+     the visitor chooses light with the toggle, a choice that applies
+     before the first paint, the bar taking the light ground at once.
+     Without a stored choice, or without JavaScript, the page stays dark. */
   (function (d) {
     var h = d.documentElement;
     h.className = h.className.replace("no-js", "js");
     try {
-      var t = localStorage.getItem("knobs-theme");
-      if (t !== "light" && t !== "dark") return;
-      h.setAttribute("data-theme", t);
-      if (window.matchMedia && window.matchMedia("(forced-colors: active)").matches) return;
-      var bars = d.querySelectorAll('meta[name="theme-color"]'), ground = "", i;
-      for (i = 0; i < bars.length; i++) {
-        if ((bars[i].getAttribute("media") || "").indexOf(t) > -1) ground = bars[i].getAttribute("content");
-      }
-      if (!ground) return;
-      for (i = 0; i < bars.length; i++) {
-        bars[i].setAttribute("data-system", bars[i].getAttribute("content"));
-        bars[i].setAttribute("content", ground);
-      }
+      if (localStorage.getItem("knobs-theme") !== "light") return;
+      h.setAttribute("data-theme", "light");
+      d.querySelector('meta[name="color-scheme"]').setAttribute("content", "light");
+      d.querySelector('meta[name="theme-color"]').setAttribute("content", "#eef0f4");
     } catch (e) {}
   })(document);
 </script>

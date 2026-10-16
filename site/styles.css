@@ -348,8 +348,8 @@ summary::-webkit-details-marker { display: none; }
 
 /* The light/dark toggle: a square icon button the height of Source, its
    sun or moon in ink, red under the pointer like every control. It needs
-   theme.js, so without JavaScript it isn't there and the page follows the
-   system. In forced colours the visitor's own colours rule, so it goes. */
+   theme.js, so without JavaScript it isn't there and the page stays dark.
+   In forced colours the visitor's own colours rule, so it goes. */
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -373,20 +373,12 @@ summary::-webkit-details-marker { display: none; }
 
 /* Each scheme shows its own lockup in the header and its own icon and name
    on the toggle: the sun and "Switch to light mode" while dark is showing,
-   the moon and "Switch to dark mode" while light is. Light is showing when
-   the system is light and the visitor hasn't chosen dark, or when they
-   chose light (the same two conditions as the light scheme in tokens.css). */
+   the moon and "Switch to dark mode" while light is. Light shows only when
+   the visitor chose it: each page's <html> carries data-theme="dark" until
+   then, so the system's scheme never picks tokens.css's light block. */
 .lockup-on-light,
 .tt-moon,
 .tt-to-dark { display: none; }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) .lockup-on-dark,
-  :root:not([data-theme="dark"]) .tt-sun,
-  :root:not([data-theme="dark"]) .tt-to-light { display: none; }
-  :root:not([data-theme="dark"]) .lockup-on-light { display: block; }
-  :root:not([data-theme="dark"]) .tt-moon { display: inline-block; }
-  :root:not([data-theme="dark"]) .tt-to-dark { display: inline; }
-}
 :root[data-theme="light"] .lockup-on-dark,
 :root[data-theme="light"] .tt-sun,
 :root[data-theme="light"] .tt-to-light { display: none; }
