@@ -2,8 +2,9 @@
  * knobs download page: the release in three places, the hero's big
  * button, Download for Windows (a row per file with its checksum opened in
  * place) and Get knobs where the page ends; the copy buttons; the charts'
- * one sweep and the signal path's one pass. Needs
- * release.js (window.knobsRelease). Light and dark are theme.js's.
+ * one sweep and the signal path's one pass; the video's controls and its
+ * expanded view. Needs release.js (window.knobsRelease). Light and dark
+ * are theme.js's.
  */
 (function () {
   "use strict";
@@ -703,78 +704,291 @@
 
   /* ---------- The video ---------- */
 
-  // Once a <video> is dropped into the frame (index.html shows how), this
-  // starts it, and it plays only while it's on screen and the tab is
-  // showing. It gets a visible Pause and Play button in place of the
-  // browser's controls, so the loop can always be stopped (WCAG 2.2.2), and
-  // a visitor's own choice stands: paused stays paused until they press
-  // Play. When the browser asks to save data, the loop waits for Play, its
-  // poster showing. With reduced motion it never plays and the button goes:
-  // for those visitors the poster is the hero's picture. Without a <video>
-  // the placeholder stays and nothing is drawn.
+  // The reel (index.html says what it is). This takes it over. It plays
+  // only while it's on screen and the tab is showing, starting muted, since
+  // browsers only start a muted video by themselves, and from the poster's
+  // own frame, so the still turns into motion without a cut. When the
+  // browser asks to save data, or the visitor asks for reduced motion, it
+  // waits for Play, its poster showing. Nothing loads before it's wanted.
+  // In place of the browser's controls, which stay only without
+  // JavaScript, it gets three of its own, in a row under it:
+  //   Pause and Play, so the loop can always be stopped (WCAG 2.2.2);
+  //   the sound, off until the visitor turns it on;
+  //   Expand, which opens the video large in a modal dialog over the
+  //   dimmed page, the same <video> moved into it, so it plays on without
+  //   a break, and its controls with it, where Expand becomes Minimize.
+  // A visitor's own choice stands: paused stays paused until they press
+  // Play, and Expand counts as pressing it.
+  //
+  // The loop runs on without a break at its seam. The browser's own loop
+  // seeks back to the start, which leaves a gap there: a few milliseconds
+  // of silence in Chrome, and as much as half a second in Safari. Where
+  // Media Source Extensions take the file, it's fetched once and handed to
+  // the video again ahead of each seam, end to end on one timeline, so the
+  // picture and the sound run straight on. Each encode's sound is cut so
+  // its packets tile the loop exactly (DESIGN.md, The reel), and the copies
+  // meet with nothing between them. Without them, or if anything fails,
+  // the browser's own loop plays the same files.
   (function () {
     var video = $(".video-frame video");
     if (!video) return;
     var frame = video.parentNode;
+    var fig = frame.parentNode;
+    var LOOP = 24;           // seconds: 1440 frames at 60 fps
+    var START = 1312 / 60;   // the poster's frame
+    var AHEAD = 12;          // seconds left in the timeline when the next copy goes in
     var still = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
     // Read once: it only decides whether the loop starts by itself.
     var saveData = !!(navigator.connection && navigator.connection.saveData);
-    var chosen = "";   // "play" or "pause", once the visitor presses the button
+    var chosen = "";   // "play" or "pause", once the visitor says
     var hasIO = "IntersectionObserver" in window;
     // Where the frame is now, until the observer first reports, so a loop
     // that's on screen starts at once rather than waiting for it.
     var box = frame.getBoundingClientRect();
     var inView = !hasIO || (box.bottom > 0 && box.top < window.innerHeight);
+    var expanded = false;
+    var mode = "";       // "", then "mse" or "native"
+    var ready = false;   // at the poster's frame, able to play
 
-    function calmNow() { return !!(still && still.matches); }
-
-    // The browser's controls stay only for visitors without JavaScript, and
-    // the loop starts from here, never by itself.
     video.controls = false;
     video.autoplay = false;
     video.muted = true;
 
-    var btn = el("button", "video-toggle");
-    btn.type = "button";
-    var svg = doc.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("class", "icon");
-    svg.setAttribute("aria-hidden", "true");
-    var use = doc.createElementNS("http://www.w3.org/2000/svg", "use");
-    svg.appendChild(use);
-    var word = el("span", "video-toggle-label");
-    btn.appendChild(svg);
-    btn.appendChild(word);
-    frame.appendChild(btn);
-
-    // The button says what pressing it does.
-    function label() {
-      var playing = !video.paused;
-      use.setAttribute("href", playing ? "#i-pause" : "#i-play");
-      word.textContent = playing ? "Pause" : "Play";
-      btn.setAttribute("aria-label", playing ? "Pause the video" : "Play the video");
+    function icon(id) {
+      var svg = doc.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("class", "icon");
+      svg.setAttribute("aria-hidden", "true");
+      var use = doc.createElementNS("http://www.w3.org/2000/svg", "use");
+      use.setAttribute("href", id);
+      svg.appendChild(use);
+      return svg;
     }
+    function button(cls, id, word) {
+      var b = el("button", "video-btn" + (word ? "" : " is-icon") + (cls ? " " + cls : ""));
+      b.type = "button";
+      b.appendChild(icon(id));
+      if (word) b.appendChild(el("span", "", word));
+      return b;
+    }
+    function setIcon(b, id) { $("use", b).setAttribute("href", id); }
+
+    var bar = el("div", "video-controls");
+    var play = button("", "#i-pause", "Pause");
+    var sound = button("", "#i-muted");
+    var grow = button("", "#i-expand");
+    bar.appendChild(play);
+    bar.appendChild(sound);
+    bar.appendChild(grow);
+    // Under the reel, never over it.
+    function home() { fig.insertBefore(bar, frame.nextSibling); }
+    home();
 
     function wanted() {
-      if (calmNow()) return false;
-      return chosen ? chosen === "play" : !saveData;
+      if (chosen) return chosen === "play";
+      return !saveData && !(still && still.matches);
+    }
+    function going() { return wanted() && (inView || expanded) && !doc.hidden; }
+    // Playing, or about to: while the file loads, the button already offers
+    // Pause, so the loop can be stopped before it starts.
+    function playing() { return !video.paused || (!ready && !!mode && going()); }
+
+    // Each button says what pressing it does; the sound's icon shows how
+    // it is now, as players do.
+    function label() {
+      var on = playing();
+      setIcon(play, on ? "#i-pause" : "#i-play");
+      $("span", play).textContent = on ? "Pause" : "Play";
+      play.setAttribute("aria-label", on ? "Pause the video" : "Play the video");
+      setIcon(sound, video.muted ? "#i-muted" : "#i-sound");
+      sound.setAttribute("aria-label", video.muted ? "Turn the sound on" : "Turn the sound off");
+      setIcon(grow, expanded ? "#i-minimize" : "#i-expand");
+      grow.setAttribute("aria-label", expanded ? "Minimize the video" : "Expand the video");
     }
 
     function update() {
-      btn.hidden = calmNow();
-      if (wanted() && inView && !doc.hidden) {
+      var go = going();
+      if (go && !mode) load();
+      if (go && ready) {
         var p = video.play();
         if (p && p.catch) p.catch(function () { label(); });
-      } else if (!video.paused) {
+      } else if (!go && !video.paused) {
         video.pause();
       }
+      label();
+    }
+
+    // Loading, the first time it's wanted: the first encode Media Source
+    // Extensions take, played gaplessly, or else the browser's own choice
+    // and loop.
+    function load() {
+      var MS = window.ManagedMediaSource || window.MediaSource;
+      var src = MS && MS.isTypeSupported && $$("source", video).filter(function (s) {
+        return MS.isTypeSupported(s.type);
+      })[0];
+      if (!src || !window.fetch || !window.Promise || !window.DataView) return native();
+      gapless(MS, src);
+    }
+
+    // The browser's own loop, from the poster's frame: set before anything
+    // loads, the time is where playback starts.
+    function native() {
+      if (mode === "native") return;
+      mode = "native";
+      video.removeAttribute("src");
+      video.loop = true;
+      video.load();
+      video.currentTime = START;
+      ready = true;
+      update();
+    }
+
+    // An encode is an MP4 in fragments: its header (ftyp, moov, sidx), then
+    // the fragments (moof and mdat), then an index (mfra). The header goes
+    // in once; the fragments go in again for every loop.
+    function split(buf) {
+      var view = new DataView(buf), at = 0, first = -1, end = buf.byteLength;
+      while (at + 8 <= buf.byteLength) {
+        var size = view.getUint32(at);
+        var type = String.fromCharCode(view.getUint8(at + 4), view.getUint8(at + 5), view.getUint8(at + 6), view.getUint8(at + 7));
+        if (size < 8) throw new Error("box size");
+        if (type === "moof" && first < 0) first = at;
+        if (type === "mfra") { end = at; break; }
+        at += size;
+      }
+      if (first < 0) throw new Error("no fragments");
+      return { head: buf.slice(0, first), body: buf.slice(first, end) };
+    }
+
+    function gapless(MS, src) {
+      mode = "mse";
+      var ms = new MS();
+      var sb, parts, copies = 0, busy = false, failed = false;
+      var chain = Promise.resolve();
+
+      function fail() {
+        if (failed) return;
+        failed = true;
+        mode = "";
+        video.removeEventListener("timeupdate", ahead);
+        native();
+      }
+      // One change to the buffer at a time, each once the last is done.
+      function step(fn) {
+        chain = chain.then(function () {
+          return new Promise(function (done, stop) {
+            function end() { off(); done(); }
+            function err() { off(); stop(new Error("buffer")); }
+            function off() { sb.removeEventListener("updateend", end); sb.removeEventListener("error", err); }
+            sb.addEventListener("updateend", end);
+            sb.addEventListener("error", err);
+            fn();
+          });
+        });
+        return chain;
+      }
+      // The next copy of the loop, on the timeline right after the last,
+      // trimmed to exactly its 24 seconds. The copy before last goes first,
+      // so the buffer holds two at most.
+      function copy() {
+        var n = copies++;
+        busy = true;
+        if (n > 1) step(function () { sb.remove(0, (n - 1) * LOOP); });
+        return step(function () {
+          sb.timestampOffset = n * LOOP;
+          sb.appendWindowEnd = (n + 1) * LOOP;
+          sb.appendWindowStart = n * LOOP;
+          sb.appendBuffer(parts.body);
+        }).then(function () { busy = false; });
+      }
+      function ahead() {
+        if (!busy && !failed && copies * LOOP - video.currentTime < AHEAD) copy().catch(fail);
+      }
+
+      if (window.ManagedMediaSource && MS === window.ManagedMediaSource) video.disableRemotePlayback = true;
+      video.loop = false;
+      video.addEventListener("error", function () { if (mode === "mse") fail(); });
+      ms.addEventListener("sourceopen", function () {
+        try { sb = ms.addSourceBuffer(src.type); } catch (e) { return fail(); }
+        // An open-ended timeline, so it never reaches an end. Where that
+        // can't be set, the timeline grows with each copy instead.
+        try { ms.duration = Infinity; } catch (e) { /* as it is */ }
+        fetch(src.src).then(function (res) {
+          if (!res.ok) throw new Error(res.status);
+          return res.arrayBuffer();
+        }).then(function (buf) {
+          parts = split(buf);
+          step(function () { sb.appendBuffer(parts.head); });
+          return copy();
+        }).then(function () {
+          video.addEventListener("seeked", function () {
+            ready = true;
+            video.addEventListener("timeupdate", ahead);
+            ahead();
+            update();
+          }, { once: true });
+          video.currentTime = START;
+        }).catch(fail);
+      }, { once: true });
+      // Attached first, so the browser's own loading of the <source> list,
+      // which waits for preload, never starts.
+      video.src = URL.createObjectURL(ms);
+      video.preload = "auto";
     }
 
     video.addEventListener("play", label);
     video.addEventListener("pause", label);
-    btn.addEventListener("click", function () {
-      chosen = video.paused ? "play" : "pause";
+    video.addEventListener("volumechange", label);
+    play.addEventListener("click", function () {
+      chosen = playing() ? "pause" : "play";
       update();
     });
+    sound.addEventListener("click", function () { video.muted = !video.muted; });
+
+    // The expanded view: built once, opened as a modal dialog, so the page
+    // behind it can't be reached and Esc closes it. Its controls go with
+    // the video, under it on the right, so Expand, now Minimize, stays
+    // where it was pressed and keeps the focus. Without dialogs, there is
+    // no Expand.
+    var focus = el("dialog", "video-focus");
+    if (focus.showModal) {
+      focus.setAttribute("aria-label", "knobs in 24 seconds, a looping video");
+      var body = el("div", "video-focus-body");
+      var stage = el("div", "video-frame");
+      body.appendChild(stage);
+      focus.appendChild(body);
+      doc.body.appendChild(focus);
+
+      grow.addEventListener("click", function () {
+        if (expanded) return focus.close();
+        expanded = true;
+        // Moved in one go, the video plays on.
+        stage.appendChild(video);
+        frame.classList.add("is-away");
+        body.appendChild(bar);
+        focus.showModal();
+        grow.focus();
+        if (!playing()) chosen = "play";
+        update();
+      });
+      // A click on the dimmed page around it closes it too.
+      focus.addEventListener("click", function (e) {
+        if (e.target === focus || e.target === body) focus.close();
+      });
+      focus.addEventListener("close", function () {
+        expanded = false;
+        frame.insertBefore(video, frame.firstChild);
+        frame.classList.remove("is-away");
+        home();
+        // Read once so Safari lays the moved button out; until then it
+        // won't take the focus.
+        void grow.offsetWidth;
+        grow.focus();
+        update();
+      });
+    } else {
+      grow.hidden = true;
+    }
+
     if (hasIO) {
       new IntersectionObserver(function (entries) {
         inView = entries[entries.length - 1].isIntersecting;
@@ -786,7 +1000,6 @@
       if (still.addEventListener) still.addEventListener("change", update);
       else if (still.addListener) still.addListener(update);
     }
-    label();
     update();
   })();
 

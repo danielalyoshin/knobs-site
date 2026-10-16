@@ -50,6 +50,9 @@
 <link rel="preload" href="fonts/RadioCanada-Regular-Latin1.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/RadioCanada-Medium-Latin1.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/RadioCanada-SemiBold-Latin1.woff2" as="font" type="font/woff2" crossorigin>
+<!-- The reel's poster is the first screen's largest picture: fetched
+     early and first, before the stylesheet finds the video. -->
+<link rel="preload" href="media/knobs-reel.webp" as="image" type="image/webp" fetchpriority="high">
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="base.css">
 <link rel="stylesheet" href="styles.css">
@@ -95,6 +98,10 @@
   <symbol id="i-chevron" viewBox="0 0 16 16"><path d="M6 3.75 10.25 8 6 12.25" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
   <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.75 3v10L12.5 8z" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
   <symbol id="i-pause" viewBox="0 0 16 16"><path d="M5.25 3.25v9.5m5.5-9.5v9.5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 16 16"><path d="M2.75 6h2.5l3-3v10l-3-3h-2.5zM10.19 6.06a2.75 2.75 0 0 1 0 3.88M11.96 4.29a5.25 5.25 0 0 1 0 7.42" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-muted" viewBox="0 0 16 16"><path d="M2.75 6h2.5l3-3v10l-3-3h-2.5zM10.25 6.25l3.5 3.5m0-3.5-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 16 16"><path d="M2.75 6.75v-4h4m2.5 0h4v4m0 2.5v4h-4m-2.5 0h-4v-4" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-minimize" viewBox="0 0 16 16"><path d="M5.75 2.75v3h-3m7.5-3v3h3m0 4.5h-3v3m-4.5 0v-3h-3" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
   <symbol id="i-info" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="5" r=".9" fill="currentColor"/></symbol>
   <symbol id="i-sun" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.75" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
   <symbol id="i-moon" viewBox="0 0 16 16"><path d="M14 8.53A6 6 0 1 1 7.47 2 4.67 4.67 0 0 0 14 8.53z" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
@@ -221,29 +228,28 @@
         <p class="hero-needs">Needs Windows 10 or 11 (64-bit), <span class="nowrap">OBS Studio</span> <span class="nowrap">32.2 to 33</span> and a virtual cable such as <span class="nowrap">VB-CABLE</span>, which the installer can install. knobs runs OBS’s <span class="nowrap">built-in</span> audio filters, VST plugins and NVIDIA’s noise removal. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#known-limits">Known limits<span class="visually-hidden"> in the README</span><svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></p>
       </div>
 
-      <figure class="video" id="video" aria-label="knobs at work, a short looping video">
+      <figure class="video" id="video" aria-label="knobs in 24 seconds, a looping video" aria-describedby="video-text">
+        <!-- The reel: 24 seconds at 60 fps, a seamless loop, picture and
+             sound, dark in both schemes, its edges graphite. Two encodes,
+             AV1 with Opus and, for browsers without AV1, H.264 with AAC,
+             and the poster, its end card (frame 1312). page.js takes it
+             over, so nothing loads before it's wanted: it plays muted, only
+             while it's on screen, from the poster's frame, so the still
+             turns into motion without a cut; it waits for Play when the
+             browser asks to save data or the visitor asks for reduced
+             motion; and it gets its own controls in place of the browser's,
+             which stay only for visitors without JavaScript, in a row under
+             it: Pause and Play, so the loop can always be stopped, the
+             sound, and Expand, which opens it large over the page. -->
         <div class="video-frame">
-          <!-- The video goes here (16:9, muted, looping, no sound). Replace the
-               placeholder with:
-               <video muted loop playsinline controls preload="none"
-                      poster="media/knobs-loop.jpg">
-                 <source src="media/knobs-loop.webm" type="video/webm">
-                 <source src="media/knobs-loop.mp4" type="video/mp4">
-               </video>
-               page.js then takes it over and starts it, so nothing loads
-               before it's wanted: it plays only while it's on screen, waits
-               for Play when the browser asks to save data, never plays with
-               reduced motion (the poster is the picture), and gets a Pause
-               and Play button in place of the browser's controls, which stay
-               only for visitors without JavaScript, so the loop can always be
-               paused. -->
-          <!-- Until then: one quiet line, and the loop's Pause button where
-               page.js will draw it, as a picture rather than a control. -->
-          <div class="video-placeholder">
-            <span>Video placeholder</span>
-            <span class="video-toggle" aria-hidden="true"><svg class="icon"><use href="#i-pause"/></svg><span class="video-toggle-label">Pause</span></span>
-          </div>
+          <video muted loop playsinline controls preload="none" poster="media/knobs-reel.webp" width="1920" height="1080">
+            <source src="media/knobs-reel-av1.mp4" type='video/mp4; codecs="av01.0.09M.10, opus"'>
+            <source src="media/knobs-reel.mp4" type='video/mp4; codecs="avc1.64002a, mp4a.40.2"'>
+          </video>
         </div>
+        <!-- What the reel shows, for screen readers: it says no more than
+             the page does. -->
+        <p class="visually-hidden" id="video-text">It shows what this page says. Your mic’s signal passes through OBS, and then OBS can stay closed. knobs runs the same filter chain, and its audio is bit-identical to OBS’s. It also runs VST plugins and NVIDIA’s noise removal. It uses 27 MB of memory against OBS’s 445 MB, and 0.94% of a CPU core against 7.08%: 16.5 times less memory and 7.5 times less CPU than keeping OBS open. The signal reaches every app: your OBS mic chain, in every app.</p>
       </figure>
     </div>
   </section>

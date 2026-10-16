@@ -544,18 +544,27 @@ summary::-webkit-details-marker { display: none; }
 .hero-more[hidden] + .hero-needs { margin-top: 18px; }
 .hero-needs a { color: var(--text); }
 
-/* The video: a screen at 16:9 with a hairline edge, square (a dark well in
-   dark, white on the grey in light). A <video> dropped into the frame
-   fills it exactly. */
-.video { margin: 0; min-width: 0; }
+/* The reel: 16:9, square, with no frame. Its edges are graphite, so on the
+   dark ground it has no edge at all, and on the light one it stands as a
+   graphite panel of its own. Nothing sits over it: its controls are in a
+   row under it, on the right. */
+.video {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  min-width: 0;
+}
+.video > .video-controls { justify-self: end; }
 .video-frame {
   position: relative;
-  aspect-ratio: var(--video-ratio, 16 / 9);
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--screen);
+  background: var(--brand-graphite);
 }
+/* While the reel is away in the expanded view, its empty place takes the
+   page's ground, so no bare panel shows past it on the dimmed page. */
+.video-frame.is-away { background: none; }
 .video-frame > video {
   position: absolute;
   inset: 0;
@@ -564,32 +573,23 @@ summary::-webkit-details-marker { display: none; }
   height: 100%;
   object-fit: cover;
 }
-/* Until the video is in, the frame says so in one quiet line and shows the
-   loop's Pause button where page.js will draw it. That button is a picture
-   of the control, so it never answers the pointer. */
-.video-placeholder {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: var(--text-3);
-  font-size: var(--text-sm);
+/* The video's own controls, drawn by page.js: Pause and Play (WCAG 2.2.2),
+   the sound, and Expand. Square and outlined in label type, as the
+   header's tools are, on the page's own ground; under the pointer the edge
+   and the words light red, as a cap does. Pause and Play say their word;
+   the sound and Expand are their icons alone, as the header's light and
+   dark toggle is. */
+.video-controls {
+  display: flex;
+  gap: 6px;
 }
-.video-placeholder .video-toggle { pointer-events: none; }
-.video-frame:has(video) .video-placeholder { display: none; }
-/* The video's own Pause and Play (WCAG 2.2.2), drawn by page.js only once a
-   <video> is in the frame: a small solid button in its corner, so it reads
-   over any frame of the loop. Its focus ring sits inside it for the same
-   reason. */
-.video-toggle {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  z-index: 1;
+.video-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  min-height: 36px;
+  min-width: var(--video-btn);
+  min-height: var(--video-btn);
   padding: 0 12px 0 10px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
@@ -599,10 +599,66 @@ summary::-webkit-details-marker { display: none; }
   cursor: pointer;
   transition: border-color var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease);
 }
-.video-toggle[hidden] { display: none; }
-.video-toggle:hover { border-color: var(--action); color: var(--action-text); }
-.video-toggle:active { transform: translateY(1px); }
-.video-toggle:focus-visible { outline-offset: -5px; }
+.video-btn.is-icon { padding: 0; }
+.video-btn[hidden] { display: none; }
+button.video-btn:hover { border-color: var(--action); color: var(--action-text); }
+button.video-btn:active { transform: translateY(1px); }
+:root { --video-btn: 36px; }
+
+/* Expand: the video large, in a modal dialog page.js builds, with the
+   page still there behind it, dimmed under graphite in both schemes (the
+   brand's own dark, as a room's lights go down), and a margin all round.
+   The same <video> moves into it, so it plays on without a break, and
+   moves back on Minimize, Esc or a click on the dimmed page. Its controls
+   go with it, under it on the right, as they sit under the reel, Expand
+   turned into Minimize in the same place. On the dimmed page they take the
+   dark scheme's roles, in both schemes. The page behind stays where it
+   was. */
+.video-focus {
+  color-scheme: dark;
+  --ground: var(--brand-graphite);
+  --text: var(--brand-ink);
+  --line-strong: var(--neutral-dark-375);
+  --action: var(--brand-cap-red);
+  --action-text: var(--brand-cap-red);
+  --focus: var(--brand-cap-red);
+  --pad: clamp(24px, 5vw, 80px);
+  --row: calc(var(--video-btn) + 12px);
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: var(--pad);
+  border: 0;
+  background: var(--brand-graphite);
+  background: color-mix(in srgb, var(--brand-graphite) 80%, transparent);
+  color: var(--text);
+  overflow: hidden;
+}
+.video-focus[open] {
+  display: grid;
+  place-items: center;
+  animation: video-fade var(--duration-fast) var(--ease);
+}
+.video-focus::backdrop { background: transparent; }
+@keyframes video-fade {
+  from { opacity: 0; }
+}
+/* As wide as the window allows at 16:9 inside the margin, with a row for
+   the controls below. */
+.video-focus-body {
+  display: grid;
+  row-gap: 12px;
+  width: min(100%, calc((100vh - 2 * var(--pad) - var(--row)) * 16 / 9));
+  width: min(100%, calc((100dvh - 2 * var(--pad) - var(--row)) * 16 / 9));
+  animation: settle var(--duration-fast) var(--ease);
+}
+.video-focus-body > .video-frame { width: 100%; }
+.video-focus-body > .video-controls { justify-self: end; }
+html:has(.video-focus[open]) { overflow: hidden; }
 
 /* ---------- Bands ---------- */
 
@@ -1977,7 +2033,8 @@ summary::-webkit-details-marker { display: none; }
   .preview-strip,
   .header-tools,
   .video,
-  .video-toggle,
+  .video-controls,
+  .video-focus,
   [data-retry],
   .copy { display: none !important; }
 }
@@ -2059,6 +2116,8 @@ summary::-webkit-details-marker { display: none; }
   .dest .icon { margin: 0 8px 0 0; vertical-align: -0.1875rem; }
   .hero-more { margin-top: 18px; }
   .video { width: 100%; max-width: 40rem; margin-top: 40px; }
+  /* Its controls centre under it, like the rest of the stack. */
+  .video > .video-controls { justify-self: center; }
 
   /* The signal path runs down the left: the same icons, wire and
      arrowheads, turned, each icon level with its stage name's first line.
@@ -2280,7 +2339,7 @@ summary::-webkit-details-marker { display: none; }
   .file-check > summary { --summary-h: 44px; }
   .site-nav a { display: flex; align-items: center; min-height: 44px; }
   .header-tools { --tool: max(44px, 1.125rem + 12px); }
-  .video-toggle { min-height: 44px; }
+  :root { --video-btn: 44px; }
 
   .hero-more a,
   .hero-needs a,

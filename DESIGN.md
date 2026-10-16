@@ -18,7 +18,6 @@ colors:
   selection: "#7a342e"
   focus: "#df695e"
   chart-obs: "#62666d"
-  screen: "#131518"
   band: "#c55149"
   band-selection: "#7c2622"
   band-line: "#d97e75"
@@ -41,7 +40,6 @@ colors:
   selection-light: "#f7ccc6"
   focus-light: "#c55149"
   chart-obs-light: "#787f8b"
-  screen-light: "#ffffff"
 typography:
   display:
     fontFamily: "Radio Canada Condensed, Radio Canada, Radio Canada Fallback, system-ui, sans-serif"
@@ -240,7 +238,7 @@ components:
     rounded: "{rounded.radius}"
     padding: "14px 20px 20px"
   video-frame:
-    backgroundColor: "{colors.screen}"
+    backgroundColor: "{colors.ground}"
     rounded: "{rounded.radius}"
   footer-band:
     backgroundColor: "{colors.band}"
@@ -294,8 +292,7 @@ A cool graphite family on hue 260 for every ground, line and word, and one red, 
 - **Secondary Ink** (`text-2`, `text-2-light`): body copy, the lede, descriptions.
 - **Quiet Ink** (`text-3`, `text-3-light`): labels, captions, notes, footnotes, the wire in the signal path.
 - **Unlit Meter** (`chart-obs`, `chart-obs-light`): OBS's bars, an unlit grey beside knobs's lit red.
-- **Screen** (`screen`, `screen-light`): the video frame's ground, a well like a screen that's off in dark, a white screen in light.
-- **Defined, not yet used:** `--raised-2` (#25282c in dark, #f4f6f8 in light, commented as a panel's hover or a pressed control) is in `tokens.css` but no rule uses it; its role is open until the shared brand token set is decided. It is left out of the frontmatter for that reason.
+- **Defined, not yet used:** `--raised-2` (#25282c in dark, #f4f6f8 in light, commented as a panel's hover or a pressed control) is in `tokens.css` but no rule uses it; its role is open until the shared brand token set is decided. `--screen` (#131518 in dark, white in light) is the brand's frame for a walkthrough or a screenshot; the page has neither, and the reel, a brand film, sits on graphite with no frame. Both are left out of the frontmatter for that reason.
 
 ### Named Rules
 **The Red Is knobs Rule.** Cap red marks knobs or "press here", and nothing else. It is never an error, a warning or a success: a pre-release tag stays grey, a copied check turns ink, and the page has no green or amber at all.
@@ -323,7 +320,7 @@ A cool graphite family on hue 260 for every ground, line and word, and one red, 
 - **Title Small** (600, 1.1875rem, 1.3 to 1.35): step titles, the facts, the questions.
 - **Lede** (400, 1.125rem, 1.5): the hero's one paragraph, `text-2`, at most 34rem.
 - **Body** (400, 1rem, 1.55): running text; measure 34rem (about 68 characters). Smaller steps: 0.9375rem, 0.875rem, 0.8125rem.
-- **Label** (500, 0.8125rem): Copy, the video toggle, table heads, check heads. Tags at 500, 0.75rem with 0.01em tracking.
+- **Label** (500, 0.8125rem): Copy, the video's controls, table heads, check heads. Tags at 500, 0.75rem with 0.01em tracking.
 - **Mono** (400, 0.875em of its context): file names, hashes, commands, the source address, inline code.
 
 ### Named Rules
@@ -343,9 +340,9 @@ Every section's title and content start on one left edge, the edge the hero head
 
 Breakpoints are in em so larger text takes a narrower window's layout: 1024px (benchmark and question rows stack), 900px (the hero stacks and centres with full-width buttons; the steps and the signal path turn into vertical rails on the left; the step and signal subgrids switch on above it), 864px (the header's links take their own row), 768px (facts and footer take one column), 640px (each file's Download goes under its text, full width), 480px (header links spread edge to edge), 375px (header links step down a size), 360px (the headline steps down, the nav drops Download, Source becomes its mark). Short desktop windows (max-height 50em, then about 632 to 680px tall) shrink the headline, lede and header so the big button and the requirements stay in the first screen. Container queries handle the release stacks, the file rows, the code wells and the charts, so each adapts to its own width.
 
-**The Touch Rule.** On coarse pointers every target is at least 44px tall: buttons, Copy, disclosures, header links and tools, the video toggle, the footer's link lists. A link inside a sentence keeps its line and gets an invisible hit area 44px tall centred on it, as one inline box that moves to the next line whole rather than breaking inside.
+**The Touch Rule.** On coarse pointers every target is at least 44px tall: buttons, Copy, disclosures, header links and tools, the video's controls, the footer's link lists. A link inside a sentence keeps its line and gets an invisible hit area 44px tall centred on it, as one inline box that moves to the next line whole rather than breaking inside.
 
-**The Paper Rule.** Print is the light scheme (theme.js switches to it for the print and back after). Fills that matter (bars, swatches, dots, fader caps, step 3's node) print exactly; solid buttons print as red outlines with red words; the footer drops its band for the black one-colour lockup on the page's own colours; screen-only controls and the video frame stay off the paper.
+**The Paper Rule.** Print is the light scheme (theme.js switches to it for the print and back after). Fills that matter (bars, swatches, dots, fader caps, step 3's node) print exactly; solid buttons print as red outlines with red words; the footer drops its band for the black one-colour lockup on the page's own colours; screen-only controls and the reel stay off the paper.
 
 ## Elevation & Depth
 
@@ -385,7 +382,7 @@ Red caps: solid or outlined, square, sinking 1px when pressed.
 
 ### Copy and small controls
 - **Copy:** a quiet outlined button (32px, 44px on touch; at least 5.75rem wide) in `text-2` with a `line-strong` border, red under the pointer. Copied, its icon becomes a check in ink with an ink-grey border for 1.8s, then returns.
-- The **video toggle** takes the same shape: outlined, square, label type, red under the pointer.
+- The **video's controls** take the same shape in label type: square and outlined on the page's ground, their edge and words red under the pointer.
 
 ### Navigation
 - **Header:** on the hero band, no rule. The colour lockup at 32px tall on the left (light-ink version on graphite, dark-ink version on the grey; both are in the markup and CSS shows the one for the scheme on screen, so the toggle wins over the system). Section links in `text-2` at 0.9375rem, no underline, red on hover. At the right end, Source (outlined, GitHub's mark plus "Source") and the light/dark toggle (a square icon button, a sun while dark shows, a moon while light shows), both 38px tall, 44px on touch.
@@ -418,8 +415,16 @@ Each claim sits beside its evidence; the evidence is a real table or definition 
 ### Ruled rows (facts, questions)
 No cards. Three facts sit in ruled columns, each opening on a strong rule with a cap dot at its start. Questions sit in three groups as ruled rows, the group name quiet on the left, each question marked by a cap dot centred on its first line with the answer hung under it, all open.
 
-### Video frame (pending)
-A 16:9 square frame with a 1px hairline edge on `screen`. The video is not in yet: the frame shows one quiet "Video placeholder" line and a pictured Pause button in its corner that never answers the pointer. Once a muted, looping `<video>` is dropped in, page.js takes it over: it plays only while the frame is on screen and the tab is visible; it waits for Play when the browser asks to save data; it never plays with reduced motion (the poster is the picture and the button goes); and it draws a real Pause/Play button in the corner (solid `ground`, outlined, its focus ring inset) in place of the browser's controls, which stay only without JavaScript. A visitor's own Pause stands until they press Play. The frame is left off the printed page.
+### The reel
+The hero's video is the knobs reel: 24 seconds at 60 fps, a seamless loop of picture and sound, dark in both schemes (the brand's videos are dark only), its edges graphite. It sits square at 16:9 with no frame: on the dark ground it has no edge at all, and on the light one it stands as a graphite panel of its own. Nothing sits over it.
+- **Files** (`site/media/`), made from the reel as delivered, with its sound from the reel's lossless master: `knobs-reel-av1.mp4`, AV1 (10-bit, CRF 35) with Opus at 128 kbps, 3.5 MB; and for browsers without AV1, `knobs-reel.mp4`, H.264 (High, no B-frames, CRF 21) with AAC at 192 kbps, 6.6 MB. Both are 1920 × 1080, exactly 1440 frames, in one-second fragments, with keyframes on frames 0 and 1312. The poster, `knobs-reel.webp` (26 KB), is frame 1312, the end card with every word in. All three decode to exact graphite at their edges.
+- **Sound that tiles:** each file's sound is encoded from the master as three loops, and only the middle loop's packets are kept, with no priming and no edit list: 1200 Opus packets of 960 samples, or 1125 AAC frames of 1024. Played end to end, one copy's last packet runs into the next copy's first as it did in the encode.
+- **Playing:** nothing loads until the reel is wanted. Then it plays muted, from frame 1312, so the poster turns into motion without a cut, only while it's on screen and the tab is showing. It waits for Play when the browser asks to save data or the visitor asks for reduced motion, the poster showing until then.
+- **The loop:** where Media Source Extensions (or Safari's Managed Media Source) take an encode, page.js fetches it once and puts its header in, then its fragments again for every loop, end to end on one open-ended timeline, each copy trimmed to exactly its 24 seconds and put in 12 seconds ahead, two copies at most. Picture and sound run across the seam with no gap. Elsewhere, or if anything fails, the browser's own loop plays the same files, with the short gap at the seam it leaves.
+- **Controls:** in a row 14px under the reel, on the right (centred below 900px); without JavaScript, the browser's own controls over it instead. Pause/Play with its word, the sound (a speaker with an x while muted, with waves while on) and Expand (four outward corners), each a square outlined button in label type on the page's ground, 36px (44px on touch), its edge and words red under the pointer. While the reel loads to play, the button already offers Pause. A visitor's own Pause stands until they press Play.
+- **Screen readers** hear the figure's name and a description of what the reel shows, which says no more than the page does.
+- **Expanded:** Expand opens the reel large in a modal `<dialog>` over the page, which stays in sight, dimmed under graphite at 80% in both schemes. The reel is as wide as fits at 16:9 inside a `clamp(24px, 5vw, 80px)` margin, with a row for the controls below it. The same `<video>` moves into it, so it plays on without a break; Expand counts as pressing Play. Its controls go with it, under it on the right as under the reel, in the dark scheme's roles on the dimmed page, and Expand becomes Minimize (four inward corners) in the same place, keeping the focus. Meanwhile the reel's place in the hero takes the page's ground. Minimize, Esc or a click on the dimmed page moves it back, focus still on the same button, Expand again. The page behind can't scroll. It fades in over 160ms and the frame falls into place, as new content does.
+- The reel is left off the printed page.
 
 ### Footer band
 Big and calm: a band of cap red deep (`band`) in both schemes, with every word white. The white one-colour lockup at 44px tall with the line under it, two link columns ("On GitHub", "On this page") under a band hairline, each headed in Radio Canada Condensed Bold, then the legal lines at 500. Inside it the page's colour roles take the band's own values, so links, rules, focus and selection read on the red without rules of their own. In forced colours on a light canvas the black one-colour lockup replaces the white; in print the band is dropped for the black lockup on the page's own colours. The 404 page uses the same header and footer.
@@ -450,6 +455,6 @@ One curve, `cubic-bezier(0.2, 0, 0, 1)`: 160ms for feedback (hover, copy, a disc
 - **Don't** round a rectangle's corners, or square off a round thing.
 - **Don't** set the wordmark's face as text, or set body copy, buttons or labels in the condensed face.
 - **Don't** add uppercase kickers or eyebrow labels above titles.
-- **Don't** fade colours during a scheme switch, or repeat a page animation on its own; the signal pass and the chart sweep each play once (the hero video's loop is content, and always has its Pause).
+- **Don't** fade colours during a scheme switch, or repeat a page animation on its own; the signal pass and the chart sweep each play once (the hero video's loop is content, and always has its Pause, its sound and Expand).
 - **Don't** change the light-mode chart colours to separate the bars by lightness; labels, order and values already carry the meaning.
 - **Don't** colour GitHub's mark red; it keeps GitHub's shape and the ink colour.
