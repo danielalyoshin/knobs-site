@@ -167,9 +167,8 @@
   }
 
   // The big button, in the hero and again where the page ends. Off Windows
-  // it reads "Download for Windows", under the note that says what knobs
-  // runs on, for someone fetching it for their PC, and its second line
-  // names the file without saying Windows again.
+  // it reads "Download for Windows", for someone fetching it for their PC,
+  // and its second line names the file without saying Windows again.
   function renderGet(rel) {
     var primary = rel.installer || rel.portable;
     var away = root.classList.contains("not-windows");

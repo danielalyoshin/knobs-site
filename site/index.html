@@ -167,7 +167,7 @@
         <!-- Each piece breaks as a whole: two lines where "Your OBS mic
              chain," fits on one, three where it doesn't. -->
         <h1 id="pitch"><span class="hl">Your OBS</span> <span class="hl">mic chain,</span> <span class="hl">in every app.</span></h1>
-        <p class="lede">A Windows tray app that runs the mic filter chain you tuned in <span class="nowrap">OBS Studio</span> and sends it to a virtual audio cable. Your other apps get the same processed mic while OBS stays closed.</p>
+        <p class="lede">knobs runs it from the Windows tray while OBS stays closed.</p>
 
         <!-- The release's states, one shown at a time: before GitHub answers
              (or without JavaScript), the release, or why there isn't one.
@@ -175,9 +175,6 @@
              it, so the answer arriving moves nothing below. The same stack
              closes the page (data-release="end"). -->
         <div class="get" data-release="hero">
-          <!-- For visitors not on Windows, before any button: what knobs
-               runs on. It reads the same in every state. -->
-          <p class="os-note">knobs is for a <span class="nowrap">64-bit Windows PC.</span> It doesn’t run on phones, macOS or Linux.</p>
           <div class="rs is-active" data-when="static">
             <div class="rs-row">
               <a class="btn btn-primary btn-hero" href="https://github.com/danielalyoshin/knobs/releases">
@@ -225,7 +222,7 @@
         <!-- To the file rows with every checksum open, once the release is
              here (page.js); before that, to the section. -->
         <p class="hero-more"><a href="#download">Other downloads and checksums</a></p>
-        <p class="hero-needs">Needs Windows 10 or 11 (64-bit), <span class="nowrap">OBS Studio</span> <span class="nowrap">32.2 to 33</span> and a virtual cable such as <span class="nowrap">VB-CABLE</span>, which the installer can install. knobs runs OBS’s <span class="nowrap">built-in</span> audio filters, VST plugins and NVIDIA’s noise removal. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#known-limits">Known limits<span class="visually-hidden"> in the README</span><svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></p>
+        <p class="hero-needs">Needs Windows 10 or 11 (64-bit), <span class="nowrap">OBS Studio</span> <span class="nowrap">32.2 to 33</span> and a virtual cable such as <span class="nowrap">VB-CABLE</span>, which the installer can install. <a class="nowrap" href="https://github.com/danielalyoshin/knobs#known-limits">Known limits<span class="visually-hidden"> in the README</span><svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></p>
       </div>
 
       <figure class="video" id="video" aria-label="knobs in 24 seconds, a looping video" aria-describedby="video-text">
@@ -644,13 +641,12 @@
   </section>
 
   <!-- Where the page ends, the hero's button once more, for a reader who
-       read this far: the same stack, state for state, and the same rule
-       for visitors not on Windows. One action, not a second list of files. -->
+       read this far: the same stack, state for state. One action, not a
+       second list of files. -->
   <section class="band band-deep get-end" aria-labelledby="get-end-title">
     <div class="wrap">
       <h2 class="get-end-title" id="get-end-title">Get knobs</h2>
       <div class="get" data-release="end">
-        <p class="os-note">knobs is for a <span class="nowrap">64-bit Windows PC.</span> It doesn’t run on phones, macOS or Linux.</p>
         <div class="rs is-active" data-when="static">
           <div class="rs-row">
             <a class="btn btn-primary btn-hero" href="https://github.com/danielalyoshin/knobs/releases">

@@ -318,7 +318,7 @@ A cool graphite family on hue 260 for every ground, line and word, and one red, 
 - **Footer Head** (Condensed 700, 1.375rem, 1.1): the footer's column heads, hung the same way.
 - **Title** (600, 1.25rem, 1.3): a file row's title, a benchmark's claim; About these downloads at 1.375rem, and the checksums file's quieter row at 1rem.
 - **Title Small** (600, 1.1875rem, 1.3 to 1.35): step titles, the facts, the questions.
-- **Lede** (400, 1.125rem, 1.5): the hero's one paragraph, `text-2`, at most 34rem.
+- **Lede** (400, 1.125rem, 1.5): the hero's one line under the headline, `text-2`, at most 34rem.
 - **Body** (400, 1rem, 1.55): running text; measure 34rem (about 68 characters). Smaller steps: 0.9375rem, 0.875rem, 0.8125rem.
 - **Label** (500, 0.8125rem): Copy, the video's controls, table heads, check heads. Tags at 500, 0.75rem with 0.01em tracking.
 - **Mono** (400, 0.875em of its context): file names, hashes, commands, the source address, inline code.
@@ -370,7 +370,7 @@ The favicon is the mark alone, filling its square: one SVG holding the brand's t
 Red caps: solid or outlined, square, sinking 1px when pressed.
 - **Shape:** square (0px), 1px border, 44px minimum height, 0 20px padding, Radio Canada 500 at 0.9375rem, icon gap 10px.
 - **Primary:** cap red fill, words graphite in dark and white in light. Used for the hero's and Get knobs's big download, and for Releases on GitHub where there's no file to offer.
-- **Hero:** 64px tall in every release state, at least 17.5rem wide. With a release it is the two-line download button: a 20px download arrow, the label at 1.125rem 600 ("Download knobs 1.0.0"), and a second line at 0.875rem 500 with the file and its size. Off Windows the label reads "Download for Windows" and the second line names the file without repeating Windows ("x64 installer (.exe) · 4.8 MB"), under a note that says knobs is for a 64-bit Windows PC. Without a file it opens the release with GitHub's mark, its one line at the same 1.125rem, at 500.
+- **Hero:** 64px tall in every release state, at least 17.5rem wide. With a release it is the two-line download button: a 20px download arrow, the label at 1.125rem 600 ("Download knobs 1.0.0"), and a second line at 0.875rem 500 with the file and its size. Off Windows the label reads "Download for Windows" and the second line names the file without repeating Windows ("x64 installer (.exe) · 4.8 MB"); that is how the page says what knobs runs on. Without a file it opens the release with GitHub's mark, its one line at the same 1.125rem, at 500.
 - **Secondary:** transparent with a cap red outline and red words; fills with cap red under the pointer. Used for each runnable file's Download in Download for Windows (installer and portable zip) and for Try again.
 - **Quiet link:** the checksums file's Download is a plain link in `text-2` with the download icon, red under the pointer, never a third red button.
 - **Try again:** beside Releases on GitHub where the stack is wide enough; wherever the two can't sit side by side (below 26.5rem of stack), it goes under the big button at a plain 44px height and 0.9375rem type, so the big one stays the one to press.

@@ -510,19 +510,6 @@ summary::-webkit-details-marker { display: none; }
    wait until its line can't hold it whole (see Responsive). */
 .dest wbr, .dl-from wbr { display: none; }
 
-/* For visitors not on Windows: what knobs runs on, at the top of the
-   stack, before any button. It reads the same in every state, so an
-   answer arriving never moves the button under it. */
-.os-note {
-  display: none;
-  max-width: var(--measure);
-  margin-bottom: 16px;
-  color: var(--text);
-  font-size: var(--text-md);
-  line-height: 1.5;
-}
-.not-windows .os-note { display: block; }
-
 .hero-more {
   margin-top: 18px;
   font-size: 1rem;
@@ -2110,7 +2097,7 @@ html:has(.video-focus[open]) { overflow: hidden; }
   .btn-hero.btn-primary,
   .btn-hero.btn-download { width: 100%; min-width: 0; }
   .btn-download { justify-content: center; padding-inline: 20px; }
-  .rs-line, .os-note, .hero-needs { margin-inline: auto; }
+  .rs-line, .hero-needs { margin-inline: auto; }
   /* Centred, the source line runs as one sentence with its mark. */
   .dest { display: block; }
   .dest .icon { margin: 0 8px 0 0; vertical-align: -0.1875rem; }
@@ -2282,7 +2269,6 @@ html:has(.video-focus[open]) { overflow: hidden; }
    on one line wraps rather than run off the page. */
 @container (max-width: 12.5em) {
   .actions .btn { white-space: normal; text-align: left; }
-  .os-note .nowrap { white-space: normal; }
 }
 /* The source's address breaks after its slashes only once its line can't
    hold it whole: about 15.1em of address, which under the big button has a
