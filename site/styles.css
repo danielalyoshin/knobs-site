@@ -1609,6 +1609,16 @@ summary::-webkit-details-marker { display: none; }
 .bar-row.is-knobs .val { color: var(--text); font-weight: 600; }
 .bar-row.is-knobs dd::before { background: var(--c-knobs); }
 
+/* "Lower is better", once for the footprint's four measures, which all
+   run the same way. It ends the legend's line, quiet, in label type, and
+   takes a line of its own when the legend fills the row. */
+.chart-note {
+  color: var(--text-3);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
 /* A fraction of the footprint: the table, laid out as four small charts.
    The header row is the legend; each body row is a measure, with knobs's
    bar over OBS's on that measure's own scale. */
@@ -1629,6 +1639,7 @@ summary::-webkit-details-marker { display: none; }
   padding: 0 0 14px var(--metric);
 }
 .footprint thead td { padding: 0; margin-right: -20px; }
+.footprint thead .chart-note { align-self: center; margin: 0 0 0 auto; }
 .footprint thead th {
   display: inline-flex;
   align-items: center;

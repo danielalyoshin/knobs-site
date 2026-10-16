@@ -535,11 +535,11 @@
                 <span style="--t: 0">0</span><span style="--t: 0.25">25</span><span style="--t: 0.5">50</span><span style="--t: 0.75">75</span><span style="--t: 1">100&nbsp;ms</span>
               </div>
               <dl class="bars">
-                <div class="bar-row is-knobs"><dt>knobs</dt><dd style="--f: 0.881"><span class="val"><span class="num">88.1</span> ms</span></dd></div>
-                <div class="bar-row"><dt>OBS</dt><dd style="--f: 0.877"><span class="val"><span class="num">87.7</span> ms</span></dd></div>
+                <div class="bar-row is-knobs"><dt>knobs</dt><dd style="--f: 0.9"><span class="val"><span class="num">90.0</span> ms</span></dd></div>
+                <div class="bar-row"><dt>OBS</dt><dd style="--f: 0.913"><span class="val"><span class="num">91.3</span> ms</span></dd></div>
               </dl>
             </div>
-            <figcaption class="footnote">Measured on a PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and <span class="nowrap">VB-CABLE</span>.</figcaption>
+            <figcaption class="footnote">Average latency, measured on a PC (Core Ultra 7 265K) with OBS 32.2.2, an Audient iD4 and <span class="nowrap">VB-CABLE</span>. <a href="https://github.com/danielalyoshin/knobs/blob/main/docs/design.md#mic-to-cable-latency" class="nowrap">How it was measured<svg class="icon icon-ext" aria-hidden="true"><use href="#i-external"/></svg></a></figcaption>
           </figure>
         </div>
 
@@ -556,11 +556,12 @@
                  GPU is said in words, not drawn: on its own scale, OBS's
                  0.05% would be a full-length bar beside knobs's none. Who
                  each value belongs to is written beside it for the eye only,
-                 since the column headers already say it. -->
+                 since the column headers already say it, and so is "Lower is
+                 better" at the legend's end, which the caption says aloud. -->
             <table class="footprint" role="table">
-              <caption class="visually-hidden">knobs running a four-filter chain, against OBS minimized</caption>
+              <caption class="visually-hidden">knobs running a four-filter chain, against OBS minimized. Lower is better on every measure.</caption>
               <thead role="rowgroup">
-                <tr role="row"><td role="cell"></td><th scope="col" role="columnheader" class="is-knobs">knobs, running</th><th scope="col" role="columnheader">OBS, minimized</th></tr>
+                <tr role="row"><td role="cell"></td><th scope="col" role="columnheader" class="is-knobs">knobs, running</th><th scope="col" role="columnheader">OBS, minimized</th><td class="chart-note" role="presentation" aria-hidden="true">Lower is better</td></tr>
               </thead>
               <tbody role="rowgroup">
                 <tr role="row"><th scope="row" role="rowheader">CPU, one core</th><td role="cell" class="is-knobs" style="--f: 0.1328">0.94%</td><td role="cell" style="--f: 1">7.08%</td></tr>

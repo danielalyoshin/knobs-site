@@ -412,6 +412,7 @@ One 1px wire in `text-3` through four stages left to right (top to bottom below 
 
 ### Charts (Benchmarks)
 Each claim sits beside its evidence; the evidence is a real table or definition list that CSS draws as bars. Every bar is its value on a linear scale from zero, square-ended: knobs's bar cap red and set first, OBS's the unlit meter, each with its printed value (knobs's in ink at 600). A range draws its low end solid and the rest at 0.32 opacity. GPU is said in words, not drawn.
+- **Lower is better:** said once for the footprint's four measures, which all run the same way, at the right end of the legend's line in label type (500, 0.8125rem) and `text-3`, taking its own line when the legend fills the row. It is for the eye only, and the table's caption says it to screen readers. Same delay and Same sound have none.
 - **The sweep:** the first time a chart scrolls into view, one 720ms clip sweep on the page curve draws its bars from zero, at the same pace on every line. Charts already on screen, and every chart with reduced motion or in print, are simply drawn.
 
 ### Ruled rows (facts, questions)
