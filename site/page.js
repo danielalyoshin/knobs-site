@@ -752,6 +752,10 @@
     video.controls = false;
     video.autoplay = false;
     video.muted = true;
+    // Its sound at a tenth of the master's level, under the page rather
+    // than over it. iOS keeps a video's volume to itself, so there it
+    // plays as mastered.
+    video.volume = 0.1;
 
     function icon(id) {
       var svg = doc.createElementNS("http://www.w3.org/2000/svg", "svg");
