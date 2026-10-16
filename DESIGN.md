@@ -18,12 +18,12 @@ colors:
   selection: "#7a342e"
   focus: "#df695e"
   chart-obs: "#62666d"
-  band: "#c55149"
-  band-selection: "#7c2622"
-  band-line: "#d97e75"
-  band-line-strong: "#efbcb7"
-  on-band: "#ffffff"
-  band-focus: "#ffffff"
+  band: "#df695e"
+  band-selection: "#efbcb7"
+  band-line: "#b54b42"
+  band-line-strong: "#822c26"
+  on-band: "#191b1d"
+  band-focus: "#191b1d"
   ground-light: "#eef0f4"
   ground-deep-light: "#e3e6ec"
   sunken-light: "#e6eaef"
@@ -40,6 +40,12 @@ colors:
   selection-light: "#f7ccc6"
   focus-light: "#c55149"
   chart-obs-light: "#787f8b"
+  band-light: "#c55149"
+  band-selection-light: "#7c2622"
+  band-line-light: "#d97e75"
+  band-line-strong-light: "#efbcb7"
+  on-band-light: "#ffffff"
+  band-focus-light: "#ffffff"
 typography:
   display:
     fontFamily: "Radio Canada Condensed, Radio Canada, Radio Canada Fallback, system-ui, sans-serif"
@@ -279,8 +285,8 @@ A cool graphite family on hue 260 for every ground, line and word, and one red, 
 - **Focus** (`focus`, `focus-light`): the 2px focus ring, cap red.
 
 ### Secondary
-- **Cap Red Deep Band** (`band`): the footer's ground in both schemes, the brand's red for light grounds. Set once on `:root`; the light scheme keeps it.
-- **Band Roles** (`on-band`, `band-line`, `band-line-strong`, `band-selection`, `band-focus`): inside the footer the page's roles take these on screen: every word, link and underline white (4.5:1), hairlines and strong rules in lighter shades of the band's red, a deeper red for selected text, a white focus ring.
+- **Footer Band** (`band`, `band-light`): the footer's ground, in the red of the scheme's buttons: cap red in dark, cap red deep in light.
+- **Band Roles** (`on-band`, `band-line`, `band-line-strong`, `band-selection`, `band-focus`, and their `-light` values): inside the footer the page's roles take these on screen. In dark every word, link and underline is graphite (5.2:1), hairlines and strong rules are deeper shades of the band's red, selected text sits on a lighter red, and the focus ring is graphite. In light every word is white (4.5:1), the rules are lighter shades, selected text sits on a deeper red, and the focus ring is white.
 
 ### Neutral
 - **Graphite** (`ground`): the page and the hero band in dark. **Pale Grey Desk** (`ground-light`): the same in light, cool, never warm or cream.
@@ -297,9 +303,9 @@ A cool graphite family on hue 260 for every ground, line and word, and one red, 
 ### Named Rules
 **The Red Is knobs Rule.** Cap red marks knobs or "press here", and nothing else. It is never an error, a warning or a success: a pre-release tag stays grey, a copied check turns ink, and the page has no green or amber at all.
 
-**The Words on Red Rule.** Words on cap red are graphite in dark and white in light (and white on the footer band); never brand ink on cap red. Small words on any red (a button's second line, the footer's legal lines) take weight 500, because white on cap red deep is 4.5:1 with no margin.
+**The Words on Red Rule.** Words on cap red are graphite and words on cap red deep are white, on a button or on the footer band; never brand ink on cap red. Small words on any red (a button's second line, the footer's legal lines) take weight 500, because white on cap red deep is 4.5:1 with no margin.
 
-**The One Large Field Rule.** Red is edges, fills of controls, dots and bars. The footer band is the page's one large field of red, and it is a red the page already uses.
+**The One Large Field Rule.** Red is edges, fills of controls, dots and bars. The footer band is the page's one large field of red, and it is the red of the buttons above it, so the two never read as different reds.
 
 **The Unlit Meter Rule.** In the charts knobs is lit red and OBS an unlit grey. The light-mode chart colours stay as they are: there knobs's red and OBS's grey sit at nearly the same lightness, so labels, order, printed values and knobs's 600 weight carry the meaning, and colour is never the only thing that tells the bars apart.
 
@@ -389,7 +395,7 @@ Red caps: solid or outlined, square, sinking 1px when pressed.
 - **Toggle behaviour:** dark until pressed, whatever the system's scheme; the choice is stored in `localStorage` as `knobs-theme` and a stored light is applied by an inline script in `<head>` before the first paint, together with the browser bar's `theme-color`. Without JavaScript the toggle is absent and the page stays dark; in forced colours it is hidden.
 
 ### Links
-A link is its words on a 1px cap red underline at a 0.22em offset; the underline, not colour alone, says it's a link. Under the pointer the words turn red too. External links end in a small arrow icon kept on the last word. In the footer the underlines are white and thicken to 2px under the pointer.
+A link is its words on a 1px cap red underline at a 0.22em offset; the underline, not colour alone, says it's a link. Under the pointer the words turn red too. External links end in a small arrow icon kept on the last word. In the footer the underlines take the band's word colour (graphite in dark, white in light) and thicken to 2px under the pointer.
 
 ### File rows and checksum disclosures (signature)
 - **Row:** a square panel (`raised`, white in light) with a 1px hairline edge, 24px 28px 18px padding, a 16px gap between rows. The recommended file takes a 2px cap red edge (the Second Pixel). Title, description (34rem measure), then the file name in mono and its size, with the Download on the right; below 640px the Download goes under the text at full width.
@@ -427,7 +433,7 @@ The hero's video is the knobs reel: 24 seconds at 60 fps, a seamless loop of pic
 - The reel is left off the printed page.
 
 ### Footer band
-Big and calm: a band of cap red deep (`band`) in both schemes, with every word white. The white one-colour lockup at 44px tall with the line under it, two link columns ("On GitHub", "On this page") under a band hairline, each headed in Radio Canada Condensed Bold, then the legal lines at 500. Inside it the page's colour roles take the band's own values, so links, rules, focus and selection read on the red without rules of their own. In forced colours on a light canvas the black one-colour lockup replaces the white; in print the band is dropped for the black lockup on the page's own colours. The 404 page uses the same header and footer.
+Big and calm: a band of the buttons' red (`band`), cap red with every word graphite in dark, cap red deep with every word white in light. The one-colour lockup that reads on it (black in dark, white in light) at 44px tall with the line under it, two link columns ("On GitHub", "On this page") under a band hairline, each headed in Radio Canada Condensed Bold, then the legal lines at 500. Inside it the page's colour roles take the band's own values, so links, rules, focus and selection read on the red without rules of their own. In forced colours the band's red goes and the lockup follows the visitor's canvas (white on a dark one, black on a light one); in print the band is dropped for the black lockup on the page's own colours. The 404 page uses the same header and footer.
 
 ### Motion and scheme switches
 One curve, `cubic-bezier(0.2, 0, 0, 1)`: 160ms for feedback (hover, copy, a disclosure opening, a chevron turning) and 320ms for structure (a release state settling, a stack resizing, things going out after the signal pass). New content settles in from 4px above with a fade: it falls into place, which the brand guide allows beside the app's rise, and opens down from the line that opened it. Beyond that only the charts' one sweep and the signal path's one pass move on their own. A scheme switch, whether by the toggle or for print, lands in one frame: an `is-switching` class turns every transition off for two frames, so no colour eases from the old scheme. Reduced motion turns off every animation and transition.
@@ -437,10 +443,10 @@ One curve, `cubic-bezier(0.2, 0, 0, 1)`: 160ms for feedback (hover, copy, a disc
 ### Do:
 - **Do** take every colour from the knobs-brand tokens, and add a new one in knobs-brand's `tokens.json` with a value in both schemes, never in the site.
 - **Do** use cap red (`--action`) for actions and for things that are knobs, and only for those.
-- **Do** put graphite words on cap red in dark and white words on cap red deep in light and on the footer band, at weight 500 or more for small words.
+- **Do** put graphite words on cap red and white words on cap red deep, on buttons and on the footer band, at weight 500 or more for small words.
 - **Do** make the hero and Get knobs downloads solid red 64px buttons, each runnable file's Download an outlined red button, and the checksums file's Download a quiet link.
 - **Do** keep step 3's node the only red cap on the step rail.
-- **Do** underline every link in cap red (white in the footer).
+- **Do** underline every link in cap red (in the band's word colour in the footer).
 - **Do** give every rectangle square corners (`--radius`, 0px) and make every round thing a true circle, sized in odd pixels where a rule runs through it.
 - **Do** set the headline, section titles, Get knobs's title and the footer column heads in Radio Canada Condensed Bold, everything else in Radio Canada, and only copyable things in Source Code Pro.
 - **Do** use the one curve with 160ms for feedback and 320ms for structure, and keep any moving thing to a single play with a still state for reduced motion, forced colours and print.

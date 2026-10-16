@@ -6,8 +6,8 @@
  * The bands alternate graphite and the deep ground: the hero (with the
  * header on it) on graphite, Download for Windows deep, the steps with it,
  * How it works on graphite, Benchmarks deep, Questions on graphite,
- * Get knobs deep, then the footer's band of cap red deep. In light they
- * alternate a cool pale grey and a step deeper, with white rows and
+ * Get knobs deep, then the footer's band in the buttons' red. In light
+ * they alternate a cool pale grey and a step deeper, with white rows and
  * panels.
  *
  * The red caps on a grey mixing desk: cap red (--action) is the action
@@ -1848,14 +1848,16 @@ html:has(.video-focus[open]) { overflow: hidden; }
 
 /* ---------- Footer ---------- */
 
-/* Big and calm, on a band of cap red deep in both schemes: the white
-   lockup at 44px tall with the line, the link columns under a hairline,
-   each headed in the condensed face the section titles use, then the legal
-   lines. Inside it the page's roles take the band's own colours, so every
-   rule above reads on the red without one of its own: every word, link and
-   underline white, a thicker underline under the pointer, the band's own
-   hairlines, a white focus ring, and a deeper red for selected text. White
-   on the band is 4.5:1 with no margin, so the smallest words take 500, as
+/* Big and calm, on a band of the buttons' red, cap red in dark and cap
+   red deep in light: the one-colour lockup at 44px tall with the line, the
+   link columns under a hairline, each headed in the condensed face the
+   section titles use, then the legal lines. Inside it the page's roles
+   take the band's own colours, so every rule above reads on the red
+   without one of its own: every word, link and underline in the colour of
+   a red button's words (graphite in dark, white in light), a thicker
+   underline under the pointer, the band's own hairlines, a focus ring in
+   the words' colour, and a red of its own for selected text. White on cap
+   red deep is 4.5:1 with no margin, so the smallest words take 500, as
    they do on a red button. The band is the screen's: on paper the footer
    keeps the page's own colours (see Print). */
 .site-footer {
@@ -1883,8 +1885,14 @@ html:has(.video-focus[open]) { overflow: hidden; }
   align-items: start;
 }
 .footer-id img { width: auto; height: 44px; }
-/* The black lockup is for forced colours on a light canvas only. */
-.footer-id .lockup-black { display: none; }
+/* The lockup that reads on the band: black on cap red, white on cap red
+   deep. In forced colours and on paper it follows the page's own colours
+   instead (see there). */
+.footer-id .lockup-white { display: none; }
+@media screen {
+  :root[data-theme="light"] .footer-id .lockup-white { display: block; }
+  :root[data-theme="light"] .footer-id .lockup-black { display: none; }
+}
 .footer-id p { margin-top: 16px; color: var(--text-3); font-size: var(--text-md); }
 .footer-nav {
   display: grid;
@@ -1956,16 +1964,19 @@ html:has(.video-focus[open]) { overflow: hidden; }
 }
 /* In forced colours the canvas is the visitor's, whatever the toggle says:
    the header takes the colour lockup that reads on it, and the footer, its
-   red gone, the one-colour lockup that does (black on a light canvas). */
+   red gone, the one-colour lockup that does (white on a dark canvas, black
+   on a light one). */
 @media (forced-colors: active) and (prefers-color-scheme: dark) {
   .brand .lockup-on-dark { display: block !important; }
   .brand .lockup-on-light { display: none !important; }
+  .footer-id .lockup-white { display: block !important; }
+  .footer-id .lockup-black { display: none !important; }
 }
 @media (forced-colors: active) and (prefers-color-scheme: light) {
   .brand .lockup-on-dark { display: none !important; }
   .brand .lockup-on-light { display: block !important; }
-  .footer-id .lockup-white { display: none; }
-  .footer-id .lockup-black { display: block; }
+  .footer-id .lockup-white { display: none !important; }
+  .footer-id .lockup-black { display: block !important; }
 }
 
 /* ---------- Print ---------- */
